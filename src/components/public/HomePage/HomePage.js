@@ -7,12 +7,13 @@ import body_img_2 from "../../../assets/images/boyd2.png";
 import instagram from "../../../assets/images/Instagram.svg";
 import facebook from "../../../assets/images/Social Icons (1).svg";
 import google from "../../../assets/images/Vector.svg";
+import Navbar from "../../common/Navbar/Navbar";
 
 const HomePage = () => {
   return (
     <div className="home-page">
       <div className="header">
-        <div className="navigation-bar">
+        {/* <div className="navigation-bar">
           <div className="navigation-bar-left-content">
             <img className="logo" src={logo} alt="Logo Nishikigoi" />
             <div className="project-name">Nishikigoi Nexus</div>
@@ -25,7 +26,9 @@ const HomePage = () => {
             <a className="about">ABOUT</a>
             <div className="account">SIGN UP</div>
           </div>
-        </div>
+        </div> */}
+        <Navbar></Navbar>
+
         <div className="slogan">
           <div className="slogan-above">BIDDING FOR</div>
           <div className="slogan-under">BEAUTY</div>
@@ -53,6 +56,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+
       <div className="body-content">
         <div className="body-1">
           <div className="body-1-text">
