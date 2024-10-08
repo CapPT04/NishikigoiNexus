@@ -1,0 +1,70 @@
+* {
+    margin   : 0;
+    padding  : 0;
+    border   : 0;
+    font-size: 100%;
+}
+
+
+.header-background {
+    position: relative;
+
+    .header-background-img {
+        width: 100%;
+    }
+}
+
+.header-bar {
+    position: absolute;
+    top     : 39px;
+    z-index : 10;
+    width   : 1120px;
+    height  : 64px;
+    margin  : 0 auto;
+    left    : 0;
+    right   : 0;
+    display : inline-flex;
+    gap     : 11px;
+
+    .header-logo {
+        width : 64px;
+        height: 64px;
+
+    }
+
+    .header-project-name {
+        display    : flex;
+        text-align : center;
+        align-items: center;
+        z-index    : 10;
+        color      : white;
+        font-family: Saira Condensed;
+        font-weight: 700;
+        font-size  : 32px;
+
+    }
+
+    .header-navigation-bar {
+        display        : flex;
+        width          : 450px;
+        justify-content: space-between;
+        align-items    : center;
+        flex-shrink    : 0;
+        display        : flex-end;
+        margin-right   : 0;
+
+        .home,
+        .auction,
+        .blog,
+        .about,
+        .sign-up {
+            color: #FFF;
+
+            font-family: "Saira Condensed";
+            font-size  : 20px;
+            font-style : normal;
+            font-weight: 700;
+            line-height: normal;
+        }
+    }
+}

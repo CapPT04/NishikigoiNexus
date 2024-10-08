@@ -1,0 +1,250 @@
+* {
+    margin     : 0;
+    padding    : 0;
+    border     : 0;
+    font-size  : 100%;
+    font-family: "Saira Condensed";
+
+}
+
+
+
+.login-page {
+    background     : url(../assets/images/BACKGROUND.png) no-repeat;
+    background-size: cover;
+    width          : 100%;
+    height         : 100vh;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+}
+
+.login-content {
+    width  : 60%;
+    height : 94%;
+    display: flex;
+}
+
+.left-content {
+    background     : url(../assets/images/login\ 1.png);
+    background-size: cover;
+    width          : 50%;
+    height         : 100%;
+
+}
+
+.right-content {
+    background     : #E7CDBF;
+    box-shadow     : 4px 4px 8px 3px rgba(0, 0, 0, 0.25);
+    width          : 50%;
+    height         : 100%;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    gap            : 10px;
+
+}
+
+.logo-name {
+    display    : flex;
+    width      : 264px;
+    height     : 64px;
+    margin-top : 30px;
+    margin-left: 20px;
+    align-items: center;
+    gap        : 11px;
+}
+
+.logo {
+    background     : url(../assets/images/logo_png.png);
+    background-size: cover;
+    width          : 20%;
+    height         : 100%;
+}
+
+.name {
+    color      : #FFF;
+    font-family: "Saira Condensed";
+    font-size  : 32px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.login-form {
+    display       : flex;
+    width         : 80%;
+    height        : 90%;
+    flex-direction: column;
+    align-items   : flex-start;
+    gap           : 30px;
+    flex-shrink   : 0;
+}
+
+.login-form-title {
+    font-family: "Saira Condensed";
+    font-size  : 40px;
+    font-style : normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.login-form-content {
+    display        : flex;
+    flex-direction : column;
+    justify-content: space-between;
+    align-self     : stretch;
+    gap            : 20px;
+    flex-shrink    : 0;
+}
+
+
+.email-title,
+.password-title {
+    font-size  : 16px;
+    font-style : normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+
+.email-input,
+.password-input {
+    box-sizing : border-box;
+    width      : 100%;
+    border     : 1px solid black;
+    text-indent: 5px;
+    outline    : none;
+    height     : 34px;
+}
+
+.remember-and-forget {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    align-self     : stretch;
+}
+
+.remember {
+    display    : flex;
+    font-size  : 14px;
+    font-weight: 400;
+    gap        : 5px;
+}
+
+.forget-account {
+    color      : #121212;
+    font-size  : 13px;
+    font-weight: 300;
+
+}
+
+.login-and-signup {
+    display        : flex;
+    flex-direction : column;
+    justify-content: flex-end;
+    align-items    : center;
+    flex-shrink    : 0;
+    align-self     : stretch;
+}
+
+.login-btn {
+    display        : flex;
+    height         : 34px;
+    width          : 100%;
+    justify-content: center;
+    align-items    : center;
+    background     : linear-gradient(90deg, #DF0012 0%, #8B000D 46%, #E91324 98%);
+    color          : #F3F3F3;
+    font-size      : 15px;
+    font-weight    : 700;
+    letter-spacing : 3.6px;
+}
+
+.text-with-login {
+    font-size  : 12px;
+    font-style : normal;
+    font-weight: 275;
+    line-height: normal;
+    margin-top : 5px;
+}
+
+.login {
+    color          : #DF0012;
+    font-size      : 12px;
+    font-weight    : 300;
+    line-height    : normal;
+    text-decoration: none;
+}
+
+.or-line {
+    display        : flex;
+    align-items    : center;
+    width          : 100%;
+    justify-content: center;
+    gap            : 5px;
+
+}
+
+.or-line hr {
+    border-top: 1px solid #121212;
+    size      : 1px;
+}
+
+.left-line,
+.right-line {
+    width: 30%;
+    color: #121212;
+}
+
+
+.note,
+.term-of-service,
+.private-policy {
+    font-size  : 12px;
+    font-style : normal;
+    font-weight: 275;
+    line-height: normal;
+    color      : #121212;
+}
+
+.login-google,
+.login-facebook,
+.login-X {
+    display        : flex;
+    height         : 34px;
+    align-items    : center;
+    justify-content: center;
+    gap            : 26px;
+    flex-shrink    : 0;
+    align-self     : stretch;
+    border-radius  : 1px;
+    border         : 0.75px solid #000;
+    background     : #E7CDBF;
+    position       : relative;
+}
+
+.google-icon,
+.facebook-icon,
+.X-icon {
+    position: absolute;
+    left    : 10px !important;
+}
+
+.login-google-text,
+.login-facebook-text,
+.login-X-text {
+    display    : flex;
+    font-size  : 15px;
+    font-weight: 400;
+}
+
+.email,
+.password,
+.remember-and-forget,
+.login-and-signup,
+.login-google,
+.login-facebook,
+.login-X {
+    flex-shrink: 0;
+}

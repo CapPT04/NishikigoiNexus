@@ -1,0 +1,305 @@
+* {
+    margin     : 0;
+    padding    : 0;
+    border     : 0;
+    font-size  : 100%;
+    font-family: "Saira Condensed";
+}
+
+body {
+    background: #E7CDBF;
+}
+
+.header {
+    background     : url(../assets/images/HeaderBackground.png);
+    background-size: cover;
+    width          : 100%;
+    height         : 100vh;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    align-self     : stretch;
+
+}
+
+.navigation-bar {
+    display        : flex;
+    width          : 80%;
+    justify-content: space-between;
+    align-items    : center;
+    position       : absolute;
+    top            : 50px;
+    color          : #fff;
+}
+
+.logo {
+    width : 64px;
+    height: 64px;
+}
+
+.navigation-bar-left-content {
+    display    : flex;
+    align-items: center;
+    gap        : 11px;
+}
+
+.project-name {
+    color: #FFF;
+
+    font-family: "Saira Condensed";
+    font-size  : 32px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.navigation-bar-right-content {
+    display        : flex;
+    width          : 600px;
+    justify-content: space-between;
+    align-items    : center;
+    flex-shrink    : 0;
+}
+
+.home,
+.auction,
+.blog,
+.about,
+.account {
+    color      : #FFF;
+    font-family: "Saira Condensed";
+    font-size  : 20px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: normal;
+    padding    : 8px 15px;
+    cursor     : pointer;
+
+}
+
+.home:hover,
+.auction:hover,
+.blog:hover,
+.about:hover,
+.account:hover {
+    opacity: 0.7;
+}
+
+
+.request {
+    border-radius: 24px;
+    background   : var(--Do, #DF0012);
+
+}
+
+.account {
+    background: #DF0012;
+
+
+}
+
+.slogan {
+    width   : 80%;
+    position: absolute;
+}
+
+.slogan-above,
+.slogan-under {
+    color      : #FFF;
+    font-family: "Saira Condensed";
+    font-size  : 100px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: 100px;
+}
+
+.slogan-under {
+    color: var(--Do, #DF0012);
+}
+
+.content-extra-parent {
+    width   : 80%;
+    position: absolute;
+    top     : 520px;
+}
+
+.content-extra {
+    display        : flex;
+    width          : 475px;
+    height         : 230px;
+    flex-direction : column;
+    justify-content: center;
+    align-items    : flex-start;
+    gap            : 10px;
+    flex-shrink    : 0;
+    border-radius  : 24px;
+    background     : #FFF;
+
+
+}
+
+.representative-sample-fish {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    align-self     : stretch;
+    border-radius  : 12px;
+    margin         : 24px;
+}
+
+.representative-sample-fish-img {
+    width        : 182px;
+    height       : 182px;
+    border-radius: 6px;
+
+}
+
+.representative-sample-fish-details {
+    display        : flex;
+    width          : 200px;
+    height         : 150px;
+    flex-direction : column;
+    justify-content: space-between;
+    align-items    : flex-start;
+}
+
+.representative-sample-fish-name {
+    color       : #000;
+    leading-trim: both;
+    text-edge   : cap;
+    font-family : "Saira Condensed";
+    font-size   : 36px;
+    font-style  : normal;
+    font-weight : 500;
+    line-height : normal;
+}
+
+.representative-sample-auction-number,
+.representative-sample-fish-start-price {
+    color       : #000;
+    leading-trim: both;
+    text-edge   : cap;
+    font-family : "Saira Condensed";
+    font-size   : 24px;
+    font-style  : normal;
+    font-weight : 300;
+    line-height : normal;
+}
+
+.body-content {
+    margin-top: 150px;
+}
+
+.body-1,
+.body-2 {
+    display        : flex;
+    gap            : 115px;
+    width          : 80%;
+    justify-content: space-between;
+    margin         : 0 auto;
+    margin-bottom  : 80px;
+
+}
+
+.body-1-text,
+.body-2-text {
+    display       : flex;
+    width         : 455px;
+    flex-direction: column;
+    gap           : 25px;
+}
+
+.body-1-title,
+.body-2-title {
+    display    : flex;
+    align-items: center;
+    color      : #000;
+    text-align : right;
+    font-size  : 58px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top : -20px;
+    gap        : 20px;
+}
+
+.red-rectangle {
+    width     : 8px;
+    height    : 140px;
+    background: red;
+}
+
+.body-1-content,
+.body-2-content {
+    text-align : justify;
+    font-size  : 22px;
+    font-style : normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.footer {
+    background     : url(../assets/images/Form.png);
+    background-size: cover;
+    width          : 100vw;
+    height         : 300px;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    flex-direction : column;
+
+}
+
+.logo-footer {
+    display    : inline-flex;
+    align-items: center;
+    gap        : 11px;
+    width      : 80%;
+    margin     : 0 auto;
+}
+
+.logo-img-footer {
+    width : 108px;
+    height: 108px;
+}
+
+.name-project-footer {
+    color      : #FFF;
+    font-family: "Saira Condensed";
+    font-size  : 64px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.social-contact {
+    width          : 80%;
+    display        : flex;
+    gap            : 20px;
+    justify-content: flex-end;
+    border-bottom  : 0.75px solid #FFF;
+    opacity        : 0.7;
+}
+
+.nav-bar-footer a:hover,
+.instagram:hover,
+.facebook:hover,
+.google:hover {
+    opacity: 0.5;
+    cursor : pointer;
+}
+
+.nav-bar-footer {
+    display   : flex;
+    gap       : 50px;
+    margin-top: 20px;
+}
+
+.nav-bar-footer a {
+    color          : #FFF;
+    text-decoration: none;
+    font-size      : 20px;
+    font-style     : normal;
+    font-weight    : 250;
+    line-height    : normal;
+}
