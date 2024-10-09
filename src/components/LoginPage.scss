@@ -81,13 +81,13 @@
 
                     .email,
                     .password {
+                        position: relative;
 
                         .email-title,
                         .password-title {
                             font-size  : 16px;
                             font-weight: 500;
                             text-align : left;
-
                         }
 
                         .email-input,
@@ -96,6 +96,14 @@
                             border      : 1px solid black;
                             height      : 34px;
                             padding-left: 5px;
+                        }
+
+                        .fa-regular,
+                        .fa-solid {
+                            position: absolute;
+                            right   : 5px;
+                            top     : 27px;
+                            cursor  : pointer;
                         }
                     }
 
@@ -125,10 +133,9 @@
                         align-items   : center;
                         width         : 100%;
 
-                        .login-btn {
+                        button {
                             height         : 34px;
                             width          : 100%;
-                            background     : linear-gradient(90deg, #DF0012 0%, #8B000D 46%, #E91324 98%);
                             color          : #F3F3F3;
                             font-size      : 15px;
                             font-weight    : 700;
@@ -136,11 +143,17 @@
                             display        : flex;
                             justify-content: center;
                             align-items    : center;
+                            background     : #ccc;
+                            transition     : background-color 0.5s ease;
                         }
 
-                        .login-btn:hover {
+                        button:hover {
                             cursor : pointer;
                             opacity: 0.7;
+                        }
+
+                        .active {
+                            background: linear-gradient(90deg, #DF0012 0%, #8B000D 46%, #E91324 98%);
                         }
 
                         .text-with-login {
@@ -178,32 +191,35 @@
                         flex-shrink    : 0;
                         align-self     : stretch;
                         border-radius  : 1px;
-                        border         : 0.75px solid #000;
-                        background     : #E7CDBF;
-                        position       : relative;
+                        border         : 0.75px solid #000000;
+                        background     : #F4E8E1;
 
-                        img {
-                            position: absolute;
-                            left    : 10px;
+                        .google-icon,
+                        .facebook-icon,
+                        .X-icon {
+                            width : 18px;
+                            height: 18px;
                         }
 
                         .login-google-text,
                         .login-facebook-text,
                         .login-X-text {
-                            font-size  : 15px;
+                            font-size  : 14px;
                             font-weight: 400;
                         }
                     }
                 }
 
                 .note {
-                    font-size: 12px;
-                    color    : #121212;
+                    font-size : 11px;
+                    color     : #A1A1A1;
+                    text-align: center;
+                    margin-top: 20px;
 
                     .term-of-service,
                     .private-policy {
+                        color          : #DF0012;
                         text-decoration: none;
-                        color          : #121212;
                     }
                 }
             }

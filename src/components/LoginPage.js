@@ -3,6 +3,7 @@ import '../components/LoginPage.scss';
 import googleIcon from '../assets/images/google.png';
 import facebookIcon from '../assets/images/facebook.svg';
 import xIcon from '../assets/images/X.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -40,14 +41,15 @@ const LoginPage = () => {
                                 <div className="password-title">Password</div>
                                 <input
                                     className="password-input"
-                                    type="password"
+                                    type={isShowPassword ? "text" : "password"}
                                     required
                                     value={password}
                                     onChange={(event) => setPassword(event.target.value)}
-
                                 />
-                                <FontAwesomeIcon icon="fa-regular fa-eye" />
-
+                                <i
+                                    className={isShowPassword ? "fa-regular fa-eye-slash" : "fa-solid fa-eye"}
+                                    onClick={() => setIsShowPassword(!isShowPassword)}
+                                ></i>
                             </div>
                             <div className="remember-and-forget">
                                 <div className="remember">
@@ -57,7 +59,13 @@ const LoginPage = () => {
                                 <a className="forget-account" href="#">Forgot username or password?</a>
                             </div>
                             <div className="login-and-signup">
-                                <button className="login-btn" onClick={handleLogin}>Login</button>
+                                <button
+                                    className={email && password ? "active" : ""}
+                                    onClick={handleLogin}
+                                    disabled={!email || !password}
+                                >
+                                    Login
+                                </button>
                                 <div className="text-with-login">
                                     Don’t have an account? <a className="login" href="#">Signup</a>
                                 </div>
