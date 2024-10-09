@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../components/LoginPage.scss";
 import googleIcon from "../assets/images/google.png";
 import facebookIcon from "../assets/images/facebook.svg";
@@ -9,6 +10,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     // Your login logic here
@@ -63,7 +65,7 @@ const LoginPage = () => {
                 </button>
                 <div className="text-with-login">
                   Don’t have an account?{" "}
-                  <a className="login" href="#">
+                  <a className="login" onClick={() => navigate("/signup")}>
                     Signup
                   </a>
                 </div>

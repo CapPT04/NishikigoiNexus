@@ -12,10 +12,18 @@ const Navbar = () => {
       </div>
 
       <div className="navigation-bar-right-content">
-        <a className="home">HOME</a>
-        <a className="auction">AUCTION</a>
-        <a className="blog">BLOG</a>
-        <a className="about">ABOUT</a>
+        <a className="home" onClick={() => navigate("/")}>
+          HOME
+        </a>
+        <a className="auction" onClick={() => navigate("/auction")}>
+          AUCTION
+        </a>
+        <a className="blog" onClick={() => navigate("/blog")}>
+          BLOG
+        </a>
+        <a className="about" onClick={() => navigate("/about")}>
+          ABOUT
+        </a>
         <div className="account" onClick={() => navigate("/login")}>
           SIGN UP
         </div>
