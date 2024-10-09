@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../components/LoginPage.scss';
+import { NavLink, useNavigate } from "react-router-dom";
 import googleIcon from '../assets/images/google.png';
 import facebookIcon from '../assets/images/facebook.svg';
 import xIcon from '../assets/images/X.png';
@@ -10,6 +11,7 @@ const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isShowPassword, setIsShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = () => {
         // Your login logic here
@@ -42,20 +44,19 @@ const LoginPage = () => {
                                 <div className="password-title">Password</div>
                                 <input
                                     className="password-input"
-                                    required
                                     value={password}
                                     onChange={(event) => setPassword(event.target.value)}
                                     type={isShowPassword ? "text" : "password"}
-
-
                                 />
-
-                                <i
-                                    className={isShowPassword ? "fa-solid fa-eye" : "fa-regular fa-eye-slash"}
+                                {password && <i
+                                    className={isShowPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}
                                     onClick={() => setIsShowPassword(!isShowPassword)}
-                                ></i>
+                                ></i>}
+
+
 
                             </div>
+
                             <div className="remember-and-forget">
                                 <div className="remember">
                                     <input className="remember-checkbox" type="checkbox" />
@@ -72,7 +73,7 @@ const LoginPage = () => {
                                     Login
                                 </button>
                                 <div className="text-with-login">
-                                    Don’t have an account? <a className="login" href="#">Signup</a>
+                                    Don’t have an account? <a className="login" onClick={() => navigate("/signup")} />
                                 </div>
                                 <div className="or-line">
                                     <hr className="left-line" /> or <hr className="right-line" />
