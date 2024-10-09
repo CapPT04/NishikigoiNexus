@@ -1,11 +1,15 @@
-import React from 'react';
-import './App.css';
-import LoginPage from './components/LoginPage';
+import React from "react";
+// import "./App.css";
+// import LoginPage from "./components/LoginPage";
+import HomePage from "./components/public/HomePage/HomePage";
+import { RouterProvider } from "react-router-dom";
+import routes from "./route/CombineRoutes.js";
 
 function App() {
   return (
     <div className="App">
-      <LoginPage />
+      {/* <HomePage></HomePage> */}
+      <RouterProvider router={routes}></RouterProvider>
     </div>
   );
 }

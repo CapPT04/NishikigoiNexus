@@ -5,6 +5,7 @@ import facebookIcon from '../assets/images/facebook.svg';
 import xIcon from '../assets/images/X.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -41,15 +42,19 @@ const LoginPage = () => {
                                 <div className="password-title">Password</div>
                                 <input
                                     className="password-input"
-                                    type={isShowPassword ? "text" : "password"}
                                     required
                                     value={password}
                                     onChange={(event) => setPassword(event.target.value)}
+                                    type={isShowPassword ? "text" : "password"}
+
+
                                 />
+
                                 <i
-                                    className={isShowPassword ? "fa-regular fa-eye-slash" : "fa-solid fa-eye"}
+                                    className={isShowPassword ? "fa-solid fa-eye" : "fa-regular fa-eye-slash"}
                                     onClick={() => setIsShowPassword(!isShowPassword)}
                                 ></i>
+
                             </div>
                             <div className="remember-and-forget">
                                 <div className="remember">
