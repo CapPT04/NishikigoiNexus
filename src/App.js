@@ -4,12 +4,14 @@ import React from "react";
 import HomePage from "./components/public/HomePage/HomePage";
 import { RouterProvider } from "react-router-dom";
 import routes from "./route/CombineRoutes.js";
+import UploadAnh from "./upload/UploadAnh.js";
 
 function App() {
   return (
     <div className="App">
       {/* <HomePage></HomePage> */}
-      <RouterProvider router={routes}></RouterProvider>
+      {/* <RouterProvider router={routes}></RouterProvider> */}
+      <UploadAnh></UploadAnh>
     </div>
   );
 }
