@@ -3,56 +3,91 @@ import { useEffect, useState, useRef } from "react";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { imageDB } from "./ConfigUpload";
+import "./UploadAnh.scss";
 
 const UploadAnh = () => {
   const [img, setImg] = useState("");
   const [imgUrl, setImgUrl] = useState([]);
   const fileInputRef = useRef(null); // Tạo ref cho ô input
 
-  const handleUpload = () => {
-    if (img !== null) {
+  // Function to handle the upload
+  const handleUpload = async (file) => {
+    if (!file) {
+      console.error("No file selected for upload.");
+      return;
+    }
+
+    try {
       const imgRef = ref(imageDB, `KoiImages/${v4()}`);
-      uploadBytes(imgRef, img).then((value) => {
-        console.log(value);
-        getDownloadURL(value.ref).then((url) => {
-          setImgUrl((data) => [...data, url]);
-        });
-        fileInputRef.current.value = null;
-        setImg(""); // Cập nhật lại state img
-      });
+      const snapshot = await uploadBytes(imgRef, file);
+      // console.log("Uploaded file:", snapshot);
+
+      const url = await getDownloadURL(snapshot.ref);
+      setImgUrl((prevUrls) => [...prevUrls, url]);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    } finally {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = null; // Reset the file input
+      }
     }
   };
 
+  // Fetch existing images on component mount
   useEffect(() => {
-    listAll(ref(imageDB, "KoiImages")).then((imgs) => {
-      console.log(imgs);
-      imgs.items.forEach((val) => {
-        getDownloadURL(val).then((url) => {
-          setImgUrl((data) => [...data, url]);
-        });
-      });
-    });
+    const fetchImages = async () => {
+      try {
+        const imagesList = await listAll(ref(imageDB, "KoiImages"));
+        const urls = await Promise.all(
+          imagesList.items.map((item) => getDownloadURL(item))
+        );
+        setImgUrl(urls);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
+    };
+
+    fetchImages();
   }, []);
-  // console.log(imgUrl, "imgUrl");
+
+  // Function to trigger the file input dialog
   const handleButtonClick = () => {
-    fileInputRef.current.click(); // Kích hoạt input file khi nhấn nút
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
   };
+
+  // Function to handle file selection
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      handleUpload(selectedFile);
+      // console.log("File selected for upload:", selectedFile.name);
+    }
+  };
+
   return (
     <div className="App">
       <input
         type="file"
-        onChange={(e) => {
-          setImg(e.target.files[0]);
-          handleUpload();
-        }}
+        onChange={handleFileChange}
         ref={fileInputRef}
         style={{ display: "none" }}
       />
-      <button onClick={handleButtonClick}>Upload</button>
+      <button onClick={handleButtonClick} className="input">
+        Upload
+      </button>
       <br />
       {imgUrl.map((dataVal, index) => (
         <div key={dataVal}>
-          <h4>{dataVal}</h4>
+          {/* <img src={dataVal} alt="error" /> */}
+          <a
+            href={dataVal}
+            target="_blank"
+            rel="noopener noreferrer" /*mở ảnh trong tab mới*/
+          >
+            link
+          </a>
           <br />
         </div>
       ))}

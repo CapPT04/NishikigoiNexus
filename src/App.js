@@ -10,8 +10,8 @@ function App() {
   return (
     <div className="App">
       {/* <HomePage></HomePage> */}
-      {/* <RouterProvider router={routes}></RouterProvider> */}
-      <UploadAnh></UploadAnh>
+      <RouterProvider router={routes}></RouterProvider>
+      {/* <UploadAnh></UploadAnh> */}
     </div>
   );
 }
