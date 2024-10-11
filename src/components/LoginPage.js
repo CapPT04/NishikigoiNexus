@@ -1,22 +1,53 @@
 import React, { useState } from 'react';
 import '../components/LoginPage.scss';
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import googleIcon from '../assets/images/google.png';
 import facebookIcon from '../assets/images/facebook.svg';
 import xIcon from '../assets/images/X.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-
+import { handleLoginApi } from '../axios/Nishikigoi';
+import { jwtDecode } from "jwt-decode";
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isShowPassword, setIsShowPassword] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
-    const handleLogin = () => {
-        // Your login logic here
-    }
 
+
+    const handleLogin = async () => {
+        try {
+            const response = await handleLoginApi(email, password);
+            console.log(response.data);
+
+            if (response) {
+                const user = jwtDecode(response);
+                localStorage.setItem('user', user);
+                // navigate("/");
+            } else {
+
+            }
+
+        } catch (error) {
+            // if (error.response) {
+            //     // if (error.response.status === 400) {
+            //     //     // Hiển thị lỗi nếu email hoặc password không đúng
+            //     //     setErrorMessage(error.response.data || "Invalid login credentials. Please try again.");
+            //     // } else {
+            //     //     // Xử lý các lỗi khác
+            //     //     setErrorMessage("Something went wrong. Please try again later.");
+            //     // }
+
+            // } else {
+            //     // Xử lý trường hợp không có phản hồi từ server
+            //     setErrorMessage("Network error. Please try again later.");
+            // }
+
+            // console.log(error.response.data);
+            // setErrorMessage(error.response.data);
+
+        }
+    };
     return (
         <div className="login-page">
             <div className="login-content">
@@ -52,10 +83,9 @@ const LoginPage = () => {
                                     className={isShowPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}
                                     onClick={() => setIsShowPassword(!isShowPassword)}
                                 ></i>}
-
-
-
                             </div>
+
+                            {errorMessage && <div className="error-message">{errorMessage}</div>} {/* Hiển thị lỗi */}
 
                             <div className="remember-and-forget">
                                 <div className="remember">
@@ -73,7 +103,7 @@ const LoginPage = () => {
                                     Login
                                 </button>
                                 <div className="text-with-login">
-                                    Don’t have an account? <a className="login" onClick={() => navigate("/signup")} />
+                                    Don’t have an account? <a className="login" onClick={() => navigate("/signup")}>Sign up</a>
                                 </div>
                                 <div className="or-line">
                                     <hr className="left-line" /> or <hr className="right-line" />
