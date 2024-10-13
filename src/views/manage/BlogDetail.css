@@ -1,0 +1,332 @@
+* {
+    margin     : 0;
+    padding    : 0;
+    border     : 0;
+    font-size  : 100%;
+    font-family: "Saira Condensed";
+    --nude     : #E7CDBF;
+}
+
+.blog-detail-container {
+    display           : grid;
+    grid-template-rows: auto auto;
+
+    .header {
+        height         : 84px;
+        background     : #121212;
+        display        : flex;
+        justify-content: center;
+        align-items    : center;
+
+        .navigation-bar {
+            width          : 1120px;
+            height         : 64px;
+            display        : flex;
+            justify-content: space-between;
+
+            .navigation-bar-left-content {
+                display    : inline-flex;
+                align-items: center;
+                gap        : 11px;
+
+                .logo {
+                    width : 64px;
+                    height: 64px;
+                }
+
+                .project-name {
+                    font-size  : 32px;
+                    font-weight: 700;
+                    color      : #FFF;
+                }
+            }
+
+            .navigation-bar-right-content {
+                display        : flex;
+                width          : 600px;
+                justify-content: space-between;
+                align-items    : center;
+                flex-shrink    : 0;
+
+                a {
+                    color      : #FFF;
+                    font-size  : 20px;
+                    font-weight: 700;
+                    padding    : 8px 15px;
+                    cursor     : pointer;
+
+                    &:hover {
+                        opacity: 0.7;
+                    }
+                }
+
+                .staff {
+                    border-radius: 24px;
+                    background   : #DF0012;
+                    padding      : 7px 21px;
+                }
+
+
+            }
+        }
+    }
+
+    .body-content {
+        display              : grid;
+        grid-template-columns: 10% auto;
+
+
+        .navigation-bar-vertically {
+            padding-top   : 56px;
+            display       : flex;
+            flex-direction: column;
+            gap           : 56px;
+            flex-shrink   : 0;
+            background    : #1C1C1C;
+            color         : #FFF;
+            font-size     : 26px;
+            font-weight   : 400;
+            line-height   : normal;
+            align-items   : center !important;
+
+            a {
+                color: #FFF;
+
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+
+            .blog-vertically {
+                margin-left    : 30px;
+                display        : flex;
+                height         : 67px;
+                padding        : 10px 21px;
+                justify-content: center;
+                align-items    : center;
+                gap            : 10px;
+                align-self     : stretch;
+                background     : #DF0012;
+            }
+        }
+
+        .body-content-right {
+            background: var(--nude);
+
+            .blog-detail-content {
+                display           : grid;
+                width             : 80%;
+                margin            : 0 auto;
+                margin-top        : 40px;
+                grid-template-rows: auto;
+                gap               : 30px;
+
+                .blog-detail-content-row1 {
+                    display        : flex;
+                    gap            : 100px;
+                    justify-content: flex-end;
+                    align-items    : center;
+
+                    .status {
+                        color      : #121212;
+                        text-align : right;
+                        font-family: Poppins;
+                        font-size  : 26px;
+                        font-style : normal;
+                        font-weight: 700;
+                        line-height: normal;
+
+
+                    }
+
+
+                    .set-status {
+                        -webkit-appearance: none;
+                        width             : 226px;
+                        height            : 52px;
+                        flex-shrink       : 0;
+                        border-radius     : 9px;
+                        border            : 0.75px solid #0097B2;
+                        background        : #FFF;
+                        color             : #121212;
+                        font-family       : Poppins;
+                        font-size         : 26px;
+                        font-style        : normal;
+                        font-weight       : 400;
+                        line-height       : normal;
+                        align-items       : center;
+                        justify-content   : center;
+                        text-align        : center;
+                    }
+                }
+
+                .blog-detail-content-row2 {
+                    color      : #121212;
+                    font-family: Poppins;
+                    font-size  : 36px;
+                    font-style : normal;
+                    font-weight: 600;
+                    line-height: normal;
+                }
+
+                .blog-detail-content-row3 {
+                    color      : #121212;
+                    font-family: Inter;
+                    font-size  : 24px;
+                    font-style : normal;
+                    font-weight: 500;
+                    line-height: normal;
+                }
+
+                .blog-detail-content-row4,
+                .blog-detail-content-row6,
+                .blog-detail-content-row7 {
+                    display           : grid;
+                    grid-template-rows: auto;
+                    gap               : 10px;
+
+                    .create-by-label,
+                    .title-label,
+                    .pond-address-label {
+                        color      : #121212;
+                        font-family: Inter;
+                        font-size  : 24px;
+                        font-style : normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+
+                    .create-by-input,
+                    .title-input,
+                    .pond-address-input {
+                        width        : 100%;
+                        height       : 56px;
+                        border-radius: 12px;
+                        border       : 1px solid #121212;
+                        text-indent  : 5px;
+                        color        : #121212;
+                        font-family  : Inter;
+                        font-size    : 24px;
+                        font-style   : normal;
+                        font-weight  : 400;
+                        line-height  : normal;
+                        background   : none;
+                    }
+                }
+
+                .blog-detail-content-row5 {
+                    display              : grid;
+                    grid-template-columns: auto auto;
+                    gap                  : 100px;
+
+                    .update-by {
+                        display           : grid;
+                        grid-template-rows: auto;
+                        gap               : 10px;
+
+                        .update-by-label {
+                            color      : #121212;
+                            font-family: Inter;
+                            font-size  : 24px;
+                            font-style : normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+
+                        .update-by-input {
+                            border-radius: 12px;
+                            border       : 1px solid #121212;
+                            height       : 56px;
+                            color        : #121212;
+                            font-family  : Inter;
+                            font-size    : 24px;
+                            font-style   : normal;
+                            font-weight  : 400;
+                            line-height  : normal;
+                            text-indent  : 5px;
+                            background   : none;
+                        }
+
+
+                    }
+
+                    .last-update {
+                        display           : grid;
+                        grid-template-rows: auto;
+                        gap               : 10px;
+
+                        .last-update-label {
+                            color      : #121212;
+                            font-family: Inter;
+                            font-size  : 24px;
+                            font-style : normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+
+                        .last-update-input {
+                            border-radius: 12px;
+                            border       : 1px solid #121212;
+                            height       : 56px;
+                            color        : #121212;
+                            font-family  : Inter;
+                            font-size    : 24px;
+                            font-style   : normal;
+                            font-weight  : 400;
+                            line-height  : normal;
+                            text-indent  : 5px;
+                            background   : none;
+                        }
+
+                    }
+                }
+
+                .blog-detail-content-row8 {
+                    display        : flex;
+                    justify-content: flex-end;
+                    gap            : 30px;
+
+                    .update-btn {
+                        border-radius: 9px;
+                        background   : #0097B2;
+                        width        : 187.115px;
+                        height       : 52px;
+                        color        : #121212;
+                        font-family  : Poppins;
+                        font-size    : 26px;
+                        font-style   : normal;
+                        font-weight  : 700;
+                        line-height  : normal;
+                    }
+
+                    .cancel-btn {
+                        border       : 2px solid #0097B2;
+                        background   : none;
+                        border-radius: 9px;
+                        width        : 187.115px;
+                        height       : 52px;
+                        color        : #121212;
+                        font-family  : Poppins;
+                        font-size    : 26px;
+                        font-style   : normal;
+                        font-weight  : 700;
+                        line-height  : normal;
+                        margin-bottom: 50px;
+                    }
+
+                    .update-btn:hover,
+                    .cancel-btn:hover {
+                        cursor : pointer;
+                        opacity: 0.7;
+                    }
+                }
+            }
+
+        }
+
+
+
+
+    }
+
+}

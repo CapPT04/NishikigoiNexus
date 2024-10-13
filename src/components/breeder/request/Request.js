@@ -506,7 +506,6 @@ const Request = () => {
             </div>
           </div>
           {/* auction fee */}
-
           <div className="feeNotice">* The fee for auction: {fee}</div>
           {/* confirm */}
           <div className="confirmBox">

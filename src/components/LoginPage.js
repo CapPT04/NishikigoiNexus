@@ -4,14 +4,19 @@ import { useNavigate } from "react-router-dom";
 import googleIcon from "../assets/images/google.png";
 import facebookIcon from "../assets/images/facebook.svg";
 import xIcon from "../assets/images/X.png";
-import { handleLoginApi } from "../axios/Nishikigoi";
-import { jwtDecode } from "jwt-decode";
+import { handleLoginApi } from "../axios/UserService";
+import { jwtDecode } from "jwt-decode"; // Sửa lại việc nhập jwtDecode
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  // const handleLogin = async () => {
+  //     try {
+  //         const response = await handleLoginApi(email, password);
 
   const handleLogin = async () => {
     try {
