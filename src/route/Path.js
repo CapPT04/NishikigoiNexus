@@ -6,4 +6,6 @@ export const path = {
   ABOUT: "/about",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  //staff
+  CREATEREQUEST: "/CreateRequest",
 };

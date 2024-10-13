@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import "./SignupPage.scss";
-import { handleSignUpApi } from "../../../axios/Nishikigoi";
+import { handleSignUpApi } from "../../../axios/UserService";
 import axios from "axios";
 
 const SignupPage = () => {

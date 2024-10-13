@@ -3,17 +3,20 @@ import "../request/Request.scss";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { imageDB } from "../../../upload/ConfigUpload";
-import { handleFeeApi } from "../../../axios/Nishikigoi";
+import { handleFeeApi, handleSubmitRequest } from "../../../axios/UserService";
 
 const Request = () => {
   const [name, setName] = useState("");
   const [shape, setShape] = useState("");
   const [age, setAge] = useState(0);
   const [weight, setWeight] = useState(0);
-  const [fondAddress, setFondAddress] = useState("");
+  const [size, setSize] = useState(0);
+  const [origin, setOrigin] = useState("");
+  const [pondAddress, setPondAddress] = useState("");
   const [city, setCity] = useState("");
   const [gender, setGender] = useState({ value: 0 });
   const [image, setImage] = useState([]);
+  const [note, setNote] = useState("");
   const [auctionMethod, setAuctionMethod] = useState(1);
   const [date, setDate] = useState("");
   const [startPrice, setStartPrice] = useState(0);
@@ -72,6 +75,7 @@ const Request = () => {
       subtitle: "Buyer pays the price",
     },
   ];
+  //up ảnh đang lỗi
   const filedsets = [
     {
       title: "Fish Details",
@@ -119,7 +123,28 @@ const Request = () => {
               />
             </div>
           </div>
-          {/* FondAddress+City */}
+          {/* size+origin */}
+          <div className="fieldInput">
+            <div className="col-md-6 inputBox">
+              <h5>Fish Size</h5>
+              <input
+                type="text"
+                name="FishSize"
+                placeholder="Fish Size"
+                onChange={(e) => setSize(e.target.value)}
+              />
+            </div>
+            <div className="col-md-6 inputBox">
+              <h5>Fish Origin</h5>
+              <input
+                type="text"
+                name="FishOrigin"
+                placeholder="Fish Origin"
+                onChange={(e) => setOrigin(e.target.value)}
+              />
+            </div>
+          </div>
+          {/* PondAddress+City */}
           <div className="fieldInput">
             <div className="col-md-6 inputBox">
               <h5>Fond Address</h5>
@@ -127,7 +152,7 @@ const Request = () => {
                 type="text"
                 name="FondArrdess"
                 placeholder="Fond Arrdess"
-                onChange={(e) => setFondAddress(e.target.value)}
+                onChange={(e) => setPondAddress(e.target.value)}
               />
             </div>
             <div className="col-md-6 inputBox">
@@ -205,6 +230,16 @@ const Request = () => {
                 <div className="plus-icon"></div>
               )}
             </div>
+          </div>
+          {/* note */}
+          <div className="inputBox">
+            <h5>Note</h5>
+            <input
+              type="text"
+              name="Note"
+              placeholder="Note"
+              onChange={(e) => setNote(e.target.value)}
+            />
           </div>
         </fieldset>
       ),
@@ -317,13 +352,7 @@ const Request = () => {
           <div className="fieldInput">
             <div className="col-md-6 inputBox">
               <h5>Fish Name</h5>
-              <input
-                type="text"
-                name="fishName"
-                value={name}
-                disabled={true}
-                onChange={(e) => setName(e.target.value)}
-              />
+              <input type="text" name="fishName" value={name} disabled={true} />
             </div>
             <div className="col-md-6 inputBox">
               <h5>Fish Shape</h5>
@@ -332,7 +361,6 @@ const Request = () => {
                 name="FishShape"
                 value={shape}
                 disabled={true}
-                onChange={(e) => setShape(e.target.value)}
               />
             </div>
           </div>
@@ -340,13 +368,7 @@ const Request = () => {
           <div className="fieldInput">
             <div className="col-md-6 inputBox">
               <h5>Fish Age</h5>
-              <input
-                type="text"
-                name="FishAge"
-                disabled={true}
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-              />
+              <input type="text" name="FishAge" disabled={true} value={age} />
             </div>
             <div className="col-md-6 inputBox">
               <h5>Fish Weight</h5>
@@ -355,31 +377,23 @@ const Request = () => {
                 name="FishWeight"
                 disabled={true}
                 value={weight}
-                onChange={(e) => setWeight(e.target.value)}
               />
             </div>
           </div>
-          {/* FondAddress+City */}
+          {/* PondAddress+City */}
           <div className="fieldInput">
             <div className="col-md-6 inputBox">
               <h5>Fond Address</h5>
               <input
                 type="text"
                 name="FondArrdess"
-                value={fondAddress}
+                value={pondAddress}
                 disabled={true}
-                onChange={(e) => setFondAddress(e.target.value)}
               />
             </div>
             <div className="col-md-6 inputBox">
               <h5>Fish City</h5>
-              <input
-                type="text"
-                name="FishCity"
-                value={city}
-                disabled={true}
-                onChange={(e) => setCity(e.target.value)}
-              />
+              <input type="text" name="FishCity" value={city} disabled={true} />
             </div>
           </div>
           {/* gender */}
@@ -439,6 +453,11 @@ const Request = () => {
                 <div className="plus-icon"></div>
               )}
             </div>
+          </div>
+          {/* note */}
+          <div className="inputBox">
+            <h5>Note</h5>
+            <input type="text" name="Note" value={note} disabled={true} />
           </div>
           {/* method */}
           {methodDexcription.map((item, index) => (
@@ -506,7 +525,7 @@ const Request = () => {
             </div>
           </div>
           {/* auction fee */}
-          <div className="feeNotice">* The fee for auction: {fee}</div>
+          <div className="feeNotice">* The fee for auction: {fee}$</div>
           {/* confirm */}
           <div className="confirmBox">
             <input
@@ -527,12 +546,12 @@ const Request = () => {
     },
   ];
 
-  //-----get fee --------
+  //-----get fee--------
   useEffect(() => {
     const getFee = async () => {
       try {
         const response = await handleFeeApi();
-        console.log(response);
+        // console.log(response);
         setFee(response);
         // console.log("done");
       } catch (error) {
@@ -553,7 +572,31 @@ const Request = () => {
     }
   };
   //----submit----
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const fishAuction = {
+      token: localStorage.getItem("user"),
+      fishName: name,
+      shape: shape,
+      size: size,
+      origin: origin,
+      age: age,
+      weight: weight,
+      gender: gender,
+      pondAddress: pondAddress,
+      pondCity: city,
+      imagePath: image,
+      note: note,
+      fee: fee,
+      auctionMethod: auctionMethod,
+      minPrice: startPrice,
+      maxPrice: maxPrice,
+      increment: stepPrice,
+      expectedDate: date,
+    };
+    try {
+      const response = await handleSubmitRequest(fishAuction);
+      console.log(response);
+    } catch (error) {}
     console.log("submit");
   };
   //--------

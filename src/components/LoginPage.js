@@ -26,7 +26,7 @@ const LoginPage = () => {
       if (response) {
         const user = jwtDecode(response);
         localStorage.setItem("user", user);
-        // navigate("/");
+        navigate("/CreateRequest");
       } else {
       }
     } catch (error) {
