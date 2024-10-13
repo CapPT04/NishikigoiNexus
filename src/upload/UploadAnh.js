@@ -68,12 +68,6 @@ const UploadAnh = () => {
 
   return (
     <div className="App">
-      <input
-        type="file"
-        onChange={handleFileChange}
-        ref={fileInputRef}
-        style={{ display: "none" }}
-      />
       <button onClick={handleButtonClick} className="input">
         Upload
       </button>

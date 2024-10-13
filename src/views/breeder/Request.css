@@ -1,0 +1,332 @@
+/*custom font*/
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/*basic reset*/
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  background: #e7cdbf;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to left,
+    #6441a5,
+    #2a0845
+  ); /* Chrome 10-25, Safari 5.1-6 */
+}
+
+body {
+  font-family: Saira Condensed, montserrat, arial, verdana;
+  background: transparent;
+}
+
+/*form styles*/
+#request {
+  text-align: center;
+  position: relative;
+  margin-top: 30px;
+}
+
+#request fieldset {
+  background: white;
+  border: 0 none;
+  border-radius: 0px;
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+  padding: 20px 30px;
+  box-sizing: border-box;
+  width: 80%;
+  height: fit-content;
+  margin: 0 10%;
+  /*stacking fieldsets above each other*/
+  position: relative;
+}
+/* .fieldInput */
+.fieldInput {
+  display: flex;
+  gap: 5%;
+  margin: 20px 0;
+  justify-content: center;
+}
+
+.fieldInput h5 {
+  width: fit-content;
+  position: relative;
+  top: 15px;
+  left: 25px;
+  background-color: #fff;
+  padding: 3px;
+  font-style: normal;
+  font-size: 16px;
+  font-weight: 400;
+}
+.inputBox {
+  width: 45%;
+}
+.fieldInput input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+/*Hide all except first fieldset*/
+#request fieldset:not(:first-of-type) {
+  display: none;
+}
+
+/*inputs*/
+#request input,
+#request textarea {
+  padding: 15px;
+  border: 1px solid #121212;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: montserrat;
+  color: #2c3e50;
+  font-size: 13px;
+}
+
+#request input:focus,
+#request textarea:focus {
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  border: 1px solid #ee0979;
+  outline-width: 0;
+  transition: All 0.5s ease-in;
+  -webkit-transition: All 0.5s ease-in;
+  -moz-transition: All 0.5s ease-in;
+  -o-transition: All 0.5s ease-in;
+}
+
+/*buttons*/
+#request .action-button {
+  width: 100px;
+  background: #ee0979;
+  font-weight: bold;
+  color: white;
+  border: 0 none;
+  border-radius: 25px;
+  cursor: pointer;
+  padding: 10px 5px;
+  margin: 10px 5px;
+}
+
+#request .action-button:hover,
+#request .action-button:focus {
+  box-shadow: 0 0 0 2px white, 0 0 0 3px #ee0979;
+}
+
+#request .action-button-previous {
+  width: 100px;
+  background: #c5c5f1;
+  font-weight: bold;
+  color: white;
+  border: 0 none;
+  border-radius: 25px;
+  cursor: pointer;
+  padding: 10px 5px;
+  margin: 10px 5px;
+}
+
+#request .action-button-previous:hover,
+#request .action-button-previous:focus {
+  box-shadow: 0 0 0 2px white, 0 0 0 3px #c5c5f1;
+}
+
+/*headings*/
+.fs-title {
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.fs-subtitle {
+  font-weight: normal;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/*progressbar*/
+#progressbar {
+  margin-bottom: 30px;
+  overflow: hidden;
+  width: 80%;
+  display: inline-flex;
+  /*CSS counters to number the steps*/
+  counter-reset: step;
+}
+
+#progressbar li {
+  list-style-type: none;
+  color: white;
+  text-transform: uppercase;
+  font-size: 16px;
+  width: 25%;
+  float: left;
+  position: relative;
+  letter-spacing: 1px;
+}
+
+#progressbar li:before {
+  content: counter(step);
+  counter-increment: step;
+  width: 24px;
+  height: 24px;
+  line-height: 26px;
+  display: block;
+  font-size: 12px;
+  color: #333;
+  background: white;
+  border-radius: 25px;
+  margin: 0 auto 10px auto;
+}
+
+/*progressbar connectors*/
+#progressbar li:after {
+  content: "";
+  width: 100%;
+  height: 2px;
+  background: white;
+  position: absolute;
+  left: -50%;
+  top: 9px;
+  z-index: -1; /*put it behind the numbers*/
+}
+
+#progressbar li:first-child:after {
+  /*connector not needed before the first step*/
+  content: none;
+}
+
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before,
+#progressbar li.active:after {
+  background: #ee0979;
+  color: white;
+}
+
+/* Not relevant to this form */
+.dme_link {
+  margin-top: 30px;
+  text-align: center;
+}
+.dme_link a {
+  background: #fff;
+  font-weight: bold;
+  color: #ee0979;
+  border: 0 none;
+  border-radius: 25px;
+  cursor: pointer;
+  padding: 5px 25px;
+  font-size: 12px;
+}
+
+.dme_link a:hover,
+.dme_link a:focus {
+  background: #c5c5f1;
+  text-decoration: none;
+}
+
+/*header*/
+.header {
+  width: 100%;
+  height: 84px;
+  flex-shrink: 0;
+  background-color: #000;
+}
+
+.gender-group {
+  display: flex;
+  width: 930px;
+  align-items: center;
+  gap: 40px;
+}
+.gender-select {
+  display: flex;
+  width: 78px;
+  align-items: center;
+  gap: 17px;
+  flex-shrink: 0;
+}
+.gender-option {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.inputImage div {
+  display: block;
+  width: 100%;
+}
+
+.image-tittle {
+  width: 100%;
+}
+.imgInput {
+  display: flex;
+  width: 180px;
+  height: 240px;
+  padding: 30px 15px;
+  border: 2px solid #000;
+  background-color: #e7cdbfa3;
+
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 15px;
+}
+.plus-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plus-icon::before,
+.plus-icon::after {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 100px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.plus-icon::before {
+  transform: rotate(90deg);
+}
+
+.auctionMethod {
+  display: flex;
+  width: 200px;
+  height: 40px;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  background: #d9d9d9;
+}
+.price {
+  display: flex;
+  align-items: center;
+}
+.dollar-sign {
+  margin-left: -30px;
+  font-size: 30px;
+  margin-bottom: 10px;
+  opacity: 0.6;
+}

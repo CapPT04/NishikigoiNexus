@@ -63,6 +63,11 @@
         align-items: flex-start;
         gap: 30px;
         flex-shrink: 0;
+        .error-message {
+          color: red;
+          font-size: 24px;
+          font-weight: 600;
+        }
         .signup-form-title {
           font-family: "Saira Condensed";
           font-size: 40px;
@@ -181,16 +186,25 @@
               width: 100%;
               justify-content: center;
               align-items: center;
+              //cần đồng bộ màu với login
+              background: linear-gradient(
+                90deg,
+                #867375 0%,
+                #493a3b 46%,
+                #0a0909 98%
+              );
+              color: #f3f3f3;
+              font-size: 15px;
+              font-weight: 700;
+              letter-spacing: 3.6px;
+            }
+            .btn-active {
               background: linear-gradient(
                 90deg,
                 #df0012 0%,
                 #8b000d 46%,
                 #e91324 98%
               );
-              color: #f3f3f3;
-              font-size: 15px;
-              font-weight: 700;
-              letter-spacing: 3.6px;
             }
             .text-with-login {
               font-size: 10px;

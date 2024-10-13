@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-// import api from "../../../config/axios";
 
 import "./SignupPage.scss";
+import { handleSignUpApi } from "../../../axios/Nishikigoi";
+import axios from "axios";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -10,25 +11,61 @@ const SignupPage = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rePassword, setRePassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [btnReady, setBtnReady] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [hasInput, setHasInput] = useState(false);
 
   const handleSignUp = async () => {
-    // const values = {
-    //   email,
-    //   password,
-    //   firstName,
-    //   lastName,
-    //   phone: phoneNumber,
-    // };
-    // try {
-    //   const response = await api.post("User/MemberRegister", values);
-    //   console.log(response);
-    //   navigate("/");
-    // } catch (err) {
-    //   console.log(err.response ? err.response.data : err.message);
-    //   alert(err.response?.data);
-    // }
+    const user = {
+      email,
+      password,
+      firstName,
+      lastName,
+      phone: phoneNumber,
+    };
+    try {
+      const response = await handleSignUpApi(user);
+      console.log(response);
+      if (response.status === 200) {
+        console.log("successful");
+      }
+      if (response.status === 400) {
+        setErrorMessage(response.response.data.message);
+        console.log("loi");
+      }
+    } catch (err) {
+      console.log("xảy ra lỗi");
+    }
   };
+
+  useEffect(() => {
+    if (hasInput) {
+      if (
+        !(
+          firstName &&
+          lastName &&
+          email &&
+          password &&
+          rePassword &&
+          phoneNumber
+        )
+      ) {
+        setErrorMessage("Please fill in all fields");
+        setBtnReady(true);
+      } else if (validateEmail(email) === false) {
+        setErrorMessage("Email is invalid");
+        setBtnReady(true);
+      } else if (rePassword !== password) {
+        setErrorMessage("Wrong confirm password");
+        setBtnReady(true);
+      } else {
+        setErrorMessage("");
+        setBtnReady(false);
+      }
+    }
+  }, [firstName, lastName, email, password, rePassword, phoneNumber]);
 
   return (
     <div className="signup-page">
@@ -42,6 +79,9 @@ const SignupPage = () => {
         <div className="right-content">
           <div className="signup-form">
             <div className="signup-form-title">Sign Up</div>
+            {errorMessage && (
+              <div className="error-message">{errorMessage}</div>
+            )}{" "}
             <div className="signup-form-content">
               <div className="full-name">
                 <div className="first-name">
@@ -49,7 +89,10 @@ const SignupPage = () => {
                   <input
                     className="first-name-input"
                     type="text"
-                    onChange={(e) => setFirstName(e.target.value)}
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                      setHasInput(true);
+                    }}
                   />
                 </div>
                 <div className="last-name">
@@ -59,7 +102,10 @@ const SignupPage = () => {
                     type="text"
                     name=""
                     id=""
-                    onChange={(e) => setLastName(e.target.value)}
+                    onChange={(e) => {
+                      setLastName(e.target.value);
+                      setHasInput(true);
+                    }}
                   />
                 </div>
               </div>
@@ -68,7 +114,11 @@ const SignupPage = () => {
                 <input
                   className="email-input"
                   type="text"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setHasInput(true);
+                  }}
+                  required={true}
                 />
               </div>
               <div className="password">
@@ -76,23 +126,40 @@ const SignupPage = () => {
                 <input
                   className="password-input"
                   type="password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setHasInput(true);
+                  }}
                 />
               </div>
               <div className="confirm-password">
                 <div className="confirm-password-title">Confirm Password</div>
-                <input className="confirm-password-input" type="password" />
+                <input
+                  className="confirm-password-input"
+                  type="password"
+                  onChange={(e) => {
+                    setRePassword(e.target.value);
+                    setHasInput(true);
+                  }}
+                />
               </div>
               <div className="phone-number">
                 <div className="phone-number-title">Phone Number</div>
                 <input
                   className="phone-number-input"
                   type="text"
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  onChange={(e) => {
+                    setPhoneNumber(e.target.value);
+                    setHasInput(true);
+                  }}
                 />
               </div>
               <div className="signup-and-login">
-                <button className="signup-btn" onClick={handleSignUp}>
+                <button
+                  className={`signup-btn ${!btnReady ? "btn-active" : ""}`}
+                  onClick={handleSignUp}
+                  disabled={btnReady}
+                >
                   Sign up
                 </button>
                 <div className="text-with-login">
@@ -120,6 +187,14 @@ const SignupPage = () => {
       </div>
     </div>
   );
+};
+
+export const validateEmail = (email) => {
+  const regex = /^[^\s@]+@[^\s@]+\.+[\w]{2,}$/i;
+  if (regex.test(email)) {
+    return true;
+  }
+  return false;
 };
 
 export default SignupPage;
