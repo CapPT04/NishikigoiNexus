@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import googleIcon from '../assets/images/google.png';
 import facebookIcon from '../assets/images/facebook.svg';
 import xIcon from '../assets/images/X.png';
-import { handleLoginApi } from '../axios/Nishikigoi';
-import { jwtDecode } from "jwt-decode";
+import { handleLoginApi } from '../axios/UserService';
+import { jwtDecode } from "jwt-decode"; // Sửa lại việc nhập jwtDecode
+
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -13,41 +14,27 @@ const LoginPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
-
-
     const handleLogin = async () => {
         try {
             const response = await handleLoginApi(email, password);
-            console.log(response.data);
+
 
             if (response) {
                 const user = jwtDecode(response);
-                localStorage.setItem('user', user);
-                // navigate("/");
-            } else {
-
+                localStorage.setItem('token', response);
             }
-
         } catch (error) {
-            // if (error.response) {
-            //     // if (error.response.status === 400) {
-            //     //     // Hiển thị lỗi nếu email hoặc password không đúng
-            //     //     setErrorMessage(error.response.data || "Invalid login credentials. Please try again.");
-            //     // } else {
-            //     //     // Xử lý các lỗi khác
-            //     //     setErrorMessage("Something went wrong. Please try again later.");
-            //     // }
 
-            // } else {
-            //     // Xử lý trường hợp không có phản hồi từ server
-            //     setErrorMessage("Network error. Please try again later.");
-            // }
-
-            // console.log(error.response.data);
-            // setErrorMessage(error.response.data);
-
+            if (error.response) {
+                // Hiển thị thông báo lỗi nếu có
+                setErrorMessage(error.response.data || "Invalid login credentials. Please try again.");
+            } else {
+                setErrorMessage("Network error. Please try again later.");
+            }
         }
+
     };
+
     return (
         <div className="login-page">
             <div className="login-content">
@@ -85,7 +72,7 @@ const LoginPage = () => {
                                 ></i>}
                             </div>
 
-                            {errorMessage && <div className="error-message">{errorMessage}</div>} {/* Hiển thị lỗi */}
+                            {errorMessage && <div className="error-message">{errorMessage}</div>}
 
                             <div className="remember-and-forget">
                                 <div className="remember">
