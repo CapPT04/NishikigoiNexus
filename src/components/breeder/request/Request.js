@@ -79,7 +79,6 @@ const Request = () => {
       subtitle: "Buyer pays the price",
     },
   ];
-  //up ảnh đang lỗi
   const filedsets = [
     {
       title: "Fish Details",
