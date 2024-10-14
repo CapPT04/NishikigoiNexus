@@ -4,6 +4,7 @@ import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { imageDB } from "../../../upload/ConfigUpload";
 import { handleFeeApi, handleSubmitRequest } from "../../../axios/UserService";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const Request = () => {
   const [name, setName] = useState("");
@@ -53,7 +54,10 @@ const Request = () => {
       handleUpload(selectedFile);
     }
   };
-  const handleButtonClick = () => {
+  const handleButtonClick = (e) => {
+    if (image[e]) {
+      image.splice(e, 1);
+    }
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -202,28 +206,28 @@ const Request = () => {
               ref={fileInputRef}
               style={{ display: "none" }}
             />
-            <div className="imgInput" onClick={handleButtonClick}>
+            <div className="imgInput" onClick={(e) => handleButtonClick(0)}>
               {image[0] ? (
                 <img src={image[0]} className="imgKoi" />
               ) : (
                 <div className="plus-icon"></div>
               )}
             </div>
-            <div className="imgInput" onClick={handleButtonClick}>
+            <div className="imgInput" onClick={(e) => handleButtonClick(1)}>
               {image[1] ? (
                 <img src={image[1]} className="imgKoi" />
               ) : (
                 <div className="plus-icon"></div>
               )}
             </div>
-            <div className="imgInput" onClick={handleButtonClick}>
+            <div className="imgInput" onClick={(e) => handleButtonClick(2)}>
               {image[2] ? (
                 <img src={image[2]} className="imgKoi" />
               ) : (
                 <div className="plus-icon"></div>
               )}
             </div>
-            <div className="imgInput" onClick={handleButtonClick}>
+            <div className="imgInput" onClick={(e) => handleButtonClick(3)}>
               {image[3] ? (
                 <img src={image[3]} className="imgKoi" />
               ) : (
