@@ -4,6 +4,7 @@ const END_POINT = {
   LOGIN: "User/Login",
   SIGNUP: "User/MemberRegister",
   FEE: "Fee/GetFee",
+  CREATEREQUEST: "Request/CreateRequest",
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -35,7 +36,34 @@ export const handleFeeApi = async () => {
     return res;
   } catch (error) {
     console.error("Lỗi khi gọi API FEE:", error);
-    // Bạn có thể tùy chỉnh cách xử lý lỗi ở đây
     throw error; // Ném lỗi để các thành phần gọi hàm này có thể xử lý tiếp
+  }
+};
+
+export const handleSubmitRequest = async (request) => {
+  try {
+    const response = await axiosClient.post(`${END_POINT.SIGNUP}`, {
+      token: localStorage.getItem("user"),
+      fishName: request.firstName,
+      shape: request.shape,
+      size: request.size,
+      origin: request.origin,
+      age: request.age,
+      weight: request.weight,
+      gender: request.gender,
+      pondAddress: request.pondAddress,
+      pondCity: request.pondCity,
+      imagePath: request.imagePath,
+      note: request.note,
+      fee: request.fee,
+      auctionMethod: request.auctionMethod,
+      minPrice: request.minPrice,
+      maxPrice: request.maxPrice,
+      increment: request.increment,
+      expectedDate: request.expectedDate,
+    });
+    return response;
+  } catch (error) {
+    throw error;
   }
 };
