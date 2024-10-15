@@ -3,7 +3,7 @@ import "../request/Request.scss";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { imageDB } from "../../../upload/ConfigUpload";
-import { handleFeeApi } from "../../../axios/Nishikigoi";
+import { handleFeeApi } from "../../../axios/UserService";
 
 const Request = () => {
   const [name, setName] = useState("");
