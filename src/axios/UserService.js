@@ -4,7 +4,8 @@ const END_POINT = {
   LOGIN: "User/Login",
   SIGNUP: "User/MemberRegister",
   FEE: "Fee/GetFee",
-  CREATEREQUEST: "Request/CreateRequest",
+  CREATEREQUEST: "Request/CreateRequest", //breeder
+  GETALLREQUEST: "Request/GetAllRequest",
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -63,6 +64,14 @@ export const handleSubmitRequest = async (request) => {
       expectedDate: request.expectedDate,
     });
     return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetAllRequest = async () => {
+  try {
+    return await axiosClient.get(END_POINT.GETALLREQUEST);
   } catch (error) {
     throw error;
   }

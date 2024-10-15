@@ -24,8 +24,8 @@ const LoginPage = () => {
       console.log(response.data);
 
       if (response) {
-        sessionStorage.setItem("user", response);
-        const user = JSON.parse(JSON.stringify(jwtDecode(response)));
+        const user = JSON.stringify(jwtDecode(response));
+        sessionStorage.setItem("user", user);
 
         // sessionStorage.setItem("a", data);
         // const a = sessionStorage.getItem("a");

@@ -4,10 +4,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../assets/images/logo_png.png";
 
 const Navbar = () => {
-  const user = sessionStorage.getItem("user");
+  const userStorage = sessionStorage.getItem("user");
+  const user = JSON.parse(userStorage);
   useEffect(() => {
-    // localStorage.removeItem("user");
-    console.log("user: ", user);
+    console.log(user.Role);
   });
   const navigate = useNavigate();
   return (
@@ -25,7 +25,7 @@ const Navbar = () => {
           }}
           onClick={() => navigate("/")}
         >
-          REQUEST
+          {user.Role === "1" ? "" : user.Role === "2" ? "REQUEST" : "STAFF"}
         </a>
         <a className="home" onClick={() => navigate("/")}>
           HOME

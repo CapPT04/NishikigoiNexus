@@ -3,7 +3,7 @@ import "../request/Request.scss";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { imageDB } from "../../../upload/ConfigUpload";
-import { handleFeeApi } from "../../../axios/Nishikigoi";
+import { handleFeeApi, handleSubmitRequest } from "../../../axios/UserService";
 
 const Request = () => {
   const [name, setName] = useState("");
@@ -599,7 +599,7 @@ const Request = () => {
     try {
       const response = await handleSubmitRequest(fishAuction);
       console.log(response);
-    } catch (error) { }
+    } catch (error) {}
     console.log("submit");
   };
   //--------
