@@ -7,7 +7,7 @@
     --nude     : #E7CDBF;
 }
 
-.blog-detail-container {
+.request-detail-container {
     display           : grid;
     grid-template-rows: auto auto;
 
@@ -113,7 +113,7 @@
         .body-content-right {
             background: var(--nude);
 
-            .fish-detail-content {
+            .request-detail-content {
                 display           : grid;
                 width             : 80%;
                 margin            : 0 auto;
@@ -121,7 +121,7 @@
                 grid-template-rows: auto;
                 gap               : 30px;
 
-                .fish-detail-content-row1 {
+                .request-detail-content-row1 {
                     display        : flex;
                     gap            : 100px;
                     justify-content: flex-end;
@@ -160,7 +160,7 @@
                     }
                 }
 
-                .fish-detail-content-row2 {
+                .request-detail-content-row2 {
                     color      : #121212;
                     font-family: Poppins;
                     font-size  : 36px;
@@ -169,7 +169,7 @@
                     line-height: normal;
                 }
 
-                .fish-detail-content-row3 {
+                .request-detail-content-row3 {
                     color      : #121212;
                     font-family: Inter;
                     font-size  : 24px;
@@ -178,19 +178,14 @@
                     line-height: normal;
                 }
 
-                .fish-detail-content-row4,
-                .fish-detail-content-row6
-
-                /*,
-              .fish-detail-content-row7 */
-                    {
+                .request-detail-content-row7,
+                .request-detail-content-row16 {
                     display           : grid;
                     grid-template-rows: auto;
                     gap               : 10px;
 
-                    .create-by-label,
-                    .title-label,
-                    .pond-address-label {
+                    .note-label,
+                    .reason-label {
                         color      : #121212;
                         font-family: Inter;
                         font-size  : 24px;
@@ -199,9 +194,8 @@
                         line-height: normal;
                     }
 
-                    .create-by-input,
-                    .title-input,
-                    .pond-address-input {
+                    .note-input,
+                    .reason-input {
                         width        : 100%;
                         height       : 56px;
                         border-radius: 12px;
@@ -218,37 +212,54 @@
                     }
                 }
 
-                .fish-detail-content-row5,
-                .fish-detail-content-row6,
-                .fish-detail-content-row7,
-                .fish-detail-content-row8,
-                .fish-detail-content-row9 {
+                .request-detail-content-row4,
+                .request-detail-content-row5,
+                .request-detail-content-row6,
+                .request-detail-content-row10,
+                .request-detail-content-row11,
+                .request-detail-content-row12,
+                .request-detail-content-row13,
+                .request-detail-content-row14 {
                     display              : grid;
                     grid-template-columns: auto auto;
                     gap                  : 100px;
 
                     .update-by,
-                    .fish-name,
-                    .origin,
-                    .shape,
-                    .size,
-                    .gender,
-                    .age,
-                    .weight,
-                    .sold-price {
+                    .update-date,
+                    .create-by,
+                    .expected-date,
+                    .delivery-cost,
+                    .fee,
+                    .fish-id,
+                    .auction-id,
+                    .auction-method,
+                    .increment,
+                    .min-price,
+                    .max-price,
+                    .expected-date,
+                    .start-date,
+                    .end-date,
+                    .highest-price {
                         display           : grid;
                         grid-template-rows: auto;
                         gap               : 10px;
 
                         .update-by-label,
-                        .fish-name-label,
-                        .origin-label,
-                        .shape-label,
-                        .size-label,
-                        .gender-label,
-                        .age-label,
-                        .weight-label,
-                        .sold-price-label {
+                        .update-date-label,
+                        .create-by-label,
+                        .expected-date-label,
+                        .delivery-cost-label,
+                        .fee-label,
+                        .fish-id-label,
+                        .auction-id-label,
+                        .auction-method-label,
+                        .increment-label,
+                        .min-price-label,
+                        .max-price-label,
+                        .expected-date-label,
+                        .start-date-lael,
+                        .end-date-label,
+                        .highest-price-label {
                             color      : #121212;
                             font-family: Inter;
                             font-size  : 24px;
@@ -258,14 +269,21 @@
                         }
 
                         .update-by-input,
-                        .fish-name-input,
-                        .origin-input,
-                        .shape-input,
-                        .size-input,
-                        .gender-input,
-                        .age-input,
-                        .weight-input,
-                        .sold-price-input {
+                        .update-date-input,
+                        .create-by-input,
+                        .expected-date-input,
+                        .delivery-cost-input,
+                        .fee-input,
+                        .fish-id-input,
+                        .auction-id-input,
+                        .auction-method-input,
+                        .increment-input,
+                        .min-price-input,
+                        .max-price-input,
+                        .expected-date-input,
+                        .start-date-input,
+                        .end-date-input,
+                        .highest-price-input {
                             border-radius: 12px;
                             border       : 1px solid #121212;
                             height       : 56px;
@@ -283,44 +301,50 @@
 
                     }
 
-                    .last-update {
-                        display           : grid;
-                        grid-template-rows: auto;
-                        gap               : 10px;
 
-                        .last-update-label {
-                            color      : #121212;
-                            font-family: Inter;
-                            font-size  : 24px;
-                            font-style : normal;
-                            font-weight: 400;
-                            line-height: normal;
-                        }
-
-                        .last-update-input {
-                            border-radius: 12px;
-                            border       : 1px solid #121212;
-                            height       : 56px;
-                            color        : #121212;
-                            font-family  : Inter;
-                            font-size    : 24px;
-                            font-style   : normal;
-                            font-weight  : 400;
-                            line-height  : normal;
-                            text-indent  : 5px;
-                            background   : none;
-
-                        }
-
-                    }
                 }
 
-                .fish-detail-content-row10 {
+                .request-detail-content-row8 {
                     display        : flex;
                     justify-content: flex-end;
                     gap            : 30px;
 
-                    .update-btn {
+                    .send-payment-request-btn {
+                        border-radius: 9px;
+                        background   : #0097B2;
+                        width        : 364px;
+                        height       : 52px;
+                        color        : #121212;
+                        font-family  : Poppins;
+                        font-size    : 26px;
+                        font-style   : normal;
+                        font-weight  : 700;
+                        line-height  : normal;
+
+
+                        .send-payment-request-btn {
+                            cursor : pointer;
+                            opacity: 0.7;
+                        }
+                    }
+                }
+
+                .request-detail-content-row9,
+                .request-detail-content-row15 {
+                    color      : #121212;
+                    font-family: Poppins;
+                    font-size  : 36px;
+                    font-style : normal;
+                    font-weight: 600;
+                    line-height: normal;
+                }
+
+                .request-detail-content-row17 {
+                    display        : flex;
+                    justify-content: flex-end;
+                    gap            : 30px;
+
+                    .deny-btn {
                         border-radius: 9px;
                         background   : #0097B2;
                         width        : 187.115px;
@@ -332,6 +356,7 @@
                         font-weight  : 700;
                         line-height  : normal;
                     }
+
 
                     .cancel-btn {
                         border       : 2px solid #0097B2;
@@ -348,19 +373,18 @@
                         margin-bottom: 50px;
                     }
 
-                    .update-btn:hover,
+                    .deny-btn:hover,
                     .cancel-btn:hover {
                         cursor : pointer;
                         opacity: 0.7;
                     }
                 }
+
             }
+
+
+
 
         }
 
-
-
-
     }
-
-}
