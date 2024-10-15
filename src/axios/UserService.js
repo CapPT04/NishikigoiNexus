@@ -1,5 +1,6 @@
 import axios from "axios";
 import axiosClient from "./axiosClient";
+import { useNavigate } from "react-router-dom";
 const END_POINT = {
   LOGIN: "User/Login",
   SIGNUP: "User/MemberRegister",
@@ -24,10 +25,11 @@ export const handleSignUpApi = async (user) => {
       lastName: user.lastName,
       phone: user.phone,
     });
-    // console.log("Signup successful:");
+    // console.log("Signup successful:", response);
     return response;
   } catch (error) {
-    return error;
+    // return error;
+    // console.log("looi:", error);
   }
 };
 

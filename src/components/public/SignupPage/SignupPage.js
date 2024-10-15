@@ -27,13 +27,15 @@ const SignupPage = () => {
     };
     try {
       const response = await handleSignUpApi(user);
-      console.log(response);
+      // console.log("done");
+      // console.log(response);
       if (response.status === 200) {
         console.log("successful");
       }
       if (response.status === 400) {
-        setErrorMessage(response.response.data.message);
-        console.log("loi");
+        // console.log(response.data.message);
+        setErrorMessage(response.data.message);
+        // console.log("loi");
       }
     } catch (err) {
       console.log("xảy ra lỗi");

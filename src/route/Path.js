@@ -9,4 +9,8 @@ export const path = {
   //breeder
   CREATEREQUEST: "/CreateRequest",
   HISTORYREQUEST: "/HistoryRequest",
+
+  //manage
+
+  MANAGE: "/Manage"
 };

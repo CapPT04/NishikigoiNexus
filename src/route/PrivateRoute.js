@@ -9,6 +9,9 @@ const CreateRequest = React.lazy(() =>
 const HistoryRequest = React.lazy(() =>
   import("../components/breeder/history/History")
 );
+const Manage = React.lazy(() =>
+  import("../components/manage/ManageMember")
+);
 
 const PublicRoutes = [
   {
@@ -18,6 +21,10 @@ const PublicRoutes = [
   {
     path: path.HISTORYREQUEST,
     element: <LoadLazy children={<HistoryRequest />} />,
+  }, {
+
+    path: path.MANAGE,
+    element: <LoadLazy children={<Manage />} />,
   },
   { path: "*", element: <LoadLazy children={<NotFound />} /> },
 ];

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { handleLogout } from "../../../axios/UserService";
 import logo from "../../../assets/images/logo_png.png";
 import "./Navbar.scss";
 
@@ -8,6 +9,11 @@ const Navbar = () => {
   const navigate = useNavigate();
   const userStorage = sessionStorage.getItem("user");
   const user = JSON.parse(userStorage);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("user");
+    navigate("/");
+  };
 
   useEffect(() => {});
 
@@ -44,19 +50,29 @@ const Navbar = () => {
         </a>
         {!user && (
           <div className="account" onClick={() => navigate("/login")}>
-            SIGN UP
+            LOGIN
           </div>
         )}
         {user && (
-          <select name="account-menu" id="">
-            <option value="" hidden={true}>
-              {user.FirstName || "name"}
-            </option>
-            <option value="account">Account</option>
-            <option value="history">History</option>
-            <option value="request">Request</option>
-            <option value="logout">Logout</option>
-          </select>
+          <div class="account-dropdown">
+            <button class="dropdown-button">
+              {user.FirstName + " " + user.lastName}{" "}
+              <span class="arrow-down">▼</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <i class="fa-regular fa-user icon-account"></i> Account
+              </li>
+              <li>
+                <i class="fa fa-history icon-history" aria-hidden="true"></i>
+                History
+              </li>
+              <li onClick={() => handleLogout()}>
+                <i class="fa-solid fa-right-from-bracket icon-logout"></i>{" "}
+                Logout
+              </li>
+            </ul>
+          </div>
         )}
       </div>
     </div>

@@ -19,7 +19,7 @@ const History = () => {
 
   useEffect(() => {
     getRequests();
-  }, [requests]);
+  }, []);
   return (
     <div>
       <div className="header">

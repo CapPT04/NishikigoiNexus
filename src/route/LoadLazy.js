@@ -1,5 +1,5 @@
 import { React, Suspense } from "react";
-import "./LoadLazy.css";
+// import "./LoadLazy.css";
 
 const LoadLazy = ({ children }) => {
   return (
