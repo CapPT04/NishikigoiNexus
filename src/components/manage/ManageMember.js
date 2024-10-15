@@ -2,11 +2,12 @@ import React from 'react';
 import './ManageMember.scss';
 import logo from '../../assets/images/logo_png.png';
 import search from '../../assets/images/search.svg';
+import Navbar from '../common/Navbar/Navbar';
 const ManageMember = () => {
     return (
         <div>
             <div className="header">
-                <div className="navigation-bar">
+                {/* <div className="navigation-bar">
                     <div className="navigation-bar-left-content">
                         <img className="logo" src={logo} />
                         <div className="project-name">Nishikigoi Nexus</div>
@@ -20,7 +21,8 @@ const ManageMember = () => {
                         <a className="about">ABOUT</a>
                         <a className="account">ACCOUNT</a>
                     </div>
-                </div>
+                </div> */}
+                <Navbar></Navbar>
             </div>
 
             <div className="body-content">

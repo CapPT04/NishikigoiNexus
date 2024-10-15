@@ -11,6 +11,11 @@ const Navbar = () => {
 
   useEffect(() => { });
 
+  const handleLogout = () => {
+    sessionStorage.removeItem("user");
+    navigate("/");
+  }
+
   return (
     <div className="navigation-bar">
       <div className="navigation-bar-left-content">
@@ -23,9 +28,9 @@ const Navbar = () => {
           <a
             className="staffBreeder"
             style={{
-              display: user ? "" : "none",
+              display: user.Role !== "1" ? "" : "none",
             }}
-            onClick={() => navigate("/")}
+            onClick={() => { user.Role === "2" ? navigate("/CreateRequest") : navigate("/Manage") }}
           >
             {user.Role === "1" ? "" : user.Role === "2" ? "REQUEST" : "STAFF"}
           </a>
