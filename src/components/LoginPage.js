@@ -24,8 +24,12 @@ const LoginPage = () => {
       console.log(response.data);
 
       if (response) {
-        const user = jwtDecode(response);
-        localStorage.setItem("user", user);
+        sessionStorage.setItem("user", response);
+        const user = JSON.parse(JSON.stringify(jwtDecode(response)));
+
+        // sessionStorage.setItem("a", data);
+        // const a = sessionStorage.getItem("a");
+        console.log(user);
         navigate("/CreateRequest");
       } else {
       }
