@@ -2,14 +2,15 @@
 import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../assets/images/logo_png.png";
+import "./Navbar.scss";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const userStorage = sessionStorage.getItem("user");
   const user = JSON.parse(userStorage);
-  useEffect(() => {
-    console.log(user.Role);
-  });
-  const navigate = useNavigate();
+
+  useEffect(() => {});
+
   return (
     <div className="navigation-bar">
       <div className="navigation-bar-left-content">
@@ -18,15 +19,17 @@ const Navbar = () => {
       </div>
 
       <div className="navigation-bar-right-content">
-        <a
-          className="staffBreeder"
-          style={{
-            display: user ? "" : "none",
-          }}
-          onClick={() => navigate("/")}
-        >
-          {user.Role === "1" ? "" : user.Role === "2" ? "REQUEST" : "STAFF"}
-        </a>
+        {user && (
+          <a
+            className="staffBreeder"
+            style={{
+              display: user ? "" : "none",
+            }}
+            onClick={() => navigate("/")}
+          >
+            {user.Role === "1" ? "" : user.Role === "2" ? "REQUEST" : "STAFF"}
+          </a>
+        )}
         <a className="home" onClick={() => navigate("/")}>
           HOME
         </a>
@@ -39,9 +42,22 @@ const Navbar = () => {
         <a className="about" onClick={() => navigate("/about")}>
           ABOUT
         </a>
-        <div className="account" onClick={() => navigate("/login")}>
-          SIGN UP
-        </div>
+        {!user && (
+          <div className="account" onClick={() => navigate("/login")}>
+            SIGN UP
+          </div>
+        )}
+        {user && (
+          <select name="account-menu" id="">
+            <option value="" hidden={true}>
+              {user.FirstName || "name"}
+            </option>
+            <option value="account">Account</option>
+            <option value="history">History</option>
+            <option value="request">Request</option>
+            <option value="logout">Logout</option>
+          </select>
+        )}
       </div>
     </div>
   );

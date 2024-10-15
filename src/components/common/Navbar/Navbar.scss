@@ -1,0 +1,168 @@
+.navigation-bar {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 50px;
+  color: #fff;
+  .navigation-bar-left-content {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    .logo {
+      width: 64px;
+      height: 64px;
+    }
+    .project-name {
+      color: #fff;
+
+      font-family: "Saira Condensed";
+      font-size: 32px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+  }
+  .navigation-bar-right-content {
+    display: flex;
+    width: 600px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    .home,
+    .auction,
+    .blog,
+    .about,
+    .account,
+    .staffBreeder {
+      color: #fff;
+      font-family: "Saira Condensed";
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+    .staffBreeder {
+      background-color: red;
+      border-radius: 50em;
+    }
+    // Styling the account menu wrapper
+    .account-menu {
+      position: relative;
+      display: inline-block;
+
+      // Custom select styling
+      select {
+        background-color: #3a3a3a; // Dark gray background for the button
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 30px;
+        appearance: none; // Hides default select dropdown arrow
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        cursor: pointer;
+        outline: none;
+        position: relative;
+
+        // Add a custom dropdown icon (chevron down)
+        &::after {
+          content: "▼"; // Custom dropdown arrow
+          font-size: 12px;
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        // Placeholder name styling
+        option[hidden] {
+          color: white;
+        }
+      }
+
+      // Styling the dropdown options
+      select:focus + ul,
+      select:active + ul {
+        display: block;
+      }
+    }
+
+    // Dropdown list style
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      position: absolute;
+      background-color: #e20613; // Red background for the dropdown
+      border-radius: 10px;
+      top: 100%;
+      left: 0;
+      width: 150px;
+      display: none;
+
+      li {
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+
+        // Icon styling for each option
+        i {
+          margin-right: 10px;
+        }
+
+        &:hover {
+          background-color: #c3000d; // Darker red on hover
+        }
+      }
+    }
+
+    // Dropdown list style
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      position: absolute;
+      background-color: #e20613; // Red background for the dropdown
+      border-radius: 10px;
+      top: 100%;
+      left: 0;
+      width: 150px;
+      display: none;
+
+      li {
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+
+        // Icon styling for each option
+        i {
+          margin-right: 10px;
+        }
+
+        &:hover {
+          background-color: #c3000d; // Darker red on hover
+        }
+      }
+    }
+
+    .home:hover,
+    .auction:hover,
+    .blog:hover,
+    .about:hover,
+    .account:hover,
+    .staffBreeder:hover {
+      opacity: 0.7;
+    }
+  }
+}

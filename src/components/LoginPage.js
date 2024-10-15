@@ -24,13 +24,13 @@ const LoginPage = () => {
       console.log(response.data);
 
       if (response) {
-        const user = JSON.stringify(jwtDecode(response));
-        sessionStorage.setItem("user", user);
+        const user = jwtDecode(response);
+        sessionStorage.setItem("user", JSON.stringify(user));
 
         // sessionStorage.setItem("a", data);
         // const a = sessionStorage.getItem("a");
         console.log(user);
-        navigate("/CreateRequest");
+        navigate("/");
       } else {
       }
     } catch (error) {
