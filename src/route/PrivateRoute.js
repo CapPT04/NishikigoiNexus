@@ -6,11 +6,18 @@ import NotFound from "../components/common/NotFound";
 const CreateRequest = React.lazy(() =>
   import("../components/breeder/request/Request")
 );
+const HistoryRequest = React.lazy(() =>
+  import("../components/breeder/history/History")
+);
 
 const PublicRoutes = [
   {
     path: path.CREATEREQUEST,
     element: <LoadLazy children={<CreateRequest />} />,
+  },
+  {
+    path: path.HISTORYREQUEST,
+    element: <LoadLazy children={<HistoryRequest />} />,
   },
   { path: "*", element: <LoadLazy children={<NotFound />} /> },
 ];

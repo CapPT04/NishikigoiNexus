@@ -1,8 +1,14 @@
-import React from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../assets/images/logo_png.png";
 
 const Navbar = () => {
+  const user = sessionStorage.getItem("user");
+  useEffect(() => {
+    // localStorage.removeItem("user");
+    console.log("user: ", user);
+  });
   const navigate = useNavigate();
   return (
     <div className="navigation-bar">
@@ -12,6 +18,15 @@ const Navbar = () => {
       </div>
 
       <div className="navigation-bar-right-content">
+        <a
+          className="staffBreeder"
+          style={{
+            display: user ? "" : "none",
+          }}
+          onClick={() => navigate("/")}
+        >
+          REQUEST
+        </a>
         <a className="home" onClick={() => navigate("/")}>
           HOME
         </a>
