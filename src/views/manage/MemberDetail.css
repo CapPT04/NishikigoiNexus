@@ -7,7 +7,7 @@
     --nude     : #E7CDBF;
 }
 
-.auction-detail-container {
+.member-detail-container {
     display           : grid;
     grid-template-rows: auto auto;
 
@@ -113,7 +113,7 @@
         .body-content-right {
             background: var(--nude);
 
-            .auction-detail-content {
+            .member-detail-content {
                 display           : grid;
                 width             : 80%;
                 margin            : 0 auto;
@@ -121,7 +121,7 @@
                 grid-template-rows: auto;
                 gap               : 30px;
 
-                .auction-detail-content-row1 {
+                .member-detail-content-row1 {
                     display        : flex;
                     gap            : 100px;
                     justify-content: flex-end;
@@ -160,7 +160,7 @@
                     }
                 }
 
-                .auction-detail-content-row2 {
+                .member-detail-content-row2 {
                     color      : #121212;
                     font-family: Poppins;
                     font-size  : 36px;
@@ -169,7 +169,7 @@
                     line-height: normal;
                 }
 
-                .auction-detail-content-row3 {
+                .member-detail-content-row3 {
                     color      : #121212;
                     font-family: Inter;
                     font-size  : 24px;
@@ -178,12 +178,78 @@
                     line-height: normal;
                 }
 
-                .auction-detail-content-row4 {
+
+
+                .member-detail-content-row4,
+                .member-detail-content-row5,
+                .member-detail-content-row6 {
+                    display              : grid;
+                    grid-template-columns: auto auto;
+                    gap                  : 100px;
+
+                    .create-by,
+                    .email,
+                    .phone,
+                    .first-name,
+                    .last-name,
+                    .city,
+                    .commission,
+                    .gender {
+                        display           : grid;
+                        grid-template-rows: auto;
+                        gap               : 10px;
+
+                        .create-by-label,
+                        .last-update-label,
+                        .email-label,
+                        .phone-label,
+                        .first-name-label,
+                        .last-name-label,
+                        .city-label,
+                        .gender-label {
+                            color      : #121212;
+                            font-family: Inter;
+                            font-size  : 24px;
+                            font-style : normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+
+                        .create-by-input,
+                        .email-input,
+                        .phone-input,
+                        .first-name-input,
+                        .last-name-input,
+                        .city-input,
+                        .gender-input {
+                            border-radius: 12px;
+                            border       : 1px solid #121212;
+                            height       : 56px;
+                            color        : #121212;
+                            font-family  : Inter;
+                            font-size    : 24px;
+                            font-style   : normal;
+                            font-weight  : 400;
+                            line-height  : normal;
+                            text-indent  : 5px;
+                            background   : none;
+
+                        }
+
+
+                    }
+
+
+                }
+
+                .member-detail-content-row7,
+                .member-detail-content-row9 {
                     display           : grid;
                     grid-template-rows: auto;
                     gap               : 10px;
 
-                    .start-date-label {
+                    .address-label,
+                    .reason-label {
                         color      : #121212;
                         font-family: Inter;
                         font-size  : 24px;
@@ -192,7 +258,8 @@
                         line-height: normal;
                     }
 
-                    .start-date-input {
+                    .address-input,
+                    .reason-input {
                         width        : 100%;
                         height       : 56px;
                         border-radius: 12px;
@@ -209,76 +276,77 @@
                     }
                 }
 
-                .auction-detail-content-row5 {
+                .member-detail-content-row8 {
+                    .ban-unban {
+                        color      : #121212;
+                        font-family: Poppins;
+                        font-size  : 36px;
+                        font-style : normal;
+                        font-weight: 600;
+                        line-height: normal;
+                    }
+                }
+
+                .member-detail-content-row10 {
                     display        : flex;
                     justify-content: flex-end;
+                    gap            : 30px;
 
-                    .add-fish {
-                        &:hover {
-                            cursor : pointer;
-                            opacity: 0.7;
-                        }
-
-                        width          : 57px;
-                        height         : 52px;
-                        border-radius  : 9px;
-                        background     : var(--Xanh, #0097B2);
-                        display        : flex;
-                        justify-content: center;
-                        align-items    : center;
-
-                        i {
-                            color      : #E7CDBF;
-                            font-family: Poppins;
-                            font-size  : 26px;
-                            font-style : normal;
-                            font-weight: 700;
-                            line-height: normal;
-                        }
+                    .update-btn,
+                    .ban-btn {
+                        border-radius: 9px;
+                        background   : #0097B2;
+                        width        : 187.115px;
+                        height       : 52px;
+                        color        : #121212;
+                        font-family  : Poppins;
+                        font-size    : 26px;
+                        font-style   : normal;
+                        font-weight  : 700;
+                        line-height  : normal;
                     }
 
-                }
+                    .cancel-btn,
+                    .unban-btn {
+                        border       : 2px solid #0097B2;
+                        background   : none;
+                        border-radius: 9px;
+                        width        : 187.115px;
+                        height       : 52px;
+                        color        : #121212;
+                        font-family  : Poppins;
+                        font-size    : 26px;
+                        font-style   : normal;
+                        font-weight  : 700;
+                        line-height  : normal;
+                    }
 
-                .auction-detail-content-row7 {
-                    .fish-entry {
-                        display        : flex;
-                        justify-content: space-between;
-
-                        .fish-entry-text {
-                            color      : #121212;
-                            font-family: Poppins;
-                            font-size  : 36px;
-                            font-style : normal;
-                            font-weight: 600;
-                            line-height: normal;
-                        }
-
-                        .fish-entry-addition {
-                            width        : 57px;
-                            height       : 52px;
-                            border-radius: 9px;
-                            background   : var(--Xanh, #0097B2);
-
-                            i {
-                                color    : #FFF;
-                                font-size: 25px;
-                            }
-                        }
-
-                        .fish-entry-addition:hover {
-                            cursor : pointer;
-                            opacity: 0.7;
-                        }
+                    .update-btn:hover,
+                    .cancel-btn:hover {
+                        cursor : pointer;
+                        opacity: 0.7;
                     }
                 }
 
-                .auction-detail-content-row6 {
+                .member-detail-content-row11 {
+                    .bidding-history {
+                        color      : #121212;
+                        font-family: Poppins;
+                        font-size  : 36px;
+                        font-style : normal;
+                        font-weight: 600;
+                        line-height: normal;
+                    }
+                }
+
+
+                .member-detail-content-row12 {
+                    margin-bottom: 50px;
 
                     table {
                         border-collapse: collapse;
                         border         : 1px solid black;
                         width          : 100%;
-
 
                         th,
                         td {
@@ -305,11 +373,6 @@
                         }
 
                         .details-btn {
-                            &:hover {
-                                cursor : pointer;
-                                opacity: 0.7;
-                            }
-
                             width        : 142px;
                             height       : 35px;
                             border-radius: 15px;
@@ -332,46 +395,6 @@
 
 
                         }
-                    }
-                }
-
-                .auction-detail-content-row7 {
-                    display        : flex;
-                    justify-content: flex-end;
-                    gap            : 30px;
-
-                    .update-btn {
-                        border-radius: 9px;
-                        background   : #0097B2;
-                        width        : 187.115px;
-                        height       : 52px;
-                        color        : #121212;
-                        font-family  : Poppins;
-                        font-size    : 26px;
-                        font-style   : normal;
-                        font-weight  : 700;
-                        line-height  : normal;
-                    }
-
-                    .cancel-btn {
-                        border       : 2px solid #0097B2;
-                        background   : none;
-                        border-radius: 9px;
-                        width        : 187.115px;
-                        height       : 52px;
-                        color        : #121212;
-                        font-family  : Poppins;
-                        font-size    : 26px;
-                        font-style   : normal;
-                        font-weight  : 700;
-                        line-height  : normal;
-                        margin-bottom: 50px;
-                    }
-
-                    .update-btn:hover,
-                    .cancel-btn:hover {
-                        cursor : pointer;
-                        opacity: 0.7;
                     }
                 }
             }

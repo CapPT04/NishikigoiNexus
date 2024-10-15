@@ -3,8 +3,7 @@ import "../request/Request.scss";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { imageDB } from "../../../upload/ConfigUpload";
-import { handleFeeApi, handleSubmitRequest } from "../../../axios/UserService";
-import { useParams, useSearchParams } from "react-router-dom";
+import { handleFeeApi } from "../../../axios/Nishikigoi";
 
 const Request = () => {
   const [name, setName] = useState("");
@@ -599,7 +598,7 @@ const Request = () => {
     try {
       const response = await handleSubmitRequest(fishAuction);
       console.log(response);
-    } catch (error) {}
+    } catch (error) { }
     console.log("submit");
   };
   //--------
