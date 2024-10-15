@@ -2,14 +2,19 @@
 import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../assets/images/logo_png.png";
+import "./Navbar.scss"
 
 const Navbar = () => {
   const userStorage = sessionStorage.getItem("user");
   const user = JSON.parse(userStorage);
   useEffect(() => {
-    console.log(user.Role);
+    // console.log(user.Role);
   });
   const navigate = useNavigate();
+  const handleLogout = () => {
+    sessionStorage.removeItem("user");
+    navigate("/");
+  }
   return (
     <div className="navigation-bar">
       <div className="navigation-bar-left-content">
@@ -18,7 +23,7 @@ const Navbar = () => {
       </div>
 
       <div className="navigation-bar-right-content">
-        <a
+        {user && (<a
           className="staffBreeder"
           style={{
             display: user ? "" : "none",
@@ -26,7 +31,7 @@ const Navbar = () => {
           onClick={() => navigate("/")}
         >
           {user.Role === "1" ? "" : user.Role === "2" ? "REQUEST" : "STAFF"}
-        </a>
+        </a>)}
         <a className="home" onClick={() => navigate("/")}>
           HOME
         </a>
@@ -39,9 +44,26 @@ const Navbar = () => {
         <a className="about" onClick={() => navigate("/about")}>
           ABOUT
         </a>
-        <div className="account" onClick={() => navigate("/login")}>
-          SIGN UP
-        </div>
+        {!user && (
+          <div className="account" onClick={() => navigate("/login")}>
+            LOGIN
+          </div>
+        )}
+        {user && (
+          <div class="account-dropdown">
+            <button class="dropdown-button">
+              {user.FirstName + " " + user.lastName} <span class="arrow-down">▼</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><i class="fa-regular fa-user icon-account"></i> Account</li>
+              <li><i class="fa fa-history icon-history" aria-hidden="true"></i>
+                History</li>
+              <li
+                onClick={() => handleLogout()}><i class="fa-solid fa-right-from-bracket icon-logout"></i> Logout</li>
+
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
