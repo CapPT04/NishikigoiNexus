@@ -2,19 +2,15 @@
 import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../assets/images/logo_png.png";
-import "./Navbar.scss"
+import "./Navbar.scss";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const userStorage = sessionStorage.getItem("user");
   const user = JSON.parse(userStorage);
-  useEffect(() => {
-    // console.log(user.Role);
-  });
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    sessionStorage.removeItem("user");
-    navigate("/");
-  }
+
+  useEffect(() => { });
+
   return (
     <div className="navigation-bar">
       <div className="navigation-bar-left-content">
@@ -23,15 +19,17 @@ const Navbar = () => {
       </div>
 
       <div className="navigation-bar-right-content">
-        {user && (<a
-          className="staffBreeder"
-          style={{
-            display: user ? "" : "none",
-          }}
-          onClick={() => navigate("/")}
-        >
-          {user.Role === "1" ? "" : user.Role === "2" ? "REQUEST" : "STAFF"}
-        </a>)}
+        {user && (
+          <a
+            className="staffBreeder"
+            style={{
+              display: user ? "" : "none",
+            }}
+            onClick={() => navigate("/")}
+          >
+            {user.Role === "1" ? "" : user.Role === "2" ? "REQUEST" : "STAFF"}
+          </a>
+        )}
         <a className="home" onClick={() => navigate("/")}>
           HOME
         </a>
