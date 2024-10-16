@@ -6,24 +6,30 @@ import { useNavigate } from "react-router-dom";
 
 const History = () => {
   const [requests, setRequests] = useState([]);
+  const user = JSON.parse(sessionStorage.getItem("user"));
   const navigate = useNavigate();
   const getRequests = async () => {
     const res = await handleGetAllRequest();
-    // console.log(res);
+    // console.log(user.UserID);
+    // console.log(res.data.$values);
     // setRequests(res.data.$values);
     for (let i = 0; i < res.data.$values.length; i++) {
-      // res.map((item, index) => {
-      //   if (item.$id !== res.data.$values.$id) {
-      //     setRequests((prev) => [...prev, res.$values[i]]);
-      //   }
-      // });
-      setRequests((prev) => [...prev, res.data.$values[i]]);
+      if (res.data.$values[i].createBy === parseInt(user.UserID, 10)) {
+        // console.log(i);
+        setRequests((prev) => [...prev, res.$values[i]]);
+      }
+      // console.log(typeof res.data.$values[i].createBy);
+      // console.log(typeof user.UserID);
+      // setRequests((prev) => [...prev, res.data.$values[i]]);
     }
   };
 
   useEffect(() => {
     getRequests();
   }, []);
+  useEffect(() => {
+    console.log("reuslt:", requests);
+  });
   return (
     <div>
       <div className="header">

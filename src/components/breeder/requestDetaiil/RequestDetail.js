@@ -31,7 +31,7 @@ const RequestDetail = () => {
   //------ pay fee----------
   const handlePayFee = async () => {
     // implement your payment logic here
-    console.log("pay");
+    // console.log("pay");
     console.log(token);
     const link = await handlePayFeeAPI(token, reqID);
     // console.log(link);
