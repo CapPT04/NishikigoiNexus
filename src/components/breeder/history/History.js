@@ -7,13 +7,15 @@ const History = () => {
   const [requests, setRequests] = useState([]);
   const getRequests = async () => {
     const res = await handleGetAllRequest();
-    for (let i = 0; i < res.$values.length; i++) {
-      // requests.map((item, index) => {
-      //   if (item.$id !== res.$values.$id) {
+    // console.log(res);
+    // setRequests(res.data.$values);
+    for (let i = 0; i < res.data.$values.length; i++) {
+      // res.map((item, index) => {
+      //   if (item.$id !== res.data.$values.$id) {
       //     setRequests((prev) => [...prev, res.$values[i]]);
       //   }
       // });
-      setRequests((prev) => [...prev, res.$values[i]]);
+      setRequests((prev) => [...prev, res.data.$values[i]]);
     }
   };
 

@@ -4,6 +4,7 @@ import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { imageDB } from "../../../upload/ConfigUpload";
 import { handleFeeApi, handleSubmitRequest } from "../../../axios/UserService";
+import { useNavigate } from "react-router-dom";
 
 const Request = () => {
   const [name, setName] = useState("");
@@ -25,6 +26,8 @@ const Request = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [fee, setFee] = useState("");
   const [btnReady, setBtnReady] = useState(true);
+
+  const navigate = useNavigate();
 
   //----------- upload anh----------
   const [img, setImg] = useState("");
@@ -588,7 +591,7 @@ const Request = () => {
       origin: origin,
       age: age,
       weight: weight,
-      gender: gender,
+      gender: gender.value,
       pondAddress: pondAddress,
       pondCity: city,
       imagePath: image,
@@ -602,8 +605,9 @@ const Request = () => {
     };
     try {
       const response = await handleSubmitRequest(fishAuction);
-      console.log("A:", response);
-      console.log("submit");
+      if (response.status === 200) {
+        navigate("/HistoryRequest");
+      }
     } catch (error) {}
   };
   //--------
