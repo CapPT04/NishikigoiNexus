@@ -7,6 +7,9 @@ const END_POINT = {
   FEE: "Fee/GetFee",
   CREATEREQUEST: "Request/CreateRequest", //breeder
   GETALLREQUEST: "Request/GetAllRequest",
+  GETREQUESTBYID: "Request/GetRequestById",
+  GETFISHENTRYBYID: "FishEntry/GetFishEntriesByRequestId",
+  PAYFEE: "Payment/FeePayment",
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -74,6 +77,35 @@ export const handleSubmitRequest = async (request) => {
 export const handleGetAllRequest = async () => {
   try {
     return await axiosClient.get(END_POINT.GETALLREQUEST);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetRequestDetail = async (id) => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETREQUESTBYID}?requestId=${id}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetFishEntry = async (id) => {
+  try {
+    return await axiosClient.get(
+      `${END_POINT.GETFISHENTRYBYID}?requestId=${id}`
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handlePayFeeAPI = async (token, requestId) => {
+  try {
+    return await axiosClient.post(`${END_POINT.PAYFEE}`, {
+      token: token,
+      requestID: requestId,
+    });
   } catch (error) {
     throw error;
   }

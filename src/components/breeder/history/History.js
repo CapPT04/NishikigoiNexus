@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./History.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import { handleGetAllRequest } from "../../../axios/UserService";
+import { useNavigate } from "react-router-dom";
 
 const History = () => {
   const [requests, setRequests] = useState([]);
+  const navigate = useNavigate();
   const getRequests = async () => {
     const res = await handleGetAllRequest();
     // console.log(res);
@@ -60,7 +62,7 @@ const History = () => {
                   <tr key={index}>
                     <td>{index + 1}</td>{" "}
                     {/* Replace static "1" with index + 1 */}
-                    <td>{item.$id}</td>{" "}
+                    <td>{item.requestId}</td>{" "}
                     {/* Assuming the item has an 'id' field */}
                     <td>{item.fishId}</td>{" "}
                     {/* Assuming the item has a 'fishId' field */}
@@ -69,7 +71,11 @@ const History = () => {
                     <td>{item.status}</td>{" "}
                     {/* Assuming the item has a 'status' field */}
                     <td>
-                      <a href="#">
+                      <a
+                        onClick={() =>
+                          navigate(`/DetailRequest?id=${item.requestId}`)
+                        }
+                      >
                         <i className="fa-solid fa-arrow-right"></i>
                       </a>
                     </td>

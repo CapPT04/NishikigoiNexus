@@ -3,15 +3,17 @@ import React from "react";
 import LoadLazy from "./LoadLazy";
 import NotFound from "../components/common/NotFound";
 
+//breeder
 const CreateRequest = React.lazy(() =>
   import("../components/breeder/request/Request")
 );
 const HistoryRequest = React.lazy(() =>
   import("../components/breeder/history/History")
 );
-const Manage = React.lazy(() =>
-  import("../components/manage/ManageMember")
+const DetailRequest = React.lazy(() =>
+  import("../components/breeder/requestDetaiil/RequestDetail")
 );
+const Manage = React.lazy(() => import("../components/manage/ManageMember"));
 
 const PublicRoutes = [
   {
@@ -21,8 +23,12 @@ const PublicRoutes = [
   {
     path: path.HISTORYREQUEST,
     element: <LoadLazy children={<HistoryRequest />} />,
-  }, {
-
+  },
+  {
+    path: path.DETAILREQUEST,
+    element: <LoadLazy children={<DetailRequest />} />,
+  },
+  {
     path: path.MANAGE,
     element: <LoadLazy children={<Manage />} />,
   },
