@@ -10,12 +10,12 @@ const Navbar = () => {
   const userStorage = sessionStorage.getItem("user");
   const user = JSON.parse(userStorage);
 
+  useEffect(() => {});
+
   const handleLogout = () => {
     sessionStorage.removeItem("user");
     navigate("/");
   };
-
-  useEffect(() => {});
 
   return (
     <div className="navigation-bar">
@@ -29,9 +29,13 @@ const Navbar = () => {
           <a
             className="staffBreeder"
             style={{
-              display: user ? "" : "none",
+              display: user.Role !== "1" ? "" : "none",
             }}
-            onClick={() => navigate("/")}
+            onClick={() => {
+              user.Role === "2"
+                ? navigate("/CreateRequest")
+                : navigate("/Manage");
+            }}
           >
             {user.Role === "1" ? "" : user.Role === "2" ? "REQUEST" : "STAFF"}
           </a>

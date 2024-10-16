@@ -61,6 +61,20 @@ const Request = () => {
       fileInputRef.current.click();
     }
   };
+  //-----get fee--------
+  useEffect(() => {
+    const getFee = async () => {
+      try {
+        const response = await handleFeeApi();
+        // console.log(response.data);
+        setFee(response.data);
+        // console.log("done");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getFee();
+  }, []);
   //--------
 
   const steps = [
@@ -233,16 +247,6 @@ const Request = () => {
               )}
             </div>
           </div>
-          {/* note */}
-          <div className="inputBox">
-            <h5>Note</h5>
-            <input
-              type="text"
-              name="Note"
-              placeholder="Note"
-              onChange={(e) => setNote(e.target.value)}
-            />
-          </div>
         </fieldset>
       ),
     },
@@ -301,6 +305,7 @@ const Request = () => {
                   name="auctionPrice"
                   placeholder="XXXXXXX"
                   onChange={(e) => setStartPrice(e.target.value)}
+                  className="input-price"
                 />
                 <span className="dollar-sign">$</span>
               </div>
@@ -342,6 +347,16 @@ const Request = () => {
                 <span className="dollar-sign">$</span>
               </div>
             </div>
+          </div>
+          {/* note */}
+          <div className="inputBox">
+            <h5>Note</h5>
+            <input
+              type="text"
+              name="Note"
+              placeholder="Note"
+              onChange={(e) => setNote(e.target.value)}
+            />
           </div>
         </fieldset>
       ),
@@ -456,11 +471,7 @@ const Request = () => {
               )}
             </div>
           </div>
-          {/* note */}
-          <div className="inputBox">
-            <h5>Note</h5>
-            <input type="text" name="Note" value={note} disabled={true} />
-          </div>
+
           {/* method */}
           {methodDexcription.map((item, index) => (
             <h5
@@ -526,6 +537,11 @@ const Request = () => {
               <span className="dollar-sign">$</span>
             </div>
           </div>
+          {/* note */}
+          <div className="inputBox">
+            <h5>Note</h5>
+            <input type="text" name="Note" value={note} disabled={true} />
+          </div>
           {/* auction fee */}
           <div className="feeNotice">* The fee for auction: {fee}$</div>
           {/* confirm */}
@@ -548,20 +564,6 @@ const Request = () => {
     },
   ];
 
-  //-----get fee--------
-  useEffect(() => {
-    const getFee = async () => {
-      try {
-        const response = await handleFeeApi();
-        // console.log(response);
-        setFee(response);
-        // console.log("done");
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getFee();
-  });
   //-----next step --------
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -576,8 +578,10 @@ const Request = () => {
   //----submit----
   // chưa có trả về kết quả
   const handleSubmit = async () => {
+    console.log(sessionStorage.getItem("token"));
+
     const fishAuction = {
-      token: localStorage.getItem("user"),
+      token: sessionStorage.getItem("token"),
       fishName: name,
       shape: shape,
       size: size,
@@ -598,9 +602,9 @@ const Request = () => {
     };
     try {
       const response = await handleSubmitRequest(fishAuction);
-      console.log(response);
+      console.log("A:", response);
+      console.log("submit");
     } catch (error) {}
-    console.log("submit");
   };
   //--------
 

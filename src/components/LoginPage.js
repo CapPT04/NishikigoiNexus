@@ -18,15 +18,21 @@ const LoginPage = () => {
     try {
       setLoadingAPI(true);
       const response = await handleLoginApi(email, password);
-      console.log(response);
+      // console.log(response);
+      // console.log(response.data);
+
+      sessionStorage.setItem("token", response.data);
 
       if (response && response.status === 200) {
         const user = jwtDecode(response.data);
+        console.log(JSON.stringify(response.data));
         sessionStorage.setItem("user", JSON.stringify(user));
         if (user.Role === "1") {
           navigate("/");
         } else if (user.Role === "3") {
           navigate("/Manage");
+        } else if (user.Role === "2") {
+          navigate("/");
         }
       } else {
         if (response && response.status === 400) {

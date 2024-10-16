@@ -46,7 +46,7 @@ export const handleFeeApi = async () => {
 export const handleSubmitRequest = async (request) => {
   try {
     const response = await axiosClient.post(`${END_POINT.SIGNUP}`, {
-      token: localStorage.getItem("user"),
+      token: sessionStorage.getItem("token"),
       fishName: request.firstName,
       shape: request.shape,
       size: request.size,

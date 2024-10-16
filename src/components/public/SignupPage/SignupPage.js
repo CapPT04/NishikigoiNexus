@@ -31,6 +31,7 @@ const SignupPage = () => {
       // console.log(response);
       if (response.status === 200) {
         console.log("successful");
+        navigate("/login");
       }
       if (response.status === 400) {
         // console.log(response.data.message);
