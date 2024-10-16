@@ -10,7 +10,8 @@ const Signup = React.lazy(() =>
 );
 
 const PublicRoutes = [
-  { path: path.HOME, element: <LoadLazy children={<Home />} /> },
+  // { path: path.HOME, element: <LoadLazy children={<Home />} /> },
+  { path: path.HOME, element: <Home /> },
   { path: path.LOGIN, element: <LoadLazy children={<Login />} /> },
   { path: path.SIGNUP, element: <LoadLazy children={<Signup />} /> },
   { path: "*", element: <LoadLazy children={<NotFound />} /> },

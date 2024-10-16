@@ -5,46 +5,44 @@ import googleIcon from "../assets/images/google.png";
 import facebookIcon from "../assets/images/facebook.svg";
 import xIcon from "../assets/images/X.png";
 import { handleLoginApi } from "../axios/UserService";
-import { jwtDecode } from "jwt-decode"; // Sửa lại việc nhập jwtDecode
-
+import { jwtDecode } from "jwt-decode";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-
-  // const handleLogin = async () => {
-  //     try {
-  //         const response = await handleLoginApi(email, password);
+  const [loadingAPI, setLoadingAPI] = useState(false);
 
   const handleLogin = async () => {
     try {
+      setLoadingAPI(true);
       const response = await handleLoginApi(email, password);
+      // console.log(response);
       console.log(response.data);
 
-      if (response) {
-        const user = jwtDecode(response);
-        localStorage.setItem("user", user);
-        navigate("/CreateRequest");
+      sessionStorage.setItem("token", response.data);
+
+      if (response && response.status === 200) {
+        const user = jwtDecode(response.data);
+        // console.log(JSON.stringify(response.data));
+        sessionStorage.setItem("user", JSON.stringify(user));
+        if (user.Role === "1") {
+          navigate("/");
+        } else if (user.Role === "3") {
+          navigate("/Manage");
+        } else if (user.Role === "2") {
+          navigate("/");
+        }
       } else {
+        if (response && response.status === 400) {
+          setErrorMessage(response.data.message);
+        } else if (response && response.status === 404) {
+          setErrorMessage(response.data.message);
+        }
       }
-    } catch (error) {
-      // if (error.response) {
-      //     // if (error.response.status === 400) {
-      //     //     // Hiển thị lỗi nếu email hoặc password không đúng
-      //     //     setErrorMessage(error.response.data || "Invalid login credentials. Please try again.");
-      //     // } else {
-      //     //     // Xử lý các lỗi khác
-      //     //     setErrorMessage("Something went wrong. Please try again later.");
-      //     // }
-      // } else {
-      //     // Xử lý trường hợp không có phản hồi từ server
-      //     setErrorMessage("Network error. Please try again later.");
-      // }
-      // console.log(error.response.data);
-      // setErrorMessage(error.response.data);
-    }
+      setLoadingAPI(false);
+    } catch (error) {}
   };
   return (
     <div className="login-page">
@@ -107,6 +105,7 @@ const LoginPage = () => {
                   onClick={handleLogin}
                   disabled={!email || !password}
                 >
+                  {loadingAPI && <i className="fa-solid fa-sync fa-spin"></i>}
                   Login
                 </button>
                 <div className="text-with-login">

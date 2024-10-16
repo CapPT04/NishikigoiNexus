@@ -6,6 +6,12 @@ export const path = {
   ABOUT: "/about",
   LOGIN: "/login",
   SIGNUP: "/signup",
-  //staff
+  //breeder
   CREATEREQUEST: "/CreateRequest",
+  HISTORYREQUEST: "/HistoryRequest",
+  DETAILREQUEST: "/DetailRequest",
+
+  //manage
+
+  MANAGE: "/Manage",
 };

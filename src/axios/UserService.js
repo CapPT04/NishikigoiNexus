@@ -1,10 +1,15 @@
 import axios from "axios";
 import axiosClient from "./axiosClient";
+import { useNavigate } from "react-router-dom";
 const END_POINT = {
   LOGIN: "User/Login",
   SIGNUP: "User/MemberRegister",
   FEE: "Fee/GetFee",
-  CREATEREQUEST: "Request/CreateRequest",
+  CREATEREQUEST: "Request/CreateRequest", //breeder
+  GETALLREQUEST: "Request/GetAllRequest",
+  GETREQUESTBYID: "Request/GetRequestById",
+  GETFISHENTRYBYID: "FishEntry/GetFishEntriesByRequestId",
+  PAYFEE: "Payment/FeePayment",
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -23,10 +28,11 @@ export const handleSignUpApi = async (user) => {
       lastName: user.lastName,
       phone: user.phone,
     });
-    // console.log("Signup successful:");
+    // console.log("Signup successful:", response);
     return response;
   } catch (error) {
-    return error;
+    // return error;
+    // console.log("looi:", error);
   }
 };
 
@@ -42,9 +48,9 @@ export const handleFeeApi = async () => {
 
 export const handleSubmitRequest = async (request) => {
   try {
-    const response = await axiosClient.post(`${END_POINT.SIGNUP}`, {
-      token: localStorage.getItem("user"),
-      fishName: request.firstName,
+    const response = await axiosClient.post(`${END_POINT.CREATEREQUEST}`, {
+      token: sessionStorage.getItem("token"),
+      fishName: request.fishName,
       shape: request.shape,
       size: request.size,
       origin: request.origin,
@@ -63,6 +69,43 @@ export const handleSubmitRequest = async (request) => {
       expectedDate: request.expectedDate,
     });
     return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetAllRequest = async () => {
+  try {
+    return await axiosClient.get(END_POINT.GETALLREQUEST);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetRequestDetail = async (id) => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETREQUESTBYID}?requestId=${id}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetFishEntry = async (id) => {
+  try {
+    return await axiosClient.get(
+      `${END_POINT.GETFISHENTRYBYID}?requestId=${id}`
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handlePayFeeAPI = async (token, requestId) => {
+  try {
+    return await axiosClient.post(`${END_POINT.PAYFEE}`, {
+      token: token,
+      requestID: requestId,
+    });
   } catch (error) {
     throw error;
   }
