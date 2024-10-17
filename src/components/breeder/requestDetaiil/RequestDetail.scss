@@ -65,8 +65,7 @@
         margin: 0 auto;
       }
 
-      .request-detail-content-row7,
-      .request-detail-content-row16 {
+      .request-detail-content-row7 {
         display: grid;
         grid-template-rows: auto;
         gap: 10px;
@@ -230,7 +229,7 @@
         grid-template-columns: auto auto;
         gap: 100px;
         width: 90%;
-        margin: 0 auto 40px;
+        margin: 0 auto;
 
         .update-by,
         .update-date,
@@ -304,6 +303,80 @@
             text-indent: 5px;
             background: none;
           }
+        }
+      }
+
+      .request-detail-content-row16 {
+        display: grid;
+        grid-template-rows: auto;
+        gap: 10px;
+        width: 40%;
+        margin-left: 68px;
+
+        .note-label,
+        .reason-label {
+          color: #121212;
+          font-family: Inter;
+          font-size: 24px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+        }
+
+        .note-input,
+        .reason-input {
+          width: 100%;
+          height: 56px;
+          border-radius: 12px;
+          border: 1px solid #121212;
+          text-indent: 5px;
+          color: #121212;
+          font-family: Inter;
+          font-size: 24px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+          background: none;
+        }
+      }
+      .request-detail-content-row18 {
+        display: flex;
+        justify-content: flex-end;
+        gap: 30px;
+        width: 90%;
+        margin: 0 auto 20px;
+        .send-payment-request-btn {
+          border-radius: 9px;
+          background: #0097b2;
+          width: 250px;
+          height: 52px;
+          color: #121212;
+          font-family: Poppins;
+          font-size: 26px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: normal;
+        }
+        .send-payment-request-btn:hover {
+          cursor: pointer;
+          opacity: 0.7;
+        }
+        .send-cancel-request-btn {
+          border-radius: 9px;
+          background: #e32d09;
+          width: 250px;
+          height: 52px;
+          color: #000000;
+          box-shadow: 2px;
+          font-family: Poppins;
+          font-size: 26px;
+          font-style: normal;
+          font-weight: 800;
+          line-height: normal;
+        }
+        .send-cancel-request-btn:hover {
+          cursor: pointers;
+          opacity: 0.7;
         }
       }
     }

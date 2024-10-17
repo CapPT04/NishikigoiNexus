@@ -43,6 +43,10 @@ const RequestDetail = () => {
     // console.log(link);
     window.location.href = link.data;
   };
+  //-----cancel----
+  const handleCancel = async () => {
+    console.log("cancel");
+  };
 
   useEffect(() => {
     getInfoRequestDetail();
@@ -156,11 +160,21 @@ const RequestDetail = () => {
               disabled={true}
             />
           </div>
-          <div className="request-detail-content-row8">
-            <button className="send-payment-request-btn" onClick={handlePayFee}>
-              Pay Request Fee
-            </button>
-          </div>
+
+          {myRequest.status === 3 && (
+            <div className="request-detail-content-row16">
+              <label for="note-input" className="note-label">
+                Payment Date
+              </label>
+              <input
+                type="text"
+                className="note-input"
+                value={myRequest.paymentDate ? myRequest.paymentDate : ""}
+                disabled={true}
+              />
+            </div>
+          )}
+
           <div className="request-detail-content-row5">
             <div className="create-by">
               <label for="create-by-input" className="create-by-label">
@@ -242,6 +256,26 @@ const RequestDetail = () => {
               />
             </div>
           </div>
+          {myRequest.status === 2 && (
+            <div className="request-detail-content-row18">
+              <button
+                className="send-payment-request-btn"
+                onClick={handlePayFee}
+              >
+                Pay Request Fee
+              </button>
+            </div>
+          )}
+          {myRequest.status === 1 && (
+            <div className="request-detail-content-row18">
+              <button
+                className="send-cancel-request-btn"
+                onClick={handleCancel}
+              >
+                Cancel Request
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

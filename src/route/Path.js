@@ -11,6 +11,7 @@ export const path = {
   HISTORYREQUEST: "/HistoryRequest",
   DETAILREQUEST: "/DetailRequest",
   PAYMENTRESPONSE: "/PaymentResponse",
+  FISHLIST: "/FishList",
 
   //manage
 
