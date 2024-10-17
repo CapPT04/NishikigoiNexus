@@ -58,21 +58,24 @@ const Navbar = () => {
           </div>
         )}
         {user && (
-          <div class="account-dropdown">
-            <button class="dropdown-button">
+          <div className="account-dropdown">
+            <button className="dropdown-button">
               {user.FirstName + " " + user.lastName}{" "}
-              <span class="arrow-down">▼</span>
+              <span className="arrow-down">▼</span>
             </button>
-            <ul class="dropdown-menu">
+            <ul className="dropdown-menu">
               <li>
-                <i class="fa-regular fa-user icon-account"></i> Account
+                <i className="fa-regular fa-user icon-account"></i> Account
               </li>
               <li>
-                <i class="fa fa-history icon-history" aria-hidden="true"></i>
+                <i
+                  className="fa fa-history icon-history"
+                  aria-hidden="true"
+                ></i>
                 History
               </li>
               <li onClick={() => handleLogout()}>
-                <i class="fa-solid fa-right-from-bracket icon-logout"></i>{" "}
+                <i className="fa-solid fa-right-from-bracket icon-logout"></i>{" "}
                 Logout
               </li>
             </ul>

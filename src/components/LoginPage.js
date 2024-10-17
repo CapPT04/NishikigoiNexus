@@ -19,7 +19,7 @@ const LoginPage = () => {
       setLoadingAPI(true);
       const response = await handleLoginApi(email, password);
       // console.log(response);
-      console.log(response.data);
+      // console.log(response.data);
 
       sessionStorage.setItem("token", response.data);
 

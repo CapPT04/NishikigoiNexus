@@ -5,6 +5,7 @@ import { v4 } from "uuid";
 import { imageDB } from "../../../upload/ConfigUpload";
 import { handleFeeApi, handleSubmitRequest } from "../../../axios/UserService";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../common/Navbar/Navbar";
 
 const Request = () => {
   const [name, setName] = useState("");
@@ -614,7 +615,9 @@ const Request = () => {
 
   return (
     <div className="request-form">
-      <div className="header"></div>
+      <div className="header">
+        <Navbar></Navbar>
+      </div>
 
       <div className="row">
         <div className="col-md-6 col-md-offset-3">

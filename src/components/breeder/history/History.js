@@ -8,6 +8,9 @@ const History = () => {
   const [requests, setRequests] = useState([]);
   const user = JSON.parse(sessionStorage.getItem("user"));
   const navigate = useNavigate();
+
+  const statusName = ["Processing", "Paying", "Approved", "Denied"];
+
   const getRequests = async () => {
     const res = await handleGetAllRequest();
     // console.log(user.UserID);
@@ -16,9 +19,9 @@ const History = () => {
     for (let i = 0; i < res.data.$values.length; i++) {
       if (res.data.$values[i].createBy === parseInt(user.UserID, 10)) {
         // console.log(i);
-        setRequests((prev) => [...prev, res.$values[i]]);
+        setRequests((prev) => [...prev, res.data.$values[i]]);
       }
-      // console.log(typeof res.data.$values[i].createBy);
+      // console.log(res.data.$values[i]);
       // console.log(typeof user.UserID);
       // setRequests((prev) => [...prev, res.data.$values[i]]);
     }
@@ -27,9 +30,9 @@ const History = () => {
   useEffect(() => {
     getRequests();
   }, []);
-  useEffect(() => {
-    console.log("reuslt:", requests);
-  });
+  // useEffect(() => {
+  //   console.log("reuslt:", requests);
+  // });
   return (
     <div>
       <div className="header">
@@ -74,7 +77,7 @@ const History = () => {
                     {/* Assuming the item has a 'fishId' field */}
                     <td>{new Date(item.createDate).toLocaleString()}</td>{" "}
                     {/* Assuming the item has a 'createDate' field */}
-                    <td>{item.status}</td>{" "}
+                    <td>{statusName[item.status - 1]}</td>{" "}
                     {/* Assuming the item has a 'status' field */}
                     <td>
                       <a

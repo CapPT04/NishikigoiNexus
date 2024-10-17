@@ -10,6 +10,7 @@ export const path = {
   CREATEREQUEST: "/CreateRequest",
   HISTORYREQUEST: "/HistoryRequest",
   DETAILREQUEST: "/DetailRequest",
+  PAYMENTRESPONSE: "/PaymentResponse",
 
   //manage
 

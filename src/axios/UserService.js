@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 const END_POINT = {
   LOGIN: "User/Login",
   SIGNUP: "User/MemberRegister",
+  GETUSERBYID: "User/GetUserById",
   FEE: "Fee/GetFee",
   CREATEREQUEST: "Request/CreateRequest", //breeder
   GETALLREQUEST: "Request/GetAllRequest",
   GETREQUESTBYID: "Request/GetRequestById",
   GETFISHENTRYBYID: "FishEntry/GetFishEntriesByRequestId",
   PAYFEE: "Payment/FeePayment",
+  PAYCALLBACK: "Payment/PaymentCallBack",
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -106,6 +108,27 @@ export const handlePayFeeAPI = async (token, requestId) => {
       token: token,
       requestID: requestId,
     });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handlePayCallBack = async (info) => {
+  try {
+    return await axiosClient.post(`${END_POINT.PAYCALLBACK}`, {
+      vnp_Amount: info.vnp_Amount,
+      vnp_OrderInfo: info.vnp_OrderInfo,
+      vnp_PayDate: info.vnp_PayDate,
+      vnp_ResponseCode: info.vnp_ResponseCode,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleUserById = async (id) => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETUSERBYID}?id=${id}`);
   } catch (error) {
     throw error;
   }
