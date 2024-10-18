@@ -70,6 +70,7 @@ const PrivateRoutes = [
     element: <LoadLazy children={<Staff />} />,
     children: [
       {
+        //quan ly member
         path: path.MANAGE,
         element: <LoadLazy children={<Manage />} />,
       },
@@ -79,7 +80,6 @@ const PrivateRoutes = [
       },
     ],
   },
-
 
   { path: "*", element: <LoadLazy children={<NotFound />} /> },
 ];
