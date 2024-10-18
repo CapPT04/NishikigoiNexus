@@ -16,37 +16,37 @@ const VerticallyNavbar = () => {
         <div className="navigation-bar-vertically">
             <a
                 className={`member ${selected === 'Member' ? 'selected' : ''}`}
-                onClick={() => handleSelect('Member', '/Manage')}
+                onClick={() => handleSelect('Member', '/Manager/Manage')}
             >
                 Member
             </a>
             <a
                 className={`breeder ${selected === 'Breeder' ? 'selected' : ''}`}
-                onClick={() => handleSelect('Breeder', '/breeder')}
+                onClick={() => handleSelect('Breeder', '/Manager/breeder')}
             >
                 Breeder
             </a>
             <a
                 className={`request ${selected === 'Request' ? 'selected' : ''}`}
-                onClick={() => handleSelect('Request', '/request')}
+                onClick={() => handleSelect('Request', '/Manager/request')}
             >
                 Request
             </a>
             <a
                 className={`auction-vertically ${selected === 'Auction' ? 'selected' : ''}`}
-                onClick={() => handleSelect('Auction', '/ManageAuction')}
+                onClick={() => handleSelect('Auction', '/Manager/ManageAuction')}
             >
                 Auction
             </a>
             <a
                 className={`koi ${selected === 'Koi' ? 'selected' : ''}`}
-                onClick={() => handleSelect('Koi', '/koi')}
+                onClick={() => handleSelect('Koi', '/Manager/koi')}
             >
                 KOI
             </a>
             <a
                 className={`blog-vertically ${selected === 'Blog' ? 'selected' : ''}`}
-                onClick={() => handleSelect('Blog', '/blog')} // Navigate to '/blog'
+                onClick={() => handleSelect('Blog', '/Manager/blog')} // Navigate to '/blog'
             >
                 Blog
             </a>

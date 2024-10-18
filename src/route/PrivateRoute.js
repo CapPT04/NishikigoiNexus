@@ -73,36 +73,15 @@ const PrivateRoutes = [
         path: path.MANAGE,
         element: <LoadLazy children={<Manage />} />,
       },
+      {
+        path: path.MANAGEAUCTION,
+        element: <LoadLazy children={<ManageAuction />} />,
+      },
     ],
   },
-<<<<<<< HEAD
-=======
-  {
-    path: path.DETAILREQUEST,
-    element: <LoadLazy children={<DetailRequest />} />,
-  },
-  {
-    path: path.MANAGE,
-    element: <LoadLazy children={<Manage />} />,
-  },
-  {
-    path: path.PAYMENTRESPONSE,
-    element: <LoadLazy children={<PaymentResponse />} />,
-  },
-  {
-    path: path.FISHLIST,
-    element: <LoadLazy children={<FishList />} />,
-  },
-  {
-    path: path.DETAILFISH,
-    element: <LoadLazy children={<DetailFish />} />,
-  },
-  {
-    path: path.MANAGEAUCTION,
-    element: <LoadLazy children={<ManageAuction />} />,
-  },
+
+
   { path: "*", element: <LoadLazy children={<NotFound />} /> },
->>>>>>> be2bcb6d61c0717a7cd1a63bbd060893933df47a
 ];
 
 export default PrivateRoutes;

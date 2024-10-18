@@ -9,7 +9,7 @@ const END_POINT = {
   CREATEREQUEST: "Request/CreateRequest", //breeder
   GETALLREQUEST: "Request/GetAllRequest",
   LOGINWITHGOOGLE: "User/GoogleLogin",
-  SHOWALLAUCTION: "Auction/GetAuctionsWithFishEntryCount"
+  SHOWALLAUCTION: "Auction/GetAuctionsWithFishEntryCount",
   GETFISHIMAGESBYID: "Image/GetImageByFishId",
 };
 
