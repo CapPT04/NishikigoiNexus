@@ -7,14 +7,14 @@ export const path = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   //breeder
-  CREATEREQUEST: "/CreateRequest",
-  HISTORYREQUEST: "/HistoryRequest",
-  DETAILREQUEST: "/DetailRequest",
-  PAYMENTRESPONSE: "/PaymentResponse",
-  FISHLIST: "/FishList",
-  DETAILFISH: "/DetailFish",
-
+  BREEDER: "breeder",
+  CREATEREQUEST: "CreateRequest",
+  HISTORYREQUEST: "HistoryRequest",
+  DETAILREQUEST: "DetailRequest",
+  PAYMENTRESPONSE: "PaymentResponse",
+  FISHLIST: "FishList",
+  DETAILFISH: "DetailFish",
   //manage
-
-  MANAGE: "/Manage",
+  MANAGER: "/Manager",
+  MANAGE: "Manage",
 };

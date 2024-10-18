@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./FishList.scss";
+import "../fish/FishList.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import { handleGetAllFish } from "../../../axios/UserService";
@@ -35,10 +35,13 @@ const FishList = () => {
       <div className="body-content">
         <div class="navigation-bar-vertically">
           {/* loi o day */}
-          <a class="request" onClick={() => navigate("/HistoryRequest")}>
+          <a
+            class="request"
+            onClick={() => navigate("/Breeder/HistoryRequest")}
+          >
             Request
           </a>
-          <a class="koi" onClick={() => navigate("/FishList")}>
+          <a class="koi selected" onClick={() => navigate("/Breeder/FishList")}>
             KOI
           </a>
         </div>
@@ -81,7 +84,9 @@ const FishList = () => {
                       <td>
                         <a
                           onClick={() =>
-                            navigate(`/DetailFish?FishId=${fish.fishId}`)
+                            navigate(
+                              `/Breeder/DetailFish?FishId=${fish.fishId}`
+                            )
                           }
                         >
                           <i className="fa-solid fa-arrow-right"></i>

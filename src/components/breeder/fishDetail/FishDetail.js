@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../common/Navbar/Navbar";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { handleGetFishDetail } from "../../../axios/UserService";
+import {
+  handleGetFishDetailById,
+  handleGetFishImgById,
+} from "../../../axios/UserService";
 import "./FishDetail.scss";
 
 const FishDetail = () => {
@@ -10,13 +13,19 @@ const FishDetail = () => {
   const fishID = searchParams.get("FishId");
 
   const [myFish, setMyFish] = useState("");
+  const [images, setImages] = useState([]);
   const genderName = ["Male", "Female"];
   const statusName = ["Available", "Sold"];
 
   const getInfoDetail = async () => {
-    const resFish = await handleGetFishDetail(fishID);
-    // console.log(resFish.data);
+    const resFish = await handleGetFishDetailById(fishID);
+    const resIMG = await handleGetFishImgById(fishID);
+    for (let i = 0; i < resIMG.data.$values.length; i++) {
+      setImages((prev) => [...prev, resIMG.data.$values[i].imagePath]);
+    }
+    // console.log(resIMG.data.$values);
     setMyFish(resFish.data);
+    // console.log(images);
   };
   useEffect(() => {
     getInfoDetail();
@@ -150,7 +159,6 @@ const FishDetail = () => {
               />
             </div>
           </div>
-
           <div className="request-detail-content-row7">
             <label htmlFor="note-input" className="note-label">
               Pond Address
@@ -163,6 +171,33 @@ const FishDetail = () => {
             />
           </div>
           {/* chen anh o day */}
+          <div className="request-detail-content-row9">
+            <label htmlFor="note-input" className="note-label">
+              Fish Images
+            </label>
+            <div className="fish-images">
+              <img
+                src={images[0] ? images[0] : ""}
+                alt=""
+                style={{ display: images[0] ? "" : "none" }}
+              />
+              <img
+                src={images[1] ? images[1] : ""}
+                alt=""
+                style={{ display: images[1] ? "" : "none" }}
+              />
+              <img
+                src={images[2] ? images[2] : ""}
+                alt=""
+                style={{ display: images[2] ? "" : "none" }}
+              />
+              <img
+                src={images[3] ? images[3] : ""}
+                alt=""
+                style={{ display: images[3] ? "" : "none" }}
+              />
+            </div>
+          </div>
           {/* {myRequest.status === 3 && (
             <div className="request-detail-content-row16">
               <label htmlFor="note-input" className="note-label">

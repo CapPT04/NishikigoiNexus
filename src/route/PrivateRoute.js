@@ -4,6 +4,7 @@ import LoadLazy from "./LoadLazy";
 import NotFound from "../components/common/NotFound";
 
 //breeder
+const Breeder = React.lazy(() => import("../route/BreederRoute"));
 const CreateRequest = React.lazy(() =>
   import("../components/breeder/request/Request")
 );
@@ -23,38 +24,54 @@ const DetailFish = React.lazy(() =>
   import("../components/breeder/fishDetail/FishDetail")
 );
 //staff
+const Staff = React.lazy(() => import("../route/StaffRoute"));
 const Manage = React.lazy(() => import("../components/manage/ManageMember"));
 
-const PublicRoutes = [
+const PrivateRoutes = [
+  //breeder
   {
-    path: path.CREATEREQUEST,
-    element: <LoadLazy children={<CreateRequest />} />,
+    path: path.BREEDER,
+    element: <LoadLazy children={<Breeder />} />,
+    children: [
+      {
+        path: path.CREATEREQUEST,
+        element: <LoadLazy children={<CreateRequest />} />,
+      },
+      {
+        path: path.HISTORYREQUEST,
+        element: <LoadLazy children={<HistoryRequest />} />,
+      },
+
+      {
+        path: path.DETAILREQUEST,
+        element: <LoadLazy children={<DetailRequest />} />,
+      },
+      {
+        path: path.PAYMENTRESPONSE,
+        element: <LoadLazy children={<PaymentResponse />} />,
+      },
+      {
+        path: path.FISHLIST,
+        element: <LoadLazy children={<FishList />} />,
+      },
+      {
+        path: path.DETAILFISH,
+        element: <LoadLazy children={<DetailFish />} />,
+      },
+    ],
   },
+
+  //staff
   {
-    path: path.HISTORYREQUEST,
-    element: <LoadLazy children={<HistoryRequest />} />,
+    path: path.MANAGER,
+    element: <LoadLazy children={<Staff />} />,
+    children: [
+      {
+        path: path.MANAGE,
+        element: <LoadLazy children={<Manage />} />,
+      },
+    ],
   },
-  {
-    path: path.DETAILREQUEST,
-    element: <LoadLazy children={<DetailRequest />} />,
-  },
-  {
-    path: path.MANAGE,
-    element: <LoadLazy children={<Manage />} />,
-  },
-  {
-    path: path.PAYMENTRESPONSE,
-    element: <LoadLazy children={<PaymentResponse />} />,
-  },
-  {
-    path: path.FISHLIST,
-    element: <LoadLazy children={<FishList />} />,
-  },
-  {
-    path: path.DETAILFISH,
-    element: <LoadLazy children={<DetailFish />} />,
-  },
-  { path: "*", element: <LoadLazy children={<NotFound />} /> },
 ];
 
-export default PublicRoutes;
+export default PrivateRoutes;

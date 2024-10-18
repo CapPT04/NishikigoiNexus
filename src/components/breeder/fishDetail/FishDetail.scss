@@ -42,7 +42,6 @@
           line-height: normal;
         }
       }
-
       .request-detail-content-row2 {
         color: #121212;
         font-family: Poppins;
@@ -53,7 +52,6 @@
         width: 90%;
         margin: 0 auto;
       }
-
       .request-detail-content-row3 {
         color: #121212;
         font-family: Inter;
@@ -64,7 +62,6 @@
         width: 90%;
         margin: 0 auto;
       }
-
       .request-detail-content-row7 {
         display: grid;
         grid-template-rows: auto;
@@ -98,15 +95,9 @@
           background: none;
         }
       }
-
       .request-detail-content-row4,
       .request-detail-content-row5,
-      .request-detail-content-row6,
-      .request-detail-content-row10,
-      .request-detail-content-row11,
-      .request-detail-content-row12,
-      .request-detail-content-row13,
-      .request-detail-content-row14 {
+      .request-detail-content-row6 {
         display: grid;
         grid-template-columns: auto auto;
         gap: 100px;
@@ -214,14 +205,32 @@
         }
       }
 
-      .request-detail-content-row9,
-      .request-detail-content-row15 {
-        color: #121212;
-        font-family: Poppins;
-        font-size: 36px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
+      .request-detail-content-row9 {
+        display: grid;
+        grid-template-rows: auto;
+        gap: 10px;
+        width: 90%;
+        margin: 0 auto;
+        .note-label {
+          color: #121212;
+          font-family: Inter;
+          font-size: 24px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+        }
+        .fish-images {
+          display: flex;
+          gap: 80px;
+          margin: 0px auto 40px;
+          img {
+            border-radius: 2em;
+            width: 250px;
+            min-height: 300px;
+            max-height: 400px;
+            margin: 0 auto;
+          }
+        }
       }
 
       .request-detail-content-row17 {

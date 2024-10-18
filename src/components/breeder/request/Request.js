@@ -607,7 +607,7 @@ const Request = () => {
     try {
       const response = await handleSubmitRequest(fishAuction);
       if (response.status === 200) {
-        navigate("/HistoryRequest");
+        navigate("/breeder/HistoryRequest");
       }
     } catch (error) {}
   };

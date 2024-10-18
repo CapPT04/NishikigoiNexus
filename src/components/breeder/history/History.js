@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./History.scss";
+import "../history/History.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import { handleGetAllRequest } from "../../../axios/UserService";
 import { useNavigate } from "react-router-dom";
@@ -43,10 +43,13 @@ const History = () => {
       <div className="body-content">
         <div class="navigation-bar-vertically">
           {/* loi o day */}
-          <a class="request" onClick={() => navigate("/HistoryRequest")}>
+          <a
+            class="request selected"
+            onClick={() => navigate("/Breeder/HistoryRequest")}
+          >
             Request
           </a>
-          <a class="koi" onClick={() => navigate("/FishList")}>
+          <a class="koi" onClick={() => navigate("/Breeder/FishList")}>
             KOI
           </a>
         </div>
@@ -93,7 +96,9 @@ const History = () => {
                       <td>
                         <a
                           onClick={() =>
-                            navigate(`/DetailRequest?id=${item.requestId}`)
+                            navigate(
+                              `/Breeder/DetailRequest?id=${item.requestId}`
+                            )
                           }
                         >
                           <i className="fa-solid fa-arrow-right"></i>
