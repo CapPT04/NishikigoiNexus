@@ -10,7 +10,7 @@ const Navbar = () => {
   const userStorage = sessionStorage.getItem("user");
   const user = JSON.parse(userStorage);
 
-  useEffect(() => {});
+  useEffect(() => { });
 
   const handleLogout = () => {
     sessionStorage.removeItem("user");

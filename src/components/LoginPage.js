@@ -22,7 +22,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [loadingAPI, setLoadingAPI] = useState(false);
 
-<<<<<<< HEAD
 
 
   const login = useGoogleLogin({
@@ -77,7 +76,7 @@ const LoginPage = () => {
         if (user.Role === "1") {
           navigate("/");
         } else if (user.Role === "3") {
-          navigate("/Manage");
+          navigate("/Manager/Manage");
         } else if (user.Role === "2") {
           navigate("/");
         }

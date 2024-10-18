@@ -41,7 +41,7 @@ const History = () => {
         <Navbar></Navbar>
       </div>
       <div className="body-content">
-        <div class="navigation-bar-vertically">
+        <div class="navigation-bar-vertically-history">
           {/* loi o day */}
           <a class="request" onClick={() => navigate("/HistoryRequest")}>
             Request
