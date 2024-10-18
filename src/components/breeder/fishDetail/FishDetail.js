@@ -162,7 +162,7 @@ const FishDetail = () => {
               disabled={true}
             />
           </div>
-
+          {/* chen anh o day */}
           {/* {myRequest.status === 3 && (
             <div className="request-detail-content-row16">
               <label htmlFor="note-input" className="note-label">
