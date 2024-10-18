@@ -6,6 +6,16 @@ export const path = {
   ABOUT: "/about",
   LOGIN: "/login",
   SIGNUP: "/signup",
-  //staff
-  CREATEREQUEST: "/CreateRequest",
+  //breeder
+  BREEDER: "breeder",
+  CREATEREQUEST: "CreateRequest",
+  HISTORYREQUEST: "HistoryRequest",
+  DETAILREQUEST: "DetailRequest",
+  PAYMENTRESPONSE: "PaymentResponse",
+  FISHLIST: "FishList",
+  DETAILFISH: "DetailFish",
+  //manage
+  MANAGER: "/Manager",
+  MANAGE: "Manage",
+  MANAGEAUCTION: "/ManageAuction",
 };

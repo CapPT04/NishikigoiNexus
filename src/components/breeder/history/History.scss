@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css");
+
 * {
   margin: 0;
   padding: 0;
@@ -13,68 +16,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
-  .navigation-bar {
-    width: 1120px;
-    height: 64px;
-    display: flex;
-    justify-content: space-between;
-
-    .navigation-bar-left-content {
-      display: inline-flex;
-      align-items: center;
-      gap: 11px;
-
-      .logo {
-        width: 64px;
-        height: 64px;
-      }
-
-      .project-name {
-        font-size: 32px;
-        font-weight: 700;
-        color: #fff;
-      }
-    }
-
-    .navigation-bar-right-content {
-      display: flex;
-      width: 600px;
-      justify-content: space-between;
-      align-items: center;
-      flex-shrink: 0;
-
-      a {
-        color: #fff;
-        font-size: 20px;
-        font-weight: 700;
-        padding: 8px 15px;
-        cursor: pointer;
-
-        &:hover {
-          opacity: 0.7;
-        }
-      }
-
-      .staff {
-        border-radius: 24px;
-        background: #df0012;
-        padding: 7px 21px;
-      }
-    }
-  }
 }
 
 .body-content {
-  display: flex;
+  background: var(--nude);
+  width: 100%;
+  display: flex !important;
 
-  .navigation-bar-vertically {
+  .navigation-bar-vertically-history {
     padding-top: 56px;
     display: flex;
     flex-direction: column;
     gap: 56px;
     flex-shrink: 0;
-    background: #1c1c1c;
+    background: #121212;
     width: 160px;
     height: 841px;
     color: #fff;
@@ -104,16 +59,18 @@
     }
   }
 
-  .body-content-right {
-    background: var(--nude);
+  .right-content {
     width: 100%;
+    background: var(--nude);
 
     .search {
       display: flex;
       width: 560px;
       height: 44px;
-      margin-top: 50px;
-      margin-left: 100px;
+      // margin-top: 50px;
+      // margin-left: 100px;
+      margin: 50px 120px 0 auto;
+
       align-items: center;
 
       .search-text {
@@ -160,8 +117,8 @@
       }
     }
 
-    table {
-      width: 1120px;
+    .table-manage-request {
+      width: 90%;
       margin-top: 50px;
       margin-left: 100px;
       border-collapse: collapse;
@@ -191,12 +148,12 @@
         background: #1c1b1f;
       }
 
+      td {
+        color: black;
+      }
+
       tr:nth-child(even) {
         background: #d5bdb0;
-
-        td {
-          color: black;
-        }
       }
     }
   }

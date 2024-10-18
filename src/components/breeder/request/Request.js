@@ -3,7 +3,9 @@ import "../request/Request.scss";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { imageDB } from "../../../upload/ConfigUpload";
-import { handleFeeApi } from "../../../axios/Nishikigoi";
+import { handleFeeApi, handleSubmitRequest } from "../../../axios/UserService";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../../common/Navbar/Navbar";
 
 const Request = () => {
   const [name, setName] = useState("");
@@ -25,6 +27,8 @@ const Request = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [fee, setFee] = useState("");
   const [btnReady, setBtnReady] = useState(true);
+
+  const navigate = useNavigate();
 
   //----------- upload anh----------
   const [img, setImg] = useState("");
@@ -61,6 +65,20 @@ const Request = () => {
       fileInputRef.current.click();
     }
   };
+  //-----get fee--------
+  useEffect(() => {
+    const getFee = async () => {
+      try {
+        const response = await handleFeeApi();
+        // console.log(response.data);
+        setFee(response.data);
+        // console.log("done");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getFee();
+  }, []);
   //--------
 
   const steps = [
@@ -233,16 +251,6 @@ const Request = () => {
               )}
             </div>
           </div>
-          {/* note */}
-          <div className="inputBox">
-            <h5>Note</h5>
-            <input
-              type="text"
-              name="Note"
-              placeholder="Note"
-              onChange={(e) => setNote(e.target.value)}
-            />
-          </div>
         </fieldset>
       ),
     },
@@ -301,6 +309,7 @@ const Request = () => {
                   name="auctionPrice"
                   placeholder="XXXXXXX"
                   onChange={(e) => setStartPrice(e.target.value)}
+                  className="input-price"
                 />
                 <span className="dollar-sign">$</span>
               </div>
@@ -342,6 +351,16 @@ const Request = () => {
                 <span className="dollar-sign">$</span>
               </div>
             </div>
+          </div>
+          {/* note */}
+          <div className="inputBox">
+            <h5>Note</h5>
+            <input
+              type="text"
+              name="Note"
+              placeholder="Note"
+              onChange={(e) => setNote(e.target.value)}
+            />
           </div>
         </fieldset>
       ),
@@ -456,11 +475,7 @@ const Request = () => {
               )}
             </div>
           </div>
-          {/* note */}
-          <div className="inputBox">
-            <h5>Note</h5>
-            <input type="text" name="Note" value={note} disabled={true} />
-          </div>
+
           {/* method */}
           {methodDexcription.map((item, index) => (
             <h5
@@ -526,6 +541,11 @@ const Request = () => {
               <span className="dollar-sign">$</span>
             </div>
           </div>
+          {/* note */}
+          <div className="inputBox">
+            <h5>Note</h5>
+            <input type="text" name="Note" value={note} disabled={true} />
+          </div>
           {/* auction fee */}
           <div className="feeNotice">* The fee for auction: {fee}$</div>
           {/* confirm */}
@@ -548,20 +568,6 @@ const Request = () => {
     },
   ];
 
-  //-----get fee--------
-  useEffect(() => {
-    const getFee = async () => {
-      try {
-        const response = await handleFeeApi();
-        // console.log(response);
-        setFee(response);
-        // console.log("done");
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getFee();
-  });
   //-----next step --------
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -574,16 +580,19 @@ const Request = () => {
     }
   };
   //----submit----
+  // chưa có trả về kết quả
   const handleSubmit = async () => {
+    console.log(sessionStorage.getItem("token"));
+
     const fishAuction = {
-      token: localStorage.getItem("user"),
+      token: sessionStorage.getItem("token"),
       fishName: name,
       shape: shape,
       size: size,
       origin: origin,
       age: age,
       weight: weight,
-      gender: gender,
+      gender: gender.value,
       pondAddress: pondAddress,
       pondCity: city,
       imagePath: image,
@@ -597,15 +606,18 @@ const Request = () => {
     };
     try {
       const response = await handleSubmitRequest(fishAuction);
-      console.log(response);
-    } catch (error) { }
-    console.log("submit");
+      if (response.status === 200) {
+        navigate("/breeder/HistoryRequest");
+      }
+    } catch (error) {}
   };
   //--------
 
   return (
     <div className="request-form">
-      <div className="header"></div>
+      <div className="header">
+        <Navbar></Navbar>
+      </div>
 
       <div className="row">
         <div className="col-md-6 col-md-offset-3">
