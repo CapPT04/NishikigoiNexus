@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
 import routes from "./route/CombineRoutes.js";
 import Request from "./components/breeder/request/Request.js";
@@ -10,7 +10,15 @@ function App() {
   return (
     <div className="App">
       {/* <HomePage></HomePage> */}
-      <RouterProvider router={routes}></RouterProvider>
+      <Suspense
+        fallback={
+          <div className="fixed flex justify-center items-center text-9xl top-0 bottom-0 left-0 right-0">
+            Loading...
+          </div>
+        }
+      >
+        <RouterProvider router={routes}></RouterProvider>
+      </Suspense>
       {/* <Request></Request> */}
       {/* <History></History> */}
       {/* <ManageMember></ManageMember> */}

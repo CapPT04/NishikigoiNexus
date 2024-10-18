@@ -9,8 +9,12 @@ export const path = {
   //breeder
   CREATEREQUEST: "/CreateRequest",
   HISTORYREQUEST: "/HistoryRequest",
+  DETAILREQUEST: "/DetailRequest",
+  PAYMENTRESPONSE: "/PaymentResponse",
+  FISHLIST: "/FishList",
+  DETAILFISH: "/DetailFish",
 
   //manage
 
-  MANAGE: "/Manage"
+  MANAGE: "/Manage",
 };

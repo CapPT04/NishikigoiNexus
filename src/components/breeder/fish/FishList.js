@@ -1,40 +1,32 @@
 import React, { useEffect, useState } from "react";
-import "./History.scss";
+import "./FishList.scss";
 import Navbar from "../../common/Navbar/Navbar";
-import { handleGetAllRequest } from "../../../axios/UserService";
 import { useNavigate } from "react-router-dom";
+import { handleGetAllFish } from "../../../axios/UserService";
 
-const History = () => {
-  const [requests, setRequests] = useState([]);
+const FishList = () => {
+  const [fishs, setFishs] = useState([]);
   const user = JSON.parse(sessionStorage.getItem("user"));
   const navigate = useNavigate();
 
-  const statusName = ["Processing", "Paying", "Approved", "Denied"];
+  const statusName = ["Available", "Sold"];
 
-  const getRequests = async () => {
-    const res = await handleGetAllRequest();
-    // console.log(user.UserID);
+  const getAllFish = async () => {
+    const res = await handleGetAllFish();
     // console.log(res.data.$values);
-    // setRequests(res.data.$values);
     for (let i = 0; i < res.data.$values.length; i++) {
       if (user) {
-        if (res.data.$values[i].createBy === parseInt(user.UserID, 10)) {
+        if (res.data.$values[i].createBy === parseInt(user.UserID)) {
           // console.log(i);
-          setRequests((prev) => [...prev, res.data.$values[i]]);
+          setFishs((prev) => [...prev, res.data.$values[i]]);
         }
       }
-      // console.log(res.data.$values[i]);
-      // console.log(typeof user.UserID);
-      // setRequests((prev) => [...prev, res.data.$values[i]]);
     }
   };
 
   useEffect(() => {
-    getRequests();
+    getAllFish();
   }, []);
-  // useEffect(() => {
-  //   console.log("reuslt:", requests);
-  // });
   return (
     <div>
       <div className="header">
@@ -50,10 +42,11 @@ const History = () => {
             KOI
           </a>
         </div>
-        <div className="right-content">
+        <div className="body-content-right">
           <div className="search">
-            <div className="search-text">Search:</div>
+            <div className="search-text">Search: </div>
             <div className="search-value">
+              {" "}
               <input
                 className="search-input"
                 placeholder="Search by Email and Phone number"
@@ -64,36 +57,31 @@ const History = () => {
               </div>
             </div>
           </div>
-          <table className="table-manage-request">
+          <table className="table-manage-koi">
             <thead>
               <tr>
                 <th>No</th>
-                <th>ID</th>
                 <th>Fish ID</th>
+                <th>Fish Name</th>
                 <th>Create Date</th>
                 <th>Status</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {requests &&
-                requests.map((item, index) => {
+              {fishs &&
+                fishs.map((fish, index) => {
                   return (
                     <tr key={index}>
-                      <td>{index + 1}</td>{" "}
-                      {/* Replace static "1" with index + 1 */}
-                      <td>{item.requestId}</td>{" "}
-                      {/* Assuming the item has an 'id' field */}
-                      <td>{item.fishId}</td>{" "}
-                      {/* Assuming the item has a 'fishId' field */}
-                      <td>{new Date(item.createDate).toLocaleString()}</td>{" "}
-                      {/* Assuming the item has a 'createDate' field */}
-                      <td>{statusName[item.status - 1]}</td>{" "}
-                      {/* Assuming the item has a 'status' field */}
+                      <td>{index + 1}</td>
+                      <td>{fish.fishId}</td>
+                      <td>{fish.fishName}</td>
+                      <td>{fish.createDate}</td>
+                      <td>{statusName[fish.status - 1]}</td>
                       <td>
                         <a
                           onClick={() =>
-                            navigate(`/DetailRequest?id=${item.requestId}`)
+                            navigate(`/DetailFish?FishId=${fish.fishId}`)
                           }
                         >
                           <i className="fa-solid fa-arrow-right"></i>
@@ -110,4 +98,4 @@ const History = () => {
   );
 };
 
-export default History;
+export default FishList;

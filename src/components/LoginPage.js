@@ -22,6 +22,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [loadingAPI, setLoadingAPI] = useState(false);
 
+<<<<<<< HEAD
 
 
   const login = useGoogleLogin({
@@ -59,6 +60,7 @@ const LoginPage = () => {
 
 
 
+
   const handleLogin = async () => {
     try {
       setLoadingAPI(true);
@@ -68,16 +70,14 @@ const LoginPage = () => {
 
       sessionStorage.setItem("token", response.data);
 
-
-
       if (response && response.status === 200) {
         const user = jwtDecode(response.data);
-        console.log(JSON.stringify(response.data));
+        // console.log(JSON.stringify(response.data));
         sessionStorage.setItem("user", JSON.stringify(user));
         if (user.Role === "1") {
           navigate("/");
         } else if (user.Role === "3") {
-          navigate("/Manage")
+          navigate("/Manage");
         } else if (user.Role === "2") {
           navigate("/");
         }
@@ -85,13 +85,11 @@ const LoginPage = () => {
         if (response && response.status === 400) {
           setErrorMessage(response.data.message);
         } else if (response && response.status === 404) {
-          setErrorMessage(response.data.message)
+          setErrorMessage(response.data.message);
         }
       }
       setLoadingAPI(false);
-    } catch (error) {
-
-    }
+    } catch (error) { }
   };
   return (
     <div className="login-page">
