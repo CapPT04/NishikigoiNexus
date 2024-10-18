@@ -1,0 +1,103 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-family: "Saira Condensed";
+  --nude: #e7cdbf;
+}
+.manage-breeder-container {
+  .header {
+    height: 84px;
+    background: #121212;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .body-content {
+    display: flex;
+    .body-content-right {
+      background: var(--nude);
+      width: 100%;
+      .search {
+        display: flex;
+        width: 560px;
+        height: 44px;
+        margin-top: 50px;
+        margin-left: 100px;
+        align-items: center;
+        .search-text {
+          font-size: 24px;
+          font-weight: 300;
+          margin-right: 20px;
+        }
+
+        .search-value {
+          width: 80%;
+          height: 100%;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .search-input {
+            height: 100%;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #3d3d3d;
+            outline: none;
+            text-indent: 5px;
+            display: flex;
+            font-size: 24px;
+          }
+
+          .search-input::placeholder {
+            font-size: 24px;
+            font-weight: 250;
+            opacity: 0.4;
+          }
+
+          .search-icon {
+            position: absolute;
+            right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .search-icon:hover {
+            opacity: 0.5;
+          }
+        }
+      }
+      table {
+        width: 1120px;
+        margin-top: 50px;
+        margin-left: 100px;
+        border-collapse: collapse;
+        border: 1px solid black;
+        th,
+        td {
+          border: none;
+          color: #fff;
+          height: 60px;
+          font-size: 24px;
+          font-weight: 400;
+          text-align: left;
+          padding: 0 10px;
+        }
+
+        th {
+          background: #1c1b1f;
+        }
+
+        tr:nth-child(even) {
+          background: #d5bdb0;
+        }
+
+        tr:nth-child(even) td {
+          color: black;
+        }
+      }
+    }
+  }
+}
