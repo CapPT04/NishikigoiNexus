@@ -6,12 +6,19 @@ const END_POINT = {
   FEE: "Fee/GetFee",
   CREATEREQUEST: "Request/CreateRequest", //breeder
   GETALLREQUEST: "Request/GetAllRequest",
+  LOGINWITHGOOGLE: "User/GoogleLogin"
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
   return axiosClient.post(`${END_POINT.LOGIN}`, {
     email: userEmail,
     password: userPassword,
+  });
+};
+
+export const handleLoginWithGoogleApi = (token) => {
+  return axiosClient.post(`${END_POINT.LOGINWITHGOOGLE}`, {
+    token: token
   });
 };
 
