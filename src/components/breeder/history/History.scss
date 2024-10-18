@@ -23,7 +23,7 @@
   width: 100%;
   display: flex !important;
 
-  .navigation-bar-vertically {
+  .navigation-bar-vertically-history {
     padding-top: 56px;
     display: flex;
     flex-direction: column;
@@ -46,7 +46,7 @@
       }
     }
 
-    .selected {
+    .koi {
       margin-left: 30px;
       display: flex;
       height: 67px;
@@ -55,7 +55,7 @@
       align-items: center;
       gap: 10px;
       align-self: stretch;
-      background: #df0012 !important;
+      background: #df0012;
     }
   }
 
@@ -143,12 +143,15 @@
           opacity: 0.5;
         }
       }
+
       th {
         background: #1c1b1f;
       }
+
       td {
         color: black;
       }
+
       tr:nth-child(even) {
         background: #d5bdb0;
       }

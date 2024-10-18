@@ -3,6 +3,7 @@ import './ManageMember.scss';
 import logo from '../../assets/images/logo_png.png';
 import search from '../../assets/images/search.svg';
 import Navbar from '../common/Navbar/Navbar';
+import VerticallyNavbar from '../common/Navbar/VerticallyNavbar';
 const ManageMember = () => {
     return (
         <div>
@@ -26,15 +27,16 @@ const ManageMember = () => {
             </div>
 
             <div className="body-content">
-                <div className="navigation-bar-vertically">
+                {/* <div className="navigation-bar-vertically">
                     <a className="member">Member</a>
                     <a className="breeder">Breeder</a>
                     <a className="request">Request</a>
                     <a className="auction-vertically">Auction</a>
                     <a className="koi">KOI</a>
                     <a className="blog-vertically">Blog</a>
-                </div>
+                </div> */}
 
+                <VerticallyNavbar></VerticallyNavbar>
                 <div className="body-content-right">
                     <div className="search">
                         <div className="search-text">Search: </div>

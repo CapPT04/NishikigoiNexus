@@ -8,12 +8,8 @@ const END_POINT = {
   FEE: "Fee/GetFee",
   CREATEREQUEST: "Request/CreateRequest", //breeder
   GETALLREQUEST: "Request/GetAllRequest",
-  GETREQUESTBYID: "Request/GetRequestById",
-  GETFISHENTRYBYID: "FishEntry/GetFishEntriesByRequestId",
-  PAYFEE: "Payment/FeePayment",
-  PAYCALLBACK: "Payment/PaymentCallBack",
-  GETALLFISH: "Fish/GetAllFish",
-  GETFISHDETAIL: "Fish/GetFishById",
+  LOGINWITHGOOGLE: "User/GoogleLogin",
+  SHOWALLAUCTION: "Auction/GetAuctionsWithFishEntryCount"
   GETFISHIMAGESBYID: "Image/GetImageByFishId",
 };
 
@@ -23,6 +19,16 @@ export const handleLoginApi = (userEmail, userPassword) => {
     password: userPassword,
   });
 };
+
+export const handleLoginWithGoogleApi = (token) => {
+  return axiosClient.post(`${END_POINT.LOGINWITHGOOGLE}`, {
+    token: token
+  });
+};
+
+export const handleManageAuctionApi = () => {
+  return axiosClient.get(`${END_POINT.SHOWALLAUCTION}`)
+}
 
 export const handleSignUpApi = async (user) => {
   try {

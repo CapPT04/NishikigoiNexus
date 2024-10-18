@@ -17,4 +17,5 @@ export const path = {
   //manage
   MANAGER: "/Manager",
   MANAGE: "Manage",
+  MANAGEAUCTION: "/ManageAuction",
 };
