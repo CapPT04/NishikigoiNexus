@@ -12,6 +12,8 @@ const END_POINT = {
   GETFISHENTRYBYID: "FishEntry/GetFishEntriesByRequestId",
   PAYFEE: "Payment/FeePayment",
   PAYCALLBACK: "Payment/PaymentCallBack",
+  GETALLFISH: "Fish/GetAllFish",
+  GETFISHDETAIL: "Fish/GetFishById",
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -129,6 +131,22 @@ export const handlePayCallBack = async (info) => {
 export const handleUserById = async (id) => {
   try {
     return await axiosClient.get(`${END_POINT.GETUSERBYID}?id=${id}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetAllFish = async () => {
+  try {
+    return await axiosClient.get(END_POINT.GETALLFISH);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetFishDetail = async (id) => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETFISHDETAIL}?FishId=${id}`);
   } catch (error) {
     throw error;
   }

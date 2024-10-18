@@ -12,6 +12,7 @@ export const path = {
   DETAILREQUEST: "/DetailRequest",
   PAYMENTRESPONSE: "/PaymentResponse",
   FISHLIST: "/FishList",
+  DETAILFISH: "/DetailFish",
 
   //manage
 

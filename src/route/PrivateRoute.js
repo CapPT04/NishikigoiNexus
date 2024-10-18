@@ -19,6 +19,9 @@ const PaymentResponse = React.lazy(() =>
 const FishList = React.lazy(() =>
   import("../components/breeder/fish/FishList")
 );
+const DetailFish = React.lazy(() =>
+  import("../components/breeder/fishDetail/FishDetail")
+);
 //staff
 const Manage = React.lazy(() => import("../components/manage/ManageMember"));
 
@@ -46,6 +49,10 @@ const PublicRoutes = [
   {
     path: path.FISHLIST,
     element: <LoadLazy children={<FishList />} />,
+  },
+  {
+    path: path.DETAILFISH,
+    element: <LoadLazy children={<DetailFish />} />,
   },
   { path: "*", element: <LoadLazy children={<NotFound />} /> },
 ];
