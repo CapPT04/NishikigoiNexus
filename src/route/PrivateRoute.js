@@ -26,6 +26,9 @@ const DetailFish = React.lazy(() =>
 const ManageAuction = React.lazy(() =>
   import("../components/manage/ManageAuction")
 );
+const CreateAuction = React.lazy(() =>
+  import("../components/common/CreateAuction/CreateAuction")
+);
 //staff
 const Staff = React.lazy(() => import("../route/StaffRoute"));
 const Manage = React.lazy(() => import("../components/manage/ManageMember"));
@@ -76,6 +79,9 @@ const PrivateRoutes = [
       {
         path: path.MANAGEAUCTION,
         element: <LoadLazy children={<ManageAuction />} />,
+      }, {
+        path: path.CREATEAUCTION,
+        element: <LoadLazy children={<CreateAuction />} />,
       },
     ],
   },

@@ -4,10 +4,10 @@ import logo from '../../assets/images/logo_png.png';
 import searchIcon from '../../assets/images/search.svg';
 import VerticallyNavbar from '../common/Navbar/VerticallyNavbar';
 import { handleManageAuctionApi } from '../../axios/UserService';
-
+import { Navigate, useNavigate } from 'react-router-dom';
 const ManageAuction = () => {
     const [auctions, setAuctions] = useState([]); // State to store auction data
-
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchAuctions = async () => {
             try {
@@ -58,7 +58,13 @@ const ManageAuction = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='create-btn'>New Auction <i className="fa-solid fa-plus"></i></div>
+                        <div
+                            className='create-btn'
+                            onClick={() => navigate("/Manager/CreateAuction")}
+                        >
+                            New Auction
+                            <i className="fa-solid fa-plus"></i>
+                        </div>
                     </div>
 
                     <table className="table-manage-auction">
