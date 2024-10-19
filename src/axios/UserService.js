@@ -13,6 +13,7 @@ const END_POINT = {
   SHOWALLAUCTION: "Auction/GetAuctionsWithFishEntryCount",
   GETFISHIMAGESBYID: "Image/GetImageByFishId",
   CREATEAUCTION: "Auction/CreateAuction",
+  GETALLBREEDERS: "Breeder/GetAllBreeders",
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -37,13 +38,21 @@ export const handleLoginApi = (userEmail, userPassword) => {
 
 export const handleLoginWithGoogleApi = (token) => {
   return axiosClient.post(`${END_POINT.LOGINWITHGOOGLE}`, {
-    token: token
+    token: token,
   });
 };
 
 export const handleManageAuctionApi = () => {
-  return axiosClient.get(`${END_POINT.SHOWALLAUCTION}`)
-}
+  return axiosClient.get(`${END_POINT.SHOWALLAUCTION}`);
+};
+
+export const handleGetAllBreeders = () => {
+  try {
+    return axiosClient.get(`${END_POINT.GETALLBREEDERS}`);
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const handleSignUpApi = async (user) => {
   try {

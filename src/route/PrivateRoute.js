@@ -32,6 +32,9 @@ const CreateAuction = React.lazy(() =>
 //staff
 const Staff = React.lazy(() => import("../route/StaffRoute"));
 const Manage = React.lazy(() => import("../components/manage/ManageMember"));
+const ManageBreeder = React.lazy(() =>
+  import("../components/manage/manageBreeder/ManageBreeder")
+);
 
 const PrivateRoutes = [
   //breeder
@@ -73,6 +76,7 @@ const PrivateRoutes = [
     element: <LoadLazy children={<Staff />} />,
     children: [
       {
+        //quan ly member
         path: path.MANAGE,
         element: <LoadLazy children={<Manage />} />,
       },
@@ -83,9 +87,12 @@ const PrivateRoutes = [
         path: path.CREATEAUCTION,
         element: <LoadLazy children={<CreateAuction />} />,
       },
+      {
+        path: path.MANAGEBREEDER,
+        element: <LoadLazy children={<ManageBreeder />} />,
+      },
     ],
   },
-
 
   { path: "*", element: <LoadLazy children={<NotFound />} /> },
 ];

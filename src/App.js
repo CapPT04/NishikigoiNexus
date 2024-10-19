@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       {/* <VerticallyNavbar></VerticallyNavbar> */}
-      {/* <HomePage></HomePage>
+      {/* <HomePage></HomePage> */}
       <Suspense
         fallback={
           <div className="fixed flex justify-center items-center text-9xl top-0 bottom-0 left-0 right-0">
@@ -19,12 +19,13 @@ function App() {
           </div>
         }
       >
-      </Suspense> */}
+        <RouterProvider router={routes}></RouterProvider>
+
+      </Suspense>
       {/* <Request></Request> */}
       {/* <History></History> */}
       {/* <ManageMember></ManageMember> */}
 
-      <RouterProvider router={routes}></RouterProvider>
 
     </div>
   );

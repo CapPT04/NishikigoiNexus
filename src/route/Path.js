@@ -19,4 +19,5 @@ export const path = {
   MANAGE: "Manage",
   MANAGEAUCTION: "ManageAuction",
   CREATEAUCTION: "CreateAuction",
+  MANAGEBREEDER: "ManageBreeder",
 };

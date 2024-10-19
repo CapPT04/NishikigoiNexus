@@ -1,51 +1,50 @@
 * {
-    margin     : 0;
-    padding    : 0;
-    border     : 0;
-    font-size  : 100%;
-    font-family: "Saira Condensed";
-    --nude     : #E7CDBF;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-family: "Saira Condensed";
+  --nude: #e7cdbf;
 }
 
-
 .header {
-    height         : 84px;
-    background     : #121212;
-    display        : flex;
-    justify-content: center;
-    align-items    : center;
+  height: 84px;
+  background: #121212;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .navigation-bar {
-    width          : 1120px;
-    height         : 64px;
-    display        : flex;
-    justify-content: space-between;
+  width: 1120px;
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .navigation-bar-left-content {
-    display    : inline-flex;
-    align-items: center;
-    gap        : 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
 }
 
 .logo {
-    width : 64px;
-    height: 64px;
+  width: 64px;
+  height: 64px;
 }
 
 .project-name {
-    font-size  : 32px;
-    font-weight: 700;
-    color      : #FFF;
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
 }
 
 .navigation-bar-right-content {
-    display        : flex;
-    width          : 600px;
-    justify-content: space-between;
-    align-items    : center;
-    flex-shrink    : 0;
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .staff,
@@ -54,19 +53,17 @@
 .blog,
 .about,
 .account {
-    color      : #FFF;
-    font-size  : 20px;
-    font-weight: 700;
-    padding    : 8px 15px;
-    cursor     : pointer;
-    padding    : 7px 21px;
-
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 8px 15px;
+  cursor: pointer;
+  padding: 7px 21px;
 }
 
 .staff {
-    border-radius: 24px;
-    background   : #DF0012;
-
+  border-radius: 24px;
+  background: #df0012;
 }
 
 .staff:hover,
@@ -75,47 +72,46 @@
 .blog:hover,
 .about:hover,
 .account:hover {
-    opacity: 0.7;
+  opacity: 0.7;
 }
 
 .navigation-bar-vertically {
-    padding-top   : 56px;
-    display       : flex;
-    width         : 120px;
-    flex-direction: column;
-    gap           : 56px;
-    flex-shrink   : 0;
-    background    : #1C1C1C;
-    width         : 160px;
-    height        : 841px;
-    color         : #FFF;
-    font-size     : 26px;
-    font-style    : normal;
-    font-weight   : 400;
-    line-height   : normal;
-    align-items   : center !important;
-
+  padding-top: 56px;
+  display: flex;
+  width: 120px;
+  flex-direction: column;
+  gap: 56px;
+  flex-shrink: 0;
+  background: #1c1c1c;
+  width: 160px;
+  height: 841px;
+  color: #fff;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  align-items: center !important;
 }
 
 .body-content {
-    display: flex;
+  display: flex;
 }
 
 .body-content-right {
-    background: var(--nude);
-    width     : 100%;
+  background: var(--nude);
+  width: 100%;
 }
 
 .breeder {
-    margin-left    : 30px;
-    display        : flex;
-    height         : 67px;
-    padding        : 10px 21px;
-    justify-content: center;
-    align-items    : center;
-    gap            : 10px;
-    align-self     : stretch;
-    background     : #DF0012;
+  margin-left: 30px;
+  display: flex;
+  height: 67px;
+  padding: 10px 21px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  background: #df0012;
 }
 
 .member:hover,
@@ -124,93 +120,89 @@
 .auction-vertically:hover,
 .koi:hover,
 .blog-vertically:hover {
-    opacity: 0.7;
+  opacity: 0.7;
 }
 
 .search {
-    display    : flex;
-    width      : 560px;
-    height     : 44px;
-    margin-top : 50px;
-    margin-left: 100px;
-    align-items: center;
-
-
-
+  display: flex;
+  width: 560px;
+  height: 44px;
+  margin-top: 50px;
+  margin-left: 100px;
+  align-items: center;
 }
 
 .search-text {
-    font-size   : 24px;
-    font-weight : 300;
-    margin-right: 20px;
+  font-size: 24px;
+  font-weight: 300;
+  margin-right: 20px;
 }
 
 .search-value {
-    width          : 80%;
-    height         : 100%;
-    position       : relative;
-    display        : flex;
-    align-items    : center;
-    justify-content: center;
-
+  width: 80%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-input {
-    height       : 100%;
-    width        : 100%;
-    border-radius: 8px;
-    border       : 1px solid #3D3D3D;
-    outline      : none;
-    text-indent  : 5px;
-    display      : flex;
-    font-size    : 24px;
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #3d3d3d;
+  outline: none;
+  text-indent: 5px;
+  display: flex;
+  font-size: 24px;
 }
 
 .search-input::placeholder {
-    font-size  : 24px;
-    font-weight: 250;
-    opacity    : 0.4;
+  font-size: 24px;
+  font-weight: 250;
+  opacity: 0.4;
 }
 
 .search-icon {
-    position       : absolute;
-    right          : 10px;
-    display        : flex;
-    justify-content: center;
-    align-items    : center;
+  position: absolute;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .search-icon:hover {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 table {
-    width          : 1120px;
-    margin-top     : 50px;
-    margin-left    : 100px;
-    border-collapse: collapse;
-    border         : 1px solid black;
+  width: 1120px;
+  margin-top: 50px;
+  margin: 50px auto;
+  border-collapse: collapse;
+  border: 1px solid black;
 }
 
 th,
 td {
-    border     : none;
-    color      : #FFF;
-    height     : 60px;
-    font-size  : 24px;
-    font-weight: 400;
-    text-align : left;
-    padding    : 0 10px;
+  border: none;
+  color: #fff;
+  height: 60px;
+  font-size: 24px;
+  font-weight: 400;
+  text-align: left;
+  padding: 0 10px;
 }
 
 th {
-    background: #1C1B1F;
+  background: #1c1b1f;
 }
 
 tr:nth-child(even) {
-    background: #D5BDB0;
+  background: #d5bdb0;
 }
 
 tr:nth-child(even) td {
-    color: black;
+  color: black;
 }
