@@ -9,7 +9,10 @@ const ManageBreeder = () => {
 
   const getAllBreeders = async () => {
     const resBreeder = await handleGetAllBreeders();
-    setBreeders(resBreeder.data.$values);
+    for (let i = 0; i < resBreeder.data.$values.length; i++) {
+      setBreeders((prev) => [...prev, resBreeder.data.$values[i]]);
+    }
+    // setBreeders(resBreeder.data.$values);
   };
 
   useEffect(() => {
@@ -51,20 +54,37 @@ const ManageBreeder = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>Thinh</td>
-                <td>Dinh Le</td>
-                <td>thinhdlse181755@fpt.edu.vn</td>
-                <td>0362683366</td>
-                <td>Active</td>
-                <td>
-                  <a href="#">
-                    <i className="fa-solid fa-arrow-right"></i>
-                  </a>
-                </td>
-              </tr>
+              {console.log(breeders)}
+              {breeders.length > 0 ? (
+                breeders.map((breeder, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{breeder.userId}</td>
+                      <td>{breeder.firstName}</td>
+                      <td>{breeder.lastName}</td>
+                      <td>{breeder.email}</td>
+                      <td>{breeder.phone}</td>
+                      <td>{breeder.status}</td>
+                      <td>
+                        <a href="#">
+                          <i className="fa-solid fa-arrow-right"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="7">No breeder available</td>
+                </tr>
+              )}
+
+              {/* {breeders.length > 0
+                ? breeders.map((breeder, index) => {
+                    console.log("@", breeder.userId);
+                  })
+                : console.log("b")} */}
             </tbody>
           </table>
         </div>

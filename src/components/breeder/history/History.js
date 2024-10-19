@@ -41,15 +41,15 @@ const History = () => {
         <Navbar></Navbar>
       </div>
       <div className="body-content">
-        <div class="navigation-bar-vertically-history">
+        <div className="navigation-bar-vertically-history">
           {/* loi o day */}
           <a
-            class="request selected"
+            className="request selected"
             onClick={() => navigate("/Breeder/HistoryRequest")}
           >
             Request
           </a>
-          <a class="koi" onClick={() => navigate("/Breeder/FishList")}>
+          <a className="koi" onClick={() => navigate("/Breeder/FishList")}>
             KOI
           </a>
         </div>
