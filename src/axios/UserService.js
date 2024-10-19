@@ -1,6 +1,7 @@
 import axios from "axios";
 import axiosClient from "./axiosClient";
 import { useNavigate } from "react-router-dom";
+import CreateAuction from "../components/common/CreateAuction/CreateAuction";
 const END_POINT = {
   LOGIN: "User/Login",
   SIGNUP: "User/MemberRegister",
@@ -11,8 +12,22 @@ const END_POINT = {
   LOGINWITHGOOGLE: "User/GoogleLogin",
   SHOWALLAUCTION: "Auction/GetAuctionsWithFishEntryCount",
   GETFISHIMAGESBYID: "Image/GetImageByFishId",
+  CREATEAUCTION: "Auction/CreateAuction",
   GETALLBREEDERS: "Breeder/GetAllBreeders",
 };
+
+export const handleCreateAuctionApi = (token, auctionDate) => {
+
+  try {
+    return axiosClient.post(`${END_POINT.CREATEAUCTION}`, {
+      token: token,
+      startTime: auctionDate
+    })
+  } catch (error) {
+    throw error;
+  }
+
+}
 
 export const handleLoginApi = (userEmail, userPassword) => {
   return axiosClient.post(`${END_POINT.LOGIN}`, {

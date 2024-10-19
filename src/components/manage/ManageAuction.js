@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from "react";
-import "./ManageAuction.scss"; // Import the CSS file
-import logo from "../../assets/images/logo_png.png";
-import searchIcon from "../../assets/images/search.svg";
-import VerticallyNavbar from "../common/Navbar/VerticallyNavbar";
-import { handleManageAuctionApi } from "../../axios/UserService";
+import React, { useEffect, useState } from 'react';
+import './ManageAuction.scss'; // Import the CSS file
+import logo from '../../assets/images/logo_png.png';
+import searchIcon from '../../assets/images/search.svg';
+import VerticallyNavbar from '../common/Navbar/VerticallyNavbar';
+import { handleManageAuctionApi } from '../../axios/UserService';
+import { useNavigate } from 'react-router-dom';
 
 const ManageAuction = () => {
   const [auctions, setAuctions] = useState([]); // State to store auction data
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAuctions = async () => {
       try {
         const response = await handleManageAuctionApi();
         setAuctions(response.data.$values); // Save the data to state
-        // console.log(response.data.$values);
       } catch (error) {
         console.error("Error fetching auctions:", error);
       }
     };
 
     fetchAuctions();
-  }, [auctions]); // Empty dependency array to run once when component mounts
+  }, []); // Empty dependency array to run once when component mounts
 
   return (
     <div className="manage-auction-container">
@@ -48,18 +49,18 @@ const ManageAuction = () => {
             <div className="search">
               <div className="search-text">Search: </div>
               <div className="search-value">
-                <input
-                  className="search-input"
-                  placeholder="Search by Email and Phone number"
-                  type="text"
-                />
+                <input className="search-input" placeholder="Search by Email and Phone number" type="text" />
                 <div className="search-icon">
                   <img src={searchIcon} alt="search-icon" />
                 </div>
               </div>
             </div>
-            <div className="create-btn">
-              New Auction <i className="fa-solid fa-plus"></i>
+            <div
+              className="create-btn"
+              onClick={() => navigate("/Manager/CreateAuction")}
+            >
+              New Auction
+              <i className="fa-solid fa-plus"></i>
             </div>
           </div>
 
@@ -83,10 +84,10 @@ const ManageAuction = () => {
                     <td>{auction.startDate}</td>
                     <td>{auction.fishEntryCount}</td>
                     <td>
-                      {auction.status === 1 && "Preparing"}
-                      {auction.status === 2 && "Waiting"}
-                      {auction.status === 3 && "Bidding"}
-                      {auction.status === 4 && "Ended"}
+                      {auction.status === 1 && 'Preparing'}
+                      {auction.status === 2 && 'Waiting'}
+                      {auction.status === 3 && 'Bidding'}
+                      {auction.status === 4 && 'Ended'}
                     </td>
                     <td>
                       <a href="#">
@@ -97,7 +98,7 @@ const ManageAuction = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7">No auctions available</td>
+                  <td colSpan="6">No auctions available</td>
                 </tr>
               )}
             </tbody>
