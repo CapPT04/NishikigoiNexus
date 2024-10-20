@@ -1,17 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./AuctionDetail.scss";
 import VerticallyNavbar from "../common/Navbar/VerticallyNavbar";
 import { useLocation } from "react-router";
-const AuctionDetail = () => {
+import { handleGetFishEntryInAuction } from "../../axios/UserService";
 
+const AuctionDetail = () => {
     const location = useLocation();
     const auction = location.state || {}; // Default to empty object
+    const [fishEntryInAuction, setFishEntryInAuction] = useState([]);
 
-    // Chỉ log một lần trong useEffect
     useEffect(() => {
-        console.log("Location Object:", location);
-        console.log("Auction Data:", auction);
+        const fetchAuctions = async () => {
+            try {
+                console.log("Location Object:", location);
+                console.log("Auction Data:", auction);
+                const response = await handleGetFishEntryInAuction(parseInt(auction.auctionId, 10));
+                setFishEntryInAuction(response.data.$values || []); // Handle the case where $values might be undefined
+            } catch (error) {
+                console.error("Error fetching auctions:", error);
+            }
+        };
+        fetchAuctions();
     }, [location, auction]);
+
     return (
         <div className="auction-detail-container">
             <div className="header">
@@ -33,15 +44,7 @@ const AuctionDetail = () => {
             </div>
 
             <div className="body-content-auction-detail">
-                {/* <div className="navigation-bar-vertically">
-                    <a className="member">Member</a>
-                    <a className="breeder">Breeder</a>
-                    <a className="request">Request</a>
-                    <a className="auction-vertically">Auction</a>
-                    <a className="koi">KOI</a>
-                    <a className="blog-vertically">Blog</a>
-                </div> */}
-                <VerticallyNavbar></VerticallyNavbar>
+                <VerticallyNavbar />
 
                 <div className="body-content-right-auction-detail">
                     <div className="auction-detail-content">
@@ -52,7 +55,7 @@ const AuctionDetail = () => {
                                 {auction.status === 3 && 'Bidding'}
                                 {auction.status === 4 && 'Ended'}
                             </div>
-                            <select name="" id="" className="set-status" >
+                            <select name="" id="" className="set-status">
                                 <option value="">Preparing &nbsp;&nbsp;</option>
                                 <option value="">Waiting &nbsp;&nbsp; </option>
                                 <option value="">Bidding &nbsp;&nbsp; </option>
@@ -62,16 +65,15 @@ const AuctionDetail = () => {
 
                         <div className="auction-detail-content-row2">Auction Detail</div>
 
-
-
                         <div className="auction-detail-content-row4">
                             <label htmlFor="start-date-input" className="start-date-label">
                                 Start Date
                             </label>
                             <input
-                                type="datetime"
+                                type="datetime-local"
                                 className="start-date-input"
-                                value={auction?.startDate || "YYYY/MM/DD hh:mm:ss"}
+                                value={auction?.startDate || "YYYY-MM-DDTHH:MM"}
+                                readOnly // Assuming this is a read-only field; remove if editable
                             />
                         </div>
 
@@ -95,31 +97,45 @@ const AuctionDetail = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Fish 1</td>
-                                        <td>
-
-                                            <input
-                                                type="datetime-local"
-                                                className="start-time-input"></input>
-                                        </td>
-                                        <td>
-                                            <input
-                                                type="datetime-local"
-                                                className="finish-time-input"></input>
-                                        </td>
-                                        <td>Bidding</td>
-                                        <td>
-                                            <button className="update-btn">Update</button>
-                                        </td>
-                                        <td><i class="fa-solid fa-trash"></i></td>
-                                    </tr>
+                                    {fishEntryInAuction.length > 0 ? (
+                                        fishEntryInAuction.map((fishEntry, index) => (
+                                            <tr key={fishEntry.id || index}>
+                                                <td>{index + 1}</td>
+                                                <td>{fishEntry.fishEntryId || "Unknown Fish"}</td>
+                                                <td>
+                                                    <input
+                                                        type="datetime-local"
+                                                        className="start-time-input"
+                                                        defaultValue={fishEntry.startDate}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        type="datetime-local"
+                                                        className="finish-time-input"
+                                                        defaultValue={fishEntry.endDate}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    {fishEntry.status === 1 && 'Preparing'}
+                                                    {fishEntry.status === 2 && 'Waiting'}
+                                                    {fishEntry.status === 3 && 'Bidding'}
+                                                    {fishEntry.status === 4 && 'Ended'}</td>
+                                                <td>
+                                                    <button className="update-btn">Update</button>
+                                                </td>
+                                                <td>
+                                                    <i className="fa-solid fa-trash"></i>
+                                                </td>
+                                            </tr>
+                                        ))) : (
+                                        <tr>
+                                            <td colSpan="7">No FishEntry available</td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
-
-
                     </div>
                 </div>
             </div>
