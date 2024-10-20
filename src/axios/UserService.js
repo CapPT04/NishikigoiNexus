@@ -13,21 +13,20 @@ const END_POINT = {
   SHOWALLAUCTION: "Auction/GetAuctionsWithFishEntryCount",
   GETFISHIMAGESBYID: "Image/GetImageByFishId",
   CREATEAUCTION: "Auction/CreateAuction",
-  GETALLBREEDERS: "Breeder/GetAllBreeders",
+  GETALLBREEDERS: "Breeder/GetAllBreeders", //manager
+  CREATEBREEDER: "Breeder/CreateBreeder",
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
-
   try {
     return axiosClient.post(`${END_POINT.CREATEAUCTION}`, {
       token: token,
-      startTime: auctionDate
-    })
+      startTime: auctionDate,
+    });
   } catch (error) {
     throw error;
   }
-
-}
+};
 
 export const handleLoginApi = (userEmail, userPassword) => {
   return axiosClient.post(`${END_POINT.LOGIN}`, {
@@ -186,6 +185,25 @@ export const handleGetFishDetailById = async (id) => {
 export const handleGetFishImgById = async (id) => {
   try {
     return await axiosClient.get(`${END_POINT.GETFISHIMAGESBYID}?FishId=${id}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleCreateBreeder = async (token, breeder) => {
+  try {
+    return await axiosClient.post(`${END_POINT.CREATEBREEDER}`, {
+      token: token,
+      email: breeder.email,
+      firstName: breeder.firstName,
+      lastName: breeder.lastName,
+      password: breeder.password,
+      address: breeder.address,
+      city: breeder.city,
+      phone: breeder.phone,
+      gender: 1,
+      commission: breeder.commission,
+    });
   } catch (error) {
     throw error;
   }

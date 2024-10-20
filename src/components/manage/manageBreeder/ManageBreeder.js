@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./ManageBreeder.scss";
 import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
 import Navbar from "../../common/Navbar/Navbar";
+import searchIcon from "../../../assets/images/search.svg";
 import { handleGetAllBreeders } from "../../../axios/UserService";
+import { useNavigate } from "react-router-dom";
 
 const ManageBreeder = () => {
   const [breeders, setBreeders] = useState([]);
+  const navigate = useNavigate();
 
   const getAllBreeders = async () => {
     const resBreeder = await handleGetAllBreeders();
@@ -26,18 +29,26 @@ const ManageBreeder = () => {
       <div className="body-content">
         <VerticallyNavbar />
         <div className="body-content-right">
-          <div className="search">
-            <div className="search-text">Search: </div>
-            <div className="search-value">
-              {" "}
-              <input
-                className="search-input"
-                placeholder="Search by Email and Phone number"
-                type="text"
-              />
-              <div className="search-icon">
-                <img src=". g" alt="" />
+          <div className="search-and-create">
+            <div className="search">
+              <div className="search-text">Search: </div>
+              <div className="search-value">
+                <input
+                  className="search-input"
+                  placeholder="Search by Email and Phone number"
+                  type="text"
+                />
+                <div className="search-icon">
+                  <img src={searchIcon} alt="search-icon" />
+                </div>
               </div>
+            </div>
+            <div
+              className="create-btn"
+              onClick={() => navigate("/Manager/CreateBreeder")}
+            >
+              New Breeder
+              <i className="fa-solid fa-plus"></i>
             </div>
           </div>
           <table className="table-manage-breeder">
@@ -54,7 +65,7 @@ const ManageBreeder = () => {
               </tr>
             </thead>
             <tbody>
-              {console.log(breeders)}
+              {/* {console.log(breeders)} */}
               {breeders.length > 0 ? (
                 breeders.map((breeder, index) => {
                   return (
@@ -67,16 +78,23 @@ const ManageBreeder = () => {
                       <td>{breeder.phone}</td>
                       <td>{breeder.status}</td>
                       <td>
-                        <a href="#">
-                          <i className="fa-solid fa-arrow-right"></i>
-                        </a>
+                        {/* <a href="#"> */}
+                        <i
+                          className="fa-solid fa-arrow-right"
+                          onClick={() =>
+                            navigate(
+                              `/Manager/BreederDetail?id=${breeder.userId}`
+                            )
+                          }
+                        ></i>
+                        {/* </a> */}
                       </td>
                     </tr>
                   );
                 })
               ) : (
                 <tr>
-                  <td colSpan="7">No breeder available</td>
+                  <td colSpan="8">No breeder available</td>
                 </tr>
               )}
 

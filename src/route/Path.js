@@ -21,4 +21,6 @@ export const path = {
   CREATEAUCTION: "CreateAuction",
   MANAGEBREEDER: "ManageBreeder",
   AUCTIONDETAIL: "AuctionDetail",
+  BREEDERDETAIL: "BreederDetail",
+  CREATEBREEDER: "CreateBreeder",
 };
