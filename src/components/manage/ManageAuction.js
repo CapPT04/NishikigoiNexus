@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './ManageAuction.scss'; // Import the CSS file
+import './ManageAuction.scss';
 import logo from '../../assets/images/logo_png.png';
 import searchIcon from '../../assets/images/search.svg';
 import VerticallyNavbar from '../common/Navbar/VerticallyNavbar';
@@ -7,21 +7,21 @@ import { handleManageAuctionApi } from '../../axios/UserService';
 import { useNavigate } from 'react-router-dom';
 
 const ManageAuction = () => {
-  const [auctions, setAuctions] = useState([]); // State to store auction data
+  const [auctions, setAuctions] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAuctions = async () => {
       try {
         const response = await handleManageAuctionApi();
-        setAuctions(response.data.$values); // Save the data to state
+        setAuctions(response.data.$values);
       } catch (error) {
         console.error("Error fetching auctions:", error);
       }
     };
 
     fetchAuctions();
-  }, []); // Empty dependency array to run once when component mounts
+  }, []);
 
   return (
     <div className="manage-auction-container">
@@ -41,9 +41,9 @@ const ManageAuction = () => {
           </div>
         </div>
       </div>
+
       <div className="body-content">
         <VerticallyNavbar />
-
         <div className="body-content-right">
           <div className="search-and-create">
             <div className="search">
@@ -55,10 +55,7 @@ const ManageAuction = () => {
                 </div>
               </div>
             </div>
-            <div
-              className="create-btn"
-              onClick={() => navigate("/Manager/CreateAuction")}
-            >
+            <div className="create-btn" onClick={() => navigate("/Manager/CreateAuction")}>
               New Auction
               <i className="fa-solid fa-plus"></i>
             </div>
@@ -90,9 +87,12 @@ const ManageAuction = () => {
                       {auction.status === 4 && 'Ended'}
                     </td>
                     <td>
-                      <a href="#">
-                        <i className="fa-solid fa-arrow-right"></i>
-                      </a>
+                      <i
+                        className="fa-solid fa-arrow-right"
+                        onClick={() => navigate("/Manager/AuctionDetail", {
+                          state: auction // Đảm bảo auction object có đầy đủ dữ liệu
+                        })}
+                      ></i>
                     </td>
                   </tr>
                 ))

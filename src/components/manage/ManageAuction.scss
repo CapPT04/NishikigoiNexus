@@ -224,8 +224,17 @@
                     background: #1C1B1F;
                 }
 
+
+
                 tr:nth-child(even) {
                     background: #D5BDB0;
+
+                    td {
+                        color: black;
+                    }
+                }
+
+                tr:nth-child(odd) {
 
                     td {
                         color: black;
