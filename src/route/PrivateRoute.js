@@ -35,6 +35,12 @@ const Manage = React.lazy(() => import("../components/manage/ManageMember"));
 const ManageBreeder = React.lazy(() =>
   import("../components/manage/manageBreeder/ManageBreeder")
 );
+const BreederDetail = React.lazy(() =>
+  import("../components/manage/breederDetail/BreederDetail")
+);
+const CreateBreeder = React.lazy(() =>
+  import("../components/manage/createBreeder/CreateBreeder")
+);
 
 const PrivateRoutes = [
   //breeder
@@ -83,13 +89,22 @@ const PrivateRoutes = [
       {
         path: path.MANAGEAUCTION,
         element: <LoadLazy children={<ManageAuction />} />,
-      }, {
+      },
+      {
         path: path.CREATEAUCTION,
         element: <LoadLazy children={<CreateAuction />} />,
       },
       {
         path: path.MANAGEBREEDER,
         element: <LoadLazy children={<ManageBreeder />} />,
+      },
+      {
+        path: path.BREEDERDETAIL,
+        element: <LoadLazy children={<BreederDetail />} />,
+      },
+      {
+        path: path.CREATEBREEDER,
+        element: <LoadLazy children={<CreateBreeder />} />,
       },
     ],
   },

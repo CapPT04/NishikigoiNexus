@@ -44,16 +44,31 @@
         grid-template-columns: auto auto;
         gap: 30px;
 
+        // .gender {
+        //   width: 80%;
+        //   .gender-label {
+        //     // width: 80%;
+        //     .male-label,
+        //     .female-label {
+        //       display: inline;
+        //       margin-left: 100px;
+        //       margin-right: 0;
+        //       .gender-input {
+        //         margin-left: 30px;
+        //       }
+        //     }
+        //   }
+        // }
         .first-name,
         .last-name,
-        .gender,
+        .commission,
         .city {
           display: grid;
           gap: 10px;
 
           .first-name-label,
           .last-name-label,
-          .gender-label,
+          .commission-label,
           .city-label {
             color: #121212;
             font-family: Inter;
@@ -65,7 +80,7 @@
 
           .first-name-input,
           .last-name-input,
-          .gender-input,
+          .commission-input,
           .city-input {
             border-radius: 12px;
             border: 1px solid #121212;
@@ -93,8 +108,7 @@
         .email-label,
         .password-label,
         .address-label,
-        .phone-label,
-        .commission-label {
+        .phone-label {
           color: #121212;
           font-family: Inter;
           font-size: 24px;
@@ -106,8 +120,7 @@
         .email-input,
         .password-input,
         .address-input,
-        .phone-input,
-        .commission-input {
+        .phone-input {
           border-radius: 12px;
           border: 1px solid #121212;
           height: 56px;
