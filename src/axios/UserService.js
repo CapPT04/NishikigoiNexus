@@ -27,6 +27,7 @@ const END_POINT = {
   DELETEFISHENTRYINAUCTION: "FishEntry/DeleteFishEntry",
   GETFISHENTRYFORAUCTION: "FishEntry/GetFishEntriesForAuction",
   ADDFISHENTRYTOAUCTION: "Auction/AddFishEntryToAuction",
+  PUBLICBIDDING: "PublicBid/PlaceBid",
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -321,6 +322,18 @@ export const handleBidHistory = async (id) => {
     return await axiosClient.post(
       `${END_POINT.PUBLICBIDHISTORY}?FishEntryId=${id}`
     );
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handlePublicBidding = async (token, entryId, amount) => {
+  try {
+    return await axiosClient.post(`${END_POINT.PUBLICBIDDING}`, {
+      token: token,
+      fishEntryId: entryId,
+      amount: amount,
+    });
   } catch (error) {
     throw error;
   }

@@ -5,6 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import {
   handleBidHistory,
   handleFishEntryById,
+  handlePublicBidding,
 } from "../../../axios/UserService";
 // import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import * as signalR from "@microsoft/signalr";
@@ -12,16 +13,28 @@ import * as signalR from "@microsoft/signalr";
 const FishAuctionMethod3 = () => {
   const [searchParams] = useSearchParams();
   const [fishEntry, setFishEntry] = useState("");
+  const [currentPrice, setCurrentPrice] = useState(0);
+  const [stepPrice, setStepPrice] = useState(0);
+  const [increment, setIncrement] = useState(1);
   const [bids, setBids] = useState([]);
 
   const getFishEntry = async () => {
     const entryId = searchParams.get("fishId");
     const res = await handleFishEntryById(entryId);
     setFishEntry(res.data);
+    setStepPrice(res.data.increment);
 
     const his = await handleBidHistory(entryId);
     // Spread to flatten the array
     setBids((preBid) => [...preBid, ...his.data.$values]);
+    // setCurrentPrice(his.data.$values.slice(-1)[0].currentPrice);
+  };
+  const handleIncrement = () => {
+    setIncrement((prevIncrement) => Math.min(prevIncrement + 1, 5)); // Limit to max of 5
+  };
+
+  const handleDecrement = () => {
+    setIncrement((prevIncrement) => Math.max(prevIncrement - 1, 1)); // Limit to min of 1
   };
 
   useEffect(() => {
@@ -38,25 +51,31 @@ const FishAuctionMethod3 = () => {
       .start()
       .then(() => {
         console.log("Connected to SignalR Hub");
-
         // Listen for the event ReceiveBidPlacement
         connection.on("ReceiveBidPlacement", (data) => {
-          console.log("Received bid placement: ", data);
+          //   console.log("Received bid placement: ", data);
           // Update bids list when new data is received
           setBids((prevBids) => [...prevBids, data]);
         });
+        setCurrentPrice(bids.slice(-1)[0].currentPrice);
       })
       .catch((err) => console.log("Error while starting connection: " + err));
-
     // Cleanup when component unmounts
     return () => {
       connection.stop();
     };
-  }, [bids]);
+  }, [bids, currentPrice]);
 
-  useEffect(() => {
-    console.log(bids);
-  }, [bids]);
+  const totalBidPrice = stepPrice * increment;
+  const newPrice = currentPrice + totalBidPrice;
+  const bidding = async () => {
+    const entryId = searchParams.get("fishId");
+    const token = sessionStorage.getItem("token");
+    const res = await handlePublicBidding(token, entryId, newPrice);
+    console.log(res);
+    getFishEntry();
+  };
+
   return (
     <div className="auction-screen-container">
       <div className="header">
@@ -68,17 +87,24 @@ const FishAuctionMethod3 = () => {
           Ending in: 4:13:03
         </div>
         <div className="fish-aucction-method3-content-row3">
-          <div className="fish-aucction-method3-content-row3-col1">
+          <div className="fish-auction-method3-content-row3-col1">
             <img
               className="main-fish-img"
-              src="../assets/images/login1.png"
+              src="../../assets/images/login1.png"
               alt=""
             />
             <div className="fish-sub-img">
-              <div className="fish-sub-img1"></div>
-              <div className="fish-sub-img1"></div>
-              <div className="fish-sub-img1"></div>
-              <div className="fish-sub-img1"></div>
+              {["body1.png", "login1.png", "login1.png", "login1.png"].map(
+                (img, index) => (
+                  <div
+                    key={index}
+                    className="fish-sub-img1"
+                    data-src={`../../assets/images/${img}`}
+                  >
+                    <img src={`../../assets/images/${img}`} alt="" />
+                  </div>
+                )
+              )}
             </div>
           </div>
           <div className="fish-aucction-method3-content-row3-col2">
@@ -143,20 +169,38 @@ const FishAuctionMethod3 = () => {
                 })}
               </div>
             </div>
-            <div className="place-bid">
-              <div className="place-bid-content">
-                <div className="total-bid-price">
-                  <div className="current-price">
-                    <div className="current-price-text">Current Price</div>
-                    <div className="current-price-number">$140</div>
+            <div class="place-bid">
+              <div class="place-bid-content">
+                <div class="place-bid-content-row1">
+                  <div class="current-price-icon">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
                   </div>
-                  <div className="addition-icon">+</div>
-                  <div className="increment">
-                    <div className="increment-text">Increment</div>
-                    <div className="increment-number">$10</div>
-                  </div>
+                  <div class="current-price-text">Current price</div>
+                  <div class="current-price">{currentPrice}$</div>
                 </div>
-                <button className="place-bid-btn">Place bid at $150</button>
+                <hr />
+                <div class="place-bid-content-row2">
+                  <div class="increment">
+                    <div class="increment-text">Increment</div>
+                    <div class="increment-number">${stepPrice}</div>
+                  </div>
+                  <div class="multiple">x</div>
+                  <div class="cen-div">
+                    <div class="substract" onClick={handleDecrement}>
+                      -
+                    </div>
+                    <div class="increment-bid-number">{increment}</div>
+                    <div class="add" onClick={handleIncrement}>
+                      +
+                    </div>
+                  </div>
+                  <div class="equal">=</div>
+                  <div class="total-bid-price">${totalBidPrice}</div>
+                </div>
+
+                <button class="place-bid-btn" onClick={bidding}>
+                  Place bid at ${newPrice}
+                </button>
               </div>
             </div>
           </div>
