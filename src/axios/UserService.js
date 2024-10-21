@@ -15,6 +15,7 @@ const END_POINT = {
   CREATEAUCTION: "Auction/CreateAuction",
   GETALLBREEDERS: "Breeder/GetAllBreeders", //manager
   CREATEBREEDER: "Breeder/CreateBreeder",
+  GETFISHENTRYINAUCTION: "FishEntry/GetFishEntriesInAuction"
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -44,6 +45,17 @@ export const handleLoginWithGoogleApi = (token) => {
 export const handleManageAuctionApi = () => {
   return axiosClient.get(`${END_POINT.SHOWALLAUCTION}`);
 };
+
+export const handleGetFishEntryInAuction = (auctionId) => {
+  try {
+    return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
+  } catch (error) {
+
+  }
+
+
+
+}
 
 export const handleGetAllBreeders = () => {
   try {
