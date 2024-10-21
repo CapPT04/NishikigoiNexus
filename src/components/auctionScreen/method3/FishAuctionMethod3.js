@@ -75,7 +75,7 @@ const FishAuctionMethod3 = () => {
     console.log(res);
     getFishEntry();
   };
-
+  //test để puhs
   return (
     <div className="auction-screen-container">
       <div className="header">
