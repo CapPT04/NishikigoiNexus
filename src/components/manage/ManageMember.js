@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./ManageMember.scss";
 // import logo from '../../assets/images/logo_png.png';
 import search from "../../assets/images/search.svg";
 import Navbar from "../common/Navbar/Navbar";
 import VerticallyNavbar from "../common/Navbar/VerticallyNavbar";
+import { handleGetAllUser } from "../../axios/UserService";
+import { useNavigate } from "react-router";
 
 const ManageMember = () => {
-  // const
+  const [users, setUsers] = React.useState([]);
+  const navigate = useNavigate();
+
+  const handleAllUser = async () => {
+    const res = await handleGetAllUser();
+    console.log(res.data.$values);
+    setUsers(res.data.$values);
+  };
+
+  useEffect(() => {
+    handleAllUser();
+  }, []);
 
   return (
     <div>
@@ -69,18 +82,28 @@ const ManageMember = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>Thinh</td>
-                <td>Dinh Le</td>
-                <td>thinhdlse181755@fpt.edu.vn</td>
-                <td>0362683366</td>
-                <td>Active</td>
-                <td>
-                  <i className="fa-solid fa-arrow-right"></i>
-                </td>
-              </tr>
+              {users &&
+                users.map((user, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1} </td>
+                      <td>{user.userId}</td>
+                      <td>{user.firstName}</td>
+                      <td>{user.lastName}</td>
+                      <td>{user.email}</td>
+                      <td>{user.phone}</td>
+                      <td>{user.status}</td>
+                      <td>
+                        <i
+                          className="fa-solid fa-arrow-right"
+                          onClick={() =>
+                            navigate(`/Manager/UserDetail?id=${user.userId}`)
+                          }
+                        ></i>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>

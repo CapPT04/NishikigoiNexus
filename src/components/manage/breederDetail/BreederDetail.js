@@ -5,6 +5,8 @@ import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   handleGetAllRequest,
+  handleToggleBreederStatus,
+  handleUpdateBreederCommission,
   handleUserById,
 } from "../../../axios/UserService";
 
@@ -13,6 +15,7 @@ const BreederDetail = () => {
   const [searchParams] = useSearchParams();
   const [breeder, setBreeder] = useState("");
   const [staffCreated, setStaffCreated] = useState("");
+  const [commission, setCommission] = useState(0);
   const [reasonBan, setReasonBan] = useState("");
   const [bannable, setBannable] = useState(false);
   const [unbannable, setUnbannable] = useState(false);
@@ -41,26 +44,58 @@ const BreederDetail = () => {
       throw error;
     }
   };
-  const handleBan = () => {
-    console.log("ban");
+  const handleBan = async () => {
+    const token = sessionStorage.getItem("token");
+    const res = await handleToggleBreederStatus(
+      token,
+      breeder.userId,
+      reasonBan
+    );
+    if (res.status === 200) {
+      // console.log("Banned");
+      window.location.reload();
+    }
   };
-  const handleUnBan = () => {
-    console.log("unban");
+  const handleUnBan = async () => {
+    const token = sessionStorage.getItem("token");
+    const res = await handleToggleBreederStatus(token, breeder.userId, null);
+    // console.log(res);
+    if (res.status === 200) {
+      // console.log("UnBanned");
+      window.location.reload();
+    }
+  };
+
+  const handleUpdateCommission = async () => {
+    const token = sessionStorage.getItem("token");
+    const res = await handleUpdateBreederCommission(
+      token,
+      breeder.userId,
+      commission
+    );
+    if (res.status === 200) {
+      // console.log("UnBanned");
+      window.location.reload();
+    }
   };
   useEffect(() => {
     getAllInfo();
+  }, []);
+  useEffect(() => {
     if (reasonBan.length > 0) {
-      console.log("exist reason");
       setBannable(true);
     } else {
       setBannable(false);
     }
+  }, [reasonBan, bannable]);
+  useEffect(() => {
     if (breeder.status === 2) {
       setUnbannable(true);
+      // console.log("can unban");
     } else {
       setUnbannable(false);
     }
-  }, [reasonBan, bannable, unbannable]);
+  }, [unbannable, breeder.status]);
 
   return (
     <div className="breeder-detail-container">
@@ -191,8 +226,9 @@ const BreederDetail = () => {
                 <input
                   type="text"
                   className="commission-input"
-                  value={breeder.commission}
-                  disabled={true}
+                  placeholder={`${breeder.commission} %`}
+                  onChange={(e) => setCommission(e.target.value)}
+                  // disabled={true}
                 />
               </div>
             </div>
@@ -208,10 +244,17 @@ const BreederDetail = () => {
               />
             </div>
             {/* chua lam update commission */}
-            {/* <div className="breeder-detail-content-row11">
-              <button className="update-btn">Update</button>
-              <button className="cancel-btn">Cancel</button>
-            </div> */}
+            <div className="breeder-detail-content-row11">
+              <button className="update-btn" onClick={handleUpdateCommission}>
+                Update
+              </button>
+              <button
+                className="cancel-btn"
+                onClick={() => window.location.reload()}
+              >
+                Cancel
+              </button>
+            </div>
             <div className="breeder-detail-content-row9">
               <div className="ban-unban">Ban / Unban</div>
             </div>
@@ -222,10 +265,12 @@ const BreederDetail = () => {
               <input
                 type="text"
                 className="reason-input"
-                value={breeder.reason}
+                // value={breeder.reason}
+                placeholder={breeder.reason}
                 onChange={(e) => {
                   setReasonBan(e.target.value);
                 }}
+                disabled={breeder.status === 2 ? true : false}
               />
             </div>
             <div className="breeder-detail-content-row12">

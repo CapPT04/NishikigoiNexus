@@ -6,6 +6,7 @@ const END_POINT = {
   LOGIN: "User/Login",
   SIGNUP: "User/MemberRegister",
   GETUSERBYID: "User/GetUserById",
+  GETALLUSER: "User/GetAllUser",
   FEE: "Fee/GetFee",
   CREATEREQUEST: "Request/CreateRequest", //breeder
   GETALLREQUEST: "Request/GetAllRequest",
@@ -15,7 +16,12 @@ const END_POINT = {
   CREATEAUCTION: "Auction/CreateAuction",
   GETALLBREEDERS: "Breeder/GetAllBreeders", //manager
   CREATEBREEDER: "Breeder/CreateBreeder",
-  GETFISHENTRYINAUCTION: "FishEntry/GetFishEntriesInAuction"
+  UPDATECOMMISSION: "Staff/UpdateBreederCommission",
+  BANBREEDER: "Breeder/ToggleBreederStatus",
+  GETFISHENTRYINAUCTION: "FishEntry/GetFishEntriesInAuction",
+  //auction
+  GETFISHENTRYBYID: "FishEntry/GetFishEntryById",
+  PUBLICBIDHISTORY: "PublicBid/HistoryByFishEntryId",
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -49,13 +55,8 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) {
-
-  }
-
-
-
-}
+  } catch (error) {}
+};
 
 export const handleGetAllBreeders = () => {
   try {
@@ -216,6 +217,55 @@ export const handleCreateBreeder = async (token, breeder) => {
       gender: 1,
       commission: breeder.commission,
     });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleToggleBreederStatus = async (token, id, reason) => {
+  try {
+    return await axiosClient.put(`${END_POINT.BANBREEDER}?id=${id}`, {
+      token: token,
+      reason: reason,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleUpdateBreederCommission = async (
+  token,
+  id,
+  newCommission
+) => {
+  try {
+    return await axiosClient.put(
+      `${END_POINT.UPDATECOMMISSION}?id=${id}&token=${token}&commission=${newCommission}`
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetAllUser = async () => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETALLUSER}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleFishEntryById = async (id) => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETFISHENTRYBYID}/${id}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleBidHistory = async (id) => {
+  try {
+    return await axiosClient.post(
+      `${END_POINT.PUBLICBIDHISTORY}?FishEntryId=${id}`
+    );
   } catch (error) {
     throw error;
   }

@@ -8,12 +8,19 @@ const Login = React.lazy(() => import("../components/LoginPage"));
 const Signup = React.lazy(() =>
   import("../components/public/SignupPage/SignupPage")
 );
+const AuctionPage = React.lazy(() =>
+  import("../components/auctionScreen/method3/FishAuctionMethod3")
+);
 
 const PublicRoutes = [
   // { path: path.HOME, element: <LoadLazy children={<Home />} /> },
   { path: path.HOME, element: <Home /> },
   { path: path.LOGIN, element: <LoadLazy children={<Login />} /> },
   { path: path.SIGNUP, element: <LoadLazy children={<Signup />} /> },
+  {
+    path: path.AUCTIONMETHOD3,
+    element: <LoadLazy children={<AuctionPage />} />,
+  },
   { path: "*", element: <LoadLazy children={<NotFound />} /> },
 ];
 
