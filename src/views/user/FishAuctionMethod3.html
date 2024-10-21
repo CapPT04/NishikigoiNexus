@@ -20,7 +20,7 @@
     <div class="header">
         <div class="navigation-bar">
             <div class="navigation-bar-left-content">
-                <img class="logo" src="../assets/images/logo_png.png" alt="">
+                <img class="logo" src="../../assets/images/logo_png.png" alt="">
                 <div class="project-name">Nishikigoi Nexus</div>
             </div>
 
@@ -42,13 +42,22 @@
         <div class="fish-aucction-method3-content-row2">Ending in: 4:13:03</div>
         <div class="fish-aucction-method3-content-row3">
             <div class="fish-aucction-method3-content-row3-col1">
-                <img class="main-fish-img" src="../assets/images/login1.png" alt="">
+                <img class="main-fish-img" src="../../assets/images/login1.png" alt="">
                 <div class="fish-sub-img">
-                    <div class="fish-sub-img1"></div>
-                    <div class="fish-sub-img1"></div>
-                    <div class="fish-sub-img1"></div>
-                    <div class="fish-sub-img1"></div>
+                    <div class="fish-sub-img1" data-src="../../assets/images/body1.png">
+                        <img src="../../assets/images/body1.png" alt="">
+                    </div>
+                    <div class="fish-sub-img1" data-src="../../assets/images/login1.png">
+                        <img src="../../assets/images/login1.png" alt="">
+                    </div>
+                    <div class="fish-sub-img1" data-src="../../assets/images/login1.png">
+                        <img src="../../assets/images/login1.png" alt="">
+                    </div>
+                    <div class="fish-sub-img1" data-src="../../assets/images/login1.png">
+                        <img src="../../assets/images/login1.png" alt="">
+                    </div>
                 </div>
+
             </div>
             <div class="fish-aucction-method3-content-row3-col2">
                 <div class="fish-info">
@@ -129,19 +138,37 @@
                 </div>
                 <div class="place-bid">
                     <div class="place-bid-content">
-                        <div class="total-bid-price">
-                            <div class="current-price">
-                                <div class="current-price-text">Current Price</div>
-                                <div class="current-price-number">$140</div>
+                        <div class="place-bid-content-row1">
+                            <div class="current-price-icon">
+                                <i class="fa-solid fa-file-invoice-dollar"></i>
                             </div>
-                            <div class="addition-icon">+</div>
+                            <div class="current-price-text">
+                                Current price
+                            </div>
+                            <div class="current-price">
+                                140$
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="place-bid-content-row2">
                             <div class="increment">
                                 <div class="increment-text">Increment</div>
                                 <div class="increment-number">$10</div>
                             </div>
-                        </div>
-                        <button class="place-bid-btn">Place bid at $150</button>
+                            <div class="multiple">x</div>
+                            <div class="cen-div">
+                                <div class="substract">-</div>
+                                <div class="increment-bid-number">2</div>
 
+                                <div class="add">+</div>
+                            </div>
+                            <div class="equal">=</div>
+                            <div class="total-bid-price">
+                                $20
+                            </div>
+                        </div>
+
+                        <button class="place-bid-btn">Place bid at $150</button>
                     </div>
                 </div>
             </div>
@@ -150,18 +177,18 @@
     </div>
     <footer class="footer">
         <div class="logo-footer">
-            <img class="logo-img-footer" src="../assets/images/logo_png.png" alt="">
+            <img class="logo-img-footer" src="../../assets/images/logo_png.png" alt="">
             <div class="name-project-footer">Nishikigoi Nexus</div>
         </div>
         <div class="social-contact">
             <div class="instagram">
-                <img src="../assets/images/Instagram.svg" alt="">
+                <img src="../../assets/images/Instagram.svg" alt="">
             </div>
             <div class="facebook">
-                <img src="../assets/images/Social Icons (1).svg" alt="">
+                <img src="../../assets/images/Social Icons (1).svg" alt="">
             </div>
             <div class="google">
-                <img src="../assets/images/Vector.svg" alt="">
+                <img src="../../assets/images/Vector.svg" alt="">
             </div>
         </div>
         <div class="nav-bar-footer">
@@ -173,5 +200,65 @@
         </div>
     </footer>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const incrementButton = document.querySelector('.add');
+        const decrementButton = document.querySelector('.substract');
+        const bidDisplay = document.querySelector('.increment-bid-number');
+
+        incrementButton.addEventListener('click', () => {
+            let currentValue = parseInt(bidDisplay.textContent);
+            if (currentValue < 5) {
+                bidDisplay.textContent = currentValue + 1;
+            }
+        });
+
+        decrementButton.addEventListener('click', () => {
+            let currentValue = parseInt(bidDisplay.textContent);
+            if (currentValue > 1) {
+                bidDisplay.textContent = currentValue - 1;
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const incrementButton = document.querySelector('.add');
+        const decrementButton = document.querySelector('.substract');
+        const bidDisplay = document.querySelector('.increment-bid-number');
+
+        // Xử lý sự kiện cho các hình ảnh nhỏ
+        const subImages = document.querySelectorAll('.fish-sub-img1');
+        const mainImage = document.querySelector('.main-fish-img');
+
+        incrementButton.addEventListener('click', () => {
+            let currentValue = parseInt(bidDisplay.textContent);
+            if (currentValue < 5) {
+                bidDisplay.textContent = currentValue + 1;
+            }
+        });
+
+        decrementButton.addEventListener('click', () => {
+            let currentValue = parseInt(bidDisplay.textContent);
+            if (currentValue > 1) {
+                bidDisplay.textContent = currentValue - 1;
+            }
+        });
+
+        // Thay đổi hình ảnh chính khi hover vào hình ảnh nhỏ
+        subImages.forEach(subImage => {
+            subImage.addEventListener('mouseenter', () => {
+                const newSrc = subImage.getAttribute('data-src');
+                mainImage.src = newSrc;
+            });
+
+            subImage.addEventListener('mouseleave', () => {
+                // Bạn có thể đặt lại hình ảnh chính nếu muốn
+                // mainImage.src = '../../assets/images/login1.png'; // Hình ảnh mặc định
+            });
+        });
+    });
+</script>
 
 </html>
