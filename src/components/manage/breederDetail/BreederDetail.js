@@ -15,6 +15,7 @@ const BreederDetail = () => {
   const [staffCreated, setStaffCreated] = useState("");
   const [reasonBan, setReasonBan] = useState("");
   const [bannable, setBannable] = useState(false);
+  const [unbannable, setUnbannable] = useState(false);
   const [requests, setRequests] = useState([]);
 
   const statusRequest = ["Processing", "Paying", "Approved", "Denied"];
@@ -54,7 +55,12 @@ const BreederDetail = () => {
     } else {
       setBannable(false);
     }
-  }, [reasonBan, bannable]);
+    if (breeder.status === 2) {
+      setUnbannable(true);
+    } else {
+      setUnbannable(false);
+    }
+  }, [reasonBan, bannable, unbannable]);
 
   return (
     <div className="breeder-detail-container">
@@ -230,7 +236,11 @@ const BreederDetail = () => {
               >
                 Ban
               </button>
-              <button className="unban-btn" onClick={handleUnBan}>
+              <button
+                className="unban-btn"
+                disabled={!unbannable}
+                onClick={handleUnBan}
+              >
                 Unban
               </button>
             </div>
