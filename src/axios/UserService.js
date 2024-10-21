@@ -22,17 +22,11 @@ const END_POINT = {
   //auction
   GETFISHENTRYBYID: "FishEntry/GetFishEntryById",
   PUBLICBIDHISTORY: "PublicBid/HistoryByFishEntryId",
-};
-
-export const handleCreateAuctionApi = (token, auctionDate) => {
-  try {
-    return axiosClient.post(`${END_POINT.CREATEAUCTION}`, {
-      token: token,
-      startTime: auctionDate,
-    });
-  } catch (error) {
-    throw error;
-  }
+  GETFISHENTRYINAUCTION: "FishEntry/GetFishEntriesInAuction",
+  UPDATEAUCTIONDETAIL: "FishEntry/UpdateFishEntryDates",
+  DELETEFISHENTRYINAUCTION: "FishEntry/DeleteFishEntry",
+  GETFISHENTRYFORAUCTION: "FishEntry/GetFishEntriesForAuction",
+  ADDFISHENTRYTOAUCTION: "Auction/AddFishEntryToAuction",
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -56,6 +50,67 @@ export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
   } catch (error) {}
+};
+
+export const handleCreateAuctionApi = (token, auctionDate) => {
+  try {
+    return axiosClient.post(`${END_POINT.CREATEAUCTION}`, {
+      token: token,
+      startTime: auctionDate,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleUpdateAuctionDetailApi = (
+  fishEntryId,
+  startTime,
+  finishTime
+) => {
+  try {
+    return axiosClient.put(`${END_POINT.UPDATEAUCTIONDETAIL}`, {
+      fishEntryId: fishEntryId,
+      startdate: startTime,
+      enddate: finishTime,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleDeleteFishEntryInAuctionApi = (auctionID, fishEntryID) => {
+  try {
+    return axiosClient.put(`${END_POINT.DELETEFISHENTRYINAUCTION}`, {
+      auctionId: auctionID,
+      fishentryId: fishEntryID,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetFishEntryForAuctionApi = () => {
+  try {
+    return axiosClient.get(`${END_POINT.GETFISHENTRYFORAUCTION}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleAddFishEntryForAuctionApi = (
+  fishEntryId,
+  auctionId,
+  token
+) => {
+  try {
+    return axiosClient.post(`${END_POINT.ADDFISHENTRYTOAUCTION}`, {
+      fishEntryId: fishEntryId,
+      auctionId: auctionId,
+      token: token,
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const handleGetAllBreeders = () => {

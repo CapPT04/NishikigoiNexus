@@ -2,12 +2,24 @@ import React, { useEffect, useState } from "react";
 import "./AuctionDetail.scss";
 import VerticallyNavbar from "../common/Navbar/VerticallyNavbar";
 import { useLocation } from "react-router";
-import { handleGetFishEntryInAuction } from "../../axios/UserService";
-
+import { handleAddFishEntryForAuctionApi, handleDeleteFishEntryInAuctionApi, handleGetFishEntryForAuctionApi, handleGetFishEntryInAuction } from "../../axios/UserService";
+import logo from "../../assets/images/logo_png.png";
+import { handleUpdateAuctionDetailApi } from "../../axios/UserService"
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const AuctionDetail = () => {
     const location = useLocation();
     const auction = location.state || {}; // Default to empty object
     const [fishEntryInAuction, setFishEntryInAuction] = useState([]);
+    const [startTime, setStartTime] = useState("");
+    const [finishTime, setFinishTime] = useState("");
+    console.log(startTime);
+    console.log(finishTime);
+    const [fishEntryForAuction, setFishEntryForAuction] = useState("");
+    const [showFishEntryTable, setShowFishEntryTable] = useState(false);
+
+
+
 
     useEffect(() => {
         const fetchAuctions = async () => {
@@ -15,7 +27,7 @@ const AuctionDetail = () => {
                 console.log("Location Object:", location);
                 console.log("Auction Data:", auction);
                 const response = await handleGetFishEntryInAuction(parseInt(auction.auctionId, 10));
-                setFishEntryInAuction(response.data.$values || []); // Handle the case where $values might be undefined
+                setFishEntryInAuction(response.data.$values || []);
             } catch (error) {
                 console.error("Error fetching auctions:", error);
             }
@@ -23,12 +35,131 @@ const AuctionDetail = () => {
         fetchAuctions();
     }, [location, auction]);
 
+    const handleUpdateBtn = async (fishEntry) => {
+        try {
+            const updatedStartTime = startTime || fishEntry.startDate;
+            const updatedFinishTime = finishTime || fishEntry.endDate;
+            const response = await handleUpdateAuctionDetailApi(fishEntry.fishEntryId, updatedStartTime, updatedFinishTime);
+            console.log(response);
+
+            if (response && response.status === 200) {
+                toast.success("Auction updated successfully!", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            } else {
+                toast.error("Failed to update auction. Please try again.", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+        } catch (error) {
+            console.error("Error updating auction:", error); // Log the error for debugging
+            toast.error("An error occurred while updating. Please try again.", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    };
+
+    const handleDeleteFishEntryInAuction = async (fishEntry) => {
+        try {
+            const response = await handleDeleteFishEntryInAuctionApi(auction.auctionId, fishEntry.fishEntryId);
+            const updatedAuctionEntriesResponse = await handleGetFishEntryInAuction(parseInt(auction.auctionId, 10));
+            setFishEntryInAuction(updatedAuctionEntriesResponse.data.$values || []);
+            const availableFishEntriesResponse = await handleGetFishEntryForAuctionApi();
+            setFishEntryForAuction(availableFishEntriesResponse.data.$values || []);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const handleAddFishBtn = async () => {
+        try {
+            const response = await handleGetFishEntryForAuctionApi();
+            console.log(response);
+            setFishEntryForAuction(response.data.$values);
+            setShowFishEntryTable(true);
+
+
+
+        } catch (error) {
+            throw error;
+        }
+    }
+    const handleAddFishEntryToAuction = async (fishEntry) => {
+        try {
+            const response = await handleAddFishEntryForAuctionApi(fishEntry.fishEntryId, auction.auctionId, sessionStorage.getItem("token"));
+            console.log(response);
+
+            if (response && response.status === 200) {
+                // Fetch updated fish entries in auction after successful addition
+                const updatedAuctionEntriesResponse = await handleGetFishEntryInAuction(parseInt(auction.auctionId, 10));
+                setFishEntryInAuction(updatedAuctionEntriesResponse.data.$values || []); // Update state for auction entries
+
+                // Fetch available fish entries for auction
+                const availableFishEntriesResponse = await handleGetFishEntryForAuctionApi();
+                setFishEntryForAuction(availableFishEntriesResponse.data.$values || []); // Update state for available fish entries
+
+                toast.success("Fish entry added to auction successfully!", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            } else {
+                toast.error("Failed to add fish entry. Please try again.", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+        } catch (error) {
+            console.error("Error adding fish entry:", error);
+            toast.error("An error occurred while adding the fish entry. Please try again.", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    };
+
+
+
+
     return (
         <div className="auction-detail-container">
+            <ToastContainer />
             <div className="header">
                 <div className="navigation-bar">
                     <div className="navigation-bar-left-content">
-                        <img className="logo" src="../../assets/images/logo_png.png" alt="" />
+                        <img className="logo" src={logo} alt="" />
                         <div className="project-name">Nishikigoi Nexus</div>
                     </div>
 
@@ -79,9 +210,57 @@ const AuctionDetail = () => {
 
                         <div className="auction-detail-content-row5">
                             <div className="add-fish">
-                                <i className="fa-solid fa-plus"></i>
+                                <i
+                                    className="fa-solid fa-plus"
+                                    onClick={() => handleAddFishBtn()}
+                                ></i>
+
                             </div>
                         </div>
+                        {showFishEntryTable && (
+                            <div className="auction-detail-content-row7">
+                                <table className="table-added-fish-entry">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>FishEntry ID</th>
+                                            <th>Expected Date</th>
+                                            <th>Method</th>
+                                            <th>Add</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {fishEntryForAuction.length > 0 ? (
+                                            fishEntryForAuction.map((fishEntry, index) => (
+                                                <tr key={fishEntry.fishEntryId || index}>
+                                                    <td>{index + 1}</td>
+                                                    <td>{fishEntry.fishEntryId || "Unknown Fish"}</td>
+                                                    <td>{fishEntry.expectedDate || "N/A"}</td>
+                                                    <td>
+                                                        {fishEntry.auctionMethod === 1 && 'FixedPriceSale'}
+                                                        {fishEntry.auctionMethod === 2 && "SecretBid"}
+                                                        {fishEntry.auctionMethod === 3 && "PublicBid"}
+                                                        {fishEntry.auctionMethod === 4 && "DutchAuction"}
+                                                    </td>
+
+                                                    <td>
+                                                        <i class="fa-solid fa-plus"
+                                                            onClick={() => handleAddFishEntryToAuction(fishEntry)}
+                                                        ></i>
+
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="5">No FishEntry available</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        )}
 
                         <div className="auction-detail-content-row6">
                             <table className="table-manage-auction">
@@ -106,6 +285,7 @@ const AuctionDetail = () => {
                                                     <input
                                                         type="datetime-local"
                                                         className="start-time-input"
+                                                        onChange={(even) => setStartTime(even.target.value)}
                                                         defaultValue={fishEntry.startDate}
                                                     />
                                                 </td>
@@ -113,6 +293,7 @@ const AuctionDetail = () => {
                                                     <input
                                                         type="datetime-local"
                                                         className="finish-time-input"
+                                                        onChange={(even) => setFinishTime(even.target.value)}
                                                         defaultValue={fishEntry.endDate}
                                                     />
                                                 </td>
@@ -122,10 +303,17 @@ const AuctionDetail = () => {
                                                     {fishEntry.status === 3 && 'Bidding'}
                                                     {fishEntry.status === 4 && 'Ended'}</td>
                                                 <td>
-                                                    <button className="update-btn">Update</button>
+                                                    <button
+                                                        className="update-btn"
+                                                        onClick={() => handleUpdateBtn(fishEntry)}
+                                                    >Update</button>
                                                 </td>
                                                 <td>
-                                                    <i className="fa-solid fa-trash"></i>
+                                                    <i
+
+                                                        className="fa-solid fa-trash delete-icon"
+                                                        onClick={() => handleDeleteFishEntryInAuction(fishEntry)}
+                                                    ></i>
                                                 </td>
                                             </tr>
                                         ))) : (

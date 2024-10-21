@@ -203,7 +203,8 @@
                     }
                 }
 
-                .auction-detail-content-row6 {
+                .auction-detail-content-row6,
+                .auction-detail-content-row7 {
                     table {
                         border-collapse: collapse;
                         border         : 1px solid black;
@@ -224,6 +225,28 @@
                             a:hover {
                                 cursor : pointer;
                                 opacity: 0.5;
+                            }
+
+
+
+
+
+                            i {
+                                background   : none;
+                                border-radius: 9px;
+                                background   : var(--Xanh, #0097B2);
+                                font-size    : 24px;
+                                padding      : 10px 10px;
+                                color        : #fff;
+
+                                &:hover {
+                                    cursor : pointer;
+                                    opacity: 0.7;
+                                }
+                            }
+
+                            .delete-icon {
+                                background: none;
                             }
                         }
 
