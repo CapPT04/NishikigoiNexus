@@ -7,7 +7,7 @@
   --nude: #e7cdbf;
 }
 
-.breeder-detail-container {
+.member-detail-container {
   display: grid;
   grid-template-rows: auto auto;
 
@@ -110,7 +110,7 @@
     .body-content-right {
       background: var(--nude);
 
-      .breeder-detail-content {
+      .member-detail-content {
         display: grid;
         width: 80%;
         margin: 0 auto;
@@ -118,7 +118,7 @@
         grid-template-rows: auto;
         gap: 30px;
 
-        .breeder-detail-content-row1 {
+        .member-detail-content-row1 {
           display: flex;
           gap: 100px;
           justify-content: flex-end;
@@ -154,7 +154,7 @@
           }
         }
 
-        .breeder-detail-content-row2 {
+        .member-detail-content-row2 {
           color: #121212;
           font-family: Poppins;
           font-size: 36px;
@@ -163,7 +163,7 @@
           line-height: normal;
         }
 
-        .breeder-detail-content-row3 {
+        .member-detail-content-row3 {
           color: #121212;
           font-family: Inter;
           font-size: 24px;
@@ -172,10 +172,9 @@
           line-height: normal;
         }
 
-        .breeder-detail-content-row4,
-        .breeder-detail-content-row5,
-        .breeder-detail-content-row6,
-        .breeder-detail-content-row7 {
+        .member-detail-content-row4,
+        .member-detail-content-row5,
+        .member-detail-content-row6 {
           display: grid;
           grid-template-columns: auto auto;
           gap: 100px;
@@ -186,7 +185,8 @@
           .first-name,
           .last-name,
           .city,
-          .commission {
+          .commission,
+          .gender {
             display: grid;
             grid-template-rows: auto;
             gap: 10px;
@@ -198,7 +198,7 @@
             .first-name-label,
             .last-name-label,
             .city-label,
-            .commission-label {
+            .gender-label {
               color: #121212;
               font-family: Inter;
               font-size: 24px;
@@ -213,36 +213,7 @@
             .first-name-input,
             .last-name-input,
             .city-input,
-            .commission-input {
-              border-radius: 12px;
-              border: 1px solid #121212;
-              height: 56px;
-              color: #121212;
-              font-family: Inter;
-              font-size: 24px;
-              font-style: normal;
-              font-weight: 400;
-              line-height: normal;
-              text-indent: 5px;
-              background: none;
-            }
-          }
-
-          .last-update {
-            display: grid;
-            grid-template-rows: auto;
-            gap: 10px;
-
-            .last-update-label {
-              color: #121212;
-              font-family: Inter;
-              font-size: 24px;
-              font-style: normal;
-              font-weight: 400;
-              line-height: normal;
-            }
-
-            .last-update-input {
+            .gender-input {
               border-radius: 12px;
               border: 1px solid #121212;
               height: 56px;
@@ -258,8 +229,8 @@
           }
         }
 
-        .breeder-detail-content-row8,
-        .breeder-detail-content-row10 {
+        .member-detail-content-row7,
+        .member-detail-content-row9 {
           display: grid;
           grid-template-rows: auto;
           gap: 10px;
@@ -291,7 +262,7 @@
           }
         }
 
-        .breeder-detail-content-row9 {
+        .member-detail-content-row8 {
           .ban-unban {
             color: #121212;
             font-family: Poppins;
@@ -302,23 +273,11 @@
           }
         }
 
-        .breeder-detail-content-row11,
-        .breeder-detail-content-row12 {
+        .member-detail-content-row10 {
           display: flex;
           justify-content: flex-end;
           gap: 30px;
-          // .update-btn {
-          //   border-radius: 9px;
-          //   background: #0097b2;
-          //   width: 187.115px;
-          //   height: 60px;
-          //   color: #121212;
-          //   font-family: Poppins;
-          //   font-size: 26px;
-          //   font-style: normal;
-          //   font-weight: 700;
-          //   line-height: normal;
-          // }
+
           .update-btn,
           .ban-btn {
             border-radius: 9px;
@@ -332,9 +291,7 @@
             font-weight: 700;
             line-height: normal;
           }
-          .bannable {
-            background: gray !important;
-          }
+
           .cancel-btn,
           .unban-btn {
             border: 2px solid #0097b2;
@@ -357,8 +314,8 @@
           }
         }
 
-        .breeder-detail-content-row13 {
-          .request-history {
+        .member-detail-content-row11 {
+          .bidding-history {
             color: #121212;
             font-family: Poppins;
             font-size: 36px;
@@ -368,14 +325,13 @@
           }
         }
 
-        .breeder-detail-content-row14 {
+        .member-detail-content-row12 {
           margin-bottom: 50px;
 
           table {
             border-collapse: collapse;
             border: 1px solid black;
             width: 100%;
-            margin: 50px 0 0 !important;
 
             th,
             td {
@@ -417,11 +373,6 @@
             tr:nth-child(even) {
               background: #d5bdb0;
 
-              td {
-                color: black;
-              }
-            }
-            tr:nth-child(odd) {
               td {
                 color: black;
               }

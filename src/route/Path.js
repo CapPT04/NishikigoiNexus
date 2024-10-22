@@ -18,6 +18,7 @@ export const path = {
   //manage
   MANAGER: "/Manager",
   MANAGE: "Manage",
+  USERDETAIL: "UserDetail",
   MANAGEAUCTION: "ManageAuction",
   CREATEAUCTION: "CreateAuction",
   MANAGEBREEDER: "ManageBreeder",
@@ -25,4 +26,6 @@ export const path = {
   BREEDERDETAIL: "BreederDetail",
   CREATEBREEDER: "CreateBreeder",
 
+  //
+  AUCTIONMETHOD3: "/AutionFish",
 };

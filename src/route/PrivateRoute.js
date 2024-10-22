@@ -35,6 +35,9 @@ const AuctionDetail = React.lazy(() =>
 //staff
 const Staff = React.lazy(() => import("../route/StaffRoute"));
 const Manage = React.lazy(() => import("../components/manage/ManageMember"));
+const UserDetail = React.lazy(() =>
+  import("../components/manage/userDetail/UserDetail")
+);
 const ManageBreeder = React.lazy(() =>
   import("../components/manage/manageBreeder/ManageBreeder")
 );
@@ -107,7 +110,7 @@ const PrivateRoutes = [
       },
       {
         path: path.AUCTIONDETAIL,
-        element: <LoadLazy children={<AuctionDetail />} />
+        element: <LoadLazy children={<AuctionDetail />} />,
       },
       {
         path: path.BREEDERDETAIL,
@@ -116,6 +119,10 @@ const PrivateRoutes = [
       {
         path: path.CREATEBREEDER,
         element: <LoadLazy children={<CreateBreeder />} />,
+      },
+      {
+        path: path.USERDETAIL,
+        element: <LoadLazy children={<UserDetail />} />,
       },
     ],
   },

@@ -10,6 +10,9 @@ const Signup = React.lazy(() =>
 );
 const AuctionScreen = React.lazy(() => import("../components/public/AuctionScreen/AuctionScreen"));
 const AuctionScreenDetail = React.lazy(() => import("../components/public/AuctionScreenDetail/AuctionScreenDetail"));
+const AuctionPage = React.lazy(() =>
+  import("../components/auctionScreen/method3/FishAuctionMethod3")
+);
 
 const PublicRoutes = [
   // { path: path.HOME, element: <LoadLazy children={<Home />} /> },
@@ -17,6 +20,10 @@ const PublicRoutes = [
   { path: path.AUCTION, element: <AuctionScreen /> },
   { path: path.AUCTIONSCREENDETAIL, element: <AuctionScreenDetail /> },
   { path: path.SIGNUP, element: <LoadLazy children={<Signup />} /> },
+  {
+    path: path.AUCTIONMETHOD3,
+    element: <LoadLazy children={<AuctionPage />} />,
+  },
   { path: "*", element: <LoadLazy children={<NotFound />} /> },
 ];
 
