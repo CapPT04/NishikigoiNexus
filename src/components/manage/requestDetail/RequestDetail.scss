@@ -1,0 +1,373 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-family: "Saira Condensed";
+  --nude: #e7cdbf;
+}
+
+.request-detail-container {
+  display: grid;
+  grid-template-rows: auto auto;
+
+  .header {
+    height: 84px;
+    background: #121212;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .navigation-bar {
+      width: 1120px;
+      height: 64px;
+      display: flex;
+      justify-content: space-between;
+
+      .navigation-bar-left-content {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+
+        .logo {
+          width: 64px;
+          height: 64px;
+        }
+
+        .project-name {
+          font-size: 32px;
+          font-weight: 700;
+          color: #fff;
+        }
+      }
+
+      .navigation-bar-right-content {
+        display: flex;
+        width: 600px;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+
+        a {
+          color: #fff;
+          font-size: 20px;
+          font-weight: 700;
+          padding: 8px 15px;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 0.7;
+          }
+        }
+
+        .staff {
+          border-radius: 24px;
+          background: #df0012;
+          padding: 7px 21px;
+        }
+      }
+    }
+  }
+
+  .body-content {
+    display: grid;
+    grid-template-columns: 10% auto;
+
+    .navigation-bar-vertically {
+      padding-top: 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+      flex-shrink: 0;
+      background: #1c1c1c;
+      width: 160px;
+      height: 841px;
+      color: #fff;
+      font-size: 26px;
+      font-weight: 400;
+      line-height: normal;
+      align-items: center !important;
+
+      a {
+        color: #fff;
+
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+
+      .request {
+        margin-left: 30px;
+        display: flex;
+        height: 67px;
+        padding: 10px 21px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: stretch;
+        background: #df0012;
+      }
+    }
+
+    .body-content-right {
+      background: var(--nude);
+
+      .request-detail-content {
+        display: grid;
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 40px;
+        grid-template-rows: auto;
+        gap: 30px;
+
+        .request-detail-content-row1 {
+          display: flex;
+          gap: 100px;
+          justify-content: flex-end;
+          align-items: center;
+
+          .status {
+            color: #121212;
+            text-align: right;
+            font-family: Poppins;
+            font-size: 26px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+          }
+
+          .set-status {
+            -webkit-appearance: none;
+            width: 226px;
+            height: 52px;
+            flex-shrink: 0;
+            border-radius: 9px;
+            border: 0.75px solid #0097b2;
+            background: #fff;
+            color: #121212;
+            font-family: Poppins;
+            font-size: 26px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+          }
+        }
+
+        .request-detail-content-row2 {
+          color: #121212;
+          font-family: Poppins;
+          font-size: 36px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+        }
+
+        .request-detail-content-row3 {
+          color: #121212;
+          font-family: Inter;
+          font-size: 24px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+        }
+
+        .request-detail-content-row7,
+        .request-detail-content-row16 {
+          display: grid;
+          grid-template-rows: auto;
+          gap: 10px;
+
+          .note-label,
+          .reason-label {
+            color: #121212;
+            font-family: Inter;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+
+          .note-input,
+          .reason-input {
+            width: 100%;
+            height: 56px;
+            border-radius: 12px;
+            border: 1px solid #121212;
+            text-indent: 5px;
+            color: #121212;
+            font-family: Inter;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            background: none;
+          }
+        }
+
+        .request-detail-content-row4,
+        .request-detail-content-row5,
+        .request-detail-content-row6,
+        .request-detail-content-row10,
+        .request-detail-content-row11,
+        .request-detail-content-row12,
+        .request-detail-content-row13,
+        .request-detail-content-row14 {
+          display: grid;
+          grid-template-columns: auto auto;
+          gap: 100px;
+
+          .update-by,
+          .update-date,
+          .create-by,
+          .expected-date,
+          .delivery-cost,
+          .fee,
+          .fish-id,
+          .auction-id,
+          .auction-method,
+          .increment,
+          .min-price,
+          .max-price,
+          .expected-date,
+          .start-date,
+          .end-date,
+          .highest-price {
+            display: grid;
+            grid-template-rows: auto;
+            gap: 10px;
+
+            .update-by-label,
+            .update-date-label,
+            .create-by-label,
+            .expected-date-label,
+            .delivery-cost-label,
+            .fee-label,
+            .fish-id-label,
+            .auction-id-label,
+            .auction-method-label,
+            .increment-label,
+            .min-price-label,
+            .max-price-label,
+            .expected-date-label,
+            .start-date-lael,
+            .end-date-label,
+            .highest-price-label {
+              color: #121212;
+              font-family: Inter;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+            }
+
+            .update-by-input,
+            .update-date-input,
+            .create-by-input,
+            .expected-date-input,
+            .delivery-cost-input,
+            .fee-input,
+            .fish-id-input,
+            .auction-id-input,
+            .auction-method-input,
+            .increment-input,
+            .min-price-input,
+            .max-price-input,
+            .expected-date-input,
+            .start-date-input,
+            .end-date-input,
+            .highest-price-input {
+              border-radius: 12px;
+              border: 1px solid #121212;
+              height: 56px;
+              color: #121212;
+              font-family: Inter;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+              text-indent: 5px;
+              background: none;
+            }
+          }
+        }
+
+        .request-detail-content-row8 {
+          display: flex;
+          justify-content: flex-end;
+          gap: 30px;
+
+          .send-payment-request-btn {
+            border-radius: 9px;
+            background: #0097b2;
+            width: 364px;
+            height: 52px;
+            color: #121212;
+            font-family: Poppins;
+            font-size: 26px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+
+            .send-payment-request-btn {
+              cursor: pointer;
+              opacity: 0.7;
+            }
+          }
+        }
+
+        .request-detail-content-row9,
+        .request-detail-content-row15 {
+          color: #121212;
+          font-family: Poppins;
+          font-size: 36px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+        }
+
+        .request-detail-content-row17 {
+          display: flex;
+          justify-content: flex-end;
+          gap: 30px;
+
+          .deny-btn {
+            border-radius: 9px;
+            background: #0097b2;
+            width: 187.115px;
+            height: 52px;
+            color: #121212;
+            font-family: Poppins;
+            font-size: 26px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+          }
+
+          .cancel-btn {
+            border: 2px solid #0097b2;
+            background: none;
+            border-radius: 9px;
+            width: 187.115px;
+            height: 52px;
+            color: #121212;
+            font-family: Poppins;
+            font-size: 26px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            margin-bottom: 50px;
+          }
+
+          .deny-btn:hover,
+          .cancel-btn:hover {
+            cursor: pointer;
+            opacity: 0.7;
+          }
+        }
+      }
+    }
+  }
+}

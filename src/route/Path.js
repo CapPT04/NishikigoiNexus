@@ -25,7 +25,8 @@ export const path = {
   AUCTIONDETAIL: "AuctionDetail",
   BREEDERDETAIL: "BreederDetail",
   CREATEBREEDER: "CreateBreeder",
-
+  MANAGEREQUEST: "ManageRequest",
+  REQUESTDETAIL: "RequestDetail",
   //
   AUCTIONMETHOD: "/AuctionFish",
 };
