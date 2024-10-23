@@ -16,6 +16,7 @@ const AuctionPage = React.lazy(() =>
 
 const PublicRoutes = [
   // { path: path.HOME, element: <LoadLazy children={<Home />} /> },
+  { path: path.LOGIN, element: <Login /> },
   { path: path.HOME, element: <Home /> },
   { path: path.AUCTION, element: <AuctionScreen /> },
   { path: path.AUCTIONSCREENDETAIL, element: <AuctionScreenDetail /> },

@@ -27,7 +27,7 @@ const END_POINT = {
   DELETEFISHENTRYINAUCTION: "FishEntry/DeleteFishEntry",
   GETFISHENTRYFORAUCTION: "FishEntry/GetFishEntriesForAuction",
   ADDFISHENTRYTOAUCTION: "Auction/AddFishEntryToAuction",
-  GETPUBLICAUCTIONS: "Auction/GetPublicAuctions",
+  GETPUBLICAUCTIONS: "Auction/GetPublicAuctionsWithFishEntryCount",
   PUBLICBIDDING: "PublicBid/PlaceBid",
 };
 

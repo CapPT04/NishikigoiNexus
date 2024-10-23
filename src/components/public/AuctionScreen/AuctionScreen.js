@@ -16,6 +16,8 @@ const AuctionScreen = () => {
             try {
                 const response = await handleGetPublicAuctionsApi();
                 setPublicAuctions(response.data.$values);
+                console.log(response.data.$values);
+
             } catch (error) {
                 console.error("Error fetching auctions:", error);
             }
@@ -31,11 +33,14 @@ const AuctionScreen = () => {
                     <div key={idx} className="auction-item">
                         <div className="auction-item-row1">
                             <div className="auction-id">Auction: #{auction.auctionId}</div>
-                            <div className="auction-fish-number">{auction.status} Fishes</div>
+                            <div className="auction-fish-number">{auction.fishEntryCount} Fishes</div>
                         </div>
                         <div className="auction-item-row2">
                             <div className={`auction-status`}>
-                                {auction.status}
+                                {auction.status === 2 && "Waiting"}
+                                {auction.status === 3 && "Bidding"}
+                                {auction.status === 4 && "Ended"}
+
                             </div>
                             <div className="auction-details">
                                 <i
