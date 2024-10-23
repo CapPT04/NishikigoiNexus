@@ -27,6 +27,7 @@ const END_POINT = {
   DELETEFISHENTRYINAUCTION: "FishEntry/DeleteFishEntry",
   GETFISHENTRYFORAUCTION: "FishEntry/GetFishEntriesForAuction",
   ADDFISHENTRYTOAUCTION: "Auction/AddFishEntryToAuction",
+  GETPUBLICAUCTIONS: "Auction/GetPublicAuctions",
   PUBLICBIDDING: "PublicBid/PlaceBid",
 };
 
@@ -50,7 +51,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -112,7 +113,17 @@ export const handleAddFishEntryForAuctionApi = (
   } catch (error) {
     throw error;
   }
-};
+}
+
+export const handleGetPublicAuctionsApi = () => {
+  try {
+    return axiosClient.get(`${END_POINT.GETPUBLICAUCTIONS}`);
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 
 export const handleGetAllBreeders = () => {
   try {

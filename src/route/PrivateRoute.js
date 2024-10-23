@@ -48,6 +48,10 @@ const CreateBreeder = React.lazy(() =>
   import("../components/manage/createBreeder/CreateBreeder")
 );
 
+const AuctionScreen = React.lazy(() =>
+  import("../components/public/AuctionScreen/AuctionScreen")
+);
+
 const PrivateRoutes = [
   //breeder
   {
@@ -123,7 +127,11 @@ const PrivateRoutes = [
     ],
   },
 
+
+
   { path: "*", element: <LoadLazy children={<NotFound />} /> },
 ];
+
+
 
 export default PrivateRoutes;

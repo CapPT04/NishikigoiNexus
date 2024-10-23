@@ -6,6 +6,7 @@ export const path = {
   ABOUT: "/about",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  AUCTIONSCREENDETAIL: "/AuctionDetails",
   //breeder
   BREEDER: "breeder",
   CREATEREQUEST: "CreateRequest",
@@ -24,6 +25,7 @@ export const path = {
   AUCTIONDETAIL: "AuctionDetail",
   BREEDERDETAIL: "BreederDetail",
   CREATEBREEDER: "CreateBreeder",
+
   //
   AUCTIONMETHOD: "/AuctionFish",
 };

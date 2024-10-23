@@ -64,7 +64,7 @@ const AuctionDetail = () => {
                 });
             }
         } catch (error) {
-            console.error("Error updating auction:", error); // Log the error for debugging
+            console.error("Error updating auction:", error);
             toast.error("An error occurred while updating. Please try again.", {
                 position: "top-right",
                 autoClose: 5000,
