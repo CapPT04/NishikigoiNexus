@@ -19,6 +19,9 @@ const END_POINT = {
   UPDATECOMMISSION: "Staff/UpdateBreederCommission",
   BANBREEDER: "Breeder/ToggleBreederStatus",
   GETFISHENTRYINAUCTION: "FishEntry/GetFishEntriesInAuction",
+  GETALLMEMBER: "User/GetAllMember",
+  BANUSER: "User/ToggleMemAndBreedStatus",
+  USERBIDHISTORY: "User/GetBiddingHistoryByMemberId",
   //auction
   GETFISHENTRYBYID: "FishEntry/GetFishEntryById",
   PUBLICBIDHISTORY: "PublicBid/HistoryByFishEntryId",
@@ -51,7 +54,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -113,7 +116,7 @@ export const handleAddFishEntryForAuctionApi = (
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const handleGetPublicAuctionsApi = () => {
   try {
@@ -121,9 +124,7 @@ export const handleGetPublicAuctionsApi = () => {
   } catch (error) {
     throw error;
   }
-}
-
-
+};
 
 export const handleGetAllBreeders = () => {
   try {
@@ -345,6 +346,30 @@ export const handlePublicBidding = async (token, entryId, amount) => {
       fishEntryId: entryId,
       amount: amount,
     });
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleGetAllMember = async () => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETALLMEMBER}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleToggleUserStatus = async (token, id, reason) => {
+  try {
+    return await axiosClient.put(`${END_POINT.BANUSER}?id=${id}`, {
+      token: token,
+      reason: reason,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleUserBidHistory = async (id) => {
+  try {
+    return await axiosClient.get(`${END_POINT.USERBIDHISTORY}?id=${id}`);
   } catch (error) {
     throw error;
   }
