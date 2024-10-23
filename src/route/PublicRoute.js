@@ -18,7 +18,7 @@ const PublicRoutes = [
   { path: path.LOGIN, element: <LoadLazy children={<Login />} /> },
   { path: path.SIGNUP, element: <LoadLazy children={<Signup />} /> },
   {
-    path: path.AUCTIONMETHOD3,
+    path: path.AUCTIONMETHOD,
     element: <LoadLazy children={<AuctionPage />} />,
   },
   { path: "*", element: <LoadLazy children={<NotFound />} /> },
