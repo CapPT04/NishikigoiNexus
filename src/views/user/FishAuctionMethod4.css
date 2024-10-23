@@ -1,0 +1,533 @@
+* {
+    margin     : 0;
+    padding    : 0;
+    border     : 0;
+    font-size  : 100%;
+    font-family: "Saira Condensed";
+}
+
+body {
+    background: #E7CDBF;
+}
+
+.header {
+    width     : 100%;
+    background: #000;
+
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    align-self     : stretch;
+
+}
+
+.navigation-bar {
+    gap            : 30px;
+    width          : 80%;
+    display        : flex;
+    align-items    : center;
+    color          : #fff;
+    justify-content: center;
+    align-items    : center;
+    justify-content: space-between;
+}
+
+.logo {
+    width : 64px;
+    height: 64px;
+}
+
+.navigation-bar-left-content {
+    display    : flex;
+    align-items: center;
+    gap        : 11px;
+}
+
+.project-name {
+    color: #FFF;
+
+    font-family: "Saira Condensed";
+    font-size  : 32px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.navigation-bar-right-content {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    flex-shrink    : 0;
+    gap            : 50px;
+}
+
+.home,
+.auction,
+.blog,
+.about,
+.account {
+    color      : #FFF;
+    font-family: "Saira Condensed";
+    font-size  : 20px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: normal;
+    padding    : 8px 15px;
+    cursor     : pointer;
+
+}
+
+.home:hover,
+.auction:hover,
+.blog:hover,
+.about:hover,
+.account:hover {
+    opacity: 0.7;
+}
+
+
+.request {
+    border-radius: 24px;
+    background   : var(--Do, #DF0012);
+
+}
+
+.account {
+    border-radius: 40px;
+    background   : #3D3D3D;
+
+
+}
+
+.slogan {
+    width   : 80%;
+    position: absolute;
+}
+
+.slogan-above,
+.slogan-under {
+    color      : #FFF;
+    font-family: "Saira Condensed";
+    font-size  : 100px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: 100px;
+}
+
+
+
+.footer {
+    background     : url(../../assets/images/Form.png);
+    background-size: cover;
+    width          : 100vw;
+    height         : 300px;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    flex-direction : column;
+
+}
+
+.logo-footer {
+    display    : inline-flex;
+    align-items: center;
+    gap        : 11px;
+    width      : 80%;
+    margin     : 0 auto;
+}
+
+.logo-img-footer {
+    width : 108px;
+    height: 108px;
+}
+
+.name-project-footer {
+    color      : #FFF;
+    font-family: "Saira Condensed";
+    font-size  : 64px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.social-contact {
+    width          : 80%;
+    display        : flex;
+    gap            : 20px;
+    justify-content: flex-end;
+    border-bottom  : 0.75px solid #FFF;
+    opacity        : 0.7;
+}
+
+.nav-bar-footer a:hover,
+.instagram:hover,
+.facebook:hover,
+.google:hover {
+    opacity: 0.5;
+    cursor : pointer;
+}
+
+.nav-bar-footer {
+    display   : flex;
+    gap       : 50px;
+    margin-top: 20px;
+}
+
+.nav-bar-footer a {
+    color          : #FFF;
+    text-decoration: none;
+    font-size      : 20px;
+    font-style     : normal;
+    font-weight    : 250;
+    line-height    : normal;
+}
+
+.fish-aucction-method3-content {
+    display: grid;
+    width  : 80%;
+    margin : 0 auto;
+    gap    : 10px;
+
+
+    .fish-aucction-method3-content-row1 {
+        color      : #000;
+        font-family: "Saira Condensed";
+        font-size  : 40px;
+        font-style : normal;
+        font-weight: 700;
+        line-height: normal;
+        text-align : center;
+    }
+
+    .fish-aucction-method3-content-row2 {
+        color      : #000;
+        font-family: "Saira Condensed";
+        font-size  : 24px;
+        font-style : normal;
+        font-weight: 400;
+        line-height: normal;
+        text-align : center;
+    }
+
+    .fish-aucction-method3-content-row3 {
+        display              : grid;
+        grid-template-columns: 40% auto;
+        gap                  : 20px;
+
+        .fish-aucction-method3-content-row3-col1 {
+            display           : grid;
+            grid-template-rows: 70% 20%;
+            gap               : 12px;
+
+            img {
+                width        : 100%;
+                height       : 100%;
+                border-radius: 12px;
+            }
+
+            .fish-sub-img {
+                display        : flex;
+                justify-content: space-between;
+
+                .fish-sub-img1 {
+                    background   : url("../assets/images/body1.png");
+                    width        : 23%;
+                    height       : 150px;
+                    border-radius: 6px;
+
+                    &:hover {
+                        cursor : pointer;
+                        opacity: 0.7;
+                    }
+                }
+            }
+        }
+
+
+        .fish-aucction-method3-content-row3-col2 {
+            display           : grid;
+            grid-template-rows: auto;
+            gap               : 30px;
+
+            .fish-info {
+                width                : 100%;
+                border-radius        : 12px;
+                background           : #E3A689;
+                box-shadow           : 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
+                display              : grid;
+                grid-template-rows   : auto;
+                grid-template-columns: 90%;
+                justify-content      : center;
+                gap                  : 15px;
+
+                .fish-info-row1 {
+                    margin-top     : 40px;
+                    display        : flex;
+                    justify-content: space-between;
+                    align-items    : center;
+
+                    .fish-info-name {
+                        color      : #000;
+                        font-family: "Saira Condensed";
+                        font-size  : 36px;
+                        font-style : normal;
+                        font-weight: 600;
+                        line-height: normal;
+                    }
+
+                    .fish-info-notion {}
+                }
+
+                .fish-info-row2 {
+                    display        : flex;
+                    justify-content: space-between;
+                    align-items    : center;
+
+                    .fish-info-ending {
+                        color      : #000;
+                        font-family: "Saira Condensed";
+                        font-size  : 20px;
+                        font-style : normal;
+                        font-weight: 400;
+                        line-height: normal;
+
+                    }
+
+                    .fish-info-tag {
+                        display    : flex;
+                        align-items: center;
+                        gap        : 5px;
+
+                        .fish-number {
+                            color       : #000;
+                            leading-trim: both;
+                            text-edge   : cap;
+                            font-family : "Saira Condensed";
+                            font-size   : 20px;
+                            font-style  : normal;
+                            font-weight : 500;
+                            line-height : normal;
+                        }
+                    }
+                }
+
+                .fish-info-row3,
+                .fish-info-row4 {
+                    display        : flex;
+                    justify-content: space-between;
+
+
+                    .fish-info-weight,
+                    .fish-info-length,
+                    .fish-info-gender,
+                    .fish-info-age {
+                        display      : flex;
+                        align-items  : center;
+                        display      : flex;
+                        height       : 78px;
+                        align-items  : center;
+                        border-radius: 25px;
+                        border       : 0.5px solid #000;
+                        background   : #E3A689;
+                        width        : 48%;
+                        position     : relative;
+
+                        i {
+                            font-size: 32px;
+                            position : absolute;
+                            left     : 10px;
+                        }
+
+                        .weight-number,
+                        .length-number,
+                        .gender-text,
+                        .age-text {
+                            position   : absolute;
+                            right      : 10px;
+                            color      : #000;
+                            font-family: "Saira Condensed";
+                            font-size  : 26px;
+                            font-style : normal;
+                            font-weight: 500;
+                            line-height: normal;
+                        }
+                    }
+
+
+                }
+
+                .fish-info-row5 {
+                    border-radius  : 25px;
+                    border         : 0.5px solid #000;
+                    background     : #E3A689;
+                    display        : flex;
+                    height         : 78px;
+                    justify-content: space-between;
+                    align-items    : center;
+                    flex-shrink    : 0;
+                    align-self     : stretch;
+                    position       : relative;
+                    margin-bottom  : 30px;
+
+                    .fish-info-origin {
+                        display    : flex;
+                        align-items: center;
+
+                        i {
+                            font-size: 32px;
+                            position : absolute;
+                            left     : 10px;
+                        }
+
+                        .origin-text {
+                            color      : #000;
+                            font-family: "Saira Condensed";
+                            font-size  : 26px;
+                            font-style : normal;
+                            font-weight: 500;
+                            line-height: normal;
+                            position   : absolute;
+                            right      : 10px;
+                        }
+
+                    }
+                }
+
+
+            }
+
+            .bidding-history-background {
+                border-radius  : 12px;
+                background     : #121212;
+                box-shadow     : 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
+                display        : flex;
+                justify-content: center;
+                align-items    : center;
+
+                .bidding-history-content {
+                    width                : 95%;
+                    grid-template-columns: 90%;
+                    display              : grid;
+                    gap                  : 10px;
+                    padding              : 10px 0;
+
+                    .bidding-history-info {
+                        display    : flex;
+                        color      : #FFF;
+                        font-family: "Saira Condensed";
+                        font-size  : 20px;
+                        font-style : normal;
+                        font-weight: 250;
+                        line-height: normal;
+
+                        .bidding-time,
+                        .bidding-price {
+                            color      : var(--Do, #DF0012);
+                            font-family: "Saira Condensed";
+                            font-size  : 20px;
+                            font-style : normal;
+                            font-weight: 250;
+                            line-height: normal;
+                        }
+                    }
+                }
+
+
+            }
+
+            .place-bid {
+                border-radius: 12px;
+                background   : #E3A689;
+                box-shadow   : 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
+                margin-bottom: 50px;
+
+                .place-bid-content {
+                    display: block;
+
+                    .place-bid-content-row1 {
+                        display   : flex;
+                        width     : 85%;
+                        margin    : 0 auto;
+                        position  : relative;
+                        margin-top: 20px;
+
+                        .start-price-icon {
+                            font-size   : 24px;
+                            margin-right: 20px;
+                        }
+
+                        .start-price {
+                            position   : absolute;
+                            right      : 0;
+                            color      : #000;
+                            font-family: "Saira Condensed";
+                            font-size  : 24px;
+                            font-style : normal;
+                            font-weight: 500;
+                            line-height: normal;
+                        }
+
+                        .start-price-text {
+                            color      : #000;
+                            font-family: "Saira Condensed";
+                            font-size  : 24px;
+                            font-style : normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+                    }
+
+                    hr {
+                        border    : none;
+                        border-top: 1px solid #000;
+                        width     : 85%;
+                        margin    : 0 auto;
+                        margin-top: 10px;
+                    }
+
+                    .place-bid-content-row2 {
+                        display        : flex;
+                        margin-top     : 10px;
+                        justify-content: center;
+                        gap            : 10px;
+                        font-size      : 24px;
+
+
+
+
+
+                    }
+
+
+                    .place-bid-btn {
+                        display        : flex;
+                        height         : 64px;
+                        justify-content: center;
+                        align-items    : center;
+                        align-self     : stretch;
+                        border-radius  : 12px;
+                        background     : var(--Do, #DF0012);
+                        width          : 90%;
+                        color          : #FFF;
+                        font-family    : "Saira Condensed";
+                        font-size      : 22px;
+                        font-style     : normal;
+                        font-weight    : 600;
+                        line-height    : normal;
+                        letter-spacing : 4.4px;
+                        margin         : 0 auto;
+                        margin-top     : 20px;
+                        margin-bottom  : 20px;
+
+                        &:hover {
+                            cursor : pointer;
+                            opacity: 0.7;
+                        }
+
+                    }
+                }
+            }
+
+        }
+    }
+}
