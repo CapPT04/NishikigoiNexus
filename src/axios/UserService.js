@@ -14,6 +14,7 @@ const END_POINT = {
   SHOWALLAUCTION: "Auction/GetAuctionsWithFishEntryCount",
   GETFISHIMAGESBYID: "Image/GetImageByFishId",
   CREATEAUCTION: "Auction/CreateAuction",
+  GETREQUESTBYID: "Request/GetRequestById",
   GETALLBREEDERS: "Breeder/GetAllBreeders", //manager
   CREATEBREEDER: "Breeder/CreateBreeder",
   UPDATECOMMISSION: "Staff/UpdateBreederCommission",
@@ -22,6 +23,11 @@ const END_POINT = {
   GETALLMEMBER: "User/GetAllMember",
   BANUSER: "User/ToggleMemAndBreedStatus",
   USERBIDHISTORY: "User/GetBiddingHistoryByMemberId",
+  GETFISHENTRYBYREQUESTID: "FishEntry/GetFishEntriesByRequestId",
+  GETFISHBYFISHENTRYID: "Fish/GetFishByFishEntryId",
+  ACCEPTREQUEST: "Request/CheckRequest",
+  CANCELREQUEST: "Request/CancelRequest",
+  GETALLFISH: "Fish/GetAllFish",
   //auction
   GETFISHENTRYBYID: "FishEntry/GetFishEntryById",
   PUBLICBIDHISTORY: "PublicBid/HistoryByFishEntryId",
@@ -370,6 +376,47 @@ export const handleToggleUserStatus = async (token, id, reason) => {
 export const handleUserBidHistory = async (id) => {
   try {
     return await axiosClient.get(`${END_POINT.USERBIDHISTORY}?id=${id}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleFishEntryByRequestId = async (request_id) => {
+  try {
+    return await axiosClient.get(
+      `${END_POINT.GETFISHENTRYBYREQUESTID}?requestId=${request_id}`
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleFishByFishEntryId = async (fishEntryId) => {
+  try {
+    return await axiosClient.get(
+      `${END_POINT.GETFISHBYFISHENTRYID}?FishEntryId=${fishEntryId}`
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleAcceptRequest = async (token, requestId, deliveryCost) => {
+  try {
+    return await axiosClient.put(`${END_POINT.ACCEPTREQUEST}`, {
+      token: token,
+      requestId: requestId,
+      deliveryCost: deliveryCost,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleCancelRequest = async (token, requestId, reason) => {
+  try {
+    const res = await axiosClient.delete(`${END_POINT.CANCELREQUEST}`, {
+      token: token,
+      requestId: requestId,
+      reason: reason,
+    });
+    return res;
   } catch (error) {
     throw error;
   }

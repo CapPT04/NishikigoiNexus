@@ -47,6 +47,12 @@ const VerticallyNavbar = () => {
         KOI
       </a>
       <a
+        className={`fishEntry ${selected === "fishEntry" ? "selected" : ""}`}
+        onClick={() => handleSelect("FishEntry", "/Manager/ManageFishEntry")}
+      >
+        Fish Entry
+      </a>
+      <a
         className={`blog-vertically ${selected === "Blog" ? "selected" : ""}`}
         onClick={() => handleSelect("Blog", "/Manager/Blog")} // Navigate to '/blog'
       >

@@ -1,9 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./RequestDetail.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
+import { useSearchParams } from "react-router-dom";
+import {
+  handleFishByFishEntryId,
+  handleFishEntryByRequestId,
+  handleGetRequestDetail,
+  handleAcceptRequest,
+  handleCancelRequest,
+} from "../../../axios/UserService";
 
 const RequestDetail = () => {
+  const [searchParams] = useSearchParams();
+  const requestId = searchParams.get("RequestId");
+  const [requestDetail, setRequestDetail] = useState("");
+  const [fishEntry, setFishEntry] = useState("");
+  const [fish, setFish] = useState("");
+  const [denyReason, setDenyReason] = useState("");
+  const [deniable, setDeniable] = useState(false);
+
+  const [deliveryCost, setDeliveryCost] = useState(0);
+
+  const statusName = ["Processing", "Paying", "Approved", "Denied"];
+  const method = ["FixedPriceSale", "SecretBid", "PublicBid", "DutchAuction"];
+
+  const getDetail = async () => {
+    const resReq = await handleGetRequestDetail(requestId);
+
+    setRequestDetail(resReq.data);
+    const resFishEntry = await handleFishEntryByRequestId(
+      resReq.data.requestId
+    );
+    setFishEntry(resFishEntry.data);
+
+    const resFish = await handleFishByFishEntryId(
+      resFishEntry.data.fishEntryId
+    );
+    setFish(resFish.data);
+
+    console.log(resReq.data);
+    console.log(resFishEntry.data);
+    console.log(resFish.data);
+  };
+  const acceptRequest = async () => {
+    const token = sessionStorage.getItem("token");
+    const res = await handleAcceptRequest(token, requestId, deliveryCost);
+    if (res.status === 200) {
+      window.location.reload();
+    }
+  };
+  const cancelRequest = async () => {
+    const token = sessionStorage.getItem("token");
+    const res = await handleCancelRequest(token, requestId, denyReason);
+    if (res.status === 200) {
+      window.location.reload();
+    }
+  };
+
+  useEffect(() => {
+    getDetail();
+  }, []);
+  useEffect(() => {
+    if (requestDetail.status === 1) {
+      if (denyReason.length > 0) {
+        setDeniable(true);
+      } else {
+        setDeniable(false);
+      }
+    }
+  }, [denyReason, requestDetail.status]);
   return (
     <div className="request-detail-container">
       <div className="header">
@@ -14,14 +80,13 @@ const RequestDetail = () => {
         <div className="body-content-right">
           <div className="request-detail-content">
             <div className="request-detail-content-row1">
-              <div className="status">Status: Active</div>
-              <select name="" id="" className="set-status">
-                <option value="">Set status &nbsp;&nbsp; v</option>
-              </select>
+              <div className="status">
+                Status: {statusName[requestDetail.status - 1]}
+              </div>
             </div>
             <div className="request-detail-content-row2">Request Detail</div>
             <div className="request-detail-content-row3">
-              Create date: YYYY/MM/DD hh:mm:ss
+              Create date: {new Date(requestDetail.createDate).toLocaleString()}
             </div>
             <div className="request-detail-content-row4">
               <div className="update-by">
@@ -47,7 +112,12 @@ const RequestDetail = () => {
                 <label for="create-by-input" className="create-by-label">
                   Create By
                 </label>
-                <input type="text" className="create-by-input" value="Thinh" />
+                <input
+                  type="text"
+                  className="create-by-input"
+                  value={requestDetail.createBy}
+                  disabled={true}
+                />
               </div>
               <div className="expected-date">
                 {" "}
@@ -60,7 +130,7 @@ const RequestDetail = () => {
                 <input
                   type="datetime"
                   className="expected-date-input"
-                  value="YYYY/MM/DD"
+                  value={new Date(fishEntry.expectedDate).toLocaleString()}
                 />
               </div>
             </div>
@@ -75,7 +145,7 @@ const RequestDetail = () => {
                 <input
                   type="number"
                   className="delivery-cost-input"
-                  value="1234"
+                  onChange={(e) => setDeliveryCost(e.target.value)}
                 />
               </div>
               <div className="fee">
@@ -83,17 +153,30 @@ const RequestDetail = () => {
                 <label for="fee-input" className="fee-label">
                   Fee
                 </label>
-                <input type="number" className="fee-input" value="1534" />
+                <input
+                  type="number"
+                  className="fee-input"
+                  value={requestDetail.fee}
+                  disabled={true}
+                />
               </div>
             </div>
             <div className="request-detail-content-row7">
               <label for="note-input" className="note-label">
                 Note
               </label>
-              <input type="text" className="note-input" value="Note zo day" />
+              <input
+                type="text"
+                className="note-input"
+                value={requestDetail.note}
+              />
             </div>
             <div className="request-detail-content-row8">
-              <button className="send-payment-request-btn">
+              <button
+                className="send-payment-request-btn"
+                onClick={acceptRequest}
+                style={{ display: requestDetail.status === 1 ? "" : "none" }}
+              >
                 Send Payment Request
               </button>
             </div>
@@ -106,16 +189,30 @@ const RequestDetail = () => {
             <div className="request-detail-content-row10">
               <div className="fish-id">
                 <label for="fish-id-input" className="fish-id-label">
-                  Fish ID
+                  Fish Entry ID
                 </label>
-                <input type="text" className="fish-id-input" value="1" />
+                <input
+                  type="text"
+                  className="fish-id-input"
+                  value={fishEntry.fishEntryId}
+                  disabled={true}
+                />
               </div>
               <div className="auction-id">
                 {" "}
                 <label for="auction-id-input" className="auction-id-label">
                   Auction ID
                 </label>
-                <input type="text" className="auction-id-input" value="1534" />
+                <input
+                  type="text"
+                  className="auction-id-input"
+                  value={
+                    fishEntry.auctionId
+                      ? fishEntry.auctionId
+                      : "Not yet added any auction"
+                  }
+                  disabled={true}
+                />
               </div>
             </div>
 
@@ -127,91 +224,155 @@ const RequestDetail = () => {
                 >
                   Auction Method
                 </label>
-                <input type="text" className="auction-method-input" value="1" />
+                <input
+                  type="text"
+                  className="auction-method-input"
+                  value={method[fishEntry.auctionMethod - 1]}
+                  disabled={true}
+                />
               </div>
-              <div className="increment">
+              <div className="auction-method">
                 {" "}
-                <label for="increment-input" className="increment-label">
+                <label for="increment-input" className="auction-method-label">
                   Increment
                 </label>
-                <input type="text" className="increment-input" value="1534" />
-              </div>
-            </div>
-            <div className="request-detail-content-row12">
-              <div className="min-price">
-                <label for="min-price-input" className="min-price-label">
-                  Min Price
-                </label>
-                <input type="number" className="min-price-input" value="1" />
-              </div>
-              <div className="max-price">
-                {" "}
-                <label for="max-price-input" className="max-price-label">
-                  Max Price
-                </label>
-                <input type="number" className="max-price-input" value="1534" />
-              </div>
-            </div>
-
-            <div className="request-detail-content-row13">
-              <div className="expected-date">
-                <label
-                  for="expected-date-input"
-                  className="expected-date-label"
-                >
-                  Expected Date
-                </label>
-                <input type="datetime" className="min-price-input" value="1" />
-              </div>
-              <div className="start-date">
-                {" "}
-                <label for="start-date-input" className="start-date-label">
-                  Start Date
-                </label>
                 <input
-                  type="datetime"
-                  className="start-date-input"
-                  value="1534"
+                  type="text"
+                  className="auction-method-input"
+                  value={fishEntry.increment}
+                  disabled={true}
                 />
               </div>
             </div>
-            <div className="request-detail-content-row14">
-              <div className="end-date">
-                <label for="end-date-input" className="end-date-label">
-                  End Date
-                </label>
-                <input type="datetime" className="end-date-input" value="1" />
-              </div>
-              <div className="highest-price">
-                {" "}
+            <div className="request-detail-content-row11">
+              <div className="auction-method">
                 <label
-                  for="highest-price-input"
-                  className="highest-price-label"
+                  for="auction-method-input"
+                  className="auction-method-label"
                 >
+                  Min Price
+                </label>
+                <input
+                  type="text"
+                  className="auction-method-input"
+                  value={fishEntry.minPrice}
+                  disabled={true}
+                />
+              </div>
+              <div className="auction-method">
+                {" "}
+                <label for="increment-input" className="auction-method-label">
+                  Max Price
+                </label>
+                <input
+                  type="text"
+                  className="auction-method-input"
+                  value={fishEntry.maxPrice}
+                  disabled={true}
+                />
+              </div>
+            </div>
+
+            <div className="request-detail-content-row11">
+              <div className="auction-method">
+                <label
+                  for="auction-method-input"
+                  className="auction-method-label"
+                >
+                  Start Date
+                </label>
+                <input
+                  type="text"
+                  className="auction-method-input"
+                  value={new Date(fishEntry.startDate).toLocaleString()}
+                />
+              </div>
+              <div className="auction-method">
+                {" "}
+                <label for="increment-input" className="auction-method-label">
+                  Increment
+                </label>
+                <input
+                  type="text"
+                  className="auction-method-input"
+                  value={
+                    fishEntry.endDate
+                      ? new Date(fishEntry.endDate).toLocaleString()
+                      : "Not ended"
+                  }
+                  disabled={true}
+                />
+              </div>
+            </div>
+            <div className="request-detail-content-row11">
+              <div className="auction-method">
+                <label
+                  for="auction-method-input"
+                  className="auction-method-label"
+                >
+                  Highest Bidder
+                </label>
+                <input
+                  type="text"
+                  className="auction-method-input"
+                  value={
+                    fishEntry.highestBidder ? fishEntry.highestBidder : "No one"
+                  }
+                  disabled={true}
+                />
+              </div>
+              <div className="auction-method">
+                {" "}
+                <label for="increment-input" className="auction-method-label">
                   Highest Price
                 </label>
                 <input
-                  type="datetime"
-                  className="highest-price-input"
-                  value="1534"
+                  type="text"
+                  className="auction-method-input"
+                  value={fishEntry.highestPrice ? fishEntry.highestPrice : 0}
+                  disabled={true}
                 />
               </div>
             </div>
             <div className="request-detail-content-row15">
-              <div className="deny">Deny</div>
+              <div
+                className="deny"
+                style={{ display: requestDetail.status === 1 ? "" : "none" }}
+              >
+                Deny
+              </div>
             </div>
-            <div className="request-detail-content-row16">
+            <div
+              className="request-detail-content-row16"
+              style={{ display: requestDetail.status === 1 ? "" : "none" }}
+            >
               <label for="reason-input" className="reason-label">
                 Reason
               </label>
               <input
                 type="text"
                 className="reason-input"
-                value="diu chiu tra tien"
+                value={
+                  requestDetail.status === 4 ? requestDetail.reason : denyReason
+                }
+                onChange={(e) => {
+                  if (requestDetail.status === 1) {
+                    setDenyReason(e.target.value);
+                  }
+                }}
+                disabled={requestDetail.status !== 1}
               />
             </div>
-            <div className="request-detail-content-row17">
-              <button className="deny-btn">Deny</button>
+            <div
+              className="request-detail-content-row17"
+              style={{ display: requestDetail.status === 1 ? "" : "none" }}
+            >
+              <button
+                className={`${deniable ? "deny-btn" : "turn-off"}`}
+                onClick={cancelRequest}
+              >
+                Deny
+              </button>
               <button className="cancel-btn">Cancel</button>
             </div>
           </div>

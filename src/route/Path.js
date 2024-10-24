@@ -27,6 +27,10 @@ export const path = {
   CREATEBREEDER: "CreateBreeder",
   MANAGEREQUEST: "ManageRequest",
   REQUESTDETAIL: "RequestDetail",
+  MANAGEKOI: "ManageKoi",
+  KOIDETAIL: "KoiDetail",
+  MANAGEFISHENTRY: "ManageFishEntry",
+  FISHENTRYDETAIL: "FishEntryDetail",
   //
   AUCTIONMETHOD: "/AuctionFish",
 };
