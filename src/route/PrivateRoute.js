@@ -32,6 +32,12 @@ const CreateAuction = React.lazy(() =>
 const AuctionDetail = React.lazy(() =>
   import("../components/manage/AuctionDetail")
 );
+const ManageKoi = React.lazy(() =>
+  import("../components/manage/manageKoi/ManageKoi")
+);
+const KoiDetail = React.lazy(() =>
+  import("../components/manage/koiDetail/KoiDetail")
+);
 //staff
 const Staff = React.lazy(() => import("../route/StaffRoute"));
 const Manage = React.lazy(() => import("../components/manage/ManageMember"));
@@ -47,9 +53,20 @@ const BreederDetail = React.lazy(() =>
 const CreateBreeder = React.lazy(() =>
   import("../components/manage/createBreeder/CreateBreeder")
 );
-
+const ManageRequest = React.lazy(() =>
+  import("../components/manage/manageRequest/ManageRequest")
+);
+const RequestDetail = React.lazy(() =>
+  import("../components/manage/requestDetail/RequestDetail")
+);
 const AuctionScreen = React.lazy(() =>
   import("../components/public/AuctionScreen/AuctionScreen")
+);
+const ManageFishEntry = React.lazy(() =>
+  import("../components/manage/manageFishEntry/ManageFishEntry")
+);
+const FishEntryDetail = React.lazy(() =>
+  import("../components/manage/fishEntryDetail/FishEntryDetail")
 );
 
 const PrivateRoutes = [
@@ -124,14 +141,34 @@ const PrivateRoutes = [
         path: path.USERDETAIL,
         element: <LoadLazy children={<UserDetail />} />,
       },
+      {
+        path: path.MANAGEREQUEST,
+        element: <LoadLazy children={<ManageRequest />} />,
+      },
+      {
+        path: path.REQUESTDETAIL,
+        element: <LoadLazy children={<RequestDetail />} />,
+      },
+      {
+        path: path.MANAGEKOI,
+        element: <LoadLazy children={<ManageKoi />} />,
+      },
+      {
+        path: path.KOIDETAIL,
+        element: <LoadLazy children={<KoiDetail />} />,
+      },
+      {
+        path: path.MANAGEFISHENTRY,
+        element: <LoadLazy children={<ManageFishEntry />} />,
+      },
+      {
+        path: path.FISHENTRYDETAIL,
+        element: <LoadLazy children={<FishEntryDetail />} />,
+      },
     ],
   },
 
-
-
   { path: "*", element: <LoadLazy children={<NotFound />} /> },
 ];
-
-
 
 export default PrivateRoutes;

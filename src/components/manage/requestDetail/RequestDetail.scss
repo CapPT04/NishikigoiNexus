@@ -7,7 +7,7 @@
   --nude: #e7cdbf;
 }
 
-.member-detail-container {
+.request-detail-container {
   display: grid;
   grid-template-rows: auto auto;
 
@@ -80,11 +80,14 @@
       gap: 56px;
       flex-shrink: 0;
       background: #1c1c1c;
+      width: 160px;
+      height: 841px;
       color: #fff;
       font-size: 26px;
       font-weight: 400;
       line-height: normal;
       align-items: center !important;
+      height: auto;
 
       a {
         color: #fff;
@@ -94,7 +97,7 @@
         }
       }
 
-      .koi {
+      .request {
         margin-left: 30px;
         display: flex;
         height: 67px;
@@ -110,7 +113,7 @@
     .body-content-right {
       background: var(--nude);
 
-      .member-detail-content {
+      .request-detail-content {
         display: grid;
         width: 80%;
         margin: 0 auto;
@@ -118,7 +121,7 @@
         grid-template-rows: auto;
         gap: 30px;
 
-        .member-detail-content-row1 {
+        .request-detail-content-row1 {
           display: flex;
           gap: 100px;
           justify-content: flex-end;
@@ -154,7 +157,7 @@
           }
         }
 
-        .member-detail-content-row2 {
+        .request-detail-content-row2 {
           color: #121212;
           font-family: Poppins;
           font-size: 36px;
@@ -163,7 +166,7 @@
           line-height: normal;
         }
 
-        .member-detail-content-row3 {
+        .request-detail-content-row3 {
           color: #121212;
           font-family: Inter;
           font-size: 24px;
@@ -172,70 +175,13 @@
           line-height: normal;
         }
 
-        .member-detail-content-row4,
-        .member-detail-content-row5,
-        .member-detail-content-row6 {
-          display: grid;
-          grid-template-columns: auto auto;
-          gap: 100px;
-
-          .create-by,
-          .email,
-          .phone,
-          .first-name,
-          .last-name,
-          .city,
-          .commission,
-          .gender {
-            display: grid;
-            grid-template-rows: auto;
-            gap: 10px;
-
-            .create-by-label,
-            .last-update-label,
-            .email-label,
-            .phone-label,
-            .first-name-label,
-            .last-name-label,
-            .city-label,
-            .gender-label {
-              color: #121212;
-              font-family: Inter;
-              font-size: 24px;
-              font-style: normal;
-              font-weight: 400;
-              line-height: normal;
-            }
-
-            .create-by-input,
-            .email-input,
-            .phone-input,
-            .first-name-input,
-            .last-name-input,
-            .city-input,
-            .gender-input {
-              border-radius: 12px;
-              border: 1px solid #121212;
-              height: 56px;
-              color: #121212;
-              font-family: Inter;
-              font-size: 24px;
-              font-style: normal;
-              font-weight: 400;
-              line-height: normal;
-              text-indent: 5px;
-              background: none;
-            }
-          }
-        }
-
-        .member-detail-content-row7,
-        .member-detail-content-row9 {
+        .request-detail-content-row7,
+        .request-detail-content-row16 {
           display: grid;
           grid-template-rows: auto;
           gap: 10px;
 
-          .address-label,
+          .note-label,
           .reason-label {
             color: #121212;
             font-family: Inter;
@@ -245,7 +191,7 @@
             line-height: normal;
           }
 
-          .address-input,
+          .note-input,
           .reason-input {
             width: 100%;
             height: 56px;
@@ -262,26 +208,147 @@
           }
         }
 
-        .member-detail-content-row8 {
-          .ban-unban {
-            color: #121212;
-            font-family: Poppins;
-            font-size: 36px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
+        .request-detail-content-row4,
+        .request-detail-content-row5,
+        .request-detail-content-row6,
+        .request-detail-content-row10,
+        .request-detail-content-row11,
+        .request-detail-content-row12,
+        .request-detail-content-row13,
+        .request-detail-content-row14 {
+          display: grid;
+          grid-template-columns: auto auto;
+          gap: 100px;
+
+          .update-by,
+          .update-date,
+          .create-by,
+          .expected-date,
+          .delivery-cost,
+          .fee,
+          .fish-id,
+          .auction-id,
+          .auction-method,
+          .increment,
+          .min-price,
+          .max-price,
+          .expected-date,
+          .start-date,
+          .end-date,
+          .highest-price {
+            display: grid;
+            grid-template-rows: auto;
+            gap: 10px;
+
+            .update-by-label,
+            .update-date-label,
+            .create-by-label,
+            .expected-date-label,
+            .delivery-cost-label,
+            .fee-label,
+            .fish-id-label,
+            .auction-id-label,
+            .auction-method-label,
+            .increment-label,
+            .min-price-label,
+            .max-price-label,
+            .expected-date-label,
+            .start-date-lael,
+            .end-date-label,
+            .highest-price-label {
+              color: #121212;
+              font-family: Inter;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+            }
+
+            .update-by-input,
+            .update-date-input,
+            .create-by-input,
+            .expected-date-input,
+            .delivery-cost-input,
+            .fee-input,
+            .fish-id-input,
+            .auction-id-input,
+            .auction-method-input,
+            .increment-input,
+            .min-price-input,
+            .max-price-input,
+            .expected-date-input,
+            .start-date-input,
+            .end-date-input,
+            .highest-price-input {
+              border-radius: 12px;
+              border: 1px solid #121212;
+              height: 56px;
+              color: #121212;
+              font-family: Inter;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+              text-indent: 5px;
+              background: none;
+            }
           }
         }
 
-        .member-detail-content-row10 {
+        .request-detail-content-row8 {
           display: flex;
           justify-content: flex-end;
           gap: 30px;
 
-          .update-btn,
-          .ban-btn {
+          .send-payment-request-btn {
             border-radius: 9px;
             background: #0097b2;
+            width: 364px;
+            height: 52px;
+            color: #121212;
+            font-family: Poppins;
+            font-size: 26px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+
+            .send-payment-request-btn {
+              cursor: pointer;
+              opacity: 0.7;
+            }
+          }
+        }
+
+        .request-detail-content-row9,
+        .request-detail-content-row15 {
+          color: #121212;
+          font-family: Poppins;
+          font-size: 36px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+        }
+
+        .request-detail-content-row17 {
+          display: flex;
+          justify-content: flex-end;
+          gap: 30px;
+
+          .deny-btn {
+            border-radius: 9px;
+            background: #c52828;
+            width: 187.115px;
+            height: 52px;
+            color: #121212;
+            font-family: Poppins;
+            font-size: 26px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+          }
+          .turn-off {
+            border-radius: 9px;
+            background: gray;
             width: 187.115px;
             height: 52px;
             color: #121212;
@@ -292,8 +359,7 @@
             line-height: normal;
           }
 
-          .cancel-btn,
-          .unban-btn {
+          .cancel-btn {
             border: 2px solid #0097b2;
             background: none;
             border-radius: 9px;
@@ -305,83 +371,13 @@
             font-style: normal;
             font-weight: 700;
             line-height: normal;
+            margin-bottom: 50px;
           }
 
-          .update-btn:hover,
+          .deny-btn:hover,
           .cancel-btn:hover {
             cursor: pointer;
             opacity: 0.7;
-          }
-        }
-
-        .member-detail-content-row11 {
-          .bidding-history {
-            color: #121212;
-            font-family: Poppins;
-            font-size: 36px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
-          }
-        }
-
-        .member-detail-content-row12 {
-          margin-bottom: 50px;
-
-          table {
-            border-collapse: collapse;
-            border: 1px solid black;
-            width: 100%;
-
-            th,
-            td {
-              border: none;
-              color: #fff;
-              height: 60px;
-              font-size: 24px;
-              font-weight: 400;
-              padding: 0 10px;
-              text-align: center;
-
-              a {
-                color: black;
-              }
-
-              a:hover {
-                cursor: pointer;
-                opacity: 0.5;
-              }
-            }
-
-            th {
-              background: #1c1b1f;
-            }
-
-            .details-btn {
-              width: 142px;
-              height: 35px;
-              border-radius: 15px;
-              border: 1px solid #0097b2;
-              background: none;
-            }
-
-            .details-btn :hover {
-              cursor: pointer;
-              opacity: 0.7;
-            }
-
-            tr:nth-child(even) {
-              background: #d5bdb0;
-
-              td {
-                color: black;
-              }
-            }
-            tr:nth-child(odd) {
-              td {
-                color: black;
-              }
-            }
           }
         }
       }

@@ -23,6 +23,7 @@ const PublicRoutes = [
   { path: path.HOME, element: <Home /> },
   { path: path.AUCTION, element: <AuctionScreen /> },
   { path: path.AUCTIONSCREENDETAIL, element: <AuctionScreenDetail /> },
+  { path: path.LOGIN, element: <LoadLazy children={<Login />} /> },
   { path: path.SIGNUP, element: <LoadLazy children={<Signup />} /> },
   {
     path: path.AUCTIONMETHOD2,

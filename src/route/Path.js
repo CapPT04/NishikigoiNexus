@@ -25,7 +25,12 @@ export const path = {
   AUCTIONDETAIL: "AuctionDetail",
   BREEDERDETAIL: "BreederDetail",
   CREATEBREEDER: "CreateBreeder",
-
+  MANAGEREQUEST: "ManageRequest",
+  REQUESTDETAIL: "RequestDetail",
+  MANAGEKOI: "ManageKoi",
+  KOIDETAIL: "KoiDetail",
+  MANAGEFISHENTRY: "ManageFishEntry",
+  FISHENTRYDETAIL: "FishEntryDetail",
   //
   AUCTIONMETHOD3: "/AuctionFishMethod3",
   AUCTIONMETHOD2: "/AuctionFishMethod2",

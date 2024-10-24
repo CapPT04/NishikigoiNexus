@@ -19,7 +19,8 @@ const FishAuctionMethod3 = () => {
   const [bids, setBids] = useState([]);
 
   const getFishEntry = async () => {
-    const entryId = searchParams.get("fishId");
+    //link: /AuctionFish?fishEntryId=...
+    const entryId = searchParams.get("fishEntryId");
     const res = await handleFishEntryById(entryId);
     setFishEntry(res.data);
     setStepPrice(res.data.increment);
@@ -69,7 +70,7 @@ const FishAuctionMethod3 = () => {
   const totalBidPrice = stepPrice * increment;
   const newPrice = currentPrice + totalBidPrice;
   const bidding = async () => {
-    const entryId = searchParams.get("fishId");
+    const entryId = searchParams.get("fishEntryId");
     const token = sessionStorage.getItem("token");
     const res = await handlePublicBidding(token, entryId, newPrice);
     console.log(res);

@@ -4,7 +4,7 @@ import "./ManageMember.scss";
 import search from "../../assets/images/search.svg";
 import Navbar from "../common/Navbar/Navbar";
 import VerticallyNavbar from "../common/Navbar/VerticallyNavbar";
-import { handleGetAllUser } from "../../axios/UserService";
+import { handleGetAllMember, handleGetAllUser } from "../../axios/UserService";
 import { useNavigate } from "react-router";
 
 const ManageMember = () => {
@@ -12,7 +12,7 @@ const ManageMember = () => {
   const navigate = useNavigate();
 
   const handleAllUser = async () => {
-    const res = await handleGetAllUser();
+    const res = await handleGetAllMember();
     console.log(res.data.$values);
     setUsers(res.data.$values);
   };
@@ -97,7 +97,9 @@ const ManageMember = () => {
                         <i
                           className="fa-solid fa-arrow-right"
                           onClick={() =>
-                            navigate(`/Manager/UserDetail?id=${user.userId}`)
+                            navigate(
+                              `/Manager/UserDetail?userId=${user.userId}`
+                            )
                           }
                         ></i>
                       </td>
