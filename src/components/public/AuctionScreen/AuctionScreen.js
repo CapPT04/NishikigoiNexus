@@ -27,32 +27,40 @@ const AuctionScreen = () => {
 
     return (
         <div className="auction-screen">
-            <Navbar></Navbar>
-            <div className="auction-screen-content">
-                {publicAuctions.map((auction, idx) => (
-                    <div key={idx} className="auction-item">
-                        <div className="auction-item-row1">
-                            <div className="auction-id">Auction: #{auction.auctionId}</div>
-                            <div className="auction-fish-number">{auction.fishEntryCount} Fishes</div>
-                        </div>
-                        <div className="auction-item-row2">
-                            <div className={`auction-status`}>
-                                {auction.status === 2 && "Waiting"}
-                                {auction.status === 3 && "Bidding"}
-                                {auction.status === 4 && "Ended"}
-
-                            </div>
-                            <div className="auction-details">
-                                <i
-                                    className="fa-solid fa-arrow-right auction-details-icon"
-                                    onClick={() => navigate("/AuctionDetails")}
-                                ></i>
-
-                            </div>
-                        </div>
+            <Navbar />
+            {publicAuctions.length === 0 ? (
+                <div className="auction-screen-content1">
+                    <div className="no-auctions-message">
+                        Currently, there are no auctions in progress.
                     </div>
-                ))}
-            </div>
+                </div>
+            ) : (
+                <div className="auction-screen-content">
+                    {publicAuctions.map((auction, idx) => (
+                        <div key={idx} className="auction-item">
+                            <div className="auction-item-row1">
+                                <div className="auction-id">Auction: #{auction.auctionId}</div>
+                                <div className="auction-fish-number">{auction.fishEntryCount} Fishes</div>
+                            </div>
+                            <div className="auction-item-row2">
+                                <div className={`auction-status`}>
+                                    {auction.status === 2 && "Waiting"}
+                                    {auction.status === 3 && "Bidding"}
+                                    {auction.status === 4 && "Ended"}
+                                </div>
+                                <div className="auction-details">
+                                    <i
+                                        className="fa-solid fa-arrow-right auction-details-icon"
+                                        onClick={() => navigate("/AuctionDetails", {
+                                            state: auction
+                                        })}
+                                    ></i>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
 
             <footer className="footer">
                 <div className="logo-footer">
@@ -79,6 +87,9 @@ const AuctionScreen = () => {
             </footer>
         </div>
     );
+
+
+
 };
 
 export default AuctionScreen;

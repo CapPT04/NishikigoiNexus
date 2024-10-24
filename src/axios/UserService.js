@@ -29,6 +29,7 @@ const END_POINT = {
   ADDFISHENTRYTOAUCTION: "Auction/AddFishEntryToAuction",
   GETPUBLICAUCTIONS: "Auction/GetPublicAuctionsWithFishEntryCount",
   PUBLICBIDDING: "PublicBid/PlaceBid",
+  GETAUCTIONDETAILBYID: "Auction/GetAuctionDetailsById",
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -123,6 +124,15 @@ export const handleGetPublicAuctionsApi = () => {
   }
 }
 
+export const handleGetAuctionDetailByIdApi = async (auctionId) => {
+  try {
+    return axiosClient.get(`${END_POINT.GETAUCTIONDETAILBYID}`, {
+      params: { auctionid: auctionId }
+    });
+  } catch (error) {
+    throw error; // Re-throw the error to be handled in the component
+  }
+};
 
 
 export const handleGetAllBreeders = () => {

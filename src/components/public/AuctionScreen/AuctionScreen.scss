@@ -21,7 +21,7 @@ body {
 
 .navigation-bar {
     gap            : 30px;
-    width          : 100%;
+    width          : 100% !important;
     display        : flex;
     align-items    : center;
     color          : #fff;
@@ -154,11 +154,19 @@ body {
     margin-bottom        : 50px;
 }
 
+.auction-screen-content1 {
+    gap          : 40px;
+    margin-top   : 100px;
+    margin-bottom: 50px;
+}
+
 .auction-item {
     border-radius: 30px;
     border       : 1px solid #000;
     background   : #e7cdbf;
     box-shadow   : 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
+    animation    : fadeIn 1s ease-in-out;
+
 }
 
 .auction-item-row1 {
@@ -195,20 +203,16 @@ body {
     padding-bottom: 20px;
 }
 
-/* Ensure responsive behavior for smaller screens */
 @media (max-width: 768px) {
     .auction-screen-content {
         grid-template-columns: repeat(2, 1fr);
-        /* 2 items per row for tablets */
         gap                  : 20px;
-        /* Adjust gap for smaller screens */
     }
 }
 
 @media (max-width: 480px) {
     .auction-screen-content {
         grid-template-columns: 1fr;
-        /* 1 item per row for small devices */
         gap                  : 20px;
     }
 }
@@ -216,4 +220,31 @@ body {
 .auction-details-icon:hover {
     cursor : pointer;
     opacity: 0.5;
+}
+
+.no-auctions-message {
+    font-size       : 1.8rem;
+    color           : #ff5252;
+    text-align      : center;
+    margin          : 0 auto;
+    padding         : 30px;
+    background-color: #fff5f5;
+    border          : 2px solid #ff5252;
+    border-radius   : 10px;
+    box-shadow      : 0 6px 12px rgba(0, 0, 0, 0.1);
+    max-width       : 700px;
+    width           : 100%;
+    animation       : fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity  : 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity  : 1;
+        transform: translateY(0);
+    }
 }
