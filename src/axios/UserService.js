@@ -39,6 +39,9 @@ const END_POINT = {
   GETPUBLICAUCTIONS: "Auction/GetPublicAuctionsWithFishEntryCount",
   PUBLICBIDDING: "PublicBid/PlaceBid",
   GETAUCTIONDETAILBYID: "Auction/GetAuctionDetailsById",
+  GETHISTORYOFSECRETBID: "SecretBid/HistoryOfSecretBidByFishEntryId",
+  PUBLICAUCTION: "Auction/UpdateAuctionStatus",
+  PLACESECRETBID: "SecretBid/PlaceSecretBid"
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -142,6 +145,42 @@ export const handleGetAuctionDetailByIdApi = async (auctionId) => {
     throw error; // Re-throw the error to be handled in the component
   }
 };
+
+export const handleGetHistoryOfSecretBidApi = async (FishEntryId) => {
+  try {
+    return axiosClient.post(`${END_POINT.GETHISTORYOFSECRETBID}?FishEntryId=${FishEntryId}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const handlePublicAuctionApi = async (auctionId) => {
+  try {
+    // Use auctionId directly in the URL
+    return await axiosClient.put(`${END_POINT.PUBLICAUCTION}/${auctionId}`);
+  } catch (error) {
+    throw error; // Re-throw the error to be handled in the component
+  }
+};
+
+
+export const handlePlaceSecretBidApi = async (token, amount, fishEntryId) => {
+  try {
+    // Use auctionId directly in the URL
+    return await axiosClient.post(`${END_POINT.PLACESECRETBID}`, {
+      token: token,
+      amount: amount,
+      fishEntryId: fishEntryId
+    });
+  } catch (error) {
+    throw error; // Re-throw the error to be handled in the component
+  }
+};
+
+
+
+
 
 
 export const handleGetAllBreeders = () => {

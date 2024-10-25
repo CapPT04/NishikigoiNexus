@@ -12,7 +12,7 @@ import Navbar from "../../common/Navbar/Navbar";
 const HomePage = () => {
   return (
     <div className="home-page">
-      <div className="header">
+      <div className="header-parent">
         {/* <div className="navigation-bar">
           <div className="navigation-bar-left-content">
             <img className="logo" src={logo} alt="Logo Nishikigoi" />
@@ -27,7 +27,9 @@ const HomePage = () => {
             <div className="account">SIGN UP</div>
           </div>
         </div> */}
-        <Navbar></Navbar>
+        <div className="header">
+          <Navbar></Navbar>
+        </div>
 
         <div className="slogan">
           <div className="slogan-above">BIDDING FOR</div>

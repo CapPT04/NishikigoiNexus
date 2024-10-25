@@ -433,6 +433,7 @@ body {
 
             }
 
+
             .place-bid {
                 border-radius: 12px;
                 background   : #E3A689;
@@ -449,12 +450,12 @@ body {
                         position  : relative;
                         margin-top: 20px;
 
-                        .number-of-bidders-icon {
+                        .start-price-icon {
                             font-size   : 24px;
                             margin-right: 20px;
                         }
 
-                        .number-of-bidders {
+                        .start-price {
                             position   : absolute;
                             right      : 0;
                             color      : #000;
@@ -465,7 +466,7 @@ body {
                             line-height: normal;
                         }
 
-                        .number-of-bidders-text {
+                        .start-price-text {
                             color      : #000;
                             font-family: "Saira Condensed";
                             font-size  : 24px;
@@ -496,19 +497,6 @@ body {
 
                     }
 
-                    .place-bid-content-row3 {
-                        display        : flex;
-                        justify-content: center;
-                        width          : 360px;
-                        height         : 40px;
-                        margin         : 0 auto;
-                        border-radius  : 12px;
-                        border         : 1px solid #121212;
-                        background     : #FFF;
-                        margin-top     : 5px;
-                        font-size      : 24px;
-                        text-indent    : 5px;
-                    }
 
                     .place-bid-btn {
                         display        : flex;

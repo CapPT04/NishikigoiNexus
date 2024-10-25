@@ -31,7 +31,7 @@ const AuctionScreenDetail = () => {
     useEffect(() => {
         const fetchAuctionsDetail = async () => {
             try {
-                const response = await handleGetAuctionDetailByIdApi(auction.auctionId);
+                const response = await handleGetAuctionDetailByIdApi(parseInt(auction.auctionId));
 
                 setAuctionDetails(response.data.$values)
                 console.log(auctionDetails);
@@ -46,19 +46,7 @@ const AuctionScreenDetail = () => {
     return (
         <div className="auction-screen-detail">
             <header className="header">
-                <div className="navigation-bar">
-                    <div className="navigation-bar-left-content">
-                        <img className="logo" src={logo} alt="Logo" />
-                        <div className="project-name">Nishikigoi Nexus</div>
-                    </div>
-                    <div className="navigation-bar-right-content">
-                        <a className="home" href="#">HOME</a>
-                        <a className="auction" href="#">AUCTION</a>
-                        <a className="blog" href="#">BLOG</a>
-                        <a className="about" href="#">ABOUT</a>
-                        <div className="account">ACCOUNT</div>
-                    </div>
-                </div>
+                <Navbar></Navbar>
             </header>
 
             <div className="auction-screen-detail-content">
@@ -81,16 +69,14 @@ const AuctionScreenDetail = () => {
                                         state: auctionItem
                                     });
                                 } else if (auctionItem.method === 2) {
-
-
                                     navigate("/AuctionFishMethod2", {
                                         state: { auctionItem, auctionId: auction.auctionId }
                                     });
                                 } else if (auctionItem.method === 3) {
-                                    navigate("/method3");
+                                    navigate("/AuctionFishMethod3");
                                 } else if (auctionItem.method === 4) {
-                                    navigate("/method4", {
-                                        state: auctionItem
+                                    navigate("/AuctionFishMethod4", {
+                                        state: { auctionItem, auctionId: auction.auctionId }
                                     });
                                 }
                             }}>

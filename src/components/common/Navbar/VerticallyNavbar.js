@@ -33,9 +33,8 @@ const VerticallyNavbar = () => {
         Request
       </a>
       <a
-        className={`auction-vertically ${
-          selected === "Auction" ? "selected" : ""
-        }`}
+        className={`auction-vertically ${selected === "Auction" ? "selected" : ""
+          }`}
         onClick={() => handleSelect("Auction", "/Manager/ManageAuction")}
       >
         Auction

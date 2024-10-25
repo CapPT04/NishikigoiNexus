@@ -23,13 +23,13 @@ body {
 
 .navigation-bar {
     gap            : 30px;
-    width          : 80%;
+    width          : 80% !important;
     display        : flex;
     align-items    : center;
     color          : #fff;
     justify-content: center;
     align-items    : center;
-    justify-content: space-between;
+    justify-content: space-between !important;
 }
 
 .logo {
@@ -44,8 +44,8 @@ body {
 }
 
 .project-name {
-    color: #FFF;
-
+    color      : #FFF;
+    display    : flex !important;
     font-family: "Saira Condensed";
     font-size  : 32px;
     font-style : normal;
@@ -58,7 +58,8 @@ body {
     justify-content: space-between;
     align-items    : center;
     flex-shrink    : 0;
-    gap            : 50px;
+    gap            : 20px;
+    width          : auto !important;
 }
 
 .home,
