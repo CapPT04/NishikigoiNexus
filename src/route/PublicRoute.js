@@ -8,14 +8,22 @@ const Login = React.lazy(() => import("../components/LoginPage"));
 const Signup = React.lazy(() =>
   import("../components/public/SignupPage/SignupPage")
 );
-const AuctionScreen = React.lazy(() => import("../components/public/AuctionScreen/AuctionScreen"));
-const AuctionScreenDetail = React.lazy(() => import("../components/public/AuctionScreenDetail/AuctionScreenDetail"));
+const AuctionScreen = React.lazy(() =>
+  import("../components/public/AuctionScreen/AuctionScreen")
+);
+const AuctionScreenDetail = React.lazy(() =>
+  import("../components/public/AuctionScreenDetail/AuctionScreenDetail")
+);
 const FishAuctionMethod3 = React.lazy(() =>
   import("../components/auctionScreen/method3/FishAuctionMethod3")
 );
 const FishAuctionMethod2 = React.lazy(() =>
   import("../components/auctionScreen/method2/FishAuctionMethod2")
 );
+const FishAuctionMethod1 = React.lazy(() =>
+  import("../components/auctionScreen/method1/FishAuctionMethod1")
+);
+
 const FishAuctionMethod4 = React.lazy(() =>
   import("../components/auctionScreen/method4/FishAuctionMethod4")
 );
@@ -34,6 +42,10 @@ const PublicRoutes = [
   {
     path: path.AUCTIONMETHOD3,
     element: <LoadLazy children={<FishAuctionMethod3 />} />,
+  },
+  {
+    path: path.AUCTIONMETHOD1,
+    element: <LoadLazy children={<FishAuctionMethod1 />} />,
   },
   {
     path: path.AUCTIONMETHOD4,

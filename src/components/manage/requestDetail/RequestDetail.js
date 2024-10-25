@@ -39,9 +39,9 @@ const RequestDetail = () => {
     );
     setFish(resFish.data);
 
-    console.log(resReq.data);
-    console.log(resFishEntry.data);
-    console.log(resFish.data);
+    // console.log(resReq.data);
+    // console.log(resFishEntry.data);
+    // console.log(resFish.data);
   };
   const acceptRequest = async () => {
     const token = sessionStorage.getItem("token");

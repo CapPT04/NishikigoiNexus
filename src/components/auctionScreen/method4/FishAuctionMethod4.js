@@ -7,9 +7,10 @@ import googleIcon from '../../../assets/images/Vector.svg';
 import body1 from '../../../assets/images/body1.png';
 import { useLocation } from 'react-router';
 import Navbar from '../../common/Navbar/Navbar';
-import { handleGetFishImgById, handleFishEntryById } from '../../../axios/UserService';
+import { handleGetFishImgById, handleFishEntryById, handlePlaceDutchAuctionBid } from '../../../axios/UserService';
 import Swal from 'sweetalert2';
 import startPriceIcon from '../../../assets/images/mintmark.svg';
+import * as signalR from '@microsoft/signalr';
 
 const FishAuctionMethod4 = () => {
     const location = useLocation();
@@ -24,17 +25,14 @@ const FishAuctionMethod4 = () => {
     // console.log(amount);
     const [mainImage, setMainImage] = useState("");
     const [fishImage, setFishImage] = useState([]);
+    const [highestPrice, setHighestPrice] = useState(null);
     useEffect(() => {
-
         const fetchImageFish = async () => {
             try {
                 setMainImage(auctionItem.images.$values[0]?.imagePath);
                 const response = await handleGetFishImgById(auctionItem.images.$values[0].fishId);
                 setFishImage(response.data.$values);
                 // console.log(response.data.$values);
-
-
-
             } catch (error) {
                 console.error("Error fetching:", error);
             }
@@ -43,18 +41,88 @@ const FishAuctionMethod4 = () => {
     }, [])
 
     useEffect(() => {
-        // Tạo EventSource để nhận sự kiện từ server
-        const eventSource = new EventSource("http://yourserver.com/price-updates");
+        // Tạo kết nối đến SignalR Hub
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7124/dutchAuctionHub") // URL ánh xạ trong app.MapHub
+            .withAutomaticReconnect()
+            .build();
 
-        // Khi nhận sự kiện mới từ server, cập nhật giá
-        eventSource.onmessage = (event) => {
-            const updatedPrice = JSON.parse(event.data).highestPrice;
-            setCurrentPrice(updatedPrice);
+        // Kết nối đến hub
+        connection.start()
+            .then(() => console.log("Connected to SignalR Hub"))
+            .catch(err => console.error("Connection failed: ", err));
+
+        // Nhận sự kiện từ server
+        connection.on("UpdateNewCostForDutchAuction", (newPrice) => {
+            console.log("Received new price: ", newPrice);
+            setHighestPrice(newPrice); // Cập nhật giá mới vào state
+        });
+
+        // Cleanup: đóng kết nối khi component bị unmounted
+        return () => {
+            connection.stop().then(() => console.log("Disconnected from SignalR Hub"));
         };
-
-        // Đóng kết nối khi component bị gỡ
-        return () => eventSource.close();
     }, []);
+
+    const handlePlaceBidBtn = async () => {
+        // Show confirmation dialog
+        const { isConfirmed } = await Swal.fire({
+            title: 'Confirm Bid',
+            text: 'Are you sure you want to place this bid?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, place it!',
+            cancelButtonText: 'No, cancel!',
+        });
+
+        // If the user confirmed, proceed to place the bid
+        if (isConfirmed) {
+            try {
+                const response = await handlePlaceDutchAuctionBid(sessionStorage.getItem("token"), auctionItem.fishEntryId);
+                console.log(response);
+
+                if (response && response.status === 200) {
+                    Swal.fire({
+                        title: 'Bid Placed!',
+                        text: 'Your bid has been placed successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        background: '#f9f9f9', // Optional: Customize background color
+                        confirmButtonColor: '#3085d6', // Customize button color
+                        timer: 3000, // Optional: Auto-close after 3 seconds
+                    });
+                    setAuctionItem((prev) => ({ ...prev, status: 4 }));
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'There was an error placing your bid. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                    });
+                }
+            } catch (error) {
+                console.error("Error placing bid:", error);
+
+                // Show an error notification
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'There was an error placing your bid. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                });
+            }
+        } else {
+            // Optional: Notify user that the bid was canceled
+            Swal.fire({
+                title: 'Cancelled',
+                text: 'Your bid has not been placed.',
+                icon: 'info',
+                confirmButtonText: 'OK',
+            });
+        }
+    };
 
 
 
@@ -71,7 +139,6 @@ const FishAuctionMethod4 = () => {
 
             <div className="fish-aucction-method3-content">
                 <div className="fish-aucction-method3-content-row1">Auction#{auctionId}</div>
-                <div className="fish-aucction-method3-content-row2">Ending in: </div>
                 <div className="fish-aucction-method3-content-row3">
                     <div className="fish-aucction-method3-content-row3-col1">
                         <img className="main-fish-img" src={mainImage} alt="Main Fish" />
@@ -134,30 +201,41 @@ const FishAuctionMethod4 = () => {
                                 </div>
                             </div>
                         </div>
-                        <div class="place-bid">
-                            <div class="place-bid-content">
-                                <div class="place-bid-content-row1">
-                                    <div class="start-price-icon">
-                                        <img src={startPriceIcon} alt="" />
-
+                        <div className="place-bid">
+                            {auctionItem.status === 3 ? (
+                                <div className="place-bid-content">
+                                    <div className="place-bid-content-row1">
+                                        <div className="start-price-icon">
+                                            <img src={startPriceIcon} alt="" />
+                                        </div>
+                                        <div className="start-price-text">Start price</div>
+                                        <div className="start-price">${auctionItem.max}</div>
                                     </div>
-                                    <div class="start-price-text">
-                                        Start price
+                                    <hr />
+                                    <div className="place-bid-content-row2">
+                                        <div className="current-price-icon">
+                                            <i className="fa-solid fa-file-invoice-dollar"></i>
+                                        </div>
+                                        <div className="current-price-text">
+                                            Current price: ${highestPrice !== null ? `${highestPrice}` : ""}
+                                        </div>
                                     </div>
-                                    <div class="start-price">
-                                        ${auctionItem.max}
-                                    </div>
+                                    <button
+                                        className="place-bid-btn"
+                                        onClick={() => handlePlaceBidBtn()}
+                                    >
+                                        Place bid at ${highestPrice}
+                                    </button>
                                 </div>
-                                <hr />
-                                <div class="place-bid-content-row2">
-                                    <div class="current-price-icon">
-                                        <i class="fa-solid fa-file-invoice-dollar"></i>
-                                    </div>
-                                    <div class="current-price-text">Current price: ${currentPrice}</div>
-
+                            ) : auctionItem.status === 2 ? (
+                                <div className="status-message">
+                                    <p>The auction has not started yet.</p>
                                 </div>
-                                <button class="place-bid-btn">Place bid at $150</button>
-                            </div>
+                            ) : auctionItem.status === 4 ? (
+                                <div className="status-message">
+                                    <p>The auction has ended.</p>
+                                </div>
+                            ) : null} {/* Render nothing for other statuses */}
                         </div>
                     </div>
                 </div>

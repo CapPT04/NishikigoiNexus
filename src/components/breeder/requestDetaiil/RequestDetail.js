@@ -27,6 +27,7 @@ const RequestDetail = () => {
       const resRequest = await handleGetRequestDetail(reqID);
       const resFish = await handleGetFishEntry(reqID);
       const user = await handleUserById(resFish.data.highestBidder);
+      console.log(resRequest.data);
       setMyRequest(resRequest.data);
       setFishEntry(resFish.data);
       setBidder(user.data);
@@ -68,7 +69,7 @@ const RequestDetail = () => {
           </div>
           <div className="request-detail-content-row2">Request Detail</div>
           <div className="request-detail-content-row3">
-            Create date: {myRequest.createDate}
+            Create date: {new Date(myRequest.createDate).toLocaleString()}
           </div>
           <div className="request-detail-content-row4">
             <div className="update-by">

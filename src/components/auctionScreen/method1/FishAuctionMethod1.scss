@@ -207,7 +207,7 @@ body {
     .fish-aucction-method3-content-row3-col1 {
       display: grid;
       grid-template-rows: 70% 20%;
-      gap: 20px;
+      gap: 12px;
 
       img {
         width: 100%;
@@ -217,11 +217,10 @@ body {
 
       .fish-sub-img {
         display: flex;
-        gap: 10px;
         justify-content: space-between;
 
         .fish-sub-img1 {
-          // background: url("../../../assets/images/body1.png");
+          background: url("../../../assets/images/body1.png");
           width: 23%;
           height: 150px;
           border-radius: 6px;
@@ -433,12 +432,12 @@ body {
             position: relative;
             margin-top: 20px;
 
-            .current-price-icon {
+            .number-of-bidders-icon {
               font-size: 24px;
               margin-right: 20px;
             }
 
-            .current-price {
+            .number-of-bidders {
               position: absolute;
               right: 0;
               color: #000;
@@ -449,7 +448,7 @@ body {
               line-height: normal;
             }
 
-            .current-price-text {
+            .number-of-bidders-text {
               color: #000;
               font-family: "Saira Condensed";
               font-size: 24px;
@@ -469,105 +468,21 @@ body {
 
           .place-bid-content-row2 {
             display: flex;
-            justify-content: space-between;
-            width: 85%;
-            margin: 0 auto;
             margin-top: 10px;
+            justify-content: center;
+            gap: 10px;
+            font-size: 24px;
+          }
 
-            .increment {
-              .increment-text {
-                color: #000;
-                font-family: "Saira Condensed";
-                font-size: 16px;
-                font-style: normal;
-                font-weight: 300;
-                line-height: normal;
-              }
-
-              .increment-number {
-                color: #000;
-                text-align: center;
-                font-family: "Saira Condensed";
-                font-size: 32px;
-                font-style: normal;
-                font-weight: 500;
-                line-height: normal;
-              }
-            }
-
-            .multiple,
-            .equal {
-              color: #000;
-              font-family: "Saira Condensed";
-              font-size: 32px;
-              font-style: normal;
-              font-weight: 500;
-              display: flex;
-              line-height: normal;
-              align-self: flex-end;
-            }
-
-            .total-bid-price {
-              color: #000;
-              text-align: center;
-              font-family: "Saira Condensed";
-              font-size: 32px;
-              font-style: normal;
-              font-weight: 500;
-              line-height: normal;
-              align-self: flex-end;
-            }
-
-            .cen-div {
-              display: flex;
-              gap: 10px;
-              border-radius: 32px;
-              border: 1px solid #000;
-              width: 135px;
-              height: 32px;
-              padding: 1px 4px;
-              justify-content: center;
-              align-items: center;
-              gap: 10px;
-              align-self: flex-end;
-              justify-content: space-between;
-
-              .substract,
-              .add {
-                color: #fff;
-                leading-trim: both;
-                text-edge: cap;
-                font-family: "Saira Condensed";
-                font-size: 30px;
-                font-style: normal;
-                font-weight: 400;
-                line-height: normal;
-                border-radius: 50%;
-                background: red;
-                width: 24px;
-                height: 24px;
-                text-align: center;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                &:hover {
-                  cursor: pointer;
-                  opacity: 0.7;
-                }
-              }
-
-              .increment-bid-number {
-                color: #000;
-                font-family: "Saira Condensed";
-                font-size: 24px;
-                font-style: normal;
-                font-weight: 500;
-                line-height: normal;
-                background: none;
-                -webkit-appearance: none;
-              }
-            }
+          .place-bid-content-row3 {
+            display: flex;
+            justify-content: center;
+            color: #000;
+            font-family: "Saira Condensed";
+            font-size: 36px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
           }
 
           .place-bid-btn {

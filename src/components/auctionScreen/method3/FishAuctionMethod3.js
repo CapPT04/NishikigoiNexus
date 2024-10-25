@@ -1,34 +1,53 @@
 import React, { useEffect, useState } from "react";
 import "./FishAuctionMethod3.scss";
 import Navbar from "../../common/Navbar/Navbar";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   handleBidHistory,
   handleFishEntryById,
+  handleGetFishDetailById,
+  handleGetFishImgById,
   handlePublicBidding,
 } from "../../../axios/UserService";
-// import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import * as signalR from "@microsoft/signalr";
 
 const FishAuctionMethod3 = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [fishEntry, setFishEntry] = useState("");
+  const [fishInfo, setFishInfo] = useState("");
+  const [fishImgs, setFishImgs] = useState([]);
+  const [mainImage, setMainImage] = useState(""); // For handling the main image
   const [currentPrice, setCurrentPrice] = useState(0);
   const [stepPrice, setStepPrice] = useState(0);
   const [increment, setIncrement] = useState(1);
   const [bids, setBids] = useState([]);
+  const [highestPrice, setHighestPrice] = useState(null);
+
 
   const getFishEntry = async () => {
     //link: /AuctionFish?fishEntryId=...
     const entryId = searchParams.get("fishEntryId");
-    const res = await handleFishEntryById(entryId);
-    setFishEntry(res.data);
-    setStepPrice(res.data.increment);
+    if (entryId) {
+      const res = await handleFishEntryById(entryId);
+      console.log(res.data);
+      setFishEntry(res.data);
+      setStepPrice(res.data.increment);
+      const resFish = await handleGetFishDetailById(res.data.fishId);
+      console.log(resFish.data);
+      setFishInfo(resFish.data);
+      const resImgs = await handleGetFishImgById(resFish.data.fishId);
+      console.log(resImgs.data.$values);
+      setFishImgs(resImgs.data.$values);
+      setMainImage(resImgs.data.$values[0]?.imagePath || "");
 
-    const his = await handleBidHistory(entryId);
-    // Spread to flatten the array
-    setBids((preBid) => [...preBid, ...his.data.$values]);
-    // setCurrentPrice(his.data.$values.slice(-1)[0].currentPrice);
+      const his = await handleBidHistory(entryId);
+      // Spread to flatten the array
+      setBids((preBid) => [...preBid, ...his.data.$values]);
+      // setCurrentPrice(his.data.$values.slice(-1)[0].currentPrice);
+    } else {
+      navigate("/auction");
+    }
   };
   const handleIncrement = () => {
     setIncrement((prevIncrement) => Math.min(prevIncrement + 1, 5)); // Limit to max of 5
@@ -43,29 +62,28 @@ const FishAuctionMethod3 = () => {
   }, []);
 
   useEffect(() => {
+    // Tạo kết nối đến SignalR Hub
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7124/publicBidHub") // URL của Hub trong ASP.NET Core
+      .withUrl("https://your-server-url/DutchAuctionBidHub") // Đổi URL thành URL của server bạn
       .withAutomaticReconnect()
       .build();
 
-    connection
-      .start()
-      .then(() => {
-        console.log("Connected to SignalR Hub");
-        // Listen for the event ReceiveBidPlacement
-        connection.on("ReceiveBidPlacement", (data) => {
-          //   console.log("Received bid placement: ", data);
-          // Update bids list when new data is received
-          setBids((prevBids) => [...prevBids, data]);
-        });
-        setCurrentPrice(bids.slice(-1)[0].currentPrice);
-      })
-      .catch((err) => console.log("Error while starting connection: " + err));
-    // Cleanup when component unmounts
+    // Kết nối đến hub
+    connection.start()
+      .then(() => console.log("Connected to SignalR Hub"))
+      .catch(err => console.error("Connection failed: ", err));
+
+    // Nhận sự kiện từ server
+    connection.on("UpdateNewCostForDutchAuction", (newPrice) => {
+      console.log("Received new price: ", newPrice);
+      setHighestPrice(newPrice); // Cập nhật giá mới vào state
+    });
+
+    // Cleanup: đóng kết nối khi component bị unmounted
     return () => {
-      connection.stop();
+      connection.stop().then(() => console.log("Disconnected from SignalR Hub"));
     };
-  }, [bids, currentPrice]);
+  }, []);
 
   const totalBidPrice = stepPrice * increment;
   const newPrice = currentPrice + totalBidPrice;
@@ -88,65 +106,66 @@ const FishAuctionMethod3 = () => {
           Ending in: 4:13:03
         </div>
         <div className="fish-aucction-method3-content-row3">
-          <div className="fish-auction-method3-content-row3-col1">
-            <img
-              className="main-fish-img"
-              src="../../assets/images/login1.png"
-              alt=""
-            />
+          <div className="fish-aucction-method3-content-row3-col1">
+            <img className="main-fish-img" src={mainImage} alt="Main Fish" />
             <div className="fish-sub-img">
-              {["body1.png", "login1.png", "login1.png", "login1.png"].map(
-                (img, index) => (
-                  <div
-                    key={index}
-                    className="fish-sub-img1"
-                    data-src={`../../assets/images/${img}`}
-                  >
-                    <img src={`../../assets/images/${img}`} alt="" />
-                  </div>
-                )
-              )}
+              {fishImgs.map((img, index) => (
+                <div
+                  key={index}
+                  className="fish-sub-img1"
+                  onMouseEnter={() => setMainImage(img.imagePath)} // Hover to change main image
+                  onMouseLeave={() => setMainImage(fishImgs[0].imagePath)}
+                >
+                  <img src={img.imagePath} alt={`Fish ${index}`} />
+                </div>
+              ))}
             </div>
           </div>
           <div className="fish-aucction-method3-content-row3-col2">
             <div className="fish-info">
               <div className="fish-info-row1">
-                <div className="fish-info-name">Ca ngu</div>
+                <div className="fish-info-name">{fishInfo.fishName}</div>
                 <div className="fish-info-notion">
                   <i className="fa-solid fa-circle-exclamation"></i>
                 </div>
               </div>
               <div className="fish-info-row2">
-                <div className="fish-info-ending">Ending in: 23:13</div>
+                <div className="fish-info-ending">
+                  Ending in: {new Date(fishEntry.endDate).toLocaleString()}
+                </div>
                 <div className="fish-info-tag">
                   <i className="fa-solid fa-tag"></i>
-                  <div className="fish-number">Fish#14</div>
+                  <div className="fish-number">
+                    Fish#{fishEntry.fishEntryId}
+                  </div>
                 </div>
               </div>
               <div className="fish-info-row3">
                 <div className="fish-info-weight">
                   <i className="fa-solid fa-weight-hanging"></i>
-                  <div className="weight-number">1234 ram</div>
+                  <div className="weight-number">{fishInfo.weight} gram</div>
                 </div>
                 <div className="fish-info-length">
                   <i className="fa-solid fa-ruler"></i>
-                  <div className="length-number">1234 mm</div>
+                  <div className="length-number">{fishInfo.size} mm</div>
                 </div>
               </div>
               <div className="fish-info-row4">
                 <div className="fish-info-gender">
                   <i className="fa-solid fa-venus-mars"></i>
-                  <div className="gender-text">Female</div>
+                  <div className="gender-text">
+                    {fishInfo.gender === 1 ? "Male" : "Female"}
+                  </div>
                 </div>
                 <div className="fish-info-age">
                   <i className="fa-solid fa-calendar"></i>
-                  <div className="age-text">22 months</div>
+                  <div className="age-text">{fishInfo.age} months</div>
                 </div>
               </div>
               <div className="fish-info-row5">
                 <div className="fish-info-origin">
                   <i className="fa-solid fa-earth-americas"></i>
-                  <div className="origin-text">Niigata, Japan</div>
+                  <div className="origin-text">{fishInfo.origin}</div>
                 </div>
               </div>
             </div>
