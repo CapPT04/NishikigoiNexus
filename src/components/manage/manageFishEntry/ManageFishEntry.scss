@@ -75,14 +75,12 @@
     gap: 56px;
     flex-shrink: 0;
     background: #1c1c1c;
-    width: 160px;
-    // height: 841px;
     color: #fff;
     font-size: 26px;
     font-weight: 400;
     line-height: normal;
     align-items: center !important;
-    height: 100vh !important;
+    height: 100% !important;
 
     a {
       color: #fff;
@@ -92,7 +90,7 @@
       }
     }
 
-    .koi {
+    .fishEntry {
       margin-left: 30px;
       display: flex;
       height: 67px;

@@ -15,6 +15,7 @@ const END_POINT = {
   GETFISHIMAGESBYID: "Image/GetImageByFishId",
   CREATEAUCTION: "Auction/CreateAuction",
   GETREQUESTBYID: "Request/GetRequestById",
+  GETFISHDETAIL: "Fish/GetFishById",
   GETALLBREEDERS: "Breeder/GetAllBreeders", //manager
   CREATEBREEDER: "Breeder/CreateBreeder",
   UPDATECOMMISSION: "Staff/UpdateBreederCommission",
@@ -28,6 +29,7 @@ const END_POINT = {
   ACCEPTREQUEST: "Request/CheckRequest",
   CANCELREQUEST: "Request/CancelRequest",
   GETALLFISH: "Fish/GetAllFish",
+  GETALLFISHENTRY: "FishEntry/GetAllFishEntries",
   //auction
   GETFISHENTRYBYID: "FishEntry/GetFishEntryById",
   PUBLICBIDHISTORY: "PublicBid/HistoryByFishEntryId",
@@ -39,6 +41,8 @@ const END_POINT = {
   GETPUBLICAUCTIONS: "Auction/GetPublicAuctionsWithFishEntryCount",
   PUBLICBIDDING: "PublicBid/PlaceBid",
   GETAUCTIONDETAILBYID: "Auction/GetAuctionDetailsById",
+  FIXEDPRICEHISTORY: "FixedPriceSale/HistoryByFishEntryId",
+  PLACEFIXEDPRICE: "FixedPriceSale/PlaceBid",
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -61,7 +65,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -131,18 +135,17 @@ export const handleGetPublicAuctionsApi = () => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const handleGetAuctionDetailByIdApi = async (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETAUCTIONDETAILBYID}`, {
-      params: { auctionid: auctionId }
+      params: { auctionid: auctionId },
     });
   } catch (error) {
     throw error; // Re-throw the error to be handled in the component
   }
 };
-
 
 export const handleGetAllBreeders = () => {
   try {
@@ -424,11 +427,39 @@ export const handleAcceptRequest = async (token, requestId, deliveryCost) => {
 export const handleCancelRequest = async (token, requestId, reason) => {
   try {
     const res = await axiosClient.delete(`${END_POINT.CANCELREQUEST}`, {
-      token: token,
-      requestId: requestId,
-      reason: reason,
+      data: {
+        token: token,
+        requestId: requestId,
+        reason: reason,
+      },
     });
     return res;
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleAllFishEntry = async () => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETALLFISHENTRY}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleFixedPriceHistory = async (fishEntryId) => {
+  try {
+    return await axiosClient.post(
+      `${END_POINT.FIXEDPRICEHISTORY}?FishEntryId=${fishEntryId}`
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+export const handlePlaceFixedPrice = async (token, fishEntryId) => {
+  try {
+    return await axiosClient.post(`${END_POINT.PLACEFIXEDPRICE}`, {
+      token: token,
+      fishEntryId: fishEntryId,
+    });
   } catch (error) {
     throw error;
   }

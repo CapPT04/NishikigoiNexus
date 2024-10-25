@@ -19,6 +19,8 @@ const FishDetail = () => {
 
   const getInfoDetail = async () => {
     const resFish = await handleGetFishDetailById(fishID);
+    // console.log(resFish);
+    setMyFish(resFish.data);
     const resIMG = await handleGetFishImgById(fishID);
     for (let i = 0; i < resIMG.data.$values.length; i++) {
       setImages((prev) => [...prev, resIMG.data.$values[i].imagePath]);
