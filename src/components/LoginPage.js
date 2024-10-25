@@ -73,13 +73,7 @@ const LoginPage = () => {
         const user = jwtDecode(response.data);
         // console.log(JSON.stringify(response.data));
         sessionStorage.setItem("user", JSON.stringify(user));
-        if (user.Role === "1") {
-          navigate("/");
-        } else if (user.Role === "3") {
-          navigate("/Manager/Manage");
-        } else if (user.Role === "2") {
-          navigate("/");
-        }
+        navigate("/");
       } else {
         if (response && response.status === 400) {
           setErrorMessage(response.data.message);

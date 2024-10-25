@@ -6,6 +6,7 @@ export const path = {
   ABOUT: "/about",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  AUCTIONSCREENDETAIL: "/AuctionDetails",
   //breeder
   BREEDER: "breeder",
   CREATEREQUEST: "CreateRequest",
@@ -17,5 +18,22 @@ export const path = {
   //manage
   MANAGER: "/Manager",
   MANAGE: "Manage",
-  MANAGEAUCTION: "/ManageAuction",
+  USERDETAIL: "UserDetail",
+  MANAGEAUCTION: "ManageAuction",
+  CREATEAUCTION: "CreateAuction",
+  MANAGEBREEDER: "ManageBreeder",
+  AUCTIONDETAIL: "AuctionDetail",
+  BREEDERDETAIL: "BreederDetail",
+  CREATEBREEDER: "CreateBreeder",
+  MANAGEREQUEST: "ManageRequest",
+  REQUESTDETAIL: "RequestDetail",
+  MANAGEKOI: "ManageKoi",
+  KOIDETAIL: "KoiDetail",
+  MANAGEFISHENTRY: "ManageFishEntry",
+  FISHENTRYDETAIL: "FishEntryDetail",
+  //
+  AUCTIONMETHOD3: "/AuctionFishMethod3",
+  AUCTIONMETHOD2: "/AuctionFishMethod2",
+  AUCTIONMETHOD4: "/AuctionFishMethod4",
+
 };

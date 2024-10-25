@@ -1,16 +1,47 @@
 import axios from "axios";
 import axiosClient from "./axiosClient";
 import { useNavigate } from "react-router-dom";
+import CreateAuction from "../components/common/CreateAuction/CreateAuction";
 const END_POINT = {
   LOGIN: "User/Login",
   SIGNUP: "User/MemberRegister",
   GETUSERBYID: "User/GetUserById",
+  GETALLUSER: "User/GetAllUser",
   FEE: "Fee/GetFee",
   CREATEREQUEST: "Request/CreateRequest", //breeder
   GETALLREQUEST: "Request/GetAllRequest",
   LOGINWITHGOOGLE: "User/GoogleLogin",
-  SHOWALLAUCTION: "Auction/GetAuctionsWithFishEntryCount"
+  SHOWALLAUCTION: "Auction/GetAuctionsWithFishEntryCount",
   GETFISHIMAGESBYID: "Image/GetImageByFishId",
+  CREATEAUCTION: "Auction/CreateAuction",
+  GETREQUESTBYID: "Request/GetRequestById",
+  GETALLBREEDERS: "Breeder/GetAllBreeders", //manager
+  CREATEBREEDER: "Breeder/CreateBreeder",
+  UPDATECOMMISSION: "Staff/UpdateBreederCommission",
+  BANBREEDER: "Breeder/ToggleBreederStatus",
+  GETFISHENTRYINAUCTION: "FishEntry/GetFishEntriesInAuction",
+  GETALLMEMBER: "User/GetAllMember",
+  BANUSER: "User/ToggleMemAndBreedStatus",
+  USERBIDHISTORY: "User/GetBiddingHistoryByMemberId",
+  GETFISHENTRYBYREQUESTID: "FishEntry/GetFishEntriesByRequestId",
+  GETFISHBYFISHENTRYID: "Fish/GetFishByFishEntryId",
+  ACCEPTREQUEST: "Request/CheckRequest",
+  CANCELREQUEST: "Request/CancelRequest",
+  GETALLFISH: "Fish/GetAllFish",
+  //auction
+  GETFISHENTRYBYID: "FishEntry/GetFishEntryById",
+  PUBLICBIDHISTORY: "PublicBid/HistoryByFishEntryId",
+  GETFISHENTRYINAUCTION: "FishEntry/GetFishEntriesInAuction",
+  UPDATEAUCTIONDETAIL: "FishEntry/UpdateFishEntryDates",
+  DELETEFISHENTRYINAUCTION: "FishEntry/DeleteFishEntry",
+  GETFISHENTRYFORAUCTION: "FishEntry/GetFishEntriesForAuction",
+  ADDFISHENTRYTOAUCTION: "Auction/AddFishEntryToAuction",
+  GETPUBLICAUCTIONS: "Auction/GetPublicAuctionsWithFishEntryCount",
+  PUBLICBIDDING: "PublicBid/PlaceBid",
+  GETAUCTIONDETAILBYID: "Auction/GetAuctionDetailsById",
+  GETHISTORYOFSECRETBID: "SecretBid/HistoryOfSecretBidByFishEntryId",
+  PUBLICAUCTION: "Auction/UpdateAuctionStatus",
+  PLACESECRETBID: "SecretBid/PlaceSecretBid"
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -22,13 +53,143 @@ export const handleLoginApi = (userEmail, userPassword) => {
 
 export const handleLoginWithGoogleApi = (token) => {
   return axiosClient.post(`${END_POINT.LOGINWITHGOOGLE}`, {
-    token: token
+    token: token,
   });
 };
 
 export const handleManageAuctionApi = () => {
-  return axiosClient.get(`${END_POINT.SHOWALLAUCTION}`)
+  return axiosClient.get(`${END_POINT.SHOWALLAUCTION}`);
+};
+
+export const handleGetFishEntryInAuction = (auctionId) => {
+  try {
+    return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
+  } catch (error) { }
+};
+
+export const handleCreateAuctionApi = (token, auctionDate) => {
+  try {
+    return axiosClient.post(`${END_POINT.CREATEAUCTION}`, {
+      token: token,
+      startTime: auctionDate,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleUpdateAuctionDetailApi = (
+  fishEntryId,
+  startTime,
+  finishTime
+) => {
+  try {
+    return axiosClient.put(`${END_POINT.UPDATEAUCTIONDETAIL}`, {
+      fishEntryId: fishEntryId,
+      startdate: startTime,
+      enddate: finishTime,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleDeleteFishEntryInAuctionApi = (auctionID, fishEntryID) => {
+  try {
+    return axiosClient.put(`${END_POINT.DELETEFISHENTRYINAUCTION}`, {
+      auctionId: auctionID,
+      fishentryId: fishEntryID,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetFishEntryForAuctionApi = () => {
+  try {
+    return axiosClient.get(`${END_POINT.GETFISHENTRYFORAUCTION}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleAddFishEntryForAuctionApi = (
+  fishEntryId,
+  auctionId,
+  token
+) => {
+  try {
+    return axiosClient.post(`${END_POINT.ADDFISHENTRYTOAUCTION}`, {
+      fishEntryId: fishEntryId,
+      auctionId: auctionId,
+      token: token,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetPublicAuctionsApi = () => {
+  try {
+    return axiosClient.get(`${END_POINT.GETPUBLICAUCTIONS}`);
+  } catch (error) {
+    throw error;
+  }
 }
+
+export const handleGetAuctionDetailByIdApi = async (auctionId) => {
+  try {
+    return axiosClient.get(`${END_POINT.GETAUCTIONDETAILBYID}`, {
+      params: { auctionid: auctionId }
+    });
+  } catch (error) {
+    throw error; // Re-throw the error to be handled in the component
+  }
+};
+
+export const handleGetHistoryOfSecretBidApi = async (FishEntryId) => {
+  try {
+    return axiosClient.post(`${END_POINT.GETHISTORYOFSECRETBID}?FishEntryId=${FishEntryId}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const handlePublicAuctionApi = async (auctionId) => {
+  try {
+    // Use auctionId directly in the URL
+    return await axiosClient.put(`${END_POINT.PUBLICAUCTION}/${auctionId}`);
+  } catch (error) {
+    throw error; // Re-throw the error to be handled in the component
+  }
+};
+
+
+export const handlePlaceSecretBidApi = async (token, amount, fishEntryId) => {
+  try {
+    // Use auctionId directly in the URL
+    return await axiosClient.post(`${END_POINT.PLACESECRETBID}`, {
+      token: token,
+      amount: amount,
+      fishEntryId: fishEntryId
+    });
+  } catch (error) {
+    throw error; // Re-throw the error to be handled in the component
+  }
+};
+
+
+
+
+
+
+export const handleGetAllBreeders = () => {
+  try {
+    return axiosClient.get(`${END_POINT.GETALLBREEDERS}`);
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const handleSignUpApi = async (user) => {
   try {
@@ -162,6 +323,151 @@ export const handleGetFishDetailById = async (id) => {
 export const handleGetFishImgById = async (id) => {
   try {
     return await axiosClient.get(`${END_POINT.GETFISHIMAGESBYID}?FishId=${id}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleCreateBreeder = async (token, breeder) => {
+  try {
+    return await axiosClient.post(`${END_POINT.CREATEBREEDER}`, {
+      token: token,
+      email: breeder.email,
+      firstName: breeder.firstName,
+      lastName: breeder.lastName,
+      password: breeder.password,
+      address: breeder.address,
+      city: breeder.city,
+      phone: breeder.phone,
+      gender: 1,
+      commission: breeder.commission,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleToggleBreederStatus = async (token, id, reason) => {
+  try {
+    return await axiosClient.put(`${END_POINT.BANBREEDER}?id=${id}`, {
+      token: token,
+      reason: reason,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleUpdateBreederCommission = async (
+  token,
+  id,
+  newCommission
+) => {
+  try {
+    return await axiosClient.put(
+      `${END_POINT.UPDATECOMMISSION}?id=${id}&token=${token}&commission=${newCommission}`
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetAllUser = async () => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETALLUSER}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleFishEntryById = async (id) => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETFISHENTRYBYID}/${id}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleBidHistory = async (id) => {
+  try {
+    return await axiosClient.post(
+      `${END_POINT.PUBLICBIDHISTORY}?FishEntryId=${id}`
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handlePublicBidding = async (token, entryId, amount) => {
+  try {
+    return await axiosClient.post(`${END_POINT.PUBLICBIDDING}`, {
+      token: token,
+      fishEntryId: entryId,
+      amount: amount,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleGetAllMember = async () => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETALLMEMBER}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleToggleUserStatus = async (token, id, reason) => {
+  try {
+    return await axiosClient.put(`${END_POINT.BANUSER}?id=${id}`, {
+      token: token,
+      reason: reason,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleUserBidHistory = async (id) => {
+  try {
+    return await axiosClient.get(`${END_POINT.USERBIDHISTORY}?id=${id}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleFishEntryByRequestId = async (request_id) => {
+  try {
+    return await axiosClient.get(
+      `${END_POINT.GETFISHENTRYBYREQUESTID}?requestId=${request_id}`
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleFishByFishEntryId = async (fishEntryId) => {
+  try {
+    return await axiosClient.get(
+      `${END_POINT.GETFISHBYFISHENTRYID}?FishEntryId=${fishEntryId}`
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleAcceptRequest = async (token, requestId, deliveryCost) => {
+  try {
+    return await axiosClient.put(`${END_POINT.ACCEPTREQUEST}`, {
+      token: token,
+      requestId: requestId,
+      deliveryCost: deliveryCost,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleCancelRequest = async (token, requestId, reason) => {
+  try {
+    const res = await axiosClient.delete(`${END_POINT.CANCELREQUEST}`, {
+      token: token,
+      requestId: requestId,
+      reason: reason,
+    });
+    return res;
   } catch (error) {
     throw error;
   }

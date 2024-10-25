@@ -5,8 +5,8 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FishAuctionMethod3</title>
-    <link rel="stylesheet" href="FishAuctionMethod3.css">
+    <title>FishAuctionMethod4</title>
+    <link rel="stylesheet" href="FishAuctionMethod4.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -20,7 +20,7 @@
     <div class="header">
         <div class="navigation-bar">
             <div class="navigation-bar-left-content">
-                <img class="logo" src="../assets/images/logo_png.png" alt="">
+                <img class="logo" src="../../assets/images/logo_png.png" alt="">
                 <div class="project-name">Nishikigoi Nexus</div>
             </div>
 
@@ -42,13 +42,22 @@
         <div class="fish-aucction-method3-content-row2">Ending in: 4:13:03</div>
         <div class="fish-aucction-method3-content-row3">
             <div class="fish-aucction-method3-content-row3-col1">
-                <img class="main-fish-img" src="../assets/images/login1.png" alt="">
+                <img class="main-fish-img" src="../../assets/images/login1.png" alt="">
                 <div class="fish-sub-img">
-                    <div class="fish-sub-img1"></div>
-                    <div class="fish-sub-img1"></div>
-                    <div class="fish-sub-img1"></div>
-                    <div class="fish-sub-img1"></div>
+                    <div class="fish-sub-img1" data-src="../../assets/images/body1.png">
+                        <img src="../../assets/images/body1.png" alt="">
+                    </div>
+                    <div class="fish-sub-img1" data-src="../../assets/images/login1.png">
+                        <img src="../../assets/images/login1.png" alt="">
+                    </div>
+                    <div class="fish-sub-img1" data-src="../../assets/images/login1.png">
+                        <img src="../../assets/images/login1.png" alt="">
+                    </div>
+                    <div class="fish-sub-img1" data-src="../../assets/images/login1.png">
+                        <img src="../../assets/images/login1.png" alt="">
+                    </div>
                 </div>
+
             </div>
             <div class="fish-aucction-method3-content-row3-col2">
                 <div class="fish-info">
@@ -99,28 +108,23 @@
                     <div class="bidding-history-content">
                         <div class="bidding-history-info">
                             <div class="bidding-time">2024/10/15 10:47:10 &nbsp</div>
-                            <div class="bidding-name-bidder">Thinh Dinh bidded &nbsp</div>
-                            <div class="bidding-price">$100</div>
+                            <div class="bidding-name-bidder">Thinh Dinh placed a bid &nbsp</div>
                         </div>
                         <div class="bidding-history-info">
                             <div class="bidding-time">2024/10/15 10:47:10 &nbsp</div>
-                            <div class="bidding-name-bidder">Thinh Dinh bidded &nbsp</div>
-                            <div class="bidding-price">$100</div>
+                            <div class="bidding-name-bidder">Thinh Dinh placed a bid &nbsp</div>
                         </div>
                         <div class="bidding-history-info">
                             <div class="bidding-time">2024/10/15 10:47:10 &nbsp</div>
-                            <div class="bidding-name-bidder">Thinh Dinh bidded &nbsp</div>
-                            <div class="bidding-price">$100</div>
+                            <div class="bidding-name-bidder">Thinh Dinh placed a bid &nbsp</div>
                         </div>
                         <div class="bidding-history-info">
                             <div class="bidding-time">2024/10/15 10:47:10 &nbsp</div>
-                            <div class="bidding-name-bidder">Thinh Dinh bidded &nbsp</div>
-                            <div class="bidding-price">$100</div>
+                            <div class="bidding-name-bidder">Thinh Dinh placed a bid &nbsp</div>
                         </div>
                         <div class="bidding-history-info">
                             <div class="bidding-time">2024/10/15 10:47:10 &nbsp</div>
-                            <div class="bidding-name-bidder">Thinh Dinh bidded &nbsp</div>
-                            <div class="bidding-price">$100</div>
+                            <div class="bidding-name-bidder">Thinh Dinh placed a bid &nbsp</div>
                         </div>
 
                     </div>
@@ -129,19 +133,27 @@
                 </div>
                 <div class="place-bid">
                     <div class="place-bid-content">
-                        <div class="total-bid-price">
-                            <div class="current-price">
-                                <div class="current-price-text">Current Price</div>
-                                <div class="current-price-number">$140</div>
+                        <div class="place-bid-content-row1">
+                            <div class="start-price-icon">
+                                <img src="../../assets/images/mintmark.svg" alt="">
+
                             </div>
-                            <div class="addition-icon">+</div>
-                            <div class="increment">
-                                <div class="increment-text">Increment</div>
-                                <div class="increment-number">$10</div>
+                            <div class="start-price-text">
+                                Start price
+                            </div>
+                            <div class="start-price">
+                                $300
                             </div>
                         </div>
-                        <button class="place-bid-btn">Place bid at $150</button>
+                        <hr>
+                        <div class="place-bid-content-row2">
+                            <div class="current-price-icon">
+                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                            </div>
+                            <div class="current-price-text">Current price: $100</div>
 
+                        </div>
+                        <button class="place-bid-btn">Place bid at $150</button>
                     </div>
                 </div>
             </div>
@@ -150,18 +162,18 @@
     </div>
     <footer class="footer">
         <div class="logo-footer">
-            <img class="logo-img-footer" src="../assets/images/logo_png.png" alt="">
+            <img class="logo-img-footer" src="../../assets/images/logo_png.png" alt="">
             <div class="name-project-footer">Nishikigoi Nexus</div>
         </div>
         <div class="social-contact">
             <div class="instagram">
-                <img src="../assets/images/Instagram.svg" alt="">
+                <img src="../../assets/images/Instagram.svg" alt="">
             </div>
             <div class="facebook">
-                <img src="../assets/images/Social Icons (1).svg" alt="">
+                <img src="../../assets/images/Social Icons (1).svg" alt="">
             </div>
             <div class="google">
-                <img src="../assets/images/Vector.svg" alt="">
+                <img src="../../assets/images/Vector.svg" alt="">
             </div>
         </div>
         <div class="nav-bar-footer">
@@ -173,5 +185,53 @@
         </div>
     </footer>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Lấy các phần tử cần thiết
+        const incrementButton = document.querySelector('.add');  // Nút tăng giá bid
+        const decrementButton = document.querySelector('.substract');  // Nút giảm giá bid
+        const bidInput = document.querySelector('.place-bid-content-row3');  // Ô nhập giá bid
+        const subImages = document.querySelectorAll('.fish-sub-img1');  // Các hình ảnh nhỏ
+        const mainImage = document.querySelector('.main-fish-img');  // Hình ảnh chính
+
+        // Xử lý sự kiện tăng giá bid nếu tồn tại các phần tử
+        if (incrementButton && decrementButton && bidInput) {
+            // Mặc định giá trị nhập là 150 (hoặc giá trị phù hợp)
+            let minBid = 150;
+            bidInput.value = minBid;
+
+            // Xử lý sự kiện tăng giá bid
+            incrementButton.addEventListener('click', () => {
+                let currentValue = parseInt(bidInput.value);
+                bidInput.value = currentValue + 10;  // Tăng thêm 10 USD
+            });
+
+            // Xử lý sự kiện giảm giá bid
+            decrementButton.addEventListener('click', () => {
+                let currentValue = parseInt(bidInput.value);
+                if (currentValue > minBid) {
+                    bidInput.value = currentValue - 10;  // Giảm 10 USD nhưng không dưới giá tối thiểu
+                }
+            });
+        }
+
+        // Xử lý sự kiện khi hover vào các hình ảnh nhỏ để thay đổi hình chính
+        if (subImages && mainImage) {
+            subImages.forEach(subImage => {
+                subImage.addEventListener('mouseenter', () => {
+                    const newSrc = subImage.getAttribute('data-src');
+                    mainImage.src = newSrc;
+                });
+
+                subImage.addEventListener('mouseleave', () => {
+                    // Có thể đặt lại hình ảnh chính nếu cần
+                    // mainImage.src = '../../assets/images/login1.png'; // Hình ảnh mặc định
+                });
+            });
+        }
+    });
+</script>
+
+
 
 </html>

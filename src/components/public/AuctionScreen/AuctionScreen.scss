@@ -1,0 +1,251 @@
+* {
+    margin     : 0;
+    padding    : 0;
+    border     : 0;
+    font-size  : 100%;
+    font-family: 'Saira Condensed';
+}
+
+body {
+    background: #e7cdbf;
+}
+
+.header {
+    width          : 100%;
+    background     : #000;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    align-self     : stretch;
+}
+
+.navigation-bar {
+    width          : 80% !important;
+    gap            : 30px;
+    display        : flex;
+    align-items    : center;
+    color          : #fff;
+    justify-content: space-around;
+    background     : #000;
+    top            : 0px;
+}
+
+.logo {
+    width : 64px;
+    height: 64px;
+}
+
+.navigation-bar-left-content {
+    display    : flex;
+    align-items: center;
+    gap        : 11px;
+}
+
+.project-name {
+    color      : #fff;
+    font-size  : 32px;
+    font-weight: 700;
+}
+
+.navigation-bar-right-content {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    gap            : 20px;
+    width          : auto !important;
+}
+
+.home,
+.auction,
+.blog,
+.about,
+.account {
+    color      : #fff;
+    font-size  : 20px;
+    font-weight: 700;
+    padding    : 8px 15px;
+    cursor     : pointer;
+}
+
+.home:hover,
+.auction:hover,
+.blog:hover,
+.about:hover,
+.account:hover {
+    opacity: 0.7;
+}
+
+.request {
+    border-radius: 24px;
+    background   : var(--Do, #df0012);
+}
+
+.account {
+    border-radius: 40px;
+    background   : #3d3d3d;
+}
+
+.footer {
+    background     : url('../../../assets/images/Form.png');
+    background-size: cover;
+    width          : 100vw;
+    height         : 300px;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    flex-direction : column;
+}
+
+.logo-footer {
+    display    : inline-flex;
+    align-items: center;
+    gap        : 11px;
+    width      : 80%;
+    margin     : 0 auto;
+}
+
+.logo-img-footer {
+    width : 108px;
+    height: 108px;
+}
+
+.name-project-footer {
+    color      : #fff;
+    font-size  : 64px;
+    font-weight: 700;
+}
+
+.social-contact {
+    width          : 80%;
+    display        : flex;
+    gap            : 20px;
+    justify-content: flex-end;
+    border-bottom  : 0.75px solid #fff;
+    opacity        : 0.7;
+}
+
+.nav-bar-footer a:hover,
+.instagram:hover,
+.facebook:hover,
+.google:hover {
+    opacity: 0.5;
+    cursor : pointer;
+}
+
+.nav-bar-footer {
+    display   : flex;
+    gap       : 50px;
+    margin-top: 20px;
+}
+
+.nav-bar-footer a {
+    color          : #fff;
+    text-decoration: none;
+    font-size      : 20px;
+    font-weight    : 250;
+}
+
+.auction-screen-content {
+    width                : 90%;
+    margin               : 0 auto;
+    display              : grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap                  : 40px;
+    margin-top           : 100px;
+    margin-bottom        : 50px;
+}
+
+.auction-screen-content1 {
+    gap          : 40px;
+    margin-top   : 100px;
+    margin-bottom: 50px;
+}
+
+.auction-item {
+    border-radius: 30px;
+    border       : 1px solid #000;
+    background   : #e7cdbf;
+    box-shadow   : 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
+    animation    : fadeIn 1s ease-in-out;
+
+}
+
+.auction-item-row1 {
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
+    margin         : 10px 20px;
+}
+
+.auction-id {
+    color    : #000;
+    font-size: 30px;
+}
+
+.auction-fish-number {
+    flex-shrink: 0;
+    color      : #000;
+    font-size  : 24px;
+}
+
+.auction-item-row2 {
+    display        : flex;
+    justify-content: space-around;
+    align-items    : center;
+}
+
+.auction-status {
+    color    : #000;
+    font-size: 24px;
+}
+
+.auction-details {
+    font-size     : 20px;
+    padding-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .auction-screen-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap                  : 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .auction-screen-content {
+        grid-template-columns: 1fr;
+        gap                  : 20px;
+    }
+}
+
+.auction-details-icon:hover {
+    cursor : pointer;
+    opacity: 0.5;
+}
+
+.no-auctions-message {
+    font-size       : 1.8rem;
+    color           : #ff5252;
+    text-align      : center;
+    margin          : 0 auto;
+    padding         : 30px;
+    background-color: #fff5f5;
+    border          : 2px solid #ff5252;
+    border-radius   : 10px;
+    box-shadow      : 0 6px 12px rgba(0, 0, 0, 0.1);
+    max-width       : 700px;
+    width           : 100%;
+    animation       : fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity  : 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity  : 1;
+        transform: translateY(0);
+    }
+}

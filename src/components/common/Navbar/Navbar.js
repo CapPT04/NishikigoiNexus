@@ -10,11 +10,19 @@ const Navbar = () => {
   const userStorage = sessionStorage.getItem("user");
   const user = JSON.parse(userStorage);
 
-  useEffect(() => { });
+  useEffect(() => {});
 
   const handleLogout = () => {
     sessionStorage.removeItem("user");
     navigate("/");
+  };
+
+  const handleHistory = () => {
+    const role = user.Role;
+    console.log(role);
+    if (role === "2") {
+      navigate("/Breeder/HistoryRequest");
+    }
   };
 
   return (
@@ -33,8 +41,8 @@ const Navbar = () => {
             }}
             onClick={() => {
               user.Role === "2"
-                ? navigate("/CreateRequest")
-                : navigate("/Manage");
+                ? navigate("/Breeder/CreateRequest")
+                : navigate("/Manager/Manage");
             }}
           >
             {user.Role === "1" ? "" : user.Role === "2" ? "REQUEST" : "STAFF"}
@@ -67,7 +75,7 @@ const Navbar = () => {
               <li>
                 <i className="fa-regular fa-user icon-account"></i> Account
               </li>
-              <li>
+              <li onClick={() => handleHistory()}>
                 <i
                   className="fa fa-history icon-history"
                   aria-hidden="true"

@@ -117,7 +117,7 @@ body {
 
 
 .footer {
-    background     : url(../assets/images/Form.png);
+    background     : url(../../assets/images/Form.png);
     background-size: cover;
     width          : 100vw;
     height         : 300px;
@@ -235,7 +235,10 @@ body {
                     height       : 150px;
                     border-radius: 6px;
 
-
+                    &:hover {
+                        cursor : pointer;
+                        opacity: 0.7;
+                    }
                 }
             }
         }
@@ -402,15 +405,14 @@ body {
                 align-items    : center;
 
                 .bidding-history-content {
-                    width                : 90%;
+                    width                : 95%;
                     grid-template-columns: 90%;
                     display              : grid;
                     gap                  : 10px;
+                    padding              : 10px 0;
 
                     .bidding-history-info {
                         display    : flex;
-                        width      : 90%;
-                        margin     : 0 auto;
                         color      : #FFF;
                         font-family: "Saira Condensed";
                         font-size  : 20px;
@@ -442,50 +444,72 @@ body {
                 .place-bid-content {
                     display: block;
 
-                    .total-bid-price {
-                        display        : flex;
-                        margin         : 0 auto;
-                        width          : 40%;
-                        justify-content: space-between;
-                        margin-top     : 20px;
+                    .place-bid-content-row1 {
+                        display   : flex;
+                        width     : 85%;
+                        margin    : 0 auto;
+                        position  : relative;
+                        margin-top: 20px;
 
-                        .current-price,
-                        .increment {
-                            width: 30%;
-
-                            .current-price-text,
-                            .increment-text {
-                                color      : #000;
-                                font-family: "Saira Condensed";
-                                font-size  : 16px;
-                                font-style : normal;
-                                font-weight: 300;
-                                line-height: normal;
-                                text-align : center;
-                            }
-
-                            .current-price-number,
-                            .increment-number {
-                                color      : #000;
-                                font-family: "Saira Condensed";
-                                font-size  : 28px;
-                                font-style : normal;
-                                font-weight: 500;
-                                line-height: normal;
-                                text-align : center;
-                            }
+                        .number-of-bidders-icon {
+                            font-size   : 24px;
+                            margin-right: 20px;
                         }
 
-                        .addition-icon {
+                        .number-of-bidders {
+                            position   : absolute;
+                            right      : 0;
                             color      : #000;
                             font-family: "Saira Condensed";
-                            font-size  : 28px;
+                            font-size  : 24px;
                             font-style : normal;
                             font-weight: 500;
                             line-height: normal;
-                            display    : flex;
-                            align-items: end;
                         }
+
+                        .number-of-bidders-text {
+                            color      : #000;
+                            font-family: "Saira Condensed";
+                            font-size  : 24px;
+                            font-style : normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+                    }
+
+                    hr {
+                        border    : none;
+                        border-top: 1px solid #000;
+                        width     : 85%;
+                        margin    : 0 auto;
+                        margin-top: 10px;
+                    }
+
+                    .place-bid-content-row2 {
+                        display        : flex;
+                        margin-top     : 10px;
+                        justify-content: center;
+                        gap            : 10px;
+                        font-size      : 24px;
+
+
+
+
+
+                    }
+
+                    .place-bid-content-row3 {
+                        display        : flex;
+                        justify-content: center;
+                        width          : 360px;
+                        height         : 40px;
+                        margin         : 0 auto;
+                        border-radius  : 12px;
+                        border         : 1px solid #121212;
+                        background     : #FFF;
+                        margin-top     : 5px;
+                        font-size      : 24px;
+                        text-indent    : 5px;
                     }
 
                     .place-bid-btn {
@@ -507,6 +531,12 @@ body {
                         margin         : 0 auto;
                         margin-top     : 20px;
                         margin-bottom  : 20px;
+
+                        &:hover {
+                            cursor : pointer;
+                            opacity: 0.7;
+                        }
+
                     }
                 }
             }
