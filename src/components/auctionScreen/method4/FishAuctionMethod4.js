@@ -7,7 +7,7 @@ import googleIcon from '../../../assets/images/Vector.svg';
 import body1 from '../../../assets/images/body1.png';
 import { useLocation } from 'react-router';
 import Navbar from '../../common/Navbar/Navbar';
-import { handleGetFishImgById } from '../../../axios/UserService';
+import { handleGetFishImgById, handleFishEntryById } from '../../../axios/UserService';
 import Swal from 'sweetalert2';
 import startPriceIcon from '../../../assets/images/mintmark.svg';
 
@@ -15,6 +15,7 @@ const FishAuctionMethod4 = () => {
     const location = useLocation();
     const [auctionItem, setAuctionItem] = useState(location.state.auctionItem);
     const auctionId = location.state.auctionId;
+    const [currentPrice, setCurrentPrice] = useState("");
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleString();
@@ -23,13 +24,6 @@ const FishAuctionMethod4 = () => {
     // console.log(amount);
     const [mainImage, setMainImage] = useState("");
     const [fishImage, setFishImage] = useState([]);
-
-
-
-
-
-    console.log(sessionStorage.getItem("token"));
-
     useEffect(() => {
 
         const fetchImageFish = async () => {
@@ -40,6 +34,7 @@ const FishAuctionMethod4 = () => {
                 // console.log(response.data.$values);
 
 
+
             } catch (error) {
                 console.error("Error fetching:", error);
             }
@@ -47,14 +42,25 @@ const FishAuctionMethod4 = () => {
         fetchImageFish();
     }, [])
 
-
-
-
-
     useEffect(() => {
-        console.log("img:", fishImage);
+        // Tạo EventSource để nhận sự kiện từ server
+        const eventSource = new EventSource("http://yourserver.com/price-updates");
 
-    })
+        // Khi nhận sự kiện mới từ server, cập nhật giá
+        eventSource.onmessage = (event) => {
+            const updatedPrice = JSON.parse(event.data).highestPrice;
+            setCurrentPrice(updatedPrice);
+        };
+
+        // Đóng kết nối khi component bị gỡ
+        return () => eventSource.close();
+    }, []);
+
+
+
+    // useEffect(() => {
+    //     console.log("img:", fishImage);
+    // })
 
 
     return (
@@ -139,7 +145,7 @@ const FishAuctionMethod4 = () => {
                                         Start price
                                     </div>
                                     <div class="start-price">
-                                        ${auctionItem.min}
+                                        ${auctionItem.max}
                                     </div>
                                 </div>
                                 <hr />
@@ -147,7 +153,7 @@ const FishAuctionMethod4 = () => {
                                     <div class="current-price-icon">
                                         <i class="fa-solid fa-file-invoice-dollar"></i>
                                     </div>
-                                    <div class="current-price-text">Current price: $100</div>
+                                    <div class="current-price-text">Current price: ${currentPrice}</div>
 
                                 </div>
                                 <button class="place-bid-btn">Place bid at $150</button>

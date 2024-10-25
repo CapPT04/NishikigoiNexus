@@ -24,12 +24,9 @@ const FishAuctionMethod2 = () => {
     // console.log(amount);
     const [mainImage, setMainImage] = useState("");
     const [fishImage, setFishImage] = useState([]);
-
-
-
-
-
+    const [currentPrice, setCurrentPrice] = useState("");
     console.log(sessionStorage.getItem("token"));
+
 
     useEffect(() => {
 
@@ -64,6 +61,11 @@ const FishAuctionMethod2 = () => {
         };
         fetchHistoryOfSecretBid();
     }, [auctionItem.fishEntryId]);
+
+    useEffect(() => {
+        setCurrentPrice(auctionItem.highestprice);
+    }, [currentPrice])
+
 
 
     const handlePlaceSecretBidBtn = async () => {
