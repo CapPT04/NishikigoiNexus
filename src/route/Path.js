@@ -35,4 +35,5 @@ export const path = {
   AUCTIONMETHOD3: "/AuctionFishMethod3",
   AUCTIONMETHOD2: "/AuctionFishMethod2",
   AUCTIONMETHOD1: "/AuctionFishMethod1",
+  AUCTIONMETHOD4: "/AuctionFishMethod4",
 };

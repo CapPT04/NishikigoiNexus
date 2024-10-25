@@ -7,21 +7,25 @@ import {
   handleDeleteFishEntryInAuctionApi,
   handleGetFishEntryForAuctionApi,
   handleGetFishEntryInAuction,
+  handlePublicAuctionApi,
 } from "../../axios/UserService";
 import logo from "../../assets/images/logo_png.png";
 import { handleUpdateAuctionDetailApi } from "../../axios/UserService";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
+
 const AuctionDetail = () => {
   const location = useLocation();
-  const auction = location.state || {}; // Default to empty object
+  const [auction, setAuction] = useState(location.state || {});
   const [fishEntryInAuction, setFishEntryInAuction] = useState([]);
   const [startTime, setStartTime] = useState("");
   const [finishTime, setFinishTime] = useState("");
   console.log(startTime);
   console.log(finishTime);
-  const [fishEntryForAuction, setFishEntryForAuction] = useState("");
+  const [fishEntryForAuction, setFishEntryForAuction] = useState([]);
   const [showFishEntryTable, setShowFishEntryTable] = useState(false);
+  const [auctionStatus, setAuctionStatus] = useState(auction.status);
 
   useEffect(() => {
     const fetchAuctions = async () => {
@@ -37,7 +41,7 @@ const AuctionDetail = () => {
       }
     };
     fetchAuctions();
-  }, [location, auction]);
+  }, [location, auction, auction.status]);
 
   const handleUpdateBtn = async (fishEntry) => {
     try {
@@ -84,23 +88,49 @@ const AuctionDetail = () => {
       });
     }
   };
+  // fetchAuctions();
+  // }, [location, auction]);
 
   const handleDeleteFishEntryInAuction = async (fishEntry) => {
-    try {
-      const response = await handleDeleteFishEntryInAuctionApi(
-        auction.auctionId,
-        fishEntry.fishEntryId
-      );
-      const updatedAuctionEntriesResponse = await handleGetFishEntryInAuction(
-        parseInt(auction.auctionId, 10)
-      );
-      setFishEntryInAuction(updatedAuctionEntriesResponse.data.$values || []);
-      const availableFishEntriesResponse =
-        await handleGetFishEntryForAuctionApi();
-      setFishEntryForAuction(availableFishEntriesResponse.data.$values || []);
-    } catch (error) {
-      throw error;
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await handleDeleteFishEntryInAuctionApi(
+            auction.auctionId,
+            fishEntry.fishEntryId
+          );
+          const updatedAuctionEntriesResponse =
+            await handleGetFishEntryInAuction(parseInt(auction.auctionId, 10));
+          setFishEntryInAuction(
+            updatedAuctionEntriesResponse.data.$values || []
+          );
+          const availableFishEntriesResponse =
+            await handleGetFishEntryForAuctionApi();
+          setFishEntryForAuction(
+            availableFishEntriesResponse.data.$values || []
+          );
+
+          Swal.fire("Deleted!", "The fish entry has been deleted.", "success");
+        } catch (error) {
+          Swal.fire(
+            "Error!",
+            "There was an issue deleting the fish entry. Please try again.",
+            "error"
+          );
+        }
+      } else {
+        Swal.fire("Cancelled", "Your fish entry is safe :)", "info");
+      }
+    });
   };
 
   const handleAddFishBtn = async () => {
@@ -171,6 +201,45 @@ const AuctionDetail = () => {
     }
   };
 
+  const handlePublicAuctionBtn = async () => {
+    Swal.fire({
+      title: "Publish Auction",
+      text: "Are you sure you want to publish this auction? This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#28a745",
+      cancelButtonColor: "#dc3545",
+      confirmButtonText: "Yes, publish it!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await handlePublicAuctionApi(auction.auctionId);
+          console.log(auction.auctionId);
+          // Cập nhật trạng thái phiên đấu giá nếu phản hồi thành công
+          if (response && response.status === 200) {
+            // Giả định rằng phản hồi sẽ có trạng thái mới, nếu không thì bạn có thể cần gọi lại API để lấy thông tin mới
+            setAuction((prev) => ({ ...prev, status: 2 })); // Thay thế `2` bằng trạng thái mới nếu cần
+          }
+          Swal.fire(
+            "Published!",
+            "The auction has been published successfully.",
+            "success"
+          );
+        } catch (error) {
+          console.error("Error publishing auction:", error);
+          Swal.fire(
+            "Error!",
+            "There was an issue publishing the auction. Please try again.",
+            "error"
+          );
+        }
+      } else {
+        Swal.fire("Cancelled", "Your auction is safe :)", "info");
+      }
+    });
+  };
+
   return (
     <div className="auction-detail-container">
       <ToastContainer />
@@ -205,12 +274,14 @@ const AuctionDetail = () => {
                 {auction.status === 3 && "Bidding"}
                 {auction.status === 4 && "Ended"}
               </div>
-              <select name="" id="" className="set-status">
-                <option value="">Preparing &nbsp;&nbsp;</option>
-                <option value="">Waiting &nbsp;&nbsp; </option>
-                <option value="">Bidding &nbsp;&nbsp; </option>
-                <option value="">Ended &nbsp;&nbsp; </option>
-              </select>
+              {auction.status === 1 && (
+                <button
+                  className="public-auction"
+                  onClick={() => handlePublicAuctionBtn()}
+                >
+                  Public Auction
+                </button>
+              )}
             </div>
 
             <div className="auction-detail-content-row2">Auction Detail</div>
@@ -260,10 +331,9 @@ const AuctionDetail = () => {
                             {fishEntry.auctionMethod === 3 && "PublicBid"}
                             {fishEntry.auctionMethod === 4 && "DutchAuction"}
                           </td>
-
                           <td>
                             <i
-                              class="fa-solid fa-plus"
+                              className="fa-solid fa-plus"
                               onClick={() =>
                                 handleAddFishEntryToAuction(fishEntry)
                               }

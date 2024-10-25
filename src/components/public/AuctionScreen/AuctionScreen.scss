@@ -20,8 +20,8 @@ body {
 }
 
 .navigation-bar {
+    width          : 80% !important;
     gap            : 30px;
-    width          : 100% !important;
     display        : flex;
     align-items    : center;
     color          : #fff;
@@ -51,7 +51,8 @@ body {
     display        : flex;
     justify-content: space-between;
     align-items    : center;
-    gap            : 50px;
+    gap            : 20px;
+    width          : auto !important;
 }
 
 .home,

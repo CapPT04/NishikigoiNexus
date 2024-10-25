@@ -27,7 +27,9 @@ const AuctionScreen = () => {
 
     return (
         <div className="auction-screen">
-            <Navbar />
+            <div className='header'>
+                <Navbar />
+            </div>
             {publicAuctions.length === 0 ? (
                 <div className="auction-screen-content1">
                     <div className="no-auctions-message">
