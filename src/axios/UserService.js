@@ -46,6 +46,28 @@ const END_POINT = {
   GETHISTORYOFSECRETBID: "SecretBid/HistoryOfSecretBidByFishEntryId",
   PUBLICAUCTION: "Auction/UpdateAuctionStatus",
   PLACESECRETBID: "SecretBid/PlaceSecretBid",
+  //member
+  MEMBERUNPAIDHISTORY: "User/GetUnpaidBiddingHistoryByMemberId",
+  MEMBEROTHERHISTORY: "User/GetOtherBiddingHistoryByMemberId",
+};
+
+export const handleUnpaidHistory = async (userId) => {
+  try {
+    return await axiosClient.get(
+      `${END_POINT.MEMBERUNPAIDHISTORY}?id=${userId}`
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleotherHistory = async (userId) => {
+  try {
+    return await axiosClient.get(
+      `${END_POINT.MEMBEROTHERHISTORY}?id=${userId}`
+    );
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
