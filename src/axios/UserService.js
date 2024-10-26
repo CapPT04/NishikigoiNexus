@@ -8,7 +8,8 @@ const END_POINT = {
   GETUSERBYID: "User/GetUserById",
   GETALLUSER: "User/GetAllUser",
   FEE: "Fee/GetFee",
-  CREATEREQUEST: "Request/CreateRequest", //breeder
+  //breeder
+  CREATEREQUEST: "Request/CreateRequest",
   GETALLREQUEST: "Request/GetAllRequest",
   LOGINWITHGOOGLE: "User/GoogleLogin",
   SHOWALLAUCTION: "Auction/GetAuctionsWithFishEntryCount",
@@ -16,7 +17,8 @@ const END_POINT = {
   CREATEAUCTION: "Auction/CreateAuction",
   GETREQUESTBYID: "Request/GetRequestById",
   GETFISHDETAIL: "Fish/GetFishById",
-  GETALLBREEDERS: "Breeder/GetAllBreeders", //manager
+  GETALLBREEDERS: "Breeder/GetAllBreeders",
+  //manager
   CREATEBREEDER: "Breeder/CreateBreeder",
   UPDATECOMMISSION: "Staff/UpdateBreederCommission",
   BANBREEDER: "Breeder/ToggleBreederStatus",

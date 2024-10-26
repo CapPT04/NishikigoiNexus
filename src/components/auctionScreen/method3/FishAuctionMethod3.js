@@ -10,6 +10,8 @@ import {
   handlePublicBidding,
 } from "../../../axios/UserService";
 import * as signalR from "@microsoft/signalr";
+import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 
 const FishAuctionMethod3 = () => {
   const navigate = useNavigate();
@@ -27,27 +29,25 @@ const FishAuctionMethod3 = () => {
   const entryId = location.state.auctionItem.fishEntryId;
 
   const getFishEntry = async () => {
-    //link: /AuctionFish?fishEntryId=...
-    // const entryId = searchParams.get("fishEntryId");
     if (entryId) {
       const res = await handleFishEntryById(entryId);
-      console.log(res.data);
       setFishEntry(res.data);
       setStepPrice(res.data.increment);
+      setCurrentPrice(res.data.minPrice);
       const resFish = await handleGetFishDetailById(res.data.fishId);
-      console.log(resFish.data);
       setFishInfo(resFish.data);
       const resImgs = await handleGetFishImgById(resFish.data.fishId);
-      console.log(resImgs.data.$values);
       setFishImgs(resImgs.data.$values);
       setMainImage(resImgs.data.$values[0]?.imagePath || "");
 
       const his = await handleBidHistory(entryId);
+      console.log(his.data.$values);
       // Spread to flatten the array
-      setBids((preBid) => [...preBid, ...his.data.$values]);
-      setCurrentPrice(his.data.$values.slice(-1)[0].currentPrice);
+      // setBids((preBid) => [...preBid, his.data.$values]);
+      setBids(his.data.$values);
+      // setCurrentPrice(his.data.$values.slice(-1)[0]?.currentPrice);
     } else {
-      navigate("/auction");
+      navigate("/AuctionDetails");
     }
   };
   const handleIncrement = () => {
@@ -67,7 +67,6 @@ const FishAuctionMethod3 = () => {
       .withUrl("https://localhost:7124/publicBidHub") // URL của Hub trong ASP.NET Core
       .withAutomaticReconnect()
       .build();
-
     connection
       .start()
       .then(() => {
@@ -78,7 +77,8 @@ const FishAuctionMethod3 = () => {
           // Update bids list when new data is received
           setBids((prevBids) => [...prevBids, data]);
         });
-        setCurrentPrice(bids.slice(-1)[0].currentPrice);
+        // console.log(bids.slice(-1)[0]?.currentPrice);
+        setCurrentPrice(bids.slice(-1)[0]?.currentPrice);
       })
       .catch((err) => console.log("Error while starting connection: " + err));
     // Cleanup when component unmounts
@@ -90,19 +90,28 @@ const FishAuctionMethod3 = () => {
   const totalBidPrice = stepPrice * increment;
   const newPrice = currentPrice + totalBidPrice;
   const bidding = async () => {
-    console.log(newPrice);
     const token = sessionStorage.getItem("token");
     const res = await handlePublicBidding(token, entryId, newPrice);
-    console.log(res);
-    getFishEntry();
+    if (res.status === 400) {
+      toast.error(res.data, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+    // getFishEntry();
   };
-  //test để puhs
   return (
     <div className="auction-screen-container">
       <div className="header">
         <Navbar></Navbar>
       </div>
       <div className="fish-aucction-method3-content">
+        <ToastContainer />
         <div className="fish-aucction-method3-content-row1">Auction#13</div>
         <div className="fish-aucction-method3-content-row2">
           Ending in: 4:13:03

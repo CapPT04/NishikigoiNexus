@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./FishAuctionMethod1.scss";
 import Navbar from "../../common/Navbar/Navbar";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import {
   handleFishEntryById,
   handleFixedPriceHistory,
@@ -9,46 +9,74 @@ import {
   handleGetFishImgById,
   handlePlaceFixedPrice,
 } from "../../../axios/UserService";
+import * as signalR from "@microsoft/signalr";
+import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 
 const FishAuctionMethod1 = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const auctionItem = useLocation().state.auctionItem;
   const auctionId = useLocation().state.auctionId;
-  console.log(auctionItem);
-  //   console.log(auctionId);
   const [fishEntry, setFishEntry] = useState("");
   const [fishInfo, setFishInfo] = useState("");
   const [fishImgs, setFishImgs] = useState([]);
   const [mainImage, setMainImage] = useState("");
   const [bidHistory, setBidHistory] = useState([]);
-  //   const [currentPrice, setCurrentPrice] = useState(0);
+  const [currentPlaced, setCurrentPlaced] = useState(0);
 
   const getInfo = async () => {
     if (auctionItem) {
       const resFishEntry = await handleFishEntryById(auctionItem.fishEntryId);
-      //   console.log("fishEntry:", resFishEntry.data);
       setFishEntry(resFishEntry.data);
 
       const resFish = await handleGetFishDetailById(resFishEntry.data.fishId);
-      //   console.log("fish:", resFish.data);
       setFishInfo(resFish.data);
 
       const resImgs = await handleGetFishImgById(resFishEntry.data.fishId);
-      //   console.log("Imgs:", resImgs.data.$values);
       setFishImgs(resImgs.data.$values);
       setMainImage(resImgs.data.$values[0]?.imagePath || "");
 
-      const resHis = await handleFixedPriceHistory(
-        resFishEntry.data.fishEntryId
-      );
-      //   console.log(resHis.data.$values);
+      const resHis = await handleFixedPriceHistory(auctionItem.fishEntryId);
+      // console.log(resHis.data.$values);
       setBidHistory(resHis.data.$values);
+      // setBidHistory((prevBids) => [...prevBids, resHis.data.$values]);
+
+      // setCurrentPlaced(resHis.data.)
+    } else {
+      navigate("/AuctionDetails");
     }
   };
 
   useEffect(() => {
     getInfo();
   }, []);
+
+  useEffect(() => {
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("https://localhost:7124/fixedPriceSale") // URL của Hub trong ASP.NET Core
+      .withAutomaticReconnect()
+      .build();
+    connection
+      .start()
+      .then(() => {
+        console.log("Connected to SignalR Hub");
+        // Listen for the event ReceiveBidPlacement
+        connection.on("ReceiveBidPlacement", (FixedPriceSaleResponse) => {
+          // console.log("Received bid placement: ", data);
+          // Update bids list when new data is received
+          setBidHistory((prevBids) => [...prevBids, FixedPriceSaleResponse]);
+        });
+        // console.log(bids.slice(-1)[0]?.currentPrice);
+        setCurrentPlaced(bidHistory.slice(-1)[0].numberOfBidders);
+      })
+      .catch((err) => console.log("Error while starting connection: " + err));
+    // Cleanup when component unmounts
+    return () => {
+      connection.stop();
+    };
+  }, [bidHistory, currentPlaced]);
+
   const placeABid = async () => {
     const token = sessionStorage.getItem("token");
     const response = await handlePlaceFixedPrice(
@@ -56,17 +84,27 @@ const FishAuctionMethod1 = () => {
       auctionItem.fishEntryId
     );
     if (response.status === 200) {
-      alert("Bid placed successfully");
+      toast.success("Placed a bid", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } else {
-      alert(response.message);
+      toast.error(response.data, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
-    const resHis = await handleFixedPriceHistory(fishEntry.fishEntryId);
-    //   console.log(resHis.data.$values);
-    setBidHistory(resHis.data.$values);
   };
-  useEffect(() => {
-    console.log(bidHistory);
-  }, [bidHistory]);
 
   return (
     <div className="auction-screen-container">
@@ -74,6 +112,7 @@ const FishAuctionMethod1 = () => {
         <Navbar></Navbar>
       </div>
       <div className="fish-aucction-method3-content">
+        <ToastContainer />
         <div className="fish-aucction-method3-content-row1">
           Auction#{auctionId}
         </div>
@@ -150,7 +189,7 @@ const FishAuctionMethod1 = () => {
                   return (
                     <div key={index} className="bidding-history-info">
                       <div className="bidding-time">
-                        {new Date(bid.bidTime).toLocaleString()} &nbsp;
+                        {new Date(bid.bidTime).toLocaleString()} &nbsp;{" "}
                       </div>
                       <div className="bidding-name-bidder">
                         {bid.name} placed a bid &nbsp;
@@ -169,7 +208,7 @@ const FishAuctionMethod1 = () => {
                   <div className="number-of-bidders-text">
                     Number of bidders
                   </div>
-                  <div className="number-of-bidders">{bidHistory.length}</div>
+                  <div className="number-of-bidders">{currentPlaced}</div>
                 </div>
                 <hr />
                 <div className="place-bid-content-row2">
