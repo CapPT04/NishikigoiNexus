@@ -1,59 +1,56 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "./VerticallyNavbar.scss";
 
 const VerticallyNavbar = () => {
-  const [selected, setSelected] = useState("");
   const navigate = useNavigate(); // Initialize navigate function
 
-  // Helper function to update selected item and navigate to a new route
-  const handleSelect = (item, path) => {
-    setSelected(item); // Update the selected state
+  // Helper function to navigate to a new route
+  const handleSelect = (path) => {
     navigate(path); // Navigate to the specified path
   };
 
   return (
     <div className="navigation-bar-vertically">
       <a
-        className={`member ${selected === "Member" ? "selected" : ""}`}
-        onClick={() => handleSelect("Member", "/Manager/Manage")}
+        className="member"
+        onClick={() => handleSelect("/Manager/Manage")}
       >
         Member
       </a>
       <a
-        className={`breeder ${selected === "Breeder" ? "selected" : ""}`}
-        onClick={() => handleSelect("Breeder", "/Manager/ManageBreeder")}
+        className="breeder"
+        onClick={() => handleSelect("/Manager/ManageBreeder")}
       >
         Breeder
       </a>
       <a
-        className={`request ${selected === "Request" ? "selected" : ""}`}
-        onClick={() => handleSelect("Request", "/Manager/ManageRequest")}
+        className="request"
+        onClick={() => handleSelect("/Manager/ManageRequest")}
       >
         Request
       </a>
       <a
-        className={`auction-vertically ${selected === "Auction" ? "selected" : ""
-          }`}
-        onClick={() => handleSelect("Auction", "/Manager/ManageAuction")}
+        className="auction-vertically"
+        onClick={() => handleSelect("/Manager/ManageAuction")}
       >
         Auction
       </a>
       <a
-        className={`koi ${selected === "Koi" ? "selected" : ""}`}
-        onClick={() => handleSelect("Koi", "/Manager/ManageKoi")}
+        className="koi"
+        onClick={() => handleSelect("/Manager/ManageKoi")}
       >
         KOI
       </a>
       <a
-        className={`fishEntry ${selected === "fishEntry" ? "selected" : ""}`}
-        onClick={() => handleSelect("FishEntry", "/Manager/ManageFishEntry")}
+        className="fishEntry"
+        onClick={() => handleSelect("/Manager/ManageFishEntry")}
       >
         Fish Entry
       </a>
       <a
-        className={`blog-vertically ${selected === "Blog" ? "selected" : ""}`}
-        onClick={() => handleSelect("Blog", "/Manager/Blog")} // Navigate to '/blog'
+        className="blog-vertically"
+        onClick={() => handleSelect("/Manager/Blog")} // Navigate to '/blog'
       >
         Blog
       </a>

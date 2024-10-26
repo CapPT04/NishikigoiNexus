@@ -77,13 +77,12 @@ const FishAuctionMethod2 = () => {
                 connection.on("ReceiveBidPlacement", (newBid) => {
                     // Cập nhật lịch sử đấu giá với bid mới nhận được
                     console.log("Received new bid: ", newBid);
-
                     setHistoryOfSecretBid((prevHistory) => [
                         ...prevHistory,
                         newBid,
                     ]);
                     // Cập nhật số lượng người tham gia
-                    setNumberOfBidders((prevCount) => prevCount + 1);
+                    setNumberOfBidders((prevCount) => newBid.numberOfBidders);
                 });
             })
             .catch((err) => console.log("Error while starting connection: " + err));
