@@ -542,3 +542,39 @@ body {
         }
     }
 }
+
+.auction-status-message {
+    background-color: #f8d7da;
+    /* Nền màu hồng nhạt */
+    color           : #721c24;
+    /* Màu chữ */
+    border          : 1px solid #f5c6cb;
+    /* Đường viền hồng */
+    border-radius   : 5px;
+    /* Bo tròn các góc */
+    padding         : 15px;
+    /* Khoảng cách bên trong */
+    margin          : 20px 0;
+    /* Khoảng cách giữa các phần tử */
+    font-size       : 16px;
+    /* Kích thước chữ */
+    display         : flex;
+    align-items     : center;
+    /* Căn giữa theo chiều dọc */
+}
+
+.auction-status-message p {
+    margin: 0;
+    /* Xóa khoảng cách mặc định của thẻ p */
+}
+
+.auction-status-message i {
+    margin-right: 10px;
+    /* Khoảng cách giữa biểu tượng và văn bản */
+}
+
+/* Thêm kiểu cho biểu tượng */
+.auction-status-message .fa-solid {
+    font-size: 18px;
+    /* Kích thước biểu tượng */
+}

@@ -47,6 +47,11 @@ const END_POINT = {
   PUBLICAUCTION: "Auction/UpdateAuctionStatus",
   PLACESECRETBID: "SecretBid/PlaceSecretBid",
   PLACEDUCTHAUCTIONBID: "FishEntry/PlaceDutchAuctionBid",
+  FISHENTRYDASHBOARD: "FishEntry/FishEntryDashboard",
+  COUNTNEWMEMBER: "User/CountNewMembers",
+  REVENUEBYTIMEFRAME: "Payment/RevenueByTimeFrame",
+  MONTHLYREVENUE: "Payment/MonthlyRevenueCurrentYear",
+
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -191,7 +196,48 @@ export const handlePlaceDutchAuctionBid = (token, fishEntryID) => {
     throw error;
   }
 };
+export const handleFishEntryDashBoardApi = async () => {
+  try {
+    return await axiosClient.get(`${END_POINT.FISHENTRYDASHBOARD}`);
+  } catch (error) {
+    throw error;
+  }
+};
 
+export const handleCountNewMemberApi = async (timeFrame) => {
+  try {
+    const response = await axiosClient.get(`${END_POINT.COUNTNEWMEMBER}`, {
+      params: { timeFrame }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching new member count:", error);
+    throw error;
+  }
+};
+
+export const handleRevenueByTimeFrame = async (timeFrame) => {
+  try {
+    const response = await axiosClient.get(`${END_POINT.REVENUEBYTIMEFRAME}`, {
+      params: { timeFrame }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+
+
+export const handleMonthlyRevenueApi = async () => {
+  try {
+    return axiosClient.get(`${END_POINT.MONTHLYREVENUE}`);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 
 export const handleGetAllBreeders = () => {
   try {
