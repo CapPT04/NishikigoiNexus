@@ -9,6 +9,8 @@ import { useLocation } from 'react-router';
 import Navbar from '../../common/Navbar/Navbar';
 import { handleGetFishImgById, handleGetHistoryOfSecretBidApi, handlePlaceSecretBidApi } from '../../../axios/UserService';
 import Swal from 'sweetalert2';
+import * as signalR from '@microsoft/signalr';
+import { HubConnectionBuilder } from '@microsoft/signalr';
 
 const FishAuctionMethod2 = () => {
     const location = useLocation();
@@ -24,12 +26,8 @@ const FishAuctionMethod2 = () => {
     // console.log(amount);
     const [mainImage, setMainImage] = useState("");
     const [fishImage, setFishImage] = useState([]);
+    // console.log(sessionStorage.getItem("token"));
 
-
-
-
-
-    console.log(sessionStorage.getItem("token"));
 
     useEffect(() => {
 
@@ -63,7 +61,39 @@ const FishAuctionMethod2 = () => {
             }
         };
         fetchHistoryOfSecretBid();
-    }, [auctionItem.fishEntryId]);
+    }, []);
+
+    useEffect(() => {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7124/secretBidHub")
+            .withAutomaticReconnect()
+            .build();
+
+        connection
+            .start()
+            .then(() => {
+                console.log("Connected to SignalR Hub");
+                // Lắng nghe sự kiện ReceiveHistoryOfBids
+                connection.on("ReceiveBidPlacement", (newBid) => {
+                    // Cập nhật lịch sử đấu giá với bid mới nhận được
+                    console.log("Received new bid: ", newBid);
+
+                    setHistoryOfSecretBid((prevHistory) => [
+                        ...prevHistory,
+                        newBid,
+                    ]);
+                    // Cập nhật số lượng người tham gia
+                    setNumberOfBidders((prevCount) => prevCount + 1);
+                });
+            })
+            .catch((err) => console.log("Error while starting connection: " + err));
+
+        return () => {
+            connection.stop().then(() => console.log("Disconnected from SignalR Hub"));
+        };
+    }, []);
+
+
 
 
     const handlePlaceSecretBidBtn = async () => {
@@ -84,6 +114,8 @@ const FishAuctionMethod2 = () => {
                         amount,
                         auctionItem.fishEntryId
                     );
+                    const responseHisOfSecretBid = await handleGetHistoryOfSecretBidApi(auctionItem.fishEntryId);
+
                     console.log(response);
 
                     if (response && response.status === 200) {
@@ -122,10 +154,6 @@ const FishAuctionMethod2 = () => {
         });
     };
 
-    useEffect(() => {
-        console.log("img:", fishImage);
-
-    })
 
 
     return (
@@ -211,35 +239,53 @@ const FishAuctionMethod2 = () => {
                             </div>
                         </div>
 
-                        <div className="place-bid">
-                            <div className="place-bid-content">
-                                <div className="place-bid-content-row1">
-                                    <div className="number-of-bidders-icon">
-                                        <i className="fa-solid fa-users-line"></i>
+                        {auctionItem.status === 3 && (
+                            <div className="place-bid">
+                                <div className="place-bid-content">
+                                    <div className="place-bid-content-row1">
+                                        <div className="number-of-bidders-icon">
+                                            <i className="fa-solid fa-users-line"></i>
+                                        </div>
+                                        <div className="number-of-bidders-text">Number of bidders</div>
+                                        <div className="number-of-bidders">{numberOfBidders}</div>
                                     </div>
-                                    <div className="number-of-bidders-text">Number of bidders</div>
-                                    <div className="number-of-bidders">{numberOfBidders}</div>
-                                </div>
-                                <hr />
-                                <div className="place-bid-content-row2">
-                                    <div className="min-price-icon">
-                                        <i className="fa-solid fa-file-invoice-dollar"></i>
+                                    <hr />
+                                    <div className="place-bid-content-row2">
+                                        <div className="min-price-icon">
+                                            <i className="fa-solid fa-file-invoice-dollar"></i>
+                                        </div>
+                                        <div className="min-price-text">Min price: ${auctionItem.min}</div>
                                     </div>
-                                    <div className="min-price-text">Min price: ${auctionItem.min}</div>
+                                    <input
+                                        type="number"
+                                        className="place-bid-content-row3"
+                                        min={auctionItem.min}
+                                        onChange={(event) => setAmount(event.target.value)}
+                                    />
+                                    <button
+                                        className="place-bid-btn"
+                                        onClick={() => handlePlaceSecretBidBtn()}
+                                    >
+                                        Place bid at ${amount}
+                                    </button>
                                 </div>
-                                <input
-                                    type="number"
-                                    className="place-bid-content-row3"
-                                    min={auctionItem.min}
-                                    onChange={(event) => setAmount(event.target.value)}
-                                />
-
-                                <button
-                                    className="place-bid-btn"
-                                    onClick={() => handlePlaceSecretBidBtn()}
-                                >Place bid at $</button>
                             </div>
-                        </div>
+                        )}
+
+                        {auctionItem.status === 2 && (
+                            <div className="auction-status-message">
+                                <i className="fa-solid fa-clock"></i> {/* Biểu tượng đồng hồ */}
+                                <p>The auction has not started yet.</p>
+                            </div>
+                        )}
+
+                        {auctionItem.status === 4 && (
+                            <div className="auction-status-message">
+                                <i className="fa-solid fa-times-circle"></i> {/* Biểu tượng dấu x */}
+                                <p>The auction has already ended.</p>
+                            </div>
+                        )}
+
                     </div>
                 </div>
             </div>

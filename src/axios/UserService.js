@@ -46,28 +46,11 @@ const END_POINT = {
   GETHISTORYOFSECRETBID: "SecretBid/HistoryOfSecretBidByFishEntryId",
   PUBLICAUCTION: "Auction/UpdateAuctionStatus",
   PLACESECRETBID: "SecretBid/PlaceSecretBid",
-  //member
-  MEMBERUNPAIDHISTORY: "User/GetUnpaidBiddingHistoryByMemberId",
-  MEMBEROTHERHISTORY: "User/GetOtherBiddingHistoryByMemberId",
-};
-
-export const handleUnpaidHistory = async (userId) => {
-  try {
-    return await axiosClient.get(
-      `${END_POINT.MEMBERUNPAIDHISTORY}?id=${userId}`
-    );
-  } catch (error) {
-    throw error;
-  }
-};
-export const handleotherHistory = async (userId) => {
-  try {
-    return await axiosClient.get(
-      `${END_POINT.MEMBEROTHERHISTORY}?id=${userId}`
-    );
-  } catch (error) {
-    throw error;
-  }
+  PLACEDUCTHAUCTIONBID: "FishEntry/PlaceDutchAuctionBid",
+  FISHENTRYDASHBOARD: "FishEntry/FishEntryDashboard",
+  COUNTNEWMEMBER: "User/CountNewMembers",
+  REVENUEBYTIMEFRAME: "Payment/RevenueByTimeFrame",
+  MONTHLYREVENUE: "Payment/MonthlyRevenueCurrentYear",
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -201,6 +184,55 @@ export const handlePlaceSecretBidApi = async (token, amount, fishEntryId) => {
     });
   } catch (error) {
     throw error; // Re-throw the error to be handled in the component
+  }
+};
+
+export const handlePlaceDutchAuctionBid = (token, fishEntryID) => {
+  try {
+    const url = `${END_POINT.PLACEDUCTHAUCTIONBID}?token=${token}&fishEntryId=${fishEntryID}`;
+    return axiosClient.put(url);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleFishEntryDashBoardApi = async () => {
+  try {
+    return await axiosClient.get(`${END_POINT.FISHENTRYDASHBOARD}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleCountNewMemberApi = async (timeFrame) => {
+  try {
+    const response = await axiosClient.get(`${END_POINT.COUNTNEWMEMBER}`, {
+      params: { timeFrame },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching new member count:", error);
+    throw error;
+  }
+};
+
+export const handleRevenueByTimeFrame = async (timeFrame) => {
+  try {
+    const response = await axiosClient.get(`${END_POINT.REVENUEBYTIMEFRAME}`, {
+      params: { timeFrame },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const handleMonthlyRevenueApi = async () => {
+  try {
+    return axiosClient.get(`${END_POINT.MONTHLYREVENUE}`);
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };
 

@@ -443,6 +443,8 @@ body {
                 .place-bid-content {
                     display: block;
 
+
+
                     .place-bid-content-row1 {
                         display   : flex;
                         width     : 85%;
@@ -529,4 +531,28 @@ body {
 
         }
     }
+}
+
+// Định nghĩa cho status-message
+.status-message {
+    border-radius  : 8px; // Đường cong cho các góc
+    padding        : 15px 20px; // Thêm padding để tạo khoảng cách tốt hơn
+    margin         : 10px 0; // Khoảng cách giữa các status message
+    display        : flex; // Flexbox để căn chỉnh
+    justify-content: center; // Căn giữa nội dung
+    align-items    : center; // Căn giữa theo chiều dọc
+    font-family    : "Saira Condensed"; // Font chữ nhất quán
+    font-size      : 30px; // Kích thước chữ
+    font-weight    : 600; // Độ dày chữ để nhấn mạnh
+    text-align     : center; // Căn giữa văn bản
+    color          : red; // Màu chữ
+}
+
+
+.status-message.not-started {
+    background-color: #007BFF; // Màu xanh dương cho trạng thái chưa bắt đầu
+}
+
+.status-message.ended {
+    background-color: #DC3545; // Màu đỏ cho trạng thái đã kết thúc
 }

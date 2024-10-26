@@ -9,7 +9,6 @@ import {
   handleGetFishImgById,
   handlePublicBidding,
 } from "../../../axios/UserService";
-// import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import * as signalR from "@microsoft/signalr";
 
 const FishAuctionMethod3 = () => {
@@ -23,6 +22,8 @@ const FishAuctionMethod3 = () => {
   const [stepPrice, setStepPrice] = useState(0);
   const [increment, setIncrement] = useState(1);
   const [bids, setBids] = useState([]);
+  const [highestPrice, setHighestPrice] = useState(null);
+
 
   const getFishEntry = async () => {
     //link: /AuctionFish?fishEntryId=...
@@ -61,29 +62,28 @@ const FishAuctionMethod3 = () => {
   }, []);
 
   useEffect(() => {
+    // Tạo kết nối đến SignalR Hub
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7124/publicBidHub") // URL của Hub trong ASP.NET Core
+      .withUrl("https://your-server-url/DutchAuctionBidHub") // Đổi URL thành URL của server bạn
       .withAutomaticReconnect()
       .build();
 
-    connection
-      .start()
-      .then(() => {
-        console.log("Connected to SignalR Hub");
-        // Listen for the event ReceiveBidPlacement
-        connection.on("ReceiveBidPlacement", (data) => {
-          //   console.log("Received bid placement: ", data);
-          // Update bids list when new data is received
-          setBids((prevBids) => [...prevBids, data]);
-        });
-        setCurrentPrice(bids.slice(-1)[0].currentPrice);
-      })
-      .catch((err) => console.log("Error while starting connection: " + err));
-    // Cleanup when component unmounts
+    // Kết nối đến hub
+    connection.start()
+      .then(() => console.log("Connected to SignalR Hub"))
+      .catch(err => console.error("Connection failed: ", err));
+
+    // Nhận sự kiện từ server
+    connection.on("UpdateNewCostForDutchAuction", (newPrice) => {
+      console.log("Received new price: ", newPrice);
+      setHighestPrice(newPrice); // Cập nhật giá mới vào state
+    });
+
+    // Cleanup: đóng kết nối khi component bị unmounted
     return () => {
-      connection.stop();
+      connection.stop().then(() => console.log("Disconnected from SignalR Hub"));
     };
-  }, [bids, currentPrice]);
+  }, []);
 
   const totalBidPrice = stepPrice * increment;
   const newPrice = currentPrice + totalBidPrice;
