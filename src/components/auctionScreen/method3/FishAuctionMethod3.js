@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./FishAuctionMethod3.scss";
 import Navbar from "../../common/Navbar/Navbar";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
   handleBidHistory,
   handleFishEntryById,
@@ -14,6 +14,7 @@ import * as signalR from "@microsoft/signalr";
 const FishAuctionMethod3 = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const [fishEntry, setFishEntry] = useState("");
   const [fishInfo, setFishInfo] = useState("");
   const [fishImgs, setFishImgs] = useState([]);
@@ -23,11 +24,11 @@ const FishAuctionMethod3 = () => {
   const [increment, setIncrement] = useState(1);
   const [bids, setBids] = useState([]);
   const [highestPrice, setHighestPrice] = useState(null);
-
+  const entryId = location.state.auctionItem.fishEntryId;
 
   const getFishEntry = async () => {
     //link: /AuctionFish?fishEntryId=...
-    const entryId = searchParams.get("fishEntryId");
+    // const entryId = searchParams.get("fishEntryId");
     if (entryId) {
       const res = await handleFishEntryById(entryId);
       console.log(res.data);
@@ -44,7 +45,7 @@ const FishAuctionMethod3 = () => {
       const his = await handleBidHistory(entryId);
       // Spread to flatten the array
       setBids((preBid) => [...preBid, ...his.data.$values]);
-      // setCurrentPrice(his.data.$values.slice(-1)[0].currentPrice);
+      setCurrentPrice(his.data.$values.slice(-1)[0].currentPrice);
     } else {
       navigate("/auction");
     }
@@ -62,33 +63,34 @@ const FishAuctionMethod3 = () => {
   }, []);
 
   useEffect(() => {
-    // Tạo kết nối đến SignalR Hub
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://your-server-url/DutchAuctionBidHub") // Đổi URL thành URL của server bạn
+      .withUrl("https://localhost:7124/publicBidHub") // URL của Hub trong ASP.NET Core
       .withAutomaticReconnect()
       .build();
 
-    // Kết nối đến hub
-    connection.start()
-      .then(() => console.log("Connected to SignalR Hub"))
-      .catch(err => console.error("Connection failed: ", err));
-
-    // Nhận sự kiện từ server
-    connection.on("UpdateNewCostForDutchAuction", (newPrice) => {
-      console.log("Received new price: ", newPrice);
-      setHighestPrice(newPrice); // Cập nhật giá mới vào state
-    });
-
-    // Cleanup: đóng kết nối khi component bị unmounted
+    connection
+      .start()
+      .then(() => {
+        console.log("Connected to SignalR Hub");
+        // Listen for the event ReceiveBidPlacement
+        connection.on("ReceiveBidPlacement", (data) => {
+          // console.log("Received bid placement: ", data);
+          // Update bids list when new data is received
+          setBids((prevBids) => [...prevBids, data]);
+        });
+        setCurrentPrice(bids.slice(-1)[0].currentPrice);
+      })
+      .catch((err) => console.log("Error while starting connection: " + err));
+    // Cleanup when component unmounts
     return () => {
-      connection.stop().then(() => console.log("Disconnected from SignalR Hub"));
+      connection.stop();
     };
-  }, []);
+  }, [bids, currentPrice]);
 
   const totalBidPrice = stepPrice * increment;
   const newPrice = currentPrice + totalBidPrice;
   const bidding = async () => {
-    const entryId = searchParams.get("fishEntryId");
+    console.log(newPrice);
     const token = sessionStorage.getItem("token");
     const res = await handlePublicBidding(token, entryId, newPrice);
     console.log(res);

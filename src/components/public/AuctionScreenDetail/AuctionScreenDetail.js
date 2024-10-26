@@ -90,7 +90,9 @@ const AuctionScreenDetail = () => {
                     state: { auctionItem, auctionId: auction.auctionId },
                   });
                 } else if (auctionItem.method === 3) {
-                  navigate("/AuctionFishMethod3");
+                  navigate("/AuctionFishMethod3", {
+                    state: { auctionItem, auctionId: auction.auctionId },
+                  });
                 } else if (auctionItem.method === 4) {
                   navigate("/AuctionFishMethod4", {
                     state: { auctionItem, auctionId: auction.auctionId },

@@ -30,6 +30,8 @@ const END_POINT = {
   CANCELREQUEST: "Request/CancelRequest",
   GETALLFISH: "Fish/GetAllFish",
   GETALLFISHENTRY: "FishEntry/GetAllFishEntries",
+  PAYFEE: "Payment/FeePayment",
+  PAYCALLBACK: "Payment/PaymentCallBack",
   //auction
   GETFISHENTRYBYID: "FishEntry/GetFishEntryById",
   PUBLICBIDHISTORY: "PublicBid/HistoryByFishEntryId",
@@ -315,7 +317,7 @@ export const handleGetRequestDetail = async (id) => {
   }
 };
 
-export const handleGetFishEntry = async (id) => {
+export const handleGetFishEntryByRequestId = async (id) => {
   try {
     return await axiosClient.get(
       `${END_POINT.GETFISHENTRYBYID}?requestId=${id}`

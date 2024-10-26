@@ -3,6 +3,7 @@ import Navbar from "../../common/Navbar/Navbar";
 import "./RequestDetail.scss";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
+  handleFishEntryByRequestId,
   handleGetFishEntry,
   handleGetRequestDetail,
   handlePayFeeAPI,
@@ -25,12 +26,14 @@ const RequestDetail = () => {
     try {
       //   console.log("before save");
       const resRequest = await handleGetRequestDetail(reqID);
-      const resFish = await handleGetFishEntry(reqID);
-      const user = await handleUserById(resFish.data.highestBidder);
-      console.log(resRequest.data);
+      const resFish = await handleFishEntryByRequestId(reqID);
+      // console.log(resFish.data.highestBidder);
+      if (resFish.data.highestBidder) {
+        const user = await handleUserById(resFish.data.highestBidder);
+        setBidder(user.data);
+      }
       setMyRequest(resRequest.data);
       setFishEntry(resFish.data);
-      setBidder(user.data);
     } catch (error) {
       console.error("Error fetching request detail:", error);
     }
