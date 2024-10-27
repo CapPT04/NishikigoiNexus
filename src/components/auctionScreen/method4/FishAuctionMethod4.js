@@ -7,7 +7,7 @@ import googleIcon from '../../../assets/images/Vector.svg';
 import body1 from '../../../assets/images/body1.png';
 import { useLocation } from 'react-router';
 import Navbar from '../../common/Navbar/Navbar';
-import { handleGetFishImgById, handleFishEntryById, handlePlaceDutchAuctionBid } from '../../../axios/UserService';
+import { handleGetFishImgById, handleFishEntryById, handlePlaceDutchAuctionBid, handleGetWinnerApi } from '../../../axios/UserService';
 import Swal from 'sweetalert2';
 import startPriceIcon from '../../../assets/images/mintmark.svg';
 import * as signalR from '@microsoft/signalr';
@@ -26,6 +26,8 @@ const FishAuctionMethod4 = () => {
     const [mainImage, setMainImage] = useState("");
     const [fishImage, setFishImage] = useState([]);
     const [highestPrice, setHighestPrice] = useState(null);
+    const [winnerData, setWinnerData] = useState(null);
+
     useEffect(() => {
         const fetchImageFish = async () => {
             try {
@@ -126,6 +128,28 @@ const FishAuctionMethod4 = () => {
 
 
 
+    useEffect(() => {
+        const fetchWinnerData = async () => {
+            if (auctionItem.status === 4) {
+                try {
+                    const response = await handleGetWinnerApi(auctionItem.fishEntryId);
+                    if (response && response.status === 200) {
+                        setWinnerData(response.data);
+                    } else if (response.status === 404 && response.data === "No winner") {
+                        setWinnerData(null); // Set winnerData to null when there is no winner
+                    } else {
+                        console.log(response);
+                    }
+                } catch (error) {
+                    console.error("Error fetching winner data:", error);
+                }
+            } else {
+                setWinnerData(null);
+            }
+        };
+
+        fetchWinnerData();
+    }, [auctionItem.status, auctionItem.fishEntryId]);
     // useEffect(() => {
     //     console.log("img:", fishImage);
     // })
@@ -141,7 +165,7 @@ const FishAuctionMethod4 = () => {
                 <div className="fish-aucction-method3-content-row1">Auction#{auctionId}</div>
                 <div className="fish-aucction-method3-content-row3">
                     <div className="fish-aucction-method3-content-row3-col1">
-                        <img className="main-fish-img" src={mainImage} alt="Main Fish" />
+                        <img className="main-fish-img" style={{ maxHeight: "650px" }} src={mainImage} alt="Main Fish" />
                         <div className="fish-sub-img">
                             {fishImage.map((img, index) => (
                                 <div
@@ -201,8 +225,9 @@ const FishAuctionMethod4 = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="place-bid">
-                            {auctionItem.status === 3 ? (
+                        {auctionItem.status === 3 ? (
+
+                            <div className="place-bid">
                                 <div className="place-bid-content">
                                     <div className="place-bid-content-row1">
                                         <div className="start-price-icon">
@@ -227,16 +252,37 @@ const FishAuctionMethod4 = () => {
                                         Place bid at ${highestPrice}
                                     </button>
                                 </div>
-                            ) : auctionItem.status === 2 ? (
-                                <div className="status-message">
-                                    <p>The auction has not started yet.</p>
+                            </div>
+
+                        ) : auctionItem.status === 2 ? (
+                            <div className="status-message">
+                                <p>The auction has not started yet.</p>
+                            </div>
+                        ) : auctionItem.status === 4 && winnerData ? (
+                            <div className="place-bid-status4">
+                                <div className="place-bid-content-status4">
+                                    <div className="place-bid-content-row1-status4">
+                                        {winnerData.name}
+                                    </div>
+                                    <hr />
+                                    <div className="place-bid-content-row2-status4">
+                                        ${winnerData.amount}
+                                    </div>
+                                    <div className="place-bid-content-row3-status4">
+                                        {formatDate(winnerData.endDate)}
+                                    </div>
                                 </div>
-                            ) : auctionItem.status === 4 ? (
-                                <div className="status-message">
-                                    <p>The auction has ended.</p>
+                            </div>
+                        ) : auctionItem.status === 4 && winnerData === null ? (
+                            <div className="place-bid-status4">
+                                <div className="place-bid-content-status4">
+                                    <div className="place-bid-content-row1-status4-no-winner">
+                                        This Bidding ended without any winner!
+                                    </div>
+
                                 </div>
-                            ) : null} {/* Render nothing for other statuses */}
-                        </div>
+                            </div>
+                        ) : null}
                     </div>
                 </div>
             </div>

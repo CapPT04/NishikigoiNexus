@@ -1,0 +1,61 @@
+* {
+    margin     : 0;
+    padding    : 0;
+    border     : 0;
+    font-size  : 100%;
+    font-family: "Saira Condensed";
+    --nude     : #e7cdbf;
+}
+
+.screen {
+    width           : 100vw;
+    height          : 100vh;
+    background-color: #151f3e;
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
+
+    .waiting-screen {
+        img {
+            max-width : 400px;
+            max-height: 400px;
+        }
+
+        .title-waiting {
+            font-size  : 40px;
+            font-weight: 700;
+            text-align : center;
+            color      : #fff;
+        }
+    }
+
+    .success-screen {
+        background-color: transparent;
+
+        .title-success {
+            font-size  : 40px;
+            font-weight: 700;
+            text-align : center;
+            color      : green;
+        }
+
+        img {
+            max-width : 300px;
+            max-height: 300px;
+        }
+    }
+
+    .fail-screen {
+        .title-fail {
+            font-size  : 40px;
+            font-weight: 700;
+            text-align : center;
+            color      : red;
+        }
+
+        img {
+            max-width : 300px;
+            max-height: 300px;
+        }
+    }
+}
