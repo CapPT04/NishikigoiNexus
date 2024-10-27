@@ -303,24 +303,33 @@ const BreederDetail = () => {
                 </thead>
                 <tbody>
                   {requests &&
-                    requests.map((req, index) => {
-                      return (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{new Date(req.createDate).toLocaleString()}</td>
-                          <td>{req.fishId}</td>
-                          <td>{statusRequest[req.status - 1]}</td>
-                          <td>
-                            <button
-                              className="details-btn"
-                              onClick={() => navigate("/")}
-                            >
-                              Detail
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    requests
+                      .sort(
+                        (a, b) =>
+                          new Date(b.createDate) - new Date(a.createDate)
+                      )
+                      .map((req, index) => {
+                        return (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{new Date(req.createDate).toLocaleString()}</td>
+                            <td>{req.fishId}</td>
+                            <td>{statusRequest[req.status - 1]}</td>
+                            <td>
+                              <button
+                                className="details-btn"
+                                onClick={() =>
+                                  navigate(
+                                    `/Manager/RequestDetail?RequestId=${req.requestId}`
+                                  )
+                                }
+                              >
+                                Detail
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
                 </tbody>
               </table>
             </div>
