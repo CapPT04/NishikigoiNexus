@@ -70,6 +70,9 @@ const CreateBreeder = () => {
       });
     }
   };
+  const cancelCreate = () => {
+    navigate("/Manager/ManageBreeder");
+  };
   return (
     <div className="create-breeder-page">
       <ToastContainer /> {/* Add ToastContainer for displaying toasts */}
@@ -178,7 +181,9 @@ const CreateBreeder = () => {
             <button className="create-btn" onClick={createBreeder}>
               Create
             </button>
-            <button className="cancel-btn">Cancel</button>
+            <button className="cancel-btn" onClick={cancelCreate}>
+              Cancel
+            </button>
           </div>
         </div>
       </div>
