@@ -313,7 +313,11 @@ const BreederDetail = () => {
                           <td>
                             <button
                               className="details-btn"
-                              onClick={() => navigate("/")}
+                              onClick={() =>
+                                navigate(
+                                  `/Manager/RequestDetail?RequestId=${req.requestId}`
+                                )
+                              }
                             >
                               Detail
                             </button>
