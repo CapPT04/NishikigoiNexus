@@ -6,12 +6,12 @@
     flex-shrink   : 0;
     background    : #1C1C1C;
     width         : 160px;
-    height        : 841px;
     color         : #FFF;
     font-size     : 26px;
     font-weight   : 400;
     line-height   : normal;
     align-items   : center !important;
+    min-height    : 100%;
 
     a {
         color: #FFF;

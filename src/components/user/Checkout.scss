@@ -1,0 +1,80 @@
+* {
+    padding: 0;
+    margin : 0;
+    border : none;
+}
+
+.checkout-page {
+    width          : 100vw;
+    height         : 100vh;
+    background     : #E7CDBF;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+}
+
+.checkout-background {
+    width          : 70%;
+    border-radius  : 12px;
+    background     : #FFF;
+    box-shadow     : 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    padding        : 70px 0;
+}
+
+.checkout-content {
+    display: grid;
+    gap    : 30px;
+    width  : 80%;
+}
+
+.phone,
+.city,
+.address {
+    display: grid;
+    gap    : 10px;
+    width  : 80%;
+    margin : 0 auto;
+}
+
+.phone-label,
+.city-label,
+.address-label {
+    color      : #121212;
+    font-family: Inter, sans-serif;
+    font-size  : 24px;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.phone-input,
+.city-input,
+.address-input {
+    border-radius: 12px;
+    border       : 1px solid #121212;
+    height       : 56px;
+    text-indent  : 5px;
+    color        : #121212;
+    font-family  : Inter, sans-serif;
+    font-size    : 20px;
+    background   : #E7CDBF;
+}
+
+.checkout-btn {
+    color          : #FFF;
+    font-family    : "Saira Condensed", sans-serif;
+    font-size      : 24px;
+    font-weight    : 400;
+    display        : flex;
+    width          : 144px;
+    height         : 55px;
+    padding        : 16px 31px;
+    justify-content: center;
+    align-items    : center;
+    border-radius  : 50px;
+    background     : #DF0012;
+    margin         : 0 auto;
+    margin-top     : 20px;
+}

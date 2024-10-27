@@ -9,9 +9,21 @@ const VerticallyNavbar = () => {
   const handleSelect = (path) => {
     navigate(path); // Navigate to the specified path
   };
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  console.log(user.Role);
+
 
   return (
     <div className="navigation-bar-vertically">
+      {user && user.Role === "4" ? (
+        <a
+          className="dashboard-vertically"
+          onClick={() => handleSelect("/Manager/DashBoard")}
+        >
+          DashBoard
+        </a>
+      ) : ""}
+
       <a
         className="member"
         onClick={() => handleSelect("/Manager/Manage")}

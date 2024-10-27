@@ -75,9 +75,7 @@ const CreateBreeder = () => {
       <ToastContainer /> {/* Add ToastContainer for displaying toasts */}
       <div className="create-breeder-background">
         <div className="create-breeder-content">
-          <div className="create-breeder-content-row1">
-            Breeder InhtmlFormation
-          </div>
+          <div className="create-breeder-content-row1">Breeder Information</div>
           <div className="create-breeder-content-row2">
             <div className="first-name">
               <label htmlFor="first-name-input" className="first-name-label">
