@@ -117,7 +117,11 @@ const FishAuctionMethod1 = () => {
           Auction#{auctionId}
         </div>
         <div className="fish-aucction-method3-content-row2">
-          Ending in: {new Date(auctionItem.endTime).toLocaleString()}
+          {auctionItem.status === 3
+            ? `Ending in: ${new Date(auctionItem.endTime).toLocaleString()}`
+            : auctionItem.status === 2
+            ? "Waiting"
+            : "Ended"}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
@@ -186,16 +190,18 @@ const FishAuctionMethod1 = () => {
             <div className="bidding-history-background">
               <div className="bidding-history-content">
                 {bidHistory.slice(-5).map((bid, index) => {
-                  return (
-                    <div key={index} className="bidding-history-info">
-                      <div className="bidding-time">
-                        {new Date(bid.bidTime).toLocaleString()} &nbsp;{" "}
+                  if (bid.name) {
+                    return (
+                      <div key={index} className="bidding-history-info">
+                        <div className="bidding-time">
+                          {new Date(bid.bidTime).toLocaleString()} &nbsp;{" "}
+                        </div>
+                        <div className="bidding-name-bidder">
+                          {bid.name} placed a bid &nbsp;
+                        </div>
                       </div>
-                      <div className="bidding-name-bidder">
-                        {bid.name} placed a bid &nbsp;
-                      </div>
-                    </div>
-                  );
+                    );
+                  }
                 })}
               </div>
             </div>
