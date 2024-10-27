@@ -90,12 +90,25 @@ const Request = () => {
     { title: "Preview", subtitle: "Preview your request" },
   ];
   const methodDexcription = [
-    { title: "Fixed Price", subtitle: "Buyer pays a fixed price" },
-    { title: "Hidden Auction", subtitle: "Buyer pays the hidden price" },
-    { title: "Public Auction", subtitle: "Buyer pays the highest price" },
+    {
+      title: "Fixed Price",
+      subtitle:
+        "This is a fixed-price auction method where an item or asset is sold at a predetermined price. Buyers only need to accept the price to complete the transaction without any bidding process.",
+    },
+    {
+      title: "Secret Auction",
+      subtitle:
+        "In a secret bid auction, participants submit sealed bids that remain confidential. The highest bidder wins without knowing other participants' bids, promoting privacy and fairness.",
+    },
+    {
+      title: "Public Auction",
+      subtitle:
+        "A public bid auction is fully transparent, where all bids are visible to participants. Bidders can see others' offers and increase their bids until no one is willing to pay a higher price.",
+    },
     {
       title: "Descending price auction",
-      subtitle: "Buyer pays the price",
+      subtitle:
+        "In this descending-price auction, the seller starts with a high price and gradually lowers it until a buyer accepts the current price, creating a unique urgency among potential buyers.",
     },
   ];
   const filedsets = [
@@ -294,7 +307,7 @@ const Request = () => {
         <fieldset>
           <div className="fieldInput">
             <div className="inputBox">
-              <h5>Auction Date</h5>
+              <h5>Expected Auction Date</h5>
               <input
                 type="date"
                 name="autionDate"
@@ -317,7 +330,7 @@ const Request = () => {
               </div>
             </div>
           </div>
-          <div
+          {/* <div
             className="fieldInput"
             style={{
               display:
@@ -336,7 +349,7 @@ const Request = () => {
                 <span className="dollar-sign">$</span>
               </div>
             </div>
-          </div>
+          </div> */}
           <div
             className="fieldInput"
             style={{ display: auctionMethod === "3" ? "" : "none" }}
