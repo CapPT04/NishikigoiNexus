@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../common/Navbar/Navbar";
 import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
+import { handleAllFishEntry } from "../../../axios/UserService";
+import { useNavigate } from "react-router";
 
 const ManageFishEntry = () => {
+  const navigate = useNavigate();
+  const [fishEntries, setFishEntries] = useState([]);
+  const statusName = ["Unknown", "Preparing", "Waitting", "Bidding", "Ended"];
+
+  const getFishEntries = async () => {
+    const res = await handleAllFishEntry();
+    console.log(res.data.$values);
+    setFishEntries(res.data.$values);
+  };
+  useEffect(() => {
+    getFishEntries();
+  }, []);
   return (
     <div className="manage-koi-container">
       <div className="header">
@@ -29,29 +43,29 @@ const ManageFishEntry = () => {
             <thead>
               <tr>
                 <th>No</th>
+                <th>Fish Entry ID</th>
                 <th>Fish ID</th>
-                <th>Fish Name</th>
-                <th>Create Date</th>
-                <th>Breeder ID</th>
+                <th>Request ID</th>
+                <th>Expected Date</th>
                 <th>Status</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {/* {listKois.length > 0 ? (
-                listKois.map((koi, index) => {
+              {fishEntries.length > 0 ? (
+                fishEntries.map((koi, index) => {
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
+                      <td>{koi.fishEntryId}</td>
                       <td>{koi.fishId}</td>
-                      <td>{koi.fishName}</td>
-                      <td>{new Date(koi.createDate).toLocaleString()}</td>
-                      <td>{koi.createBy}</td>
-                      <td>{koi.status === 1 ? "Available" : "Sold"}</td>
+                      <td>{koi.requestId}</td>
+                      <td>{new Date(koi.expectedDate).toLocaleString()}</td>
+                      <td>{statusName[koi.status]}</td>
                       <td>
                         <a
                           onClick={() =>
-                            navigate("/Manager/KoiDetail", {
+                            navigate("/Manager/FishEntryDetail", {
                               state: koi,
                             })
                           }
@@ -66,7 +80,7 @@ const ManageFishEntry = () => {
                 <tr>
                   <td colSpan="7">No Data</td>
                 </tr>
-              )} */}
+              )}
             </tbody>
           </table>
         </div>

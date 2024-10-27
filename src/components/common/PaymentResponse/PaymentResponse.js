@@ -45,7 +45,10 @@ const PaymentResponse = () => {
             src="https://firebasestorage.googleapis.com/v0/b/nishikigoinexus-fa24.appspot.com/o/sp%2Ffree-check-icon-3278-thumb.png?alt=media&token=b040f1d3-b653-4108-8011-bb7f56bc7172"
             alt=""
           />
-          {setTimeout(() => navigate(`/DetailRequest?id=${requestId}`), 500)}
+          {setTimeout(
+            () => navigate(`/Breeder/DetailRequest?id=${requestId}`),
+            500
+          )}
         </div>
       ) : (
         <div className="fail-screen">
@@ -54,7 +57,10 @@ const PaymentResponse = () => {
             src="https://firebasestorage.googleapis.com/v0/b/nishikigoinexus-fa24.appspot.com/o/sp%2Fgui-check-no-icon-512x512-9qqp1ph5.png?alt=media&token=3dcb26f5-9be9-4005-bcbb-cbbcbc94734a"
             alt=""
           />
-          {setTimeout(() => navigate(`/DetailRequest?id=${requestId}`), 500)}
+          {setTimeout(
+            () => navigate(`/Breeder/DetailRequest?id=${requestId}`),
+            500
+          )}
         </div>
       )}
     </div>

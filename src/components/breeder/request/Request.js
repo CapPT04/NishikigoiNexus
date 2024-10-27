@@ -6,6 +6,8 @@ import { imageDB } from "../../../upload/ConfigUpload";
 import { handleFeeApi, handleSubmitRequest } from "../../../axios/UserService";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../common/Navbar/Navbar";
+import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 
 const Request = () => {
   const [name, setName] = useState("");
@@ -607,7 +609,28 @@ const Request = () => {
     try {
       const response = await handleSubmitRequest(fishAuction);
       if (response.status === 200) {
-        navigate("/Breeder/HistoryRequest");
+        toast.success("Created new request successfully! Redirecting...", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setTimeout(() => {
+          navigate("/Breeder/HistoryRequest");
+        }, 3500);
+      } else {
+        toast.error(response.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {}
   };
@@ -618,7 +641,7 @@ const Request = () => {
       <div className="header">
         <Navbar></Navbar>
       </div>
-
+      <ToastContainer /> {/* Add ToastContainer for displaying toasts */}
       <div className="row">
         <div className="col-md-6 col-md-offset-3">
           <form className="request">

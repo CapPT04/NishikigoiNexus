@@ -68,7 +68,9 @@ const ManageFishEntry = React.lazy(() =>
 const FishEntryDetail = React.lazy(() =>
   import("../components/manage/fishEntryDetail/FishEntryDetail")
 );
-
+const MemberBidHistory = React.lazy(() =>
+  import("../components/member/memberHistory/MemberHistory")
+);
 const PrivateRoutes = [
   //breeder
   {
@@ -168,6 +170,11 @@ const PrivateRoutes = [
     ],
   },
 
+  //member
+  {
+    path: path.MEMBERBIDHISTORY,
+    element: <LoadLazy children={<MemberBidHistory />} />,
+  },
   { path: "*", element: <LoadLazy children={<NotFound />} /> },
 ];
 

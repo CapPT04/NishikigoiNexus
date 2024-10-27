@@ -1,70 +1,60 @@
 import React, { useEffect, useState } from "react";
-import "./FishAuctionMethod3.scss";
+import "./FishAuctionMethod1.scss";
 import Navbar from "../../common/Navbar/Navbar";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import {
-  handleBidHistory,
   handleFishEntryById,
+  handleFixedPriceHistory,
   handleGetFishDetailById,
   handleGetFishImgById,
-  handlePublicBidding,
+  handlePlaceFixedPrice,
 } from "../../../axios/UserService";
 import * as signalR from "@microsoft/signalr";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 
-const FishAuctionMethod3 = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+const FishAuctionMethod1 = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const auctionItem = useLocation().state.auctionItem;
+  const auctionId = useLocation().state.auctionId;
   const [fishEntry, setFishEntry] = useState("");
   const [fishInfo, setFishInfo] = useState("");
   const [fishImgs, setFishImgs] = useState([]);
-  const [mainImage, setMainImage] = useState(""); // For handling the main image
-  const [currentPrice, setCurrentPrice] = useState(0);
-  const [stepPrice, setStepPrice] = useState(0);
-  const [increment, setIncrement] = useState(1);
-  const [bids, setBids] = useState([]);
-  const [highestPrice, setHighestPrice] = useState(null);
-  const entryId = location.state.auctionItem.fishEntryId;
+  const [mainImage, setMainImage] = useState("");
+  const [bidHistory, setBidHistory] = useState([]);
+  const [currentPlaced, setCurrentPlaced] = useState(0);
 
-  const getFishEntry = async () => {
-    if (entryId) {
-      const res = await handleFishEntryById(entryId);
-      setFishEntry(res.data);
-      setStepPrice(res.data.increment);
-      setCurrentPrice(res.data.minPrice);
-      const resFish = await handleGetFishDetailById(res.data.fishId);
+  const getInfo = async () => {
+    if (auctionItem) {
+      const resFishEntry = await handleFishEntryById(auctionItem.fishEntryId);
+      setFishEntry(resFishEntry.data);
+
+      const resFish = await handleGetFishDetailById(resFishEntry.data.fishId);
       setFishInfo(resFish.data);
-      const resImgs = await handleGetFishImgById(resFish.data.fishId);
+
+      const resImgs = await handleGetFishImgById(resFishEntry.data.fishId);
       setFishImgs(resImgs.data.$values);
       setMainImage(resImgs.data.$values[0]?.imagePath || "");
 
-      const his = await handleBidHistory(entryId);
-      console.log(his.data.$values);
-      // Spread to flatten the array
-      // setBids((preBid) => [...preBid, his.data.$values]);
-      setBids(his.data.$values);
-      // setCurrentPrice(his.data.$values.slice(-1)[0]?.currentPrice);
+      const resHis = await handleFixedPriceHistory(auctionItem.fishEntryId);
+      // console.log(resHis.data.$values);
+      setBidHistory(resHis.data.$values);
+      // setBidHistory((prevBids) => [...prevBids, resHis.data.$values]);
+
+      // setCurrentPlaced(resHis.data.)
     } else {
       navigate("/AuctionDetails");
     }
   };
-  const handleIncrement = () => {
-    setIncrement((prevIncrement) => Math.min(prevIncrement + 1, 5)); // Limit to max of 5
-  };
-
-  const handleDecrement = () => {
-    setIncrement((prevIncrement) => Math.max(prevIncrement - 1, 1)); // Limit to min of 1
-  };
 
   useEffect(() => {
-    getFishEntry();
+    getInfo();
   }, []);
 
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7124/publicBidHub") // URL của Hub trong ASP.NET Core
+      .withUrl("https://localhost:7124/fixedPriceSale") // URL của Hub trong ASP.NET Core
       .withAutomaticReconnect()
       .build();
     connection
@@ -72,28 +62,39 @@ const FishAuctionMethod3 = () => {
       .then(() => {
         console.log("Connected to SignalR Hub");
         // Listen for the event ReceiveBidPlacement
-        connection.on("ReceiveBidPlacement", (data) => {
+        connection.on("ReceiveBidPlacement", (FixedPriceSaleResponse) => {
           // console.log("Received bid placement: ", data);
           // Update bids list when new data is received
-          setBids((prevBids) => [...prevBids, data]);
+          setBidHistory((prevBids) => [...prevBids, FixedPriceSaleResponse]);
         });
         // console.log(bids.slice(-1)[0]?.currentPrice);
-        setCurrentPrice(bids.slice(-1)[0]?.currentPrice);
+        setCurrentPlaced(bidHistory.slice(-1)[0].numberOfBidders);
       })
       .catch((err) => console.log("Error while starting connection: " + err));
     // Cleanup when component unmounts
     return () => {
       connection.stop();
     };
-  }, [bids, currentPrice]);
+  }, [bidHistory, currentPlaced]);
 
-  const totalBidPrice = stepPrice * increment;
-  const newPrice = currentPrice + totalBidPrice;
-  const bidding = async () => {
+  const placeABid = async () => {
     const token = sessionStorage.getItem("token");
-    const res = await handlePublicBidding(token, entryId, newPrice);
-    if (res.status === 400) {
-      toast.error(res.data, {
+    const response = await handlePlaceFixedPrice(
+      token,
+      auctionItem.fishEntryId
+    );
+    if (response.status === 200) {
+      toast.success("Placed a bid", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.error(response.data, {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -103,8 +104,8 @@ const FishAuctionMethod3 = () => {
         progress: undefined,
       });
     }
-    // getFishEntry();
   };
+
   return (
     <div className="auction-screen-container">
       <div className="header">
@@ -112,9 +113,15 @@ const FishAuctionMethod3 = () => {
       </div>
       <div className="fish-aucction-method3-content">
         <ToastContainer />
-        <div className="fish-aucction-method3-content-row1">Auction#13</div>
+        <div className="fish-aucction-method3-content-row1">
+          Auction#{auctionId}
+        </div>
         <div className="fish-aucction-method3-content-row2">
-          Ending in: 4:13:03
+          {auctionItem.status === 3
+            ? `Ending in: ${new Date(auctionItem.endTime).toLocaleString()}`
+            : auctionItem.status === 2
+            ? "Waiting"
+            : "Ended"}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
@@ -142,12 +149,12 @@ const FishAuctionMethod3 = () => {
               </div>
               <div className="fish-info-row2">
                 <div className="fish-info-ending">
-                  Ending in: {new Date(fishEntry.endDate).toLocaleString()}
+                  Ending in: {new Date(auctionItem.endTime).toLocaleString()}
                 </div>
                 <div className="fish-info-tag">
                   <i className="fa-solid fa-tag"></i>
                   <div className="fish-number">
-                    Fish#{fishEntry.fishEntryId}
+                    Fish#{auctionItem.fishEntryId}
                   </div>
                 </div>
               </div>
@@ -182,55 +189,45 @@ const FishAuctionMethod3 = () => {
             </div>
             <div className="bidding-history-background">
               <div className="bidding-history-content">
-                {bids.slice(-5).map((bided, index) => {
-                  return (
-                    <div className="bidding-history-info" key={index}>
-                      <div className="bidding-time">
-                        {new Date(bided.bidTime).toLocaleString()} &nbsp;{" "}
-                        {/* Assuming you have a time property in bided */}
+                {bidHistory.slice(-5).map((bid, index) => {
+                  if (bid.name) {
+                    return (
+                      <div key={index} className="bidding-history-info">
+                        <div className="bidding-time">
+                          {new Date(bid.bidTime).toLocaleString()} &nbsp;{" "}
+                        </div>
+                        <div className="bidding-name-bidder">
+                          {bid.name} placed a bid &nbsp;
+                        </div>
                       </div>
-                      <div className="bidding-name-bidder">
-                        {bided.name} bidded &nbsp;{" "}
-                        {/* Assuming you have a bidderName property */}
-                      </div>
-                      <div className="bidding-price">${bided.bidAmount}</div>{" "}
-                      {/* Assuming you have a price property */}
-                    </div>
-                  );
+                    );
+                  }
                 })}
               </div>
             </div>
-            <div class="place-bid">
-              <div class="place-bid-content">
-                <div class="place-bid-content-row1">
-                  <div class="current-price-icon">
-                    <i class="fa-solid fa-file-invoice-dollar"></i>
+            <div className="place-bid">
+              <div className="place-bid-content">
+                <div className="place-bid-content-row1">
+                  <div className="number-of-bidders-icon">
+                    <i className="fa-solid fa-users-line"></i>
                   </div>
-                  <div class="current-price-text">Current price</div>
-                  <div class="current-price">{currentPrice}$</div>
+                  <div className="number-of-bidders-text">
+                    Number of bidders
+                  </div>
+                  <div className="number-of-bidders">{currentPlaced}</div>
                 </div>
                 <hr />
-                <div class="place-bid-content-row2">
-                  <div class="increment">
-                    <div class="increment-text">Increment</div>
-                    <div class="increment-number">${stepPrice}</div>
+                <div className="place-bid-content-row2">
+                  <div className="buy-price-icon">
+                    <i className="fa-solid fa-file-invoice-dollar"></i>
                   </div>
-                  <div class="multiple">x</div>
-                  <div class="cen-div">
-                    <div class="substract" onClick={handleDecrement}>
-                      -
-                    </div>
-                    <div class="increment-bid-number">{increment}</div>
-                    <div class="add" onClick={handleIncrement}>
-                      +
-                    </div>
-                  </div>
-                  <div class="equal">=</div>
-                  <div class="total-bid-price">${totalBidPrice}</div>
+                  <div className="buy-price-text">Buy price</div>
                 </div>
-
-                <button class="place-bid-btn" onClick={bidding}>
-                  Place bid at ${newPrice}
+                <div className="place-bid-content-row3">
+                  ${fishEntry.minPrice}
+                </div>
+                <button className="place-bid-btn" onClick={placeABid}>
+                  Place a bid at ${fishEntry.minPrice}
                 </button>
               </div>
             </div>
@@ -241,20 +238,20 @@ const FishAuctionMethod3 = () => {
         <div className="logo-footer">
           <img
             className="logo-img-footer"
-            src="../../../assets/images/logo_png.png"
+            src="../../assets/images/logo_png.png"
             alt=""
           />
           <div className="name-project-footer">Nishikigoi Nexus</div>
         </div>
         <div className="social-contact">
           <div className="instagram">
-            <img src="../assets/images/Instagram.svg" alt="" />
+            <img src="../../assets/images/Instagram.svg" alt="" />
           </div>
           <div className="facebook">
-            <img src="../assets/images/Social Icons (1).svg" alt="" />
+            <img src="../../assets/images/Social Icons (1).svg" alt="" />
           </div>
           <div className="google">
-            <img src="../assets/images/Vector.svg" alt="" />
+            <img src="../../assets/images/Vector.svg" alt="" />
           </div>
         </div>
         <div className="nav-bar-footer">
@@ -268,4 +265,4 @@ const FishAuctionMethod3 = () => {
   );
 };
 
-export default FishAuctionMethod3;
+export default FishAuctionMethod1;

@@ -4,6 +4,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "./SignupPage.scss";
 import { handleSignUpApi } from "../../../axios/UserService";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -13,7 +15,7 @@ const SignupPage = () => {
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [btnReady, setBtnReady] = useState(true);
+  const [btnNotReady, setBtnNotReady] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [hasInput, setHasInput] = useState(false);
 
@@ -28,14 +30,32 @@ const SignupPage = () => {
     try {
       const response = await handleSignUpApi(user);
       if (response.status === 200) {
-        console.log("successful");
-        navigate("/login");
-      }
-      if (response.status === 400) {
-        setErrorMessage(response.data.message);
+        toast.success("Registed successfully! Please Login to continue..", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 3500);
+      } else {
+        toast.error(response.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (err) {
-      console.log("xảy ra lỗi");
+      console.log("Error");
     }
   };
 
@@ -51,23 +71,26 @@ const SignupPage = () => {
           phoneNumber
         )
       ) {
-        setErrorMessage("Please fill in all fields");
-        setBtnReady(true);
+        // setErrorMessage("Please fill in all fields");
+        setBtnNotReady(true);
       } else if (validateEmail(email) === false) {
-        setErrorMessage("Email is invalid");
-        setBtnReady(true);
+        // setErrorMessage("Email is invalid");
+        setBtnNotReady(true);
       } else if (rePassword !== password) {
-        setErrorMessage("Wrong confirm password");
-        setBtnReady(true);
+        // setErrorMessage("Wrong confirm password");
+        setBtnNotReady(true);
+      } else if (!validatePhoneNumber(phoneNumber)) {
+        setBtnNotReady(true);
       } else {
-        setErrorMessage("");
-        setBtnReady(false);
+        // setErrorMessage("");
+        setBtnNotReady(false);
       }
     }
   }, [firstName, lastName, email, password, rePassword, phoneNumber]);
 
   return (
     <div className="signup-page">
+      <ToastContainer /> {/* Add ToastContainer for displaying toasts */}
       <div className="signup-content">
         <div className="left-content">
           <div className="logo-name">
@@ -155,9 +178,9 @@ const SignupPage = () => {
               </div>
               <div className="signup-and-login">
                 <button
-                  className={`signup-btn ${!btnReady ? "btn-active" : ""}`}
+                  className={`signup-btn ${!btnNotReady ? "btn-active" : ""}`}
                   onClick={handleSignUp}
-                  disabled={btnReady}
+                  disabled={btnNotReady}
                 >
                   Sign up
                 </button>
@@ -194,6 +217,11 @@ export const validateEmail = (email) => {
     return true;
   }
   return false;
+};
+export const validatePhoneNumber = (phoneNumber) => {
+  // This regex ensures the number starts with 0 and contains only digits
+  const regex = /^0[0-9]+$/;
+  return regex.test(phoneNumber);
 };
 
 export default SignupPage;
