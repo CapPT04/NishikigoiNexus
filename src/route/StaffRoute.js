@@ -5,7 +5,7 @@ const StaffRoute = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
-    if (!user || user.Role !== "3") {
+    if (!user || (user.Role !== "3" && user.Role !== "4")) {
       navigate("/");
     }
   }, []);

@@ -14,6 +14,7 @@ import { handleUpdateAuctionDetailApi } from "../../axios/UserService";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import Navbar from "../common/Navbar/Navbar";
 
 const AuctionDetail = () => {
   const location = useLocation();
@@ -244,7 +245,7 @@ const AuctionDetail = () => {
     <div className="auction-detail-container">
       <ToastContainer />
       <div className="header">
-        <div className="navigation-bar">
+        {/* <div className="navigation-bar">
           <div className="navigation-bar-left-content">
             <img className="logo" src={logo} alt="" />
             <div className="project-name">Nishikigoi Nexus</div>
@@ -258,7 +259,8 @@ const AuctionDetail = () => {
             <a className="about">ABOUT</a>
             <a className="account">ACCOUNT</a>
           </div>
-        </div>
+        </div> */}
+        <Navbar></Navbar>
       </div>
 
       <div className="body-content-auction-detail">

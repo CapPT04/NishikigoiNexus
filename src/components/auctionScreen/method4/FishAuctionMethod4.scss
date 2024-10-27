@@ -529,6 +529,56 @@ body {
                 }
             }
 
+            .place-bid-status4 {
+                border-radius: 12px;
+                background   : #4CAF50;
+                box-shadow   : 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
+                text-align   : center;
+
+                .place-bid-content-status4 {
+                    display: block;
+                    width  : 100%;
+                    height : 100%;
+
+
+                    .place-bid-content-row1-status4-no-winner {
+                        color      : rgba(255, 255, 255, 0.60);
+                        font-size  : 32px;
+                        font-style : normal;
+                        font-weight: 600;
+                        line-height: normal;
+                        text-align : center;
+                    }
+
+                    .place-bid-content-row1-status4 {
+                        color      : #FFF;
+                        font-family: "Saira Condensed";
+                        font-size  : 48px;
+                        font-style : normal;
+                        font-weight: 600;
+                        line-height: normal;
+                    }
+
+                    .place-bid-content-row2-status4 {
+                        color      : #FFF;
+                        font-family: "Saira Condensed";
+                        font-size  : 40px;
+                        font-style : normal;
+                        font-weight: 500;
+                        line-height: normal;
+
+                    }
+
+                    .place-bid-content-row3-status4 {
+                        color      : #FFF;
+                        font-family: "Saira Condensed";
+                        font-size  : 20px;
+                        font-style : normal;
+                        font-weight: 300;
+                        line-height: normal;
+                    }
+                }
+            }
         }
     }
 }

@@ -73,12 +73,11 @@ const FishAuctionMethod3 = () => {
         console.log("Connected to SignalR Hub");
         // Listen for the event ReceiveBidPlacement
         connection.on("ReceiveBidPlacement", (data) => {
-          // console.log("Received bid placement: ", data);
+          //   console.log("Received bid placement: ", data);
           // Update bids list when new data is received
           setBids((prevBids) => [...prevBids, data]);
         });
-        // console.log(bids.slice(-1)[0]?.currentPrice);
-        setCurrentPrice(bids.slice(-1)[0]?.currentPrice);
+        setCurrentPrice(bids.slice(-1)[0].currentPrice);
       })
       .catch((err) => console.log("Error while starting connection: " + err));
     // Cleanup when component unmounts

@@ -7,7 +7,7 @@ import googleIcon from '../../../assets/images/Vector.svg';
 import body1 from '../../../assets/images/body1.png';
 import { useLocation } from 'react-router';
 import Navbar from '../../common/Navbar/Navbar';
-import { handleGetFishImgById, handleGetHistoryOfSecretBidApi, handlePlaceSecretBidApi } from '../../../axios/UserService';
+import { handleGetFishImgById, handleGetHistoryOfSecretBidApi, handlePlaceSecretBidApi, handleGetWinnerApi, handleGetAuctionDetailByIdApi } from '../../../axios/UserService';
 import Swal from 'sweetalert2';
 import * as signalR from '@microsoft/signalr';
 import { HubConnectionBuilder } from '@microsoft/signalr';
@@ -27,7 +27,8 @@ const FishAuctionMethod2 = () => {
     const [mainImage, setMainImage] = useState("");
     const [fishImage, setFishImage] = useState([]);
     // console.log(sessionStorage.getItem("token"));
-
+    const [winnerData, setWinnerData] = useState(null);
+    const [auctionDetails, setAuctionDetails] = useState();
 
     useEffect(() => {
 
@@ -77,13 +78,12 @@ const FishAuctionMethod2 = () => {
                 connection.on("ReceiveBidPlacement", (newBid) => {
                     // Cập nhật lịch sử đấu giá với bid mới nhận được
                     console.log("Received new bid: ", newBid);
-
                     setHistoryOfSecretBid((prevHistory) => [
                         ...prevHistory,
                         newBid,
                     ]);
                     // Cập nhật số lượng người tham gia
-                    setNumberOfBidders((prevCount) => prevCount + 1);
+                    setNumberOfBidders((prevCount) => newBid.numberOfBidders);
                 });
             })
             .catch((err) => console.log("Error while starting connection: " + err));
@@ -92,9 +92,6 @@ const FishAuctionMethod2 = () => {
             connection.stop().then(() => console.log("Disconnected from SignalR Hub"));
         };
     }, []);
-
-
-
 
     const handlePlaceSecretBidBtn = async () => {
         Swal.fire({
@@ -155,6 +152,30 @@ const FishAuctionMethod2 = () => {
     };
 
 
+    useEffect(() => {
+        const fetchWinnerData = async () => {
+            if (auctionItem.status === 4) {
+                try {
+                    const response = await handleGetWinnerApi(auctionItem.fishEntryId);
+                    if (response && response.status === 200) {
+                        setWinnerData(response.data);
+                    } else if (response.status === 404 && response.data === "No winner") {
+                        setWinnerData(null); // Set winnerData to null when there is no winner
+                    } else {
+                        console.log(response);
+                    }
+                } catch (error) {
+                    console.error("Error fetching winner data:", error);
+                }
+            } else {
+                setWinnerData(null);
+            }
+        };
+
+        fetchWinnerData();
+    }, [auctionItem.status, auctionItem.fishEntryId]);
+
+
 
     return (
         <div>
@@ -164,10 +185,9 @@ const FishAuctionMethod2 = () => {
 
             <div className="fish-aucction-method3-content">
                 <div className="fish-aucction-method3-content-row1">Auction#{auctionId}</div>
-                <div className="fish-aucction-method3-content-row2">Ending in: </div>
                 <div className="fish-aucction-method3-content-row3">
                     <div className="fish-aucction-method3-content-row3-col1">
-                        <img className="main-fish-img" src={mainImage} alt="Main Fish" />
+                        <img className="main-fish-img" style={{ maxHeight: "65" }} src={mainImage} alt="Main Fish" />
                         <div className="fish-sub-img">
                             {fishImage.map((img, index) => (
                                 <div
@@ -278,13 +298,32 @@ const FishAuctionMethod2 = () => {
                                 <p>The auction has not started yet.</p>
                             </div>
                         )}
-
-                        {auctionItem.status === 4 && (
-                            <div className="auction-status-message">
-                                <i className="fa-solid fa-times-circle"></i> {/* Biểu tượng dấu x */}
-                                <p>The auction has already ended.</p>
+                        {auctionItem.status === 4 && winnerData ? (
+                            <div className="place-bid-status4">
+                                <div className="place-bid-content-status4">
+                                    <div className="place-bid-content-row1-status4">
+                                        {winnerData.name}
+                                    </div>
+                                    <hr />
+                                    <div className="place-bid-content-row2-status4">
+                                        ${winnerData.amount}
+                                    </div>
+                                    <div className="place-bid-content-row3-status4">
+                                        {formatDate(winnerData.endDate)}
+                                    </div>
+                                </div>
                             </div>
-                        )}
+                        ) : auctionItem.status === 4 && winnerData === null ? (
+                            <div className="place-bid-status4">
+                                <div className="place-bid-content-status4">
+                                    <div className="place-bid-content-row1-status4-no-winner">
+                                        This Bidding ended without any winner!
+                                    </div>
+
+                                </div>
+                            </div>
+                        ) : null}
+
 
                     </div>
                 </div>
