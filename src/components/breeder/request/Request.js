@@ -645,7 +645,7 @@ const Request = () => {
           progress: undefined,
         });
       }
-    } catch (error) {}
+    } catch (error) { }
   };
   //--------
 

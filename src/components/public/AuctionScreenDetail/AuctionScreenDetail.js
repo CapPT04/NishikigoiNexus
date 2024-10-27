@@ -44,27 +44,7 @@ const AuctionScreenDetail = () => {
   return (
     <div className="auction-screen-detail">
       <header className="header">
-        <div className="navigation-bar">
-          <div className="navigation-bar-left-content">
-            <img className="logo" src={logo} alt="Logo" />
-            <div className="project-name">Nishikigoi Nexus</div>
-          </div>
-          <div className="navigation-bar-right-content">
-            <a className="home" href="#">
-              HOME
-            </a>
-            <a className="auction" href="#">
-              AUCTION
-            </a>
-            <a className="blog" href="#">
-              BLOG
-            </a>
-            <a className="about" href="#">
-              ABOUT
-            </a>
-            <div className="account">ACCOUNT</div>
-          </div>
-        </div>
+        <Navbar></Navbar>
       </header>
 
       <div className="auction-screen-detail-content">

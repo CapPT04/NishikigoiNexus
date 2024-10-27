@@ -31,6 +31,7 @@ export const path = {
   KOIDETAIL: "KoiDetail",
   MANAGEFISHENTRY: "ManageFishEntry",
   FISHENTRYDETAIL: "FishEntryDetail",
+  DASHBOARD: "DashBoard",
   //
   AUCTIONMETHOD3: "/AuctionFishMethod3",
   AUCTIONMETHOD2: "/AuctionFishMethod2",
@@ -38,4 +39,13 @@ export const path = {
   AUCTIONMETHOD4: "/AuctionFishMethod4",
   //
   MEMBERBIDHISTORY: "/MemberBidHistory",
+
+  // user
+
+  USER: "/User",
+  USERBIDHISTORY: "UserBidHistory",
+  CHECKOUT: "Checkout",
+  WINNERPAYMENTCALLBACK: "WinnerPaymentCallback"
+
+
 };

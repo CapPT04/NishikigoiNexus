@@ -55,6 +55,12 @@ const END_POINT = {
   COUNTNEWMEMBER: "User/CountNewMembers",
   REVENUEBYTIMEFRAME: "Payment/RevenueByTimeFrame",
   MONTHLYREVENUE: "Payment/MonthlyRevenueCurrentYear",
+  GETWINNER: "FishEntry/GetWinner",
+  GETOTHERBIDDINGHISTORYBYMEMBERID: "User/GetOtherBiddingHistoryByMemberId",
+  GETBIDDINGHISTORYBYMEMBERID: "User/GetBiddingHistoryByMemberId",
+  GETUNPAIDBIDDINGHISTORYBYMEMBERID: "User/GetUnpaidBiddingHistoryByMemberId",
+  WINNERPAYMENT: "Payment/WinnerPayment",
+  WINNERPAYMENTCALLBACK: "Payment/WinnerPaymentCallBack",
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -77,7 +83,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -239,6 +245,68 @@ export const handleMonthlyRevenueApi = async () => {
     throw error;
   }
 };
+
+export const handleGetWinnerApi = async (fishEntryId) => {
+  try {
+    return axiosClient.get(`${END_POINT.GETWINNER}`, {
+      params: { fishEntryId },
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+export const handleGetBiddingHistoryByMemberIdApi = async (id) => {
+  try {
+    return axiosClient.get(`${END_POINT.GETBIDDINGHISTORYBYMEMBERID}`, {
+      params: { id },
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+
+export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
+  try {
+    return axiosClient.get(`${END_POINT.GETUNPAIDBIDDINGHISTORYBYMEMBERID}`, {
+      params: { id },
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const handleWinnerPaymentApi = async (token, fishEntryId) => {
+  try {
+    return await axiosClient.post(`${END_POINT.WINNERPAYMENT}`, {
+      token: token,
+      fishEntryId: fishEntryId,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleWinnerPaymentCallbackApi = async (info, checkoutData) => {
+  try {
+    return await axiosClient.post(`${END_POINT.WINNERPAYMENTCALLBACK}`, {
+      vnp_Amount: info.vnp_Amount,
+      vnp_OrderInfo: info.vnp_OrderInfo,
+      vnp_PayDate: info.vnp_PayDate,
+      vnp_ResponseCode: info.vnp_ResponseCode,
+      phone: checkoutData.phone,
+      address: checkoutData.address,
+      city: checkoutData.city
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 
 export const handleGetAllBreeders = () => {
   try {
