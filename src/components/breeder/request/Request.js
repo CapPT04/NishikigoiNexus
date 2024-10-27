@@ -280,7 +280,7 @@ const Request = () => {
               onChange={(e) => setAuctionMethod(e.target.value)}
             >
               <option value="1">Fixed Price</option>
-              <option value="2">Hidden Auction</option>
+              <option value="2">Secret Auction</option>
               <option value="3">Public Auction</option>
               <option value="4">Descending Auction</option>
             </select>
@@ -330,11 +330,10 @@ const Request = () => {
               </div>
             </div>
           </div>
-          {/* <div
+          <div
             className="fieldInput"
             style={{
-              display:
-                auctionMethod === "3" || auctionMethod === "4" ? "" : "none",
+              display: auctionMethod === "4" ? "" : "none",
             }}
           >
             <div className="inputBox">
@@ -349,7 +348,7 @@ const Request = () => {
                 <span className="dollar-sign">$</span>
               </div>
             </div>
-          </div> */}
+          </div>
           <div
             className="fieldInput"
             style={{ display: auctionMethod === "3" ? "" : "none" }}

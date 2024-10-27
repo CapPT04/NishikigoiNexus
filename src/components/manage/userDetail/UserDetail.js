@@ -237,7 +237,7 @@ const UserDetail = () => {
             </div>
             <div className="member-detail-content-row10">
               <button
-                className="ban-btn"
+                className={`ban-btn ${bannable ? "bannable" : ""}`}
                 disabled={!bannable}
                 onClick={handleBan}
               >
