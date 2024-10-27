@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_app=self.webpackChunkmy_app||[]).push([[490],{490:(e,s,t)=>{t.r(s),t.d(s,{default:()=>u});var p=t(43),a=t(216),r=t(579);const u=()=>{const e=(0,a.Zp)();return(0,p.useEffect)((()=>{const s=JSON.parse(sessionStorage.getItem("user"));s&&"2"===s.Role||e("/")}),[]),(0,r.jsx)(a.sv,{})}}}]);
+//# sourceMappingURL=490.fada7477.chunk.js.map
