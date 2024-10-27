@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   handleGetAllRequest,
   handleToggleBreederStatus,
+  handleToggleUserStatus,
   handleUpdateBreederCommission,
   handleUserById,
 } from "../../../axios/UserService";
@@ -46,11 +47,8 @@ const BreederDetail = () => {
   };
   const handleBan = async () => {
     const token = sessionStorage.getItem("token");
-    const res = await handleToggleBreederStatus(
-      token,
-      breeder.userId,
-      reasonBan
-    );
+    const res = await handleToggleUserStatus(token, breeder.userId, reasonBan);
+    console.log(res);
     if (res.status === 200) {
       // console.log("Banned");
       window.location.reload();
@@ -58,7 +56,7 @@ const BreederDetail = () => {
   };
   const handleUnBan = async () => {
     const token = sessionStorage.getItem("token");
-    const res = await handleToggleBreederStatus(token, breeder.userId, null);
+    const res = await handleToggleUserStatus(token, breeder.userId, null);
     // console.log(res);
     if (res.status === 200) {
       // console.log("UnBanned");

@@ -114,7 +114,11 @@ const FishAuctionMethod3 = () => {
         <ToastContainer />
         <div className="fish-aucction-method3-content-row1">Auction#13</div>
         <div className="fish-aucction-method3-content-row2">
-          Ending in: 4:13:03
+          {fishEntry.status === 3
+            ? `Ending in: ${new Date(fishEntry.endTime).toLocaleString()}`
+            : fishEntry.status === 2
+            ? "Waiting"
+            : "Ended"}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">

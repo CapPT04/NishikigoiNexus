@@ -62,7 +62,7 @@ const FishEntryDetail = () => {
             <option value="">Set status &nbsp;&nbsp; v</option>
           </select> */}
             </div>
-            <div className="fish-detail-content-row2">Fish Detail</div>
+            <div className="fish-detail-content-row2">Fish Entry Detail</div>
             <div className="fish-detail-content-row3">
               Create date: {new Date(request.createDate).toLocaleString()}
             </div>
@@ -227,9 +227,7 @@ const FishEntryDetail = () => {
                 <input
                   type="text"
                   className="sold-price-input"
-                  value={
-                    koi.highestPrice ? koi.highestPrice : "Not started yet"
-                  }
+                  value={koi.highestPrice ? koi.highestPrice : "  "}
                   disabled={true}
                 />
               </div>

@@ -150,6 +150,7 @@ const RequestDetail = () => {
                 <input
                   type="number"
                   className="delivery-cost-input"
+                  min={0}
                   onChange={(e) => setDeliveryCost(e.target.value)}
                 />
               </div>
@@ -187,19 +188,19 @@ const RequestDetail = () => {
             </div>
             <div className="request-detail-content-row9">
               <div className="fish-entry-information">
-                Fish Entry Information
+                Fish Entry #{fishEntry.fishEntryId} Information
               </div>
             </div>
 
             <div className="request-detail-content-row10">
               <div className="fish-id">
                 <label for="fish-id-input" className="fish-id-label">
-                  Fish Entry ID
+                  Fish ID
                 </label>
                 <input
                   type="text"
                   className="fish-id-input"
-                  value={fishEntry.fishEntryId}
+                  value={fishEntry.fishId}
                   disabled={true}
                 />
               </div>
