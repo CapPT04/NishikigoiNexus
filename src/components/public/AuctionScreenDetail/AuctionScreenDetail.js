@@ -101,7 +101,12 @@ const AuctionScreenDetail = () => {
               </div>
               <div className="fish-auction-left-content">
                 <div className="fish-auction-method">
-                  Method: {auctionItem.method || "Unknown Method"}
+                  Method: &nbsp;
+                  {auctionItem.method === 1 && "Fixed Price Sale"}
+                  {auctionItem.method === 2 && "Secret Bid"}
+                  {auctionItem.method === 3 && "Public Bid"}
+                  {auctionItem.method === 4 && "Dutch Bid"}
+
                 </div>
                 <div className="fish-auction-size">
                   Size: {auctionItem.size || 0} mm
