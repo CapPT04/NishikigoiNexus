@@ -25,8 +25,10 @@ const FishAuctionMethod4 = () => {
     // console.log(amount);
     const [mainImage, setMainImage] = useState("");
     const [fishImage, setFishImage] = useState([]);
-    const [highestPrice, setHighestPrice] = useState(null);
+    const [highestPrice, setHighestPrice] = useState(auctionItem.highestprice);
     const [winnerData, setWinnerData] = useState(null);
+    console.log(auctionItem);
+
 
     useEffect(() => {
         const fetchImageFish = async () => {
