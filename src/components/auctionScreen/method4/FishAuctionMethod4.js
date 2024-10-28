@@ -98,8 +98,7 @@ const FishAuctionMethod4 = () => {
                     setAuctionItem((prev) => ({ ...prev, status: 4 }));
                 } else {
                     Swal.fire({
-                        title: 'Error!',
-                        text: 'There was an error placing your bid. Please try again.',
+                        title: 'Place bid failed!',
                         icon: 'error',
                         confirmButtonText: 'OK',
                     });
