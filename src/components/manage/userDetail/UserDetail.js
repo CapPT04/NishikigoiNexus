@@ -267,7 +267,7 @@ const UserDetail = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {bidHistory.length > 0 ? (
+                  {bidHistory && bidHistory.length > 0 ? (
                     bidHistory.map((bid, index) => {
                       return (
                         <tr key={index}>

@@ -223,7 +223,7 @@ const FishAuctionMethod1 = () => {
                   </div>
                   <div className="buy-price-text">Buy price</div>
                 </div>
-                <div className="place-bid-content-row3">
+                <div className="place-bid-content-row31">
                   ${fishEntry.minPrice}
                 </div>
                 <button className="place-bid-btn" onClick={placeABid}>
