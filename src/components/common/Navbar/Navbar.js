@@ -10,11 +10,11 @@ const Navbar = () => {
   const userStorage = sessionStorage.getItem("user");
   const user = JSON.parse(userStorage);
 
-  useEffect(() => { });
+  useEffect(() => {});
 
   const handleLogout = () => {
     sessionStorage.removeItem("user");
-    sessionStorage.removeItem("token")
+    sessionStorage.removeItem("token");
     navigate("/");
   };
 
@@ -48,7 +48,13 @@ const Navbar = () => {
                 : navigate("/Manager/Manage");
             }}
           >
-            {user.Role === "1" ? "" : user.Role === "2" ? "REQUEST" : user.Role === "3" ? "Staff" : "Manager"}
+            {user.Role === "1"
+              ? ""
+              : user.Role === "2"
+              ? "REQUEST"
+              : user.Role === "3"
+              ? "Staff"
+              : "Manager"}
           </a>
         )}
         <a className="home" onClick={() => navigate("/")}>

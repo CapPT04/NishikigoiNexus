@@ -91,6 +91,11 @@ const FishAuctionMethod3 = () => {
   const totalBidPrice = stepPrice * increment;
   const newPrice = currentPrice + totalBidPrice;
   const bidding = async () => {
+    if (sessionStorage.getItem("token") === null) {
+      console.log(sessionStorage.getItem("token"));
+      navigate("/login");
+      return;
+    }
     const token = sessionStorage.getItem("token");
     const res = await handlePublicBidding(token, entryId, newPrice);
     if (res.status === 400) {
