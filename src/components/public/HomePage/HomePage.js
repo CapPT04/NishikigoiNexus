@@ -31,7 +31,7 @@ const HomePage = () => {
           <Navbar></Navbar>
         </div>
 
-        <div className="slogan">
+        <div className="slogan-homepage">
           <div className="slogan-above">BIDDING FOR</div>
           <div className="slogan-under">BEAUTY</div>
         </div>
