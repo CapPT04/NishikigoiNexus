@@ -562,6 +562,10 @@ const Request = () => {
           </div>
           {/* auction fee */}
           <div className="feeNotice">* The fee for auction: {fee}$</div>
+          <div className="feeNotice">
+            * When the fish auction is successful, we will take a commission
+            from the successful auction amount.{" "}
+          </div>
           {/* confirm */}
           <div className="confirmBox">
             <input
@@ -645,7 +649,8 @@ const Request = () => {
             navigate("/Breeder/HistoryRequest");
           }, 3500);
         } else {
-          toast.error(response.data.message, {
+          //response.data.errors.NewRequest[0]
+          toast.error("Some fields are incorrect. Please check again", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
