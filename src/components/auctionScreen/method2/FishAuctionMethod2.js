@@ -5,14 +5,16 @@ import instagramIcon from '../../../assets/images/Instagram.svg';
 import facebookIcon from '../../../assets/images/Social Icons (1).svg';
 import googleIcon from '../../../assets/images/Vector.svg';
 import body1 from '../../../assets/images/body1.png';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import Navbar from '../../common/Navbar/Navbar';
 import { handleGetFishImgById, handleGetHistoryOfSecretBidApi, handlePlaceSecretBidApi, handleGetWinnerApi, handleGetAuctionDetailByIdApi } from '../../../axios/UserService';
 import Swal from 'sweetalert2';
 import * as signalR from '@microsoft/signalr';
 import { HubConnectionBuilder } from '@microsoft/signalr';
+import { Navigate } from 'react-router';
 
 const FishAuctionMethod2 = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const [auctionItem, setAuctionItem] = useState(location.state.auctionItem);
     const auctionId = location.state.auctionId;
@@ -94,6 +96,13 @@ const FishAuctionMethod2 = () => {
     }, []);
 
     const handlePlaceSecretBidBtn = async () => {
+        console.log("adsa");
+
+        if (sessionStorage.getItem("token") === null) {
+            console.log(sessionStorage.getItem("token"));
+            navigate("/login")
+            return;
+        }
         Swal.fire({
             title: 'Place Secret Bid',
             text: `Are you sure you want to place a bid of $${amount}?`,
