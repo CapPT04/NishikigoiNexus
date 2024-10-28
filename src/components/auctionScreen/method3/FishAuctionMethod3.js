@@ -215,20 +215,22 @@ const FishAuctionMethod3 = () => {
             <div className="bidding-history-background">
               <div className="bidding-history-content">
                 {bids.slice(-5).map((bided, index) => {
-                  return (
-                    <div className="bidding-history-info" key={index}>
-                      <div className="bidding-time">
-                        {new Date(bided.bidTime).toLocaleString()} &nbsp;{" "}
-                        {/* Assuming you have a time property in bided */}
+                  if (bided.name) {
+                    return (
+                      <div className="bidding-history-info" key={index}>
+                        <div className="bidding-time">
+                          {new Date(bided.bidTime).toLocaleString()} &nbsp;{" "}
+                          {/* Assuming you have a time property in bided */}
+                        </div>
+                        <div className="bidding-name-bidder">
+                          {bided.name} bidded &nbsp;{" "}
+                          {/* Assuming you have a bidderName property */}
+                        </div>
+                        <div className="bidding-price">${bided.bidAmount}</div>{" "}
+                        {/* Assuming you have a price property */}
                       </div>
-                      <div className="bidding-name-bidder">
-                        {bided.name} bidded &nbsp;{" "}
-                        {/* Assuming you have a bidderName property */}
-                      </div>
-                      <div className="bidding-price">${bided.bidAmount}</div>{" "}
-                      {/* Assuming you have a price property */}
-                    </div>
-                  );
+                    );
+                  }
                 })}
               </div>
             </div>
