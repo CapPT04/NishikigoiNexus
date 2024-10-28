@@ -80,6 +80,11 @@ const FishAuctionMethod1 = () => {
   }, [bidHistory, currentPlaced]);
 
   const placeABid = async () => {
+    if (sessionStorage.getItem("token") === null) {
+      console.log(sessionStorage.getItem("token"));
+      navigate("/login");
+      return;
+    }
     const token = sessionStorage.getItem("token");
     const response = await handlePlaceFixedPrice(
       token,
