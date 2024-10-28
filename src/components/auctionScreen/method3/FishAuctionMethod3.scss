@@ -604,6 +604,90 @@ body {
           }
         }
       }
+      .place-bid-status4 {
+        border-radius: 12px;
+        background: #4caf50;
+        box-shadow: 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
+        text-align: center;
+
+        .place-bid-content-status4 {
+          display: block;
+          width: 100%;
+          height: 100%;
+
+          .place-bid-content-row1-status4-no-winner {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 32px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            text-align: center;
+          }
+
+          .place-bid-content-row1-status4 {
+            color: #fff;
+            font-family: "Saira Condensed";
+            font-size: 48px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+          }
+
+          .place-bid-content-row2-status4 {
+            color: #fff;
+            font-family: "Saira Condensed";
+            font-size: 40px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+          }
+
+          .place-bid-content-row3-status4 {
+            color: #fff;
+            font-family: "Saira Condensed";
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 300;
+            line-height: normal;
+          }
+        }
+      }
     }
   }
+}
+
+.auction-status-message {
+  background-color: #f8d7da;
+  /* Nền màu hồng nhạt */
+  color: #721c24;
+  /* Màu chữ */
+  border: 1px solid #f5c6cb;
+  /* Đường viền hồng */
+  border-radius: 5px;
+  /* Bo tròn các góc */
+  padding: 15px;
+  /* Khoảng cách bên trong */
+  margin: 20px 0;
+  /* Khoảng cách giữa các phần tử */
+  font-size: 16px;
+  /* Kích thước chữ */
+  display: flex;
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+}
+
+.auction-status-message p {
+  margin: 0;
+  /* Xóa khoảng cách mặc định của thẻ p */
+}
+
+.auction-status-message i {
+  margin-right: 10px;
+  /* Khoảng cách giữa biểu tượng và văn bản */
+}
+
+/* Thêm kiểu cho biểu tượng */
+.auction-status-message .fa-solid {
+  font-size: 18px;
+  /* Kích thước biểu tượng */
 }

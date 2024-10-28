@@ -596,7 +596,7 @@ const Request = () => {
   //----submit----
   // chưa có trả về kết quả
   const handleSubmit = async () => {
-    console.log(sessionStorage.getItem("token"));
+    // console.log(sessionStorage.getItem("token"));
 
     const fishAuction = {
       token: sessionStorage.getItem("token"),
@@ -618,33 +618,45 @@ const Request = () => {
       increment: stepPrice,
       expectedDate: date,
     };
-    try {
-      const response = await handleSubmitRequest(fishAuction);
-      if (response.status === 200) {
-        toast.success("Created new request successfully! Redirecting...", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setTimeout(() => {
-          navigate("/Breeder/HistoryRequest");
-        }, 3500);
-      } else {
-        toast.error(response.data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
-    } catch (error) { }
+    if (btnReady === true) {
+      toast.error("Please accept fee before submit your request", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      try {
+        const response = await handleSubmitRequest(fishAuction);
+        if (response.status === 200) {
+          toast.success("Created new request successfully! Redirecting...", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            navigate("/Breeder/HistoryRequest");
+          }, 3500);
+        } else {
+          toast.error(response.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      } catch (error) {}
+    }
   };
   //--------
 
@@ -701,9 +713,9 @@ const Request = () => {
                     <button
                       type="button"
                       name="submit"
-                      className="submit action-button"
+                      className={`submit action-button `}
                       onClick={handleSubmit}
-                      disabled={btnReady}
+                      // disabled={btnReady}
                     >
                       Submit
                     </button>
