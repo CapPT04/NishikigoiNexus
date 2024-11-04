@@ -22,36 +22,11 @@ const ManageMember = () => {
   }, []);
 
   return (
-    <div>
+    <div className="manager-member">
       <div className="header">
-        {/* <div className="navigation-bar">
-                    <div className="navigation-bar-left-content">
-                        <img className="logo" src={logo} />
-                        <div className="project-name">Nishikigoi Nexus</div>
-                    </div>
-
-                    <div className="navigation-bar-right-content">
-                        <a className="staff">STAFF</a>
-                        <a className="home">HOME</a>
-                        <a className="auction">AUCTION</a>
-                        <a className="blog">BLOG</a>
-                        <a className="about">ABOUT</a>
-                        <a className="account">ACCOUNT</a>
-                    </div>
-                </div> */}
         <Navbar></Navbar>
       </div>
-
       <div className="body-content">
-        {/* <div className="navigation-bar-vertically">
-                    <a className="member">Member</a>
-                    <a className="breeder">Breeder</a>
-                    <a className="request">Request</a>
-                    <a className="auction-vertically">Auction</a>
-                    <a className="koi">KOI</a>
-                    <a className="blog-vertically">Blog</a>
-                </div> */}
-
         <VerticallyNavbar></VerticallyNavbar>
         <div className="body-content-right">
           <div className="search">
