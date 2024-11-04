@@ -25,8 +25,10 @@ const FishAuctionMethod4 = () => {
     // console.log(amount);
     const [mainImage, setMainImage] = useState("");
     const [fishImage, setFishImage] = useState([]);
-    const [highestPrice, setHighestPrice] = useState(null);
+    const [highestPrice, setHighestPrice] = useState(auctionItem.highestprice);
     const [winnerData, setWinnerData] = useState(null);
+    console.log(auctionItem);
+
 
     useEffect(() => {
         const fetchImageFish = async () => {
@@ -98,8 +100,7 @@ const FishAuctionMethod4 = () => {
                     setAuctionItem((prev) => ({ ...prev, status: 4 }));
                 } else {
                     Swal.fire({
-                        title: 'Error!',
-                        text: 'There was an error placing your bid. Please try again.',
+                        title: 'Place bid failed!',
                         icon: 'error',
                         confirmButtonText: 'OK',
                     });

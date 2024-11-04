@@ -133,8 +133,7 @@ const FishAuctionMethod2 = () => {
                         });
                     } else if (response.status === 400) {
                         Swal.fire({
-                            title: 'Bid Already Placed',
-                            text: 'You have already placed a bid on this auction and cannot place another.',
+                            title: 'Place bid failed!',
                             icon: 'error',
                             confirmButtonColor: '#dc3545',
                         });
