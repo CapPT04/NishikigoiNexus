@@ -9,6 +9,7 @@ import {
   handleGetRequestDetail,
   handleAcceptRequest,
   handleCancelRequest,
+  handleUserById,
 } from "../../../axios/UserService";
 
 const RequestDetail = () => {
@@ -19,6 +20,7 @@ const RequestDetail = () => {
   const [fish, setFish] = useState("");
   const [denyReason, setDenyReason] = useState("");
   const [deniable, setDeniable] = useState(false);
+  const [staff, setStaff] = useState("");
 
   const [deliveryCost, setDeliveryCost] = useState(0);
 
@@ -27,21 +29,18 @@ const RequestDetail = () => {
 
   const getDetail = async () => {
     const resReq = await handleGetRequestDetail(requestId);
-
     setRequestDetail(resReq.data);
+    // console.log(resReq.data);
     const resFishEntry = await handleFishEntryByRequestId(
       resReq.data.requestId
     );
     setFishEntry(resFishEntry.data);
-
     const resFish = await handleFishByFishEntryId(
       resFishEntry.data.fishEntryId
     );
     setFish(resFish.data);
-
-    // console.log(resReq.data);
-    // console.log(resFishEntry.data);
-    // console.log(resFish.data);
+    const resStaff = await handleUserById(resReq.data.updateBy);
+    setStaff(resStaff.data);
   };
   const acceptRequest = async () => {
     const token = sessionStorage.getItem("token");
@@ -93,7 +92,12 @@ const RequestDetail = () => {
                 <label for="update-by-input" className="update-by-label">
                   Update By
                 </label>
-                <input type="text" className="update-by-input" value="Thinh" />
+                <input
+                  type="text"
+                  className="update-by-input"
+                  value={staff.firstName + " " + staff.lastName}
+                  disabled={true}
+                />
               </div>
               <div className="update-date">
                 {" "}
@@ -103,7 +107,8 @@ const RequestDetail = () => {
                 <input
                   type="datetime"
                   className="update-date-input"
-                  value="YYYY/MM/DD hh:mm:ss"
+                  value={new Date(requestDetail.updateDate).toLocaleString()}
+                  disabled={true}
                 />
               </div>
             </div>
@@ -145,6 +150,7 @@ const RequestDetail = () => {
                 <input
                   type="number"
                   className="delivery-cost-input"
+                  min={0}
                   onChange={(e) => setDeliveryCost(e.target.value)}
                 />
               </div>
@@ -182,19 +188,19 @@ const RequestDetail = () => {
             </div>
             <div className="request-detail-content-row9">
               <div className="fish-entry-information">
-                Fish Entry Information
+                Fish Entry #{fishEntry.fishEntryId} Information
               </div>
             </div>
 
             <div className="request-detail-content-row10">
               <div className="fish-id">
                 <label for="fish-id-input" className="fish-id-label">
-                  Fish Entry ID
+                  Fish ID
                 </label>
                 <input
                   type="text"
                   className="fish-id-input"
-                  value={fishEntry.fishEntryId}
+                  value={fishEntry.fishId}
                   disabled={true}
                 />
               </div>

@@ -1,50 +1,59 @@
 .navigation-bar-vertically {
-    padding-top   : 56px;
-    display       : flex;
-    flex-direction: column;
-    gap           : 56px;
-    flex-shrink   : 0;
-    background    : #1C1C1C;
-    width         : 160px;
-    color         : #FFF;
-    font-size     : 26px;
-    font-weight   : 400;
-    line-height   : normal;
-    align-items   : center !important;
-    min-height    : 100%;
+  position      : fixed;
+  padding-top   : 56px;
+  display       : flex;
+  flex-direction: column;
+  gap           : 56px;
+  flex-shrink   : 0;
+  background    : #1c1c1c;
+  width         : 160px;
+  color         : #fff;
+  font-size     : 26px;
+  font-weight   : 400;
+  line-height   : normal;
+  align-items   : center !important;
+  min-height    : 100vh;
+  margin-top    : 84px;
 
-    a {
-        color: #FFF;
+  a {
+    color: #fff;
 
-        // &:hover {
-        //     opacity        : 0.7;
-        //     cursor         : pointer;
-        //     margin-left    : 30px;
-        //     display        : flex;
-        //     height         : 67px;
-        //     padding        : 10px 21px;
-        //     justify-content: center;
-        //     align-items    : center;
-        //     gap            : 10px;
-        //     align-self     : stretch;
-        //     background     : #DF0012;
-        // }
 
-        &:hover {
-            opacity: 0.7;
-            cursor : pointer;
-        }
+    &:hover {
+      opacity: 0.7;
+      cursor : pointer;
     }
 
-    .selected {
-        margin-left    : 30px;
-        display        : flex;
-        height         : 67px;
-        padding        : 10px 21px;
-        justify-content: center;
-        align-items    : center;
-        gap            : 10px;
-        align-self     : stretch;
-        background     : #DF0012;
+    // &:hover {
+    //     opacity        : 0.7;
+    //     cursor         : pointer;
+    //     margin-left    : 30px;
+    //     display        : flex;
+    //     height         : 67px;
+    //     padding        : 10px 21px;
+    //     justify-content: center;
+    //     align-items    : center;
+    //     gap            : 10px;
+    //     align-self     : stretch;
+    //     background     : #DF0012;
+    // }
+
+    &:hover {
+      opacity: 0.7;
+      cursor : pointer;
+
     }
+  }
+
+  .selected {
+    margin-left    : 30px;
+    display        : flex;
+    height         : 67px;
+    padding        : 10px 21px;
+    justify-content: center;
+    align-items    : center;
+    gap            : 10px;
+    align-self     : stretch;
+    background     : #df0012;
+  }
 }

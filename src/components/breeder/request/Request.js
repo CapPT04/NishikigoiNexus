@@ -90,12 +90,25 @@ const Request = () => {
     { title: "Preview", subtitle: "Preview your request" },
   ];
   const methodDexcription = [
-    { title: "Fixed Price", subtitle: "Buyer pays a fixed price" },
-    { title: "Hidden Auction", subtitle: "Buyer pays the hidden price" },
-    { title: "Public Auction", subtitle: "Buyer pays the highest price" },
+    {
+      title: "Fixed Price",
+      subtitle:
+        "This is a fixed-price auction method where an item or asset is sold at a predetermined price. Buyers only need to accept the price to complete the transaction without any bidding process.",
+    },
+    {
+      title: "Secret Auction",
+      subtitle:
+        "In a secret bid auction, participants submit sealed bids that remain confidential. The highest bidder wins without knowing other participants' bids, promoting privacy and fairness.",
+    },
+    {
+      title: "Public Auction",
+      subtitle:
+        "A public bid auction is fully transparent, where all bids are visible to participants. Bidders can see others' offers and increase their bids until no one is willing to pay a higher price.",
+    },
     {
       title: "Descending price auction",
-      subtitle: "Buyer pays the price",
+      subtitle:
+        "In this descending-price auction, the seller starts with a high price and gradually lowers it until a buyer accepts the current price, creating a unique urgency among potential buyers.",
     },
   ];
   const filedsets = [
@@ -267,7 +280,7 @@ const Request = () => {
               onChange={(e) => setAuctionMethod(e.target.value)}
             >
               <option value="1">Fixed Price</option>
-              <option value="2">Hidden Auction</option>
+              <option value="2">Secret Auction</option>
               <option value="3">Public Auction</option>
               <option value="4">Descending Auction</option>
             </select>
@@ -294,7 +307,7 @@ const Request = () => {
         <fieldset>
           <div className="fieldInput">
             <div className="inputBox">
-              <h5>Auction Date</h5>
+              <h5>Expected Auction Date</h5>
               <input
                 type="date"
                 name="autionDate"
@@ -320,8 +333,7 @@ const Request = () => {
           <div
             className="fieldInput"
             style={{
-              display:
-                auctionMethod === "3" || auctionMethod === "4" ? "" : "none",
+              display: auctionMethod === "4" ? "" : "none",
             }}
           >
             <div className="inputBox">
@@ -550,6 +562,10 @@ const Request = () => {
           </div>
           {/* auction fee */}
           <div className="feeNotice">* The fee for auction: {fee}$</div>
+          <div className="feeNotice">
+            * When the fish auction is successful, we will take a commission
+            from the successful auction amount.{" "}
+          </div>
           {/* confirm */}
           <div className="confirmBox">
             <input
@@ -584,7 +600,7 @@ const Request = () => {
   //----submit----
   // chưa có trả về kết quả
   const handleSubmit = async () => {
-    console.log(sessionStorage.getItem("token"));
+    // console.log(sessionStorage.getItem("token"));
 
     const fishAuction = {
       token: sessionStorage.getItem("token"),
@@ -606,33 +622,46 @@ const Request = () => {
       increment: stepPrice,
       expectedDate: date,
     };
-    try {
-      const response = await handleSubmitRequest(fishAuction);
-      if (response.status === 200) {
-        toast.success("Created new request successfully! Redirecting...", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setTimeout(() => {
-          navigate("/Breeder/HistoryRequest");
-        }, 3500);
-      } else {
-        toast.error(response.data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
-    } catch (error) { }
+    if (btnReady === true) {
+      toast.error("Please accept fee before submit your request", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      try {
+        const response = await handleSubmitRequest(fishAuction);
+        if (response.status === 200) {
+          toast.success("Created new request successfully! Redirecting...", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            navigate("/Breeder/HistoryRequest");
+          }, 3500);
+        } else {
+          //response.data.errors.NewRequest[0]
+          toast.error("Some fields are incorrect. Please check again", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      } catch (error) {}
+    }
   };
   //--------
 
@@ -689,9 +718,9 @@ const Request = () => {
                     <button
                       type="button"
                       name="submit"
-                      className="submit action-button"
+                      className={`submit action-button `}
                       onClick={handleSubmit}
-                      disabled={btnReady}
+                      // disabled={btnReady}
                     >
                       Submit
                     </button>

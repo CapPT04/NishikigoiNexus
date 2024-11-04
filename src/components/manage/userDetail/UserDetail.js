@@ -237,7 +237,7 @@ const UserDetail = () => {
             </div>
             <div className="member-detail-content-row10">
               <button
-                className="ban-btn"
+                className={`ban-btn ${bannable ? "bannable" : ""}`}
                 disabled={!bannable}
                 onClick={handleBan}
               >
@@ -267,7 +267,7 @@ const UserDetail = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {bidHistory.length > 0 ? (
+                  {bidHistory && bidHistory.length > 0 ? (
                     bidHistory.map((bid, index) => {
                       return (
                         <tr key={index}>

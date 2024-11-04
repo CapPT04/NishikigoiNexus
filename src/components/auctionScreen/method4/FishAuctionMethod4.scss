@@ -51,66 +51,66 @@ body {
     line-height: normal;
 }
 
-.navigation-bar-right-content {
-    display        : flex;
-    justify-content: space-between;
-    align-items    : center;
-    flex-shrink    : 0;
-    gap            : 20px;
-}
+// .navigation-bar-right-content {
+//     display        : flex;
+//     justify-content: space-between;
+//     align-items    : center;
+//     flex-shrink    : 0;
+//     gap            : 20px;
+// }
 
-.home,
-.auction,
-.blog,
-.about,
-.account {
-    color      : #FFF;
-    font-family: "Saira Condensed";
-    font-size  : 20px;
-    font-style : normal;
-    font-weight: 700;
-    line-height: normal;
-    padding    : 8px 15px;
-    cursor     : pointer;
+// .home,
+// .auction,
+// .blog,
+// .about,
+// .account {
+//     color      : #FFF;
+//     font-family: "Saira Condensed";
+//     font-size  : 20px;
+//     font-style : normal;
+//     font-weight: 700;
+//     line-height: normal;
+//     padding    : 8px 15px;
+//     cursor     : pointer;
 
-}
+// }
 
-.home:hover,
-.auction:hover,
-.blog:hover,
-.about:hover,
-.account:hover {
-    opacity: 0.7;
-}
-
-
-.request {
-    border-radius: 24px;
-    background   : var(--Do, #DF0012);
-
-}
-
-.account {
-    border-radius: 40px;
-    background   : #3D3D3D;
+// .home:hover,
+// .auction:hover,
+// .blog:hover,
+// .about:hover,
+// .account:hover {
+//     opacity: 0.7;
+// }
 
 
-}
+// .request {
+//     border-radius: 24px;
+//     background   : var(--Do, #DF0012);
 
-.slogan {
-    width   : 80%;
-    position: absolute;
-}
+// }
 
-.slogan-above,
-.slogan-under {
-    color      : #FFF;
-    font-family: "Saira Condensed";
-    font-size  : 100px;
-    font-style : normal;
-    font-weight: 700;
-    line-height: 100px;
-}
+// .account {
+//     border-radius: 40px;
+//     background   : #3D3D3D;
+
+
+// }
+
+// .slogan {
+//     width   : 80%;
+//     position: absolute;
+// }
+
+// .slogan-above,
+// .slogan-under {
+//     color      : #FFF;
+//     font-family: "Saira Condensed";
+//     font-size  : 100px;
+//     font-style : normal;
+//     font-weight: 700;
+//     line-height: 100px;
+// }
 
 
 
@@ -186,7 +186,6 @@ body {
     margin : 0 auto;
     gap    : 10px;
 
-
     .fish-aucction-method3-content-row1 {
         color      : #000;
         font-family: "Saira Condensed";
@@ -195,6 +194,8 @@ body {
         font-weight: 700;
         line-height: normal;
         text-align : center;
+        margin-top : 110px;
+
     }
 
     .fish-aucction-method3-content-row2 {

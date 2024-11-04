@@ -11,20 +11,18 @@ body {
 }
 
 .home-page {
+  display: grid;
+
   .header-parent {
     background     : url(../../../assets/images/HeaderBackground.png);
     background-size: cover;
     width          : 100%;
     height         : 100vh;
     align-self     : stretch;
+    margin-top     : 84px;
 
     .header {
-      width          : 100%;
-      display        : flex;
-      justify-content: center;
-      align-items    : center;
-      align-self     : stretch;
-      background     : none;
+
 
       .navigation-bar {
         gap            : 30px;
@@ -75,7 +73,7 @@ body {
     .content-extra-parent {
       width     : 80%;
       margin    : 0 auto;
-      margin-top: 100px;
+      margin-top: 200px;
 
       .content-extra {
         display        : flex;

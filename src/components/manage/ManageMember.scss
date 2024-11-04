@@ -8,11 +8,11 @@
 }
 
 .header {
-  height         : 84px;
-  background     : #121212;
-  display        : flex;
-  justify-content: center;
-  align-items    : center;
+  // height         : 84px;
+  // background     : #121212;
+  // display        : flex;
+  // justify-content: center;
+  // align-items    : center;
 
   .navigation-bar {
     width          : 1120px;
@@ -100,21 +100,21 @@
 //             opacity: 0.7;
 //         }
 
-
 //     }
 // }
 // .navigation-bar-vertically {
-//   padding-top   : 56px;
-//   display       : flex;
+//   padding-top: 56px;
+//   display: flex;
 //   flex-direction: column;
-//   gap           : 56px;
-//   flex-shrink   : 0;
-//   background    : #1c1c1c;
-//   color         : #fff;
-//   font-size     : 26px;
-//   font-weight   : 400;
-//   line-height   : normal;
-//   align-items   : center !important;
+//   gap: 56px;
+//   flex-shrink: 0;
+//   background: #1c1c1c;
+//   color: #fff;
+//   font-size: 26px;
+//   font-weight: 400;
+//   line-height: normal;
+//   align-items: center !important;
+//   height: 100%;
 
 //   a {
 //     color: #fff;
@@ -123,35 +123,27 @@
 //       opacity: 0.7;
 //     }
 //   }
-
-// .member {
-//   margin-left    : 30px;
-//   display        : flex;
-//   height         : 67px;
-//   padding        : 10px 21px;
-//   justify-content: center;
-//   align-items    : center;
-//   gap            : 10px;
-//   align-self     : stretch;
-//   background     : #df0012;
 // }
-// }
-
+.manager-member {}
 
 .body-content {
   display: flex;
 
   .body-content-right {
-    background: var(--nude);
-    width     : 100%;
+    background     : var(--nude);
+    justify-content: center;
+    margin         : 0 auto;
+    margin-left    : 135px;
     // margin: 10px auto;
+    width          : 100%;
 
     .search {
+      position   : relative;
       display    : flex;
       width      : 560px;
       height     : 44px;
-      margin-top : 50px;
-      margin-left: 100px;
+      margin-top : 140px;
+      margin-left: 135px;
       align-items: center;
 
       .search-text {

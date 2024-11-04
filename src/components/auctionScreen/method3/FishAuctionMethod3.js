@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
 import "./FishAuctionMethod3.scss";
 import Navbar from "../../common/Navbar/Navbar";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
   handleBidHistory,
   handleFishEntryById,
   handleGetFishDetailById,
   handleGetFishImgById,
+  handleGetWinnerApi,
   handlePublicBidding,
 } from "../../../axios/UserService";
 import * as signalR from "@microsoft/signalr";
+import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 
 const FishAuctionMethod3 = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const [fishEntry, setFishEntry] = useState("");
   const [fishInfo, setFishInfo] = useState("");
   const [fishImgs, setFishImgs] = useState([]);
@@ -23,30 +27,29 @@ const FishAuctionMethod3 = () => {
   const [increment, setIncrement] = useState(1);
   const [bids, setBids] = useState([]);
   const [highestPrice, setHighestPrice] = useState(null);
-
+  const entryId = location.state.auctionItem.fishEntryId;
+  const [winnerData, setWinnerData] = useState("");
 
   const getFishEntry = async () => {
-    //link: /AuctionFish?fishEntryId=...
-    const entryId = searchParams.get("fishEntryId");
     if (entryId) {
       const res = await handleFishEntryById(entryId);
-      console.log(res.data);
       setFishEntry(res.data);
       setStepPrice(res.data.increment);
+      setCurrentPrice(res.data.minPrice);
       const resFish = await handleGetFishDetailById(res.data.fishId);
-      console.log(resFish.data);
       setFishInfo(resFish.data);
       const resImgs = await handleGetFishImgById(resFish.data.fishId);
-      console.log(resImgs.data.$values);
       setFishImgs(resImgs.data.$values);
       setMainImage(resImgs.data.$values[0]?.imagePath || "");
 
       const his = await handleBidHistory(entryId);
+      console.log(his.data.$values);
       // Spread to flatten the array
-      setBids((preBid) => [...preBid, ...his.data.$values]);
-      // setCurrentPrice(his.data.$values.slice(-1)[0].currentPrice);
+      // setBids((preBid) => [...preBid, his.data.$values]);
+      setBids(his.data.$values);
+      // setCurrentPrice(his.data.$values.slice(-1)[0]?.currentPrice);
     } else {
-      navigate("/auction");
+      navigate("/AuctionDetails");
     }
   };
   const handleIncrement = () => {
@@ -66,7 +69,6 @@ const FishAuctionMethod3 = () => {
       .withUrl("https://localhost:7124/publicBidHub") // URL của Hub trong ASP.NET Core
       .withAutomaticReconnect()
       .build();
-
     connection
       .start()
       .then(() => {
@@ -89,22 +91,62 @@ const FishAuctionMethod3 = () => {
   const totalBidPrice = stepPrice * increment;
   const newPrice = currentPrice + totalBidPrice;
   const bidding = async () => {
-    const entryId = searchParams.get("fishEntryId");
+    if (sessionStorage.getItem("token") === null) {
+      console.log(sessionStorage.getItem("token"));
+      navigate("/login");
+      return;
+    }
     const token = sessionStorage.getItem("token");
     const res = await handlePublicBidding(token, entryId, newPrice);
-    console.log(res);
-    getFishEntry();
+    if (res.status === 400) {
+      toast.error(res.data, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+    // getFishEntry();
   };
-  //test để puhs
+  useEffect(() => {
+    const fetchWinnerData = async () => {
+      if (fishEntry.status === 4) {
+        try {
+          const response = await handleGetWinnerApi(fishEntry.fishEntryId);
+          if (response && response.status === 200) {
+            setWinnerData(response.data);
+          } else if (response.status === 404 && response.data === "No winner") {
+            setWinnerData(null); // Set winnerData to null when there is no winner
+          } else {
+            console.log(response);
+          }
+        } catch (error) {
+          console.error("Error fetching winner data:", error);
+        }
+      } else {
+        setWinnerData(null);
+      }
+    };
+
+    fetchWinnerData();
+  }, [fishEntry.status, fishEntry.fishEntryId]);
   return (
     <div className="auction-screen-container">
       <div className="header">
         <Navbar></Navbar>
       </div>
       <div className="fish-aucction-method3-content">
+        <ToastContainer />
         <div className="fish-aucction-method3-content-row1">Auction#13</div>
         <div className="fish-aucction-method3-content-row2">
-          Ending in: 4:13:03
+          {fishEntry.status === 3
+            ? `Ending in: ${new Date(fishEntry.endTime).toLocaleString()}`
+            : fishEntry.status === 2
+            ? "Waiting"
+            : "Ended"}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
@@ -173,57 +215,92 @@ const FishAuctionMethod3 = () => {
             <div className="bidding-history-background">
               <div className="bidding-history-content">
                 {bids.slice(-5).map((bided, index) => {
-                  return (
-                    <div className="bidding-history-info" key={index}>
-                      <div className="bidding-time">
-                        {new Date(bided.bidTime).toLocaleString()} &nbsp;{" "}
-                        {/* Assuming you have a time property in bided */}
+                  if (bided.name) {
+                    return (
+                      <div className="bidding-history-info" key={index}>
+                        <div className="bidding-time">
+                          {new Date(bided.bidTime).toLocaleString()} &nbsp;{" "}
+                          {/* Assuming you have a time property in bided */}
+                        </div>
+                        <div className="bidding-name-bidder">
+                          {bided.name} bidded &nbsp;{" "}
+                          {/* Assuming you have a bidderName property */}
+                        </div>
+                        <div className="bidding-price">${bided.bidAmount}</div>{" "}
+                        {/* Assuming you have a price property */}
                       </div>
-                      <div className="bidding-name-bidder">
-                        {bided.name} bidded &nbsp;{" "}
-                        {/* Assuming you have a bidderName property */}
-                      </div>
-                      <div className="bidding-price">${bided.bidAmount}</div>{" "}
-                      {/* Assuming you have a price property */}
-                    </div>
-                  );
+                    );
+                  }
                 })}
               </div>
             </div>
-            <div class="place-bid">
-              <div class="place-bid-content">
-                <div class="place-bid-content-row1">
-                  <div class="current-price-icon">
-                    <i class="fa-solid fa-file-invoice-dollar"></i>
-                  </div>
-                  <div class="current-price-text">Current price</div>
-                  <div class="current-price">{currentPrice}$</div>
-                </div>
-                <hr />
-                <div class="place-bid-content-row2">
-                  <div class="increment">
-                    <div class="increment-text">Increment</div>
-                    <div class="increment-number">${stepPrice}</div>
-                  </div>
-                  <div class="multiple">x</div>
-                  <div class="cen-div">
-                    <div class="substract" onClick={handleDecrement}>
-                      -
+            {fishEntry.status === 3 && (
+              <div class="place-bid">
+                <div class="place-bid-content">
+                  <div class="place-bid-content-row1">
+                    <div class="current-price-icon">
+                      <i class="fa-solid fa-file-invoice-dollar"></i>
                     </div>
-                    <div class="increment-bid-number">{increment}</div>
-                    <div class="add" onClick={handleIncrement}>
-                      +
-                    </div>
+                    <div class="current-price-text">Current price</div>
+                    <div class="current-price">{currentPrice}$</div>
                   </div>
-                  <div class="equal">=</div>
-                  <div class="total-bid-price">${totalBidPrice}</div>
-                </div>
+                  <hr />
+                  <div class="place-bid-content-row2">
+                    <div class="increment">
+                      <div class="increment-text">Increment</div>
+                      <div class="increment-number">${stepPrice}</div>
+                    </div>
+                    <div class="multiple">x</div>
+                    <div class="cen-div">
+                      <div class="substract" onClick={handleDecrement}>
+                        -
+                      </div>
+                      <div class="increment-bid-number">{increment}</div>
+                      <div class="add" onClick={handleIncrement}>
+                        +
+                      </div>
+                    </div>
+                    <div class="equal">=</div>
+                    <div class="total-bid-price">${totalBidPrice}</div>
+                  </div>
 
-                <button class="place-bid-btn" onClick={bidding}>
-                  Place bid at ${newPrice}
-                </button>
+                  <button class="place-bid-btn" onClick={bidding}>
+                    Place bid at ${newPrice}
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
+
+            {fishEntry.status === 2 && (
+              <div className="auction-status-message">
+                <i className="fa-solid fa-clock"></i> {/* Biểu tượng đồng hồ */}
+                <p>The auction has not started yet.</p>
+              </div>
+            )}
+            {fishEntry.status === 4 && winnerData ? (
+              <div className="place-bid-status4">
+                <div className="place-bid-content-status4">
+                  <div className="place-bid-content-row1-status4">
+                    {winnerData.name}
+                  </div>
+                  <hr />
+                  <div className="place-bid-content-row2-status4">
+                    ${winnerData.amount}
+                  </div>
+                  <div className="place-bid-content-row3-status4">
+                    {new Date(winnerData.endDate).toLocaleString()}
+                  </div>
+                </div>
+              </div>
+            ) : fishEntry.status === 4 && winnerData === null ? (
+              <div className="place-bid-status4">
+                <div className="place-bid-content-status4">
+                  <div className="place-bid-content-row1-status4-no-winner">
+                    This Bidding ended without any winner!
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

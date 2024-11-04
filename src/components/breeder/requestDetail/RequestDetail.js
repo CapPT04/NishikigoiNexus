@@ -3,11 +3,15 @@ import Navbar from "../../common/Navbar/Navbar";
 import "./RequestDetail.scss";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
+  handleCancelRequest,
+  handleFishEntryByRequestId,
   handleGetFishEntry,
   handleGetRequestDetail,
   handlePayFeeAPI,
   handleUserById,
 } from "../../../axios/UserService";
+import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 
 const RequestDetail = () => {
   const navigate = useNavigate();
@@ -25,12 +29,14 @@ const RequestDetail = () => {
     try {
       //   console.log("before save");
       const resRequest = await handleGetRequestDetail(reqID);
-      const resFish = await handleGetFishEntry(reqID);
-      const user = await handleUserById(resFish.data.highestBidder);
-      console.log(resRequest.data);
+      const resFish = await handleFishEntryByRequestId(reqID);
+      // console.log(resFish.data.highestBidder);
+      if (resFish.data.highestBidder) {
+        const user = await handleUserById(resFish.data.highestBidder);
+        setBidder(user.data);
+      }
       setMyRequest(resRequest.data);
       setFishEntry(resFish.data);
-      setBidder(user.data);
     } catch (error) {
       console.error("Error fetching request detail:", error);
     }
@@ -39,14 +45,41 @@ const RequestDetail = () => {
   const handlePayFee = async () => {
     // implement your payment logic here
     // console.log("pay");
-    console.log(token);
+    // console.log(token);
     const link = await handlePayFeeAPI(token, reqID);
     // console.log(link);
     window.location.href = link.data;
   };
   //-----cancel----
   const handleCancel = async () => {
-    console.log("cancel");
+    // console.log("cancel");
+    const response = await handleCancelRequest(token, reqID);
+    if (response.status === 200) {
+      toast.success("Cancel Request Sucessfully", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      // window.location.reload();
+    } else {
+      toast.error(response.data, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      // window.location.reload();
+    }
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
   };
 
   useEffect(() => {
@@ -61,6 +94,7 @@ const RequestDetail = () => {
         <Navbar></Navbar>
       </div>
       <div className="body-content">
+        <ToastContainer />
         <div className="request-detail-content">
           <div className="request-detail-content-row1">
             <div className="status">
