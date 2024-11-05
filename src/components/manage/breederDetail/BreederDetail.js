@@ -10,6 +10,7 @@ import {
   handleUpdateBreederCommission,
   handleUserById,
 } from "../../../axios/UserService";
+import Swal from "sweetalert2";
 
 const BreederDetail = () => {
   const navigate = useNavigate();
@@ -74,6 +75,19 @@ const BreederDetail = () => {
     if (res.status === 200) {
       // console.log("UnBanned");
       window.location.reload();
+    } else if (res && res.status === 500) {
+      // Show SweetAlert for the error message
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Commission must be less than 10%",
+      });
+    } else if (res && res.status === 400) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "The value of commission is not valid",
+      });
     }
   };
   useEffect(() => {
@@ -224,7 +238,9 @@ const BreederDetail = () => {
                 <input
                   type="text"
                   className="commission-input"
-                  placeholder={`${breeder.commission} %`}
+                  defaultValue={
+                    breeder.commission ? breeder.commission + " %" : ""
+                  }
                   onChange={(e) => setCommission(e.target.value)}
                   // disabled={true}
                 />
@@ -264,7 +280,7 @@ const BreederDetail = () => {
                 type="text"
                 className="reason-input"
                 // value={breeder.reason}
-                placeholder={breeder.reason}
+                defaultValue={breeder.reason}
                 onChange={(e) => {
                   setReasonBan(e.target.value);
                 }}
