@@ -326,7 +326,7 @@ const Request = () => {
                   onChange={(e) => setStartPrice(e.target.value)}
                   className="input-price"
                 />
-                <span className="dollar-sign">$</span>
+                <span className="dollar-sign">vnd</span>
               </div>
             </div>
           </div>
@@ -345,7 +345,7 @@ const Request = () => {
                   placeholder="XXXXXXX"
                   onChange={(e) => setMaxPrice(e.target.value)}
                 />
-                <span className="dollar-sign">$</span>
+                <span className="dollar-sign">vnd</span>
               </div>
             </div>
           </div>
@@ -362,7 +362,7 @@ const Request = () => {
                   placeholder="XXXXXXX"
                   onChange={(e) => setStepPrice(e.target.value)}
                 />
-                <span className="dollar-sign">$</span>
+                <span className="dollar-sign">vnd</span>
               </div>
             </div>
           </div>
@@ -517,7 +517,7 @@ const Request = () => {
                 value={startPrice}
                 disabled={true}
               />
-              <span className="dollar-sign">$</span>
+              <span className="dollar-sign">vnd</span>
             </div>
           </div>
           <div
@@ -536,7 +536,7 @@ const Request = () => {
                 value={maxPrice}
                 disabled={true}
               />
-              <span className="dollar-sign">$</span>
+              <span className="dollar-sign">vnd</span>
             </div>
           </div>
           <div
@@ -552,7 +552,7 @@ const Request = () => {
                 value={stepPrice}
                 disabled={true}
               />
-              <span className="dollar-sign">$</span>
+              <span className="dollar-sign">vnd</span>
             </div>
           </div>
           {/* note */}
@@ -561,7 +561,7 @@ const Request = () => {
             <input type="text" name="Note" value={note} disabled={true} />
           </div>
           {/* auction fee */}
-          <div className="feeNotice">* The fee for auction: {fee}$</div>
+          <div className="feeNotice">* The fee for auction: {fee} vnd</div>
           <div className="feeNotice">
             * When the fish auction is successful, we will take a commission
             from the successful auction amount.{" "}
