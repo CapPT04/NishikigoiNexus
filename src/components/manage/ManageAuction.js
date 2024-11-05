@@ -3,6 +3,8 @@ import './ManageAuction.scss';
 import logo from '../../assets/images/logo_png.png';
 import searchIcon from '../../assets/images/search.svg';
 import VerticallyNavbar from '../common/Navbar/VerticallyNavbar';
+import Navbar from '../common/Navbar/Navbar';
+
 import { handleManageAuctionApi } from '../../axios/UserService';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,20 +28,7 @@ const ManageAuction = () => {
   return (
     <div className="manage-auction-container">
       <div className="header">
-        <div className="navigation-bar">
-          <div className="navigation-bar-left-content">
-            <img className="logo" src={logo} alt="logo" />
-            <div className="project-name">Nishikigoi Nexus</div>
-          </div>
-          <div className="navigation-bar-right-content">
-            <a className="staff">STAFF</a>
-            <a className="home">HOME</a>
-            <a className="auction">AUCTION</a>
-            <a className="blog">BLOG</a>
-            <a className="about">ABOUT</a>
-            <a className="account">ACCOUNT</a>
-          </div>
-        </div>
+        <Navbar></Navbar>
       </div>
 
       <div className="body-content">

@@ -12,6 +12,7 @@ import {
 } from "../../../axios/UserService";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import Swal from "sweetalert2";
 
 const RequestDetail = () => {
   const navigate = useNavigate();
@@ -53,33 +54,46 @@ const RequestDetail = () => {
   //-----cancel----
   const handleCancel = async () => {
     // console.log("cancel");
-    const response = await handleCancelRequest(token, reqID);
-    if (response.status === 200) {
-      toast.success("Cancel Request Sucessfully", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      // window.location.reload();
-    } else {
-      toast.error(response.data, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      // window.location.reload();
-    }
-    setTimeout(() => {
-      window.location.reload();
-    }, 3000);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, cancel it!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const response = await handleCancelRequest(token, reqID);
+        if (response.status === 200) {
+          toast.success("Cancel Request Sucessfully", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          // window.location.reload();
+        } else {
+          toast.error(response.data, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          // window.location.reload();
+        }
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    });
   };
 
   useEffect(() => {

@@ -12,28 +12,14 @@
   background     : #121212;
   display        : flex;
   justify-content: center;
-  align-items: center;
+  align-items    : center;
+
 }
 
 .body-content {
   display: flex;
 
-<<<<<<< Updated upstream
-  .navigation-bar-vertically {
-    padding-top: 56px;
-    display: flex;
-    flex-direction: column;
-    gap: 56px;
-    flex-shrink: 0;
-    background: #1c1c1c;
-    width: 160px;
-    height: 841px;
-    color: #fff;
-    font-size: 26px;
-    font-weight: 400;
-    line-height: normal;
-    align-items: center !important;
-=======
+
   // .navigation-bar-vertically {
   //   padding-top   : 56px;
   //   display       : flex;
@@ -48,9 +34,6 @@
   //   font-weight   : 400;
   //   line-height   : normal;
   //   align-items   : center !important;
-
->>>>>>> Stashed changes
-
   //   a {
   //     color: #fff;
 
@@ -60,16 +43,18 @@
   //   }
   // }
 
+
   .body-content-right {
     background: var(--nude);
     width     : 100%;
 
     .search {
-      display: flex;
-      width: 560px;
-      height: 44px;
-      margin-top: 50px;
-      margin-left: 225px;
+      display    : flex;
+      width      : 560px;
+      height     : 44px;
+      margin-top : 140px;
+      margin-left: 135px;
+
       align-items: center;
 
       .search-text {
