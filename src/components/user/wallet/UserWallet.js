@@ -1,10 +1,7 @@
 import React from "react";
 import "./UserWallet.scss";
 import Navbar from "../../common/Navbar/Navbar";
-<<<<<<< Updated upstream
-=======
 import logo from "../../../assets/images/logo_png.png";
->>>>>>> Stashed changes
 
 const UserWallet = () => {
   return (
@@ -72,15 +69,7 @@ const UserWallet = () => {
       </div>
       <footer class="footer">
         <div class="logo-footer">
-<<<<<<< Updated upstream
-          <img
-            class="logo-img-footer"
-            src="../../assets/images/logo_png.png"
-            alt=""
-          />
-=======
           <img class="logo-img-footer" src={logo} alt="" />
->>>>>>> Stashed changes
           <div class="name-project-footer">Nishikigoi Nexus</div>
         </div>
         <div class="social-contact">
