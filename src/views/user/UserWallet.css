@@ -1,0 +1,394 @@
+* {
+    margin     : 0;
+    padding    : 0;
+    border     : 0;
+    font-size  : 100%;
+    font-family: "Saira Condensed";
+}
+
+body {
+    background: #E7CDBF;
+}
+
+.header {
+    width     : 100%;
+    background: #000;
+
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    align-self     : stretch;
+
+}
+
+.navigation-bar {
+    gap            : 30px;
+    width          : 80%;
+    display        : flex;
+    align-items    : center;
+    color          : #fff;
+    justify-content: center;
+    align-items    : center;
+    justify-content: space-between;
+}
+
+.logo {
+    width : 64px;
+    height: 64px;
+}
+
+.navigation-bar-left-content {
+    display    : flex;
+    align-items: center;
+    gap        : 11px;
+}
+
+.project-name {
+    color: #FFF;
+
+    font-family: "Saira Condensed";
+    font-size  : 32px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.navigation-bar-right-content {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    flex-shrink    : 0;
+    gap            : 50px;
+}
+
+.home,
+.auction,
+.blog,
+.about,
+.account {
+    color      : #FFF;
+    font-family: "Saira Condensed";
+    font-size  : 20px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: normal;
+    padding    : 8px 15px;
+    cursor     : pointer;
+
+}
+
+.home:hover,
+.auction:hover,
+.blog:hover,
+.about:hover,
+.account:hover {
+    opacity: 0.7;
+}
+
+
+.request {
+    border-radius: 24px;
+    background   : var(--Do, #DF0012);
+
+}
+
+.account {
+    border-radius: 40px;
+    background   : #3D3D3D;
+
+
+}
+
+.slogan {
+    width   : 80%;
+    position: absolute;
+}
+
+.slogan-above,
+.slogan-under {
+    color      : #FFF;
+    font-family: "Saira Condensed";
+    font-size  : 100px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: 100px;
+}
+
+
+
+.footer {
+    background     : url(../../assets/images/Form.png);
+    background-size: cover;
+    width          : 100vw;
+    height         : 300px;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    flex-direction : column;
+
+}
+
+.logo-footer {
+    display    : inline-flex;
+    align-items: center;
+    gap        : 11px;
+    width      : 80%;
+    margin     : 0 auto;
+}
+
+.logo-img-footer {
+    width : 108px;
+    height: 108px;
+}
+
+.name-project-footer {
+    color      : #FFF;
+    font-family: "Saira Condensed";
+    font-size  : 64px;
+    font-style : normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.social-contact {
+    width          : 80%;
+    display        : flex;
+    gap            : 20px;
+    justify-content: flex-end;
+    border-bottom  : 0.75px solid #FFF;
+    opacity        : 0.7;
+}
+
+.nav-bar-footer a:hover,
+.instagram:hover,
+.facebook:hover,
+.google:hover {
+    opacity: 0.5;
+    cursor : pointer;
+}
+
+.nav-bar-footer {
+    display   : flex;
+    gap       : 50px;
+    margin-top: 20px;
+
+}
+
+.nav-bar-footer a {
+    color          : #FFF;
+    text-decoration: none;
+    font-size      : 20px;
+    font-style     : normal;
+    font-weight    : 250;
+    line-height    : normal;
+}
+
+.user-wallet-content {
+    width             : 80%;
+    margin            : 0 auto;
+    margin-top        : 80px;
+    margin-bottom     : 80px;
+    display           : grid;
+    grid-template-rows: auto;
+
+    .user-wallet-content-row1 {
+        display              : grid;
+        grid-template-columns: auto auto;
+        gap                  : 100px;
+
+
+        .user-wallet-content-row1-col1 {
+            border-radius: 12px;
+            background   : #E3A689;
+            box-shadow   : 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
+            height       : 330px;
+
+            .total-balance {
+                border-bottom  : 1px solid black;
+                display        : flex;
+                justify-content: space-between;
+                margin-top     : 25px;
+
+                .total-balance-text {
+                    color      : #000;
+                    font-family: "Saira Condensed";
+                    font-size  : 24px;
+                    font-style : normal;
+                    font-weight: 400;
+                    line-height: normal;
+                    margin-left: 15px;
+                }
+
+                .total-balance-number {
+                    color       : #000;
+                    text-align  : center;
+                    font-family : "Saira Condensed";
+                    font-size   : 24px;
+                    font-style  : normal;
+                    font-weight : 500;
+                    line-height : normal;
+                    margin-right: 15px;
+                }
+            }
+
+            .total-balance-input-parent {
+                display    : flex;
+                width      : 75%;
+                margin     : 0 auto;
+                margin-top : 60px;
+                align-items: center;
+                position   : relative;
+
+                .total-balance-input-parent-icon {
+                    font-size: 35px;
+                }
+
+                .total-balance-input {
+                    margin-left  : 20px;
+                    width        : 100%;
+                    height       : 40px;
+                    border-radius: 12px;
+                    border       : 1px solid #121212;
+                    background   : #FFF;
+                    font-size    : 24px;
+                    text-indent  : 5px;
+                }
+
+                .vnd {
+                    color      : #000;
+                    text-align : center;
+                    font-family: "Saira Condensed";
+                    font-size  : 22px;
+                    font-style : normal;
+                    font-weight: 600;
+                    line-height: normal;
+                    position   : absolute;
+                    right      : 15px;
+
+                }
+            }
+
+            .top-up-btn {
+                margin         : 0 auto;
+                margin-top     : 60px;
+                display        : flex;
+                width          : 75%;
+                height         : 64px;
+                justify-content: center;
+                align-items    : center;
+                border-radius  : 12px;
+                background     : var(--Do, #DF0012);
+                color          : #FFF;
+                font-family    : "Saira Condensed";
+                font-size      : 22px;
+                font-style     : normal;
+                font-weight    : 600;
+                line-height    : normal;
+                letter-spacing : 4.4px;
+
+                &:hover {
+                    opacity: 0.7;
+                    cursor : pointer;
+                }
+            }
+        }
+
+        .user-wallet-content-row1-col2 {
+            border-radius     : 12px;
+            background        : #E3A689;
+            box-shadow        : 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
+            display           : grid;
+            grid-template-rows: 63.956px 63.956px;
+            gap               : 30px;
+            height            : 200px;
+            align-items       : center;
+            margin            : auto 0;
+
+            .recharge-package {
+                display        : flex;
+                justify-content: space-between;
+                width          : 90%;
+                margin         : 0 auto;
+                margin-top     : 38px;
+
+                .package1,
+                .package2,
+                .package3,
+                .package4 {
+                    color          : #000;
+                    text-align     : center;
+                    font-family    : "Saira Condensed";
+                    font-size      : 22px;
+                    font-style     : normal;
+                    font-weight    : 600;
+                    line-height    : normal;
+                    background     : #E7CDBF;
+                    width          : 205.053px;
+                    height         : 63.956px;
+                    border-radius  : 10px;
+                    display        : flex;
+                    align-items    : center;
+                    justify-content: center;
+
+                    &:hover {
+                        opacity: 0.7;
+                        cursor : pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    .user-wallet-content-row2 {
+        table {
+            width          : 100%;
+            margin-top     : 50px;
+            border-collapse: collapse;
+            border         : 1px solid #121212;
+
+
+            th {
+                border     : none;
+                color      : #FFF;
+                height     : 60px;
+                font-size  : 24px;
+                font-weight: 400;
+                text-align : left;
+                padding    : 0 10px;
+
+                a {
+                    color: black;
+                }
+
+                a:hover {
+                    cursor : pointer;
+                    opacity: 0.5;
+                }
+            }
+
+            th {
+                background: #E3A689;
+
+            }
+
+            td {
+                border     : none;
+                color      : black;
+                height     : 60px;
+                font-size  : 24px;
+                font-weight: 400;
+                text-align : left;
+                padding    : 0 10px;
+            }
+
+            tr:nth-child(even) {
+                background: #D5BDB0;
+
+                td {
+                    color: black;
+
+                }
+            }
+        }
+    }
+}
