@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { handlePayCallBack } from "../../../axios/UserService";
+import {
+  handlePayCallBack,
+  handleRechargePaymentCallBackApi,
+} from "../../../axios/UserService";
 import "./PaymentResponse.scss";
 
 const PaymentResponse = () => {
@@ -16,15 +19,22 @@ const PaymentResponse = () => {
   const vnp_ResponseCode = searchParams.get("vnp_ResponseCode");
 
   const PayCallBack = async (info) => {
-    const res = await handlePayCallBack(info);
+    // const res = await handlePayCallBack(info);
+    const res = await handleRechargePaymentCallBackApi(info);
     // console.log(res);
     setResult(res);
   };
   useEffect(() => {
-    const info = { vnp_Amount, vnp_OrderInfo, vnp_PayDate, vnp_ResponseCode };
-    const match = vnp_OrderInfo.match(/Request (\d+)/);
-    setRequestId(match ? match[1] : null);
-    console.log(requestId);
+    const info = {
+      vnp_Amount,
+      vnp_Amount,
+      vnp_OrderInfo,
+      vnp_PayDate,
+      vnp_ResponseCode,
+    };
+    // const match = vnp_OrderInfo.match(/Request (\d+)/);
+    // setRequestId(match ? match[1] : null);
+    // console.log(requestId);
     PayCallBack(info);
     setTimeout(() => setLoading(false), 5000);
   }, []);
