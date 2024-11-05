@@ -11,6 +11,9 @@ import {
   handleCancelRequest,
   handleUserById,
 } from "../../../axios/UserService";
+import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import Swal from "sweetalert2";
 
 const RequestDetail = () => {
   const [searchParams] = useSearchParams();
@@ -43,18 +46,87 @@ const RequestDetail = () => {
     setStaff(resStaff.data);
   };
   const acceptRequest = async () => {
-    const token = sessionStorage.getItem("token");
-    const res = await handleAcceptRequest(token, requestId, deliveryCost);
-    if (res.status === 200) {
-      window.location.reload();
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, accept request!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = sessionStorage.getItem("token");
+        console.log(deliveryCost);
+        const res = await handleAcceptRequest(token, requestId, deliveryCost);
+        if (res.status === 200) {
+          toast.success("Accept Request Sucessfully", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          toast.error(res.data, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          // window.location.reload();
+        }
+      }
+    });
   };
   const cancelRequest = async () => {
-    const token = sessionStorage.getItem("token");
-    const res = await handleCancelRequest(token, requestId, denyReason);
-    if (res.status === 200) {
-      window.location.reload();
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Deny it!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = sessionStorage.getItem("token");
+        const res = await handleCancelRequest(token, requestId, denyReason);
+        if (res.status === 200) {
+          toast.success("Cancel Request Sucessfully", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          window.location.reload();
+        } else {
+          toast.error(res.data, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          // window.location.reload();
+        }
+      }
+    });
   };
 
   useEffect(() => {
@@ -75,6 +147,7 @@ const RequestDetail = () => {
         <Navbar></Navbar>
       </div>
       <div className="body-content">
+        <ToastContainer />
         <VerticallyNavbar></VerticallyNavbar>
         <div className="body-content-right">
           <div className="request-detail-content">
@@ -155,6 +228,7 @@ const RequestDetail = () => {
                   type="number"
                   className="delivery-cost-input"
                   min={0}
+                  defaultValue={fish.deliveryCost ? fish.deliveryCost : ""}
                   onChange={(e) => setDeliveryCost(e.target.value)}
                 />
               </div>
@@ -183,7 +257,12 @@ const RequestDetail = () => {
             </div>
             <div className="request-detail-content-row8">
               <button
-                className="send-payment-request-btn"
+                className={`${
+                  deliveryCost > 0
+                    ? "send-payment-request-btn"
+                    : "send-payment-request-btn-off"
+                }`}
+                disabled={deliveryCost === 0}
                 onClick={acceptRequest}
                 style={{ display: requestDetail.status === 1 ? "" : "none" }}
               >

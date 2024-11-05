@@ -82,6 +82,13 @@ const Request = () => {
     getFee();
   }, []);
   //--------
+  const formatPrice = (value) => {
+    // Remove non-digit characters
+    const cleanedValue = value.replace(/\D/g, "");
+    // Format with dots as thousand separators
+    return cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+  //..........
 
   const steps = [
     { title: "Fish Details", subtitle: "Enter information about Fish" },
@@ -514,7 +521,7 @@ const Request = () => {
               <input
                 type="text"
                 name="auctionPrice"
-                value={startPrice}
+                value={startPrice ? formatPrice(startPrice) : ""}
                 disabled={true}
               />
               <span className="dollar-sign">vnd</span>
@@ -532,7 +539,7 @@ const Request = () => {
                 type="text"
                 name="auctionPrice"
                 placeholder="XXXXXXX"
-                value={maxPrice}
+                value={maxPrice ? formatPrice(maxPrice) : ""}
                 disabled={true}
               />
               <span className="dollar-sign">vnd</span>
@@ -548,7 +555,7 @@ const Request = () => {
                 type="text"
                 name="incrementStep"
                 placeholder="XXXXXXX"
-                value={stepPrice}
+                value={stepPrice ? formatPrice(stepPrice) : ""}
                 disabled={true}
               />
               <span className="dollar-sign">vnd</span>
