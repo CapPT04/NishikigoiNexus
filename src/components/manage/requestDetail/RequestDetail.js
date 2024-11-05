@@ -95,7 +95,7 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="update-by-input"
-                  value={staff.firstName + " " + staff.lastName}
+                  value={staff ? staff.firstName + " " + staff.lastName : ""}
                   disabled={true}
                 />
               </div>
@@ -107,7 +107,11 @@ const RequestDetail = () => {
                 <input
                   type="datetime"
                   className="update-date-input"
-                  value={new Date(requestDetail.updateDate).toLocaleString()}
+                  value={
+                    requestDetail.updateDate
+                      ? new Date(requestDetail.updateDate).toLocaleString()
+                      : "Not Update Yet"
+                  }
                   disabled={true}
                 />
               </div>
