@@ -317,7 +317,7 @@ const Request = () => {
           </div>
           <div className="fieldInput">
             <div className="inputBox">
-              <h5>{auctionMethod === "1" ? "Fixed Price" : "Min Price"}</h5>
+              <h5>{auctionMethod === "1" ? "Fixed Price" : "Start Price"}</h5>
               <div className="price">
                 <input
                   type="text"
@@ -326,7 +326,7 @@ const Request = () => {
                   onChange={(e) => setStartPrice(e.target.value)}
                   className="input-price"
                 />
-                <span className="dollar-sign">$</span>
+                <span className="dollar-sign">vnd</span>
               </div>
             </div>
           </div>
@@ -345,7 +345,7 @@ const Request = () => {
                   placeholder="XXXXXXX"
                   onChange={(e) => setMaxPrice(e.target.value)}
                 />
-                <span className="dollar-sign">$</span>
+                <span className="dollar-sign">vnd</span>
               </div>
             </div>
           </div>
@@ -362,7 +362,7 @@ const Request = () => {
                   placeholder="XXXXXXX"
                   onChange={(e) => setStepPrice(e.target.value)}
                 />
-                <span className="dollar-sign">$</span>
+                <span className="dollar-sign">vnd</span>
               </div>
             </div>
           </div>
@@ -509,7 +509,7 @@ const Request = () => {
             <input type="date" name="autionDate" value={date} disabled={true} />
           </div>
           <div className="inputBox">
-            <h5>{auctionMethod === "1" ? "Fixed Price" : "Min Price"}</h5>
+            <h5>{auctionMethod === "1" ? "Fixed Price" : "Start Price"}</h5>
             <div className="price">
               <input
                 type="text"
@@ -517,14 +517,13 @@ const Request = () => {
                 value={startPrice}
                 disabled={true}
               />
-              <span className="dollar-sign">$</span>
+              <span className="dollar-sign">vnd</span>
             </div>
           </div>
           <div
             className="inputBox"
             style={{
-              display:
-                auctionMethod === "3" || auctionMethod === "4" ? "" : "none",
+              display: auctionMethod === "4" ? "" : "none",
             }}
           >
             <h5>Max Price</h5>
@@ -536,7 +535,7 @@ const Request = () => {
                 value={maxPrice}
                 disabled={true}
               />
-              <span className="dollar-sign">$</span>
+              <span className="dollar-sign">vnd</span>
             </div>
           </div>
           <div
@@ -552,7 +551,7 @@ const Request = () => {
                 value={stepPrice}
                 disabled={true}
               />
-              <span className="dollar-sign">$</span>
+              <span className="dollar-sign">vnd</span>
             </div>
           </div>
           {/* note */}
@@ -561,7 +560,7 @@ const Request = () => {
             <input type="text" name="Note" value={note} disabled={true} />
           </div>
           {/* auction fee */}
-          <div className="feeNotice">* The fee for auction: {fee}$</div>
+          <div className="feeNotice">* The fee for auction: {fee} vnd</div>
           <div className="feeNotice">
             * When the fish auction is successful, we will take a commission
             from the successful auction amount.{" "}
