@@ -56,7 +56,9 @@ const FishAuctionMethod1 = () => {
 
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7124/fixedPriceSale") // URL của Hub trong ASP.NET Core
+      .withUrl(
+        `https://localhost:7124/fixedPriceSalefishEntryId=${fishEntry.fishEntryId}`
+      ) // URL của Hub trong ASP.NET Core
       .withAutomaticReconnect()
       .build();
     connection
@@ -68,6 +70,14 @@ const FishAuctionMethod1 = () => {
           // console.log("Received bid placement: ", data);
           // Update bids list when new data is received
           setBidHistory((prevBids) => [...prevBids, FixedPriceSaleResponse]);
+        });
+        connection.on("AuctionEnded", (data) => {
+          //reload page when auction end
+          window.location.reload();
+        });
+        connection.om("AuctionStart", (data) => {
+          //reload page when auction start
+          window.location.reload();
         });
         // console.log(bids.slice(-1)[0]?.currentPrice);
         setCurrentPlaced(bidHistory.slice(-1)[0].numberOfBidders);
