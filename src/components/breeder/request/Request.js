@@ -317,7 +317,7 @@ const Request = () => {
           </div>
           <div className="fieldInput">
             <div className="inputBox">
-              <h5>{auctionMethod === "1" ? "Fixed Price" : "Min Price"}</h5>
+              <h5>{auctionMethod === "1" ? "Fixed Price" : "Start Price"}</h5>
               <div className="price">
                 <input
                   type="text"
@@ -509,7 +509,7 @@ const Request = () => {
             <input type="date" name="autionDate" value={date} disabled={true} />
           </div>
           <div className="inputBox">
-            <h5>{auctionMethod === "1" ? "Fixed Price" : "Min Price"}</h5>
+            <h5>{auctionMethod === "1" ? "Fixed Price" : "Start Price"}</h5>
             <div className="price">
               <input
                 type="text"
@@ -523,8 +523,7 @@ const Request = () => {
           <div
             className="inputBox"
             style={{
-              display:
-                auctionMethod === "3" || auctionMethod === "4" ? "" : "none",
+              display: auctionMethod === "4" ? "" : "none",
             }}
           >
             <h5>Max Price</h5>
