@@ -5,40 +5,89 @@ import NotFound from "../components/common/NotFound";
 
 //breeder
 const Breeder = React.lazy(() => import("../route/BreederRoute"));
-const CreateRequest = React.lazy(() => import("../components/breeder/request/Request"));
-const HistoryRequest = React.lazy(() => import("../components/breeder/history/History"));
-const DetailRequest = React.lazy(() => import("../components/breeder/requestDetail/RequestDetail"));
-const PaymentResponse = React.lazy(() => import("../components/common/PaymentResponse/PaymentResponse"));
-const FishList = React.lazy(() => import("../components/breeder/fish/FishList"));
-const DetailFish = React.lazy(() => import("../components/breeder/fishDetail/FishDetail"));
-const ManageAuction = React.lazy(() => import("../components/manage/ManageAuction"));
-const CreateAuction = React.lazy(() => import("../components/common/CreateAuction/CreateAuction"));
-const AuctionDetail = React.lazy(() => import("../components/manage/AuctionDetail"));
-const ManageKoi = React.lazy(() => import("../components/manage/manageKoi/ManageKoi"));
-const KoiDetail = React.lazy(() => import("../components/manage/koiDetail/KoiDetail"));
+const CreateRequest = React.lazy(() =>
+  import("../components/breeder/request/Request")
+);
+const HistoryRequest = React.lazy(() =>
+  import("../components/breeder/history/History")
+);
+const DetailRequest = React.lazy(() =>
+  import("../components/breeder/requestDetail/RequestDetail")
+);
+const PaymentResponse = React.lazy(() =>
+  import("../components/common/PaymentResponse/PaymentResponse")
+);
+const FishList = React.lazy(() =>
+  import("../components/breeder/fish/FishList")
+);
+const DetailFish = React.lazy(() =>
+  import("../components/breeder/fishDetail/FishDetail")
+);
+const ManageAuction = React.lazy(() =>
+  import("../components/manage/ManageAuction")
+);
+const CreateAuction = React.lazy(() =>
+  import("../components/common/CreateAuction/CreateAuction")
+);
+const AuctionDetail = React.lazy(() =>
+  import("../components/manage/AuctionDetail")
+);
+const ManageKoi = React.lazy(() =>
+  import("../components/manage/manageKoi/ManageKoi")
+);
+const KoiDetail = React.lazy(() =>
+  import("../components/manage/koiDetail/KoiDetail")
+);
 
 //staff
 const Staff = React.lazy(() => import("../route/StaffRoute"));
 const Manage = React.lazy(() => import("../components/manage/ManageMember"));
-const UserDetail = React.lazy(() => import("../components/manage/userDetail/UserDetail"));
-const ManageBreeder = React.lazy(() => import("../components/manage/manageBreeder/ManageBreeder"));
-const BreederDetail = React.lazy(() => import("../components/manage/breederDetail/BreederDetail"));
-const CreateBreeder = React.lazy(() => import("../components/manage/createBreeder/CreateBreeder"));
-const ManageRequest = React.lazy(() => import("../components/manage/manageRequest/ManageRequest"));
-const RequestDetail = React.lazy(() => import("../components/manage/requestDetail/RequestDetail"));
-const AuctionScreen = React.lazy(() => import("../components/public/AuctionScreen/AuctionScreen"));
-const ManageFishEntry = React.lazy(() => import("../components/manage/manageFishEntry/ManageFishEntry"));
-const FishEntryDetail = React.lazy(() => import("../components/manage/fishEntryDetail/FishEntryDetail"));
-const MemberBidHistory = React.lazy(() => import("../components/member/memberHistory/MemberHistory"));
-const UserBidHistory = React.lazy(() => import("../components/user/UserBidHistory"));
-const DashBoard = React.lazy(() => import("../components/manage/dashboard/Dashboard"));
-
+const UserDetail = React.lazy(() =>
+  import("../components/manage/userDetail/UserDetail")
+);
+const ManageBreeder = React.lazy(() =>
+  import("../components/manage/manageBreeder/ManageBreeder")
+);
+const BreederDetail = React.lazy(() =>
+  import("../components/manage/breederDetail/BreederDetail")
+);
+const CreateBreeder = React.lazy(() =>
+  import("../components/manage/createBreeder/CreateBreeder")
+);
+const ManageRequest = React.lazy(() =>
+  import("../components/manage/manageRequest/ManageRequest")
+);
+const RequestDetail = React.lazy(() =>
+  import("../components/manage/requestDetail/RequestDetail")
+);
+const AuctionScreen = React.lazy(() =>
+  import("../components/public/AuctionScreen/AuctionScreen")
+);
+const ManageFishEntry = React.lazy(() =>
+  import("../components/manage/manageFishEntry/ManageFishEntry")
+);
+const FishEntryDetail = React.lazy(() =>
+  import("../components/manage/fishEntryDetail/FishEntryDetail")
+);
+const MemberBidHistory = React.lazy(() =>
+  import("../components/member/memberHistory/MemberHistory")
+);
+const UserBidHistory = React.lazy(() =>
+  import("../components/user/UserBidHistory")
+);
+const DashBoard = React.lazy(() =>
+  import("../components/manage/dashboard/Dashboard")
+);
 
 //user
 const User = React.lazy(() => import("../route/UserRoute"));
 const Checkout = React.lazy(() => import("../components/user/Checkout"));
-const WinnerPaymentCallback = React.lazy(() => import("../components/common/WinnerPaymentResponse/WinnerPaymentResponse"));
-
+const WinnerPaymentCallback = React.lazy(() =>
+  import("../components/common/WinnerPaymentResponse/WinnerPaymentResponse")
+);
+const UserWallet = React.lazy(() =>
+  import("../components/user/wallet/UserWallet")
+);
 
 // Private routes definition
 const PrivateRoutes = [
@@ -47,12 +96,27 @@ const PrivateRoutes = [
     path: path.BREEDER,
     element: <LoadLazy children={<Breeder />} />,
     children: [
-      { path: path.CREATEREQUEST, element: <LoadLazy children={<CreateRequest />} /> },
-      { path: path.HISTORYREQUEST, element: <LoadLazy children={<HistoryRequest />} /> },
-      { path: path.DETAILREQUEST, element: <LoadLazy children={<DetailRequest />} /> },
-      { path: path.PAYMENTRESPONSE, element: <LoadLazy children={<PaymentResponse />} /> },
+      {
+        path: path.CREATEREQUEST,
+        element: <LoadLazy children={<CreateRequest />} />,
+      },
+      {
+        path: path.HISTORYREQUEST,
+        element: <LoadLazy children={<HistoryRequest />} />,
+      },
+      {
+        path: path.DETAILREQUEST,
+        element: <LoadLazy children={<DetailRequest />} />,
+      },
+      {
+        path: path.PAYMENTRESPONSE,
+        element: <LoadLazy children={<PaymentResponse />} />,
+      },
       { path: path.FISHLIST, element: <LoadLazy children={<FishList />} /> },
-      { path: path.DETAILFISH, element: <LoadLazy children={<DetailFish />} /> },
+      {
+        path: path.DETAILFISH,
+        element: <LoadLazy children={<DetailFish />} />,
+      },
     ],
   },
 
@@ -62,19 +126,52 @@ const PrivateRoutes = [
     element: <LoadLazy children={<Staff />} />,
     children: [
       { path: path.MANAGE, element: <LoadLazy children={<Manage />} /> },
-      { path: path.MANAGEAUCTION, element: <LoadLazy children={<ManageAuction />} /> },
-      { path: path.CREATEAUCTION, element: <LoadLazy children={<CreateAuction />} /> },
-      { path: path.MANAGEBREEDER, element: <LoadLazy children={<ManageBreeder />} /> },
-      { path: path.AUCTIONDETAIL, element: <LoadLazy children={<AuctionDetail />} /> },
-      { path: path.BREEDERDETAIL, element: <LoadLazy children={<BreederDetail />} /> },
-      { path: path.CREATEBREEDER, element: <LoadLazy children={<CreateBreeder />} /> },
-      { path: path.USERDETAIL, element: <LoadLazy children={<UserDetail />} /> },
-      { path: path.MANAGEREQUEST, element: <LoadLazy children={<ManageRequest />} /> },
-      { path: path.REQUESTDETAIL, element: <LoadLazy children={<RequestDetail />} /> },
+      {
+        path: path.MANAGEAUCTION,
+        element: <LoadLazy children={<ManageAuction />} />,
+      },
+      {
+        path: path.CREATEAUCTION,
+        element: <LoadLazy children={<CreateAuction />} />,
+      },
+      {
+        path: path.MANAGEBREEDER,
+        element: <LoadLazy children={<ManageBreeder />} />,
+      },
+      {
+        path: path.AUCTIONDETAIL,
+        element: <LoadLazy children={<AuctionDetail />} />,
+      },
+      {
+        path: path.BREEDERDETAIL,
+        element: <LoadLazy children={<BreederDetail />} />,
+      },
+      {
+        path: path.CREATEBREEDER,
+        element: <LoadLazy children={<CreateBreeder />} />,
+      },
+      {
+        path: path.USERDETAIL,
+        element: <LoadLazy children={<UserDetail />} />,
+      },
+      {
+        path: path.MANAGEREQUEST,
+        element: <LoadLazy children={<ManageRequest />} />,
+      },
+      {
+        path: path.REQUESTDETAIL,
+        element: <LoadLazy children={<RequestDetail />} />,
+      },
       { path: path.MANAGEKOI, element: <LoadLazy children={<ManageKoi />} /> },
       { path: path.KOIDETAIL, element: <LoadLazy children={<KoiDetail />} /> },
-      { path: path.MANAGEFISHENTRY, element: <LoadLazy children={<ManageFishEntry />} /> },
-      { path: path.FISHENTRYDETAIL, element: <LoadLazy children={<FishEntryDetail />} /> },
+      {
+        path: path.MANAGEFISHENTRY,
+        element: <LoadLazy children={<ManageFishEntry />} />,
+      },
+      {
+        path: path.FISHENTRYDETAIL,
+        element: <LoadLazy children={<FishEntryDetail />} />,
+      },
       { path: path.DASHBOARD, element: <LoadLazy children={<DashBoard />} /> },
     ],
   },
@@ -90,10 +187,19 @@ const PrivateRoutes = [
     path: path.USER,
     element: <LoadLazy children={<User />} />,
     children: [
-      { path: path.USERBIDHISTORY, element: <LoadLazy children={<UserBidHistory />} /> },
+      {
+        path: path.USERBIDHISTORY,
+        element: <LoadLazy children={<UserBidHistory />} />,
+      },
       { path: path.CHECKOUT, element: <LoadLazy children={<Checkout />} /> },
-      { path: path.WINNERPAYMENTCALLBACK, element: <LoadLazy children={< WinnerPaymentCallback />} /> },
-
+      {
+        path: path.WINNERPAYMENTCALLBACK,
+        element: <LoadLazy children={<WinnerPaymentCallback />} />,
+      },
+      {
+        path: path.USERWALLET,
+        element: <LoadLazy children={<UserWallet />} />,
+      },
     ],
   },
 

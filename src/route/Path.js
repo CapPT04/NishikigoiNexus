@@ -45,7 +45,6 @@ export const path = {
   USER: "/User",
   USERBIDHISTORY: "UserBidHistory",
   CHECKOUT: "Checkout",
-  WINNERPAYMENTCALLBACK: "WinnerPaymentCallback"
-
-
+  WINNERPAYMENTCALLBACK: "WinnerPaymentCallback",
+  USERWALLET: "UserWallet",
 };
