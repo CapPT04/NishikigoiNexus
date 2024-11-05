@@ -666,7 +666,7 @@ const Request = () => {
             progress: undefined,
           });
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   };
   //--------
@@ -679,7 +679,7 @@ const Request = () => {
       <ToastContainer /> {/* Add ToastContainer for displaying toasts */}
       <div className="row">
         <div className="col-md-6 col-md-offset-3">
-          <form className="request">
+          <form className="request-content">
             <ul className="progressbar">
               {steps.map((step, index) => (
                 <li
@@ -726,7 +726,7 @@ const Request = () => {
                       name="submit"
                       className={`submit action-button `}
                       onClick={handleSubmit}
-                      // disabled={btnReady}
+                    // disabled={btnReady}
                     >
                       Submit
                     </button>

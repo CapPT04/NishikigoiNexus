@@ -1,9 +1,9 @@
 .navigation-bar-vertically {
   position      : fixed;
-  padding-top   : 56px;
   display       : flex;
+  padding-top   : 30px;
   flex-direction: column;
-  gap           : 56px;
+  gap           : 30px;
   flex-shrink   : 0;
   background    : #1c1c1c;
   width         : 160px;
@@ -14,8 +14,6 @@
   align-items   : center !important;
   min-height    : 100vh;
   margin-top    : 84px;
-
-
   a {
     color: #fff;
 
