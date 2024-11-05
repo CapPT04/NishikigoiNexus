@@ -125,9 +125,9 @@ const DashBoard = () => {
             <div className="header">
                 <Navbar />
             </div>
-            <div className="body-content">
+            <div className="body-content-dashboard">
                 <VerticallyNavbar />
-                <div className="body-content-right">
+                <div className="body-content-dashboard-right">
                     <div className="chart-container1">
                         <div className="pie-chart">
                             <h2>Fish Entry Dashboard</h2>

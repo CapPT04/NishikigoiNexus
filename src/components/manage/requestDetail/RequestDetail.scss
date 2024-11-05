@@ -73,42 +73,42 @@
     display              : grid;
     grid-template-columns: 10% auto;
 
-    .navigation-bar-vertically {
-      padding-top   : 56px;
-      display       : flex;
-      flex-direction: column;
-      gap           : 56px;
-      flex-shrink   : 0;
-      background    : #1c1c1c;
-      width         : 160px;
-      height        : 841px;
-      color         : #fff;
-      font-size     : 26px;
-      font-weight   : 400;
-      line-height   : normal;
-      align-items   : center !important;
-      height        : auto;
+    // .navigation-bar-vertically {
+    //   padding-top   : 56px;
+    //   display       : flex;
+    //   flex-direction: column;
+    //   gap           : 56px;
+    //   flex-shrink   : 0;
+    //   background    : #1c1c1c;
+    //   width         : 160px;
+    //   height        : 841px;
+    //   color         : #fff;
+    //   font-size     : 26px;
+    //   font-weight   : 400;
+    //   line-height   : normal;
+    //   align-items   : center !important;
+    //   height        : auto;
 
-      a {
-        color: #fff;
+    //   a {
+    //     color: #fff;
 
-        &:hover {
-          opacity: 0.7;
-        }
-      }
+    //     &:hover {
+    //       opacity: 0.7;
+    //     }
+    //   }
 
-      // .request {
-      //   margin-left: 30px;
-      //   display: flex;
-      //   height: 67px;
-      //   padding: 10px 21px;
-      //   justify-content: center;
-      //   align-items: center;
-      //   gap: 10px;
-      //   align-self: stretch;
-      //   background: #df0012;
-      // }
-    }
+    //   // .request {
+    //   //   margin-left: 30px;
+    //   //   display: flex;
+    //   //   height: 67px;
+    //   //   padding: 10px 21px;
+    //   //   justify-content: center;
+    //   //   align-items: center;
+    //   //   gap: 10px;
+    //   //   align-self: stretch;
+    //   //   background: #df0012;
+    //   // }
+    // }
 
     .body-content-right {
       background: var(--nude);
@@ -120,6 +120,7 @@
         margin-top        : 40px;
         grid-template-rows: auto;
         gap               : 30px;
+        margin-top        : 120px;
 
         .request-detail-content-row1 {
           display        : flex;

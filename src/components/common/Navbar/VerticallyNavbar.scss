@@ -1,4 +1,22 @@
 .navigation-bar-vertically {
+<<<<<<< Updated upstream
+=======
+  position      : fixed;
+  display       : flex;
+  padding-top   : 30px;
+  flex-direction: column;
+  gap           : 30px;
+  flex-shrink   : 0;
+  background    : #1c1c1c;
+  width         : 160px;
+  color         : #fff;
+  font-size     : 26px;
+  font-weight   : 400;
+  line-height   : normal;
+  align-items   : center !important;
+  min-height    : 100vh;
+  margin-top    : 84px;
+>>>>>>> Stashed changes
 
 
   padding-top: 56px;
@@ -55,4 +73,8 @@
     align-self: stretch;
     background: #df0012;
   }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes
