@@ -94,33 +94,6 @@ const RequestDetail = () => {
         }, 2000);
       }
     });
-    const response = await handleCancelRequest(token, reqID);
-    if (response.status === 200) {
-      toast.success("Cancel Request Sucessfully", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      // window.location.reload();
-    } else {
-      toast.error(response.data, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      // window.location.reload();
-    }
-    setTimeout(() => {
-      window.location.reload();
-    }, 3000);
   };
 
   useEffect(() => {
