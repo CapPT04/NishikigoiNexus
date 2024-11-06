@@ -9,8 +9,11 @@ import {
   handleGetFishImgById,
   handleGetWinnerApi,
   handlePublicBidding,
+<<<<<<< Updated upstream
   handleCheckEnrollApi,
   handleEnrollApi,
+=======
+>>>>>>> Stashed changes
   handleGetFishEntryDepositApi
 } from "../../../axios/UserService";
 import * as signalR from "@microsoft/signalr";
@@ -36,8 +39,11 @@ const FishAuctionMethod3 = () => {
   const [checkEnroll, setCheckEnroll] = useState(false);
   const [fishEntryDeposit, setFishEntryDeposit] = useState(0);
   const auctionItem = useLocation().state.auctionItem;
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 
   const handleEnrollBtn = async () => {
     // Show confirmation dialog with deposit amount
@@ -114,8 +120,11 @@ const FishAuctionMethod3 = () => {
     }
   };
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
   useEffect(() => {
     const fishEntryDeposit = async () => {
       try {
@@ -131,7 +140,10 @@ const FishAuctionMethod3 = () => {
     };
     fishEntryDeposit();
   }, [auctionItem.fishEntryId]);
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
   useEffect(() => {
     const checkEnrollmentStatus = async () => {
       try {
