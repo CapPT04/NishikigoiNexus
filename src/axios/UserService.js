@@ -67,12 +67,12 @@ const END_POINT = {
   RECHARGEPAYMENTCALLBACK: "Payment/RechargePaymentCallBack",
   TRANSACTIONHISTORY: "Transaction/GetTransactionHistory",
   //Payment
-  WALLETPAYMENT: "Payment/WalletPayment",
+  FEEWALLETPAYMENT: "Payment/FeePayment",
 };
-export const handleWalletPaymentApi = (token, amount) => {
-  return axiosClient.post(`${END_POINT.WALLETPAYMENT}`, {
+export const handleFeeWalletPaymentApi = (token, requestId) => {
+  return axiosClient.post(`${END_POINT.FEEWALLETPAYMENT}`, {
     token: token,
-    amount: amount,
+    requestID: requestId,
   });
 };
 export const handleBalanceByUserIdApi = (userId) => {
