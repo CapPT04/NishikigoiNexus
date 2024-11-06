@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './Checkout.scss';
-import { useLocation } from 'react-router';
 import { handleWinnerPaymentApi } from "../../axios/UserService";
+import Swal from "sweetalert2";
+import { useLocation, useNavigate } from "react-router";
 
 const Checkout = () => {
     // Step 1: Create state variables to store input values
@@ -10,29 +11,80 @@ const Checkout = () => {
     const [address, setAddress] = useState('');
     const location = useLocation();
     const fishEntryId = location.state; // Access fishEntryId safely
+    const isCheckoutDisabled = !phone || !city || !address;
+    const navigate = useNavigate();
 
 
 
     const handleCheckout = async () => {
-        const checkoutData = {
-            phone,
-            city,
-            address,
-        };
+        const result = await Swal.fire({
+            title: 'Confirm Checkout',
+            text: 'Are you sure you want to proceed with the checkout?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, proceed',
+            cancelButtonText: 'No, cancel'
+        });
 
-        sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
-        try {
-            const response = await handleWinnerPaymentApi(sessionStorage.getItem("token"), fishEntryId);
-            if (response && response.status === 200) {
-                window.location.href = response.data;
+        if (result.isConfirmed) {
+            // Show loading indicator
+            Swal.fire({
+                title: 'Processing Checkout...',
+                text: 'Please wait while we process your order.',
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            try {
+                const checkoutData = { phone, city, address };
+                sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
+
+                const response = await handleWinnerPaymentApi(checkoutData, sessionStorage.getItem("token"), fishEntryId);
+
+                if (response && response.status === 200) {
+                    // Success notification
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Checkout Successful!',
+                        text: 'Your checkout has been completed successfully.'
+                    }).then(() => {
+                        // Redirect or perform further actions on success
+                        navigate("/user/UserBidHistory");
+                    });
+                } else if (response && response.status === 400) {
+                    // Insufficient balance error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Checkout Failed',
+                        text: 'You do not have enough balance to complete the checkout. Please deposit money into your account.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Go to Deposit Page',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirect to the deposit page based on user role
+                            navigate("/user/UserWallet");
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error during checkout:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Checkout Failed',
+                    text: 'An error occurred during checkout. Please try again later.'
+                });
             }
-            console.log('Payment API response:', response);
-            // Optionally handle success (e.g., navigate or show a success message)
-        } catch (error) {
-            console.error('Error calling payment API:', error);
-            // Optionally handle the error (e.g., show an alert or message to the user)
+        } else {
+            Swal.fire({
+                icon: 'info',
+                title: 'Checkout Canceled',
+                text: 'You chose not to proceed with the checkout.'
+            });
         }
     };
+
 
     return (
         <div className="checkout-page">
@@ -68,7 +120,9 @@ const Checkout = () => {
                             onChange={(e) => setAddress(e.target.value)} // Handle input change
                         />
                     </div>
-                    <button className="checkout-btn" onClick={handleCheckout}>
+                    <button className="checkout-btn" onClick={handleCheckout}
+                        disabled={isCheckoutDisabled} // Disable button if any field is empty
+                    >
                         Checkout
                     </button>
                 </div>
