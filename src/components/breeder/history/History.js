@@ -44,7 +44,7 @@ const History = () => {
         <div className="navigation-bar-vertically-history">
           {/* loi o day */}
           <a
-            className="request selected"
+            className="request"
             onClick={() => navigate("/Breeder/HistoryRequest")}
           >
             Request

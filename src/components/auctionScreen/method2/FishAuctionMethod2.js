@@ -41,6 +41,7 @@ const FishAuctionMethod2 = () => {
     const [auctionDetails, setAuctionDetails] = useState();
     const [checkEnroll, setCheckEnroll] = useState(false);
 
+<<<<<<< Updated upstream
     useEffect(() => {
         const checkEnrollmentStatus = async () => {
             try {
@@ -67,10 +68,45 @@ const FishAuctionMethod2 = () => {
         } catch (error) {
             console.log(error);
 
+=======
+
+    console.log(sessionStorage.getItem("token"));
+
+
+    const handleEnrollBtn = async () => {
+        try {
+
+
+        } catch (error) {
+            console.log(error);
+
+>>>>>>> Stashed changes
         }
     }
 
     useEffect(() => {
+<<<<<<< Updated upstream
+=======
+        const checkEnrollmentStatus = async () => {
+            try {
+                const response = await handleCheckEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId);
+                console.log(response);
+                console.log(sessionStorage.getItem("token"));
+                console.log(response.status);
+                if (response && response.status === 200) {
+                    setCheckEnroll(true);
+                } else if (response.status === 400) {
+                    setCheckEnroll(false);
+                }
+            } catch (error) {
+                console.error("Error checking enrollment status:", error);
+                setCheckEnroll(false);
+            }
+        };
+        checkEnrollmentStatus();
+    }, [auctionItem.fishEntryId]);
+    useEffect(() => {
+>>>>>>> Stashed changes
         const fetchImageFish = async () => {
             try {
                 setMainImage(auctionItem.images.$values[0]?.imagePath);
