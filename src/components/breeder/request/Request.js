@@ -27,7 +27,7 @@ const Request = () => {
   const [maxPrice, setMaxPrice] = useState(0);
   const [stepPrice, setStepPrice] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
-  const [fee, setFee] = useState("");
+  const [fee, setFee] = useState(0);
   const [btnReady, setBtnReady] = useState(true);
 
   const navigate = useNavigate();
@@ -571,7 +571,9 @@ const Request = () => {
             <input type="text" name="Note" value={note} disabled={true} />
           </div>
           {/* auction fee */}
-          <div className="feeNotice">* The fee for auction: {fee} vnd</div>
+          <div className="feeNotice">
+            * The fee for auction: {formatPrice(fee)} VND
+          </div>
           <div className="feeNotice">
             * When the fish auction is successful, we will take a commission
             from the successful auction amount.{" "}
