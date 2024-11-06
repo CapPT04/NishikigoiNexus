@@ -81,9 +81,17 @@ const Navbar = () => {
               <span className="arrow-down">▼</span>
             </button>
             <ul className="dropdown-menu">
+
               <li
-                onClick={() => navigate("/user/userwallet")}
+                onClick={() => {
+                  if (user.Role === "1") {
+                    navigate("/User/userwallet");
+                  } else if (user.Role === "2") {
+                    navigate("/Breeder/UserWallet");
+                  }
+                }}
               >
+
                 <i className="fa-regular fa-user icon-account"></i> Account
               </li>
               <li onClick={() => handleHistory()}>

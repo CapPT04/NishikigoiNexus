@@ -15,6 +15,7 @@ import {
     handleGetAuctionDetailByIdApi,
     handleCheckEnrollApi,
     handleEnrollApi,
+    handleGetFishEntryDepositApi,
 } from "../../../axios/UserService";
 import Swal from "sweetalert2";
 import * as signalR from "@microsoft/signalr";
@@ -40,53 +41,100 @@ const FishAuctionMethod2 = () => {
     const [winnerData, setWinnerData] = useState(null);
     const [auctionDetails, setAuctionDetails] = useState();
     const [checkEnroll, setCheckEnroll] = useState(false);
+    const [fishEntryDeposit, setFishEntryDeposit] = useState(0);
 
-<<<<<<< Updated upstream
-    useEffect(() => {
-        const checkEnrollmentStatus = async () => {
+
+    const handleEnrollBtn = async () => {
+        // Show confirmation dialog with deposit amount
+
+        const result = await Swal.fire({
+            title: 'Confirm Enrollment',
+            text: `To enroll in this auction, a deposit of $${fishEntryDeposit} is required. Do you wish to proceed?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, proceed',
+            cancelButtonText: 'No, cancel'
+        });
+
+        if (result.isConfirmed) {
             try {
-                const response = await handleCheckEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId);
+                Swal.fire({
+                    title: 'Enrolling...',
+                    text: 'Please wait while we enroll you in the auction.',
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                const response = await handleEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId);
                 console.log(response);
-                console.log(sessionStorage.getItem("token"));
-                console.log(response.status);
+
                 if (response && response.status === 200) {
-                    setCheckEnroll(true);
-                } else if (response.status === 400) {
-                    setCheckEnroll(false);
+                    // Success notification
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Enrollment Successful!',
+                        text: `You have been successfully enrolled with a $${fishEntryDeposit} deposit.`
+                    });
+                    // Update component state (if needed)
+                } else if (response && response.status === 400) {
+                    // Handle insufficient balance error
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Enrollment Partially Successful',
+                        text: 'You do not have enough balance to enroll! Please deposit money into your account.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Go to Deposit Page',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirect to deposit page
+                            if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
+                                navigate("/user/UserWallet");
+                            } else if (JSON.parse(sessionStorage.getItem("user")).Role === "2") {
+                                navigate("/breeder/UserWallet");
+
+                            }
+                        }
+                    });
                 }
             } catch (error) {
-                console.error("Error checking enrollment status:", error);
-                setCheckEnroll(false);
+                console.log(error);
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Enrollment Failed',
+                    text: 'There was an error enrolling in the auction. Please try again later.'
+                });
             }
-        };
-        checkEnrollmentStatus();
-    }, [auctionItem.fishEntryId]);
-
-    const handleEnrollBtn = async () => {
-        try {
-            const response = await handleEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId)
-        } catch (error) {
-            console.log(error);
-
-=======
-
-    console.log(sessionStorage.getItem("token"));
-
-
-    const handleEnrollBtn = async () => {
-        try {
-
-
-        } catch (error) {
-            console.log(error);
-
->>>>>>> Stashed changes
+        } else {
+            Swal.fire({
+                icon: 'info',
+                title: 'Enrollment Canceled',
+                text: 'You chose not to proceed with the enrollment.'
+            });
         }
-    }
+    };
+
+
 
     useEffect(() => {
-<<<<<<< Updated upstream
-=======
+        const fishEntryDeposit = async () => {
+            try {
+                const response = await handleGetFishEntryDepositApi(auctionItem.fishEntryId);
+                if (response && response.status === 200) {
+                    setFishEntryDeposit(response.data);
+                } else if (response.status === 400) {
+                    setFishEntryDeposit(0);
+                }
+            } catch (error) {
+                console.error("Error checking gt fish entry deposite status:", error);
+            }
+        };
+        fishEntryDeposit();
+    }, [auctionItem.fishEntryId]);
+
+    useEffect(() => {
         const checkEnrollmentStatus = async () => {
             try {
                 const response = await handleCheckEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId);
@@ -105,8 +153,8 @@ const FishAuctionMethod2 = () => {
         };
         checkEnrollmentStatus();
     }, [auctionItem.fishEntryId]);
+
     useEffect(() => {
->>>>>>> Stashed changes
         const fetchImageFish = async () => {
             try {
                 setMainImage(auctionItem.images.$values[0]?.imagePath);
@@ -402,7 +450,7 @@ const FishAuctionMethod2 = () => {
                                     ) : (
                                         <button className="enroll-bid"
                                             onClick={() => handleEnrollBtn()}>
-                                            Enroll
+                                            Enroll with {fishEntryDeposit}$ deposit
                                         </button>
                                     )}
 
