@@ -263,6 +263,7 @@ const FishEntryDetail = () => {
               {/* <button className="update-btn">Update</button>
           <button className="cancel-btn">Cancel</button> */}
             </div>
+            {/* enroll */}
           </div>
         </div>
       </div>
