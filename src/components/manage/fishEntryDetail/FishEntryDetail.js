@@ -4,6 +4,7 @@ import "./FishEntryDetail.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
 import {
+  handleEnrollHistoryByFishEntryId,
   handleGetRequestDetail,
   handleUserById,
 } from "../../../axios/UserService";
@@ -14,6 +15,7 @@ const FishEntryDetail = () => {
   const [breeder, setBreeder] = useState("");
   const [bidder, setBidder] = useState("");
   const [request, setRequest] = useState("");
+  const [enrollHistory, setEnrollHistory] = useState([]);
 
   const statusName = ["Unknown", "Preparing", "Waitting", "Bidding", "Ended"];
   const method = [
@@ -44,6 +46,11 @@ const FishEntryDetail = () => {
       setBreeder(res.data);
       const resBid = await handleUserById(koi.highestBidder);
       setBidder(resBid.data);
+      const resEnrollHistory = await handleEnrollHistoryByFishEntryId(
+        koi.fishEntryId
+      );
+      // console.log(resEnrollHistory.data);
+      setEnrollHistory(resEnrollHistory.data);
     }
   };
 
@@ -264,6 +271,43 @@ const FishEntryDetail = () => {
           <button className="cancel-btn">Cancel</button> */}
             </div>
             {/* enroll */}
+            <div className="breeder-detail-content-row13">
+              <div className="request-history">Enroll History</div>
+            </div>
+            <div className="fish-detail-content-row11">
+              <table className="table-request-history">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    {/* <th>Enrollment Id</th> */}
+                    <th>User ID</th>
+                    <th>Enroll Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {enrollHistory.length > 0 ? (
+                    enrollHistory.map((enroll, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          {/* <td>{enroll.enrollmentId}</td> */}
+                          <td>{enroll.userId}</td>
+                          <td>
+                            {enroll.enrollDate
+                              ? new Date(enroll.enrollDate).toLocaleString()
+                              : "Not Yet"}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan={3}>No one enroll to this fish</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

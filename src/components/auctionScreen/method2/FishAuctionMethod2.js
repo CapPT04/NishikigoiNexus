@@ -13,6 +13,11 @@ import {
   handlePlaceSecretBidApi,
   handleGetWinnerApi,
   handleGetAuctionDetailByIdApi,
+<<<<<<< Updated upstream
+=======
+  handleCheckEnrollApi,
+  handleEnrollApi,
+>>>>>>> Stashed changes
 } from "../../../axios/UserService";
 import Swal from "sweetalert2";
 import * as signalR from "@microsoft/signalr";
@@ -37,6 +42,7 @@ const FishAuctionMethod2 = () => {
   // console.log(sessionStorage.getItem("token"));
   const [winnerData, setWinnerData] = useState(null);
   const [auctionDetails, setAuctionDetails] = useState();
+<<<<<<< Updated upstream
 
   useEffect(() => {
     const fetchImageFish = async () => {
@@ -73,6 +79,76 @@ const FishAuctionMethod2 = () => {
     fetchHistoryOfSecretBid();
   }, []);
 
+=======
+  const [checkEnroll, setCheckEnroll] = useState(false);
+
+  console.log(sessionStorage.getItem("token"));
+
+  const handleEnrollBtn = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const checkEnrollmentStatus = async () => {
+      try {
+        const response = await handleCheckEnrollApi(
+          sessionStorage.getItem("token"),
+          auctionItem.fishEntryId
+        );
+        console.log(response);
+        console.log(sessionStorage.getItem("token"));
+        console.log(response.status);
+        if (response && response.status === 200) {
+          setCheckEnroll(true);
+        } else if (response.status === 400) {
+          setCheckEnroll(false);
+        }
+      } catch (error) {
+        console.error("Error checking enrollment status:", error);
+        setCheckEnroll(false);
+      }
+    };
+    checkEnrollmentStatus();
+  }, [auctionItem.fishEntryId]);
+  useEffect(() => {
+    const fetchImageFish = async () => {
+      try {
+        setMainImage(auctionItem.images.$values[0]?.imagePath);
+        const response = await handleGetFishImgById(
+          auctionItem.images.$values[0].fishId
+        );
+        setFishImage(response.data.$values);
+        // console.log(response.data.$values);
+      } catch (error) {
+        console.error("Error fetching:", error);
+      }
+    };
+    fetchImageFish();
+  }, []);
+
+  useEffect(() => {
+    const fetchHistoryOfSecretBid = async () => {
+      try {
+        // console.log(auctionItem.fishEntryId);
+        const response = await handleGetHistoryOfSecretBidApi(
+          auctionItem.fishEntryId
+        );
+        // console.log(response.data.$values[0]);
+        setNumberOfBidders(response.data.$values[0].numberOfBidders);
+        // Cập nhật state với 5 phần tử mới nhất
+        setHistoryOfSecretBid(response.data.$values.slice(-5));
+        // console.log(historyOfSecretBid);
+      } catch (error) {
+        console.error("Error fetching:", error);
+      }
+    };
+    fetchHistoryOfSecretBid();
+  }, []);
+
+>>>>>>> Stashed changes
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(
@@ -292,7 +368,11 @@ const FishAuctionMethod2 = () => {
               </div>
             </div>
 
+<<<<<<< Updated upstream
             {auctionItem.status === 3 && (
+=======
+            {(auctionItem.status === 3 || auctionItem.status === 2) && (
+>>>>>>> Stashed changes
               <div className="place-bid">
                 <div className="place-bid-content">
                   <div className="place-bid-content-row1">
@@ -313,6 +393,7 @@ const FishAuctionMethod2 = () => {
                       Min price: ${auctionItem.min}
                     </div>
                   </div>
+<<<<<<< Updated upstream
                   <input
                     type="number"
                     className="place-bid-content-row3"
@@ -325,16 +406,49 @@ const FishAuctionMethod2 = () => {
                   >
                     Place bid at ${amount}
                   </button>
+=======
+
+                  {auctionItem.status === 3 && checkEnroll && (
+                    <input
+                      type="number"
+                      className="place-bid-content-row3"
+                      min={auctionItem.min}
+                      onChange={(event) => setAmount(event.target.value)}
+                    />
+                  )}
+
+                  {checkEnroll ? (
+                    <button
+                      className="place-bid-btn"
+                      onClick={handlePlaceSecretBidBtn}
+                      disabled={auctionItem.status === 2}
+                    >
+                      {auctionItem.status === 2
+                        ? "The auction has not started."
+                        : `Place bid at $${amount}`}
+                    </button>
+                  ) : (
+                    <button
+                      className="enroll-bid"
+                      onClick={() => handleEnrollBtn()}
+                    >
+                      Enroll
+                    </button>
+                  )}
+>>>>>>> Stashed changes
                 </div>
               </div>
             )}
 
+<<<<<<< Updated upstream
             {auctionItem.status === 2 && (
               <div className="auction-status-message">
                 <i className="fa-solid fa-clock"></i> {/* Biểu tượng đồng hồ */}
                 <p>The auction has not started yet.</p>
               </div>
             )}
+=======
+>>>>>>> Stashed changes
             {auctionItem.status === 4 && winnerData ? (
               <div className="place-bid-status4">
                 <div className="place-bid-content-status4">

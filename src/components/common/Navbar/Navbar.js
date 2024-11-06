@@ -81,7 +81,19 @@ const Navbar = () => {
               <span className="arrow-down">▼</span>
             </button>
             <ul className="dropdown-menu">
+<<<<<<< Updated upstream
               <li>
+=======
+              <li
+                onClick={() => {
+                  if (user.Role === "1") {
+                    navigate("/User/userwallet");
+                  } else if (user.Role === "2") {
+                    navigate("/Breeder/UserWallet");
+                  }
+                }}
+              >
+>>>>>>> Stashed changes
                 <i className="fa-regular fa-user icon-account"></i> Account
               </li>
               <li onClick={() => handleHistory()}>
