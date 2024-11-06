@@ -4,6 +4,7 @@ import "./FishEntryDetail.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
 import {
+  handleEnrollHistoryByFishEntryId,
   handleGetRequestDetail,
   handleUserById,
 } from "../../../axios/UserService";
@@ -14,6 +15,7 @@ const FishEntryDetail = () => {
   const [breeder, setBreeder] = useState("");
   const [bidder, setBidder] = useState("");
   const [request, setRequest] = useState("");
+  const [enrollHistory, setEnrollHistory] = useState([]);
 
   const statusName = ["Unknown", "Preparing", "Waitting", "Bidding", "Ended"];
   const method = [
@@ -22,6 +24,18 @@ const FishEntryDetail = () => {
     "Public Bid",
     "Dutch Auction",
   ];
+
+  //format to display
+  const formatMoney = (value) => {
+    // Ensure the value is a number or a string
+    let [integerPart, decimalPart] = String(value).split(".");
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted number with the decimal part (if present)
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  };
 
   const getInfo = async () => {
     if (koi) {
@@ -32,6 +46,11 @@ const FishEntryDetail = () => {
       setBreeder(res.data);
       const resBid = await handleUserById(koi.highestBidder);
       setBidder(resBid.data);
+      const resEnrollHistory = await handleEnrollHistoryByFishEntryId(
+        koi.fishEntryId
+      );
+      // console.log(resEnrollHistory.data);
+      setEnrollHistory(resEnrollHistory.data);
     }
   };
 
@@ -123,7 +142,11 @@ const FishEntryDetail = () => {
                 <input
                   type="text"
                   className="origin-input"
-                  value={koi.increment}
+                  value={
+                    koi.increment
+                      ? formatMoney(koi.increment) + " VND"
+                      : "0 VND"
+                  }
                   disabled={true}
                 />
               </div>
@@ -136,7 +159,9 @@ const FishEntryDetail = () => {
                 <input
                   type="text"
                   className="shape-input"
-                  value={koi.minPrice}
+                  value={
+                    koi.minPrice ? formatMoney(koi.minPrice) + " VND" : "0 VND"
+                  }
                   disabled={true}
                 />
               </div>
@@ -147,7 +172,11 @@ const FishEntryDetail = () => {
                 <input
                   type="text"
                   className="origin-input"
-                  value={koi.auctionMethod === 1 ? koi.minPrice : koi.maxPrice}
+                  value={
+                    koi.auctionMethod === 4
+                      ? formatMoney(koi.maxPrice) + " VND"
+                      : ""
+                  }
                   disabled={true}
                 />
               </div>
@@ -203,7 +232,7 @@ const FishEntryDetail = () => {
                 <input
                   type="text"
                   className="sold-price-input"
-                  value={`${request.fee} $`}
+                  value={`${formatMoney(request.fee)} VND`}
                   disabled={true}
                 />
               </div>
@@ -216,7 +245,7 @@ const FishEntryDetail = () => {
                 <input
                   type="text"
                   className="weight-input"
-                  value={koi.highestBidder}
+                  value={koi.highestBidder ? koi.highestBidder : ""}
                   disabled={true}
                 />
               </div>
@@ -227,7 +256,11 @@ const FishEntryDetail = () => {
                 <input
                   type="text"
                   className="sold-price-input"
-                  value={koi.highestPrice ? koi.highestPrice : "  "}
+                  value={
+                    koi.highestPrice
+                      ? formatMoney(koi.highestPrice) + " VND"
+                      : ""
+                  }
                   disabled={true}
                 />
               </div>
@@ -236,6 +269,44 @@ const FishEntryDetail = () => {
             <div className="fish-detail-content-row10">
               {/* <button className="update-btn">Update</button>
           <button className="cancel-btn">Cancel</button> */}
+            </div>
+            {/* enroll */}
+            <div className="breeder-detail-content-row13">
+              <div className="request-history">Enroll History</div>
+            </div>
+            <div className="fish-detail-content-row11">
+              <table className="table-request-history">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    {/* <th>Enrollment Id</th> */}
+                    <th>User ID</th>
+                    <th>Enroll Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {enrollHistory.length > 0 ? (
+                    enrollHistory.map((enroll, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          {/* <td>{enroll.enrollmentId}</td> */}
+                          <td>{enroll.userId}</td>
+                          <td>
+                            {enroll.enrollDate
+                              ? new Date(enroll.enrollDate).toLocaleString()
+                              : "Not Yet"}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan={3}>No one enroll to this fish</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import "./RequestDetail.scss";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   handleCancelRequest,
+  handleFeeWalletPaymentApi,
   handleFishEntryByRequestId,
   handleGetFishEntry,
   handleGetRequestDetail,
@@ -56,33 +57,46 @@ const RequestDetail = () => {
   };
   //------ pay fee----------
   const handlePayFee = async () => {
-    const res = await handleWalletPaymentApi(token, myRequest.fee);
-    console.log(res);
-    if (res.status === 200) {
-      toast.success("Pay Fee Sucessfully", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      // window.location.reload();
-    } else {
-      toast.error(res.data, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Pay the fee!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await handleFeeWalletPaymentApi(token, reqID);
+        console.log(res);
+        if (res.status === 200) {
+          toast.success("Pay Fee Sucessfully", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          // window.location.reload();
+        } else {
+          toast.error(res.data, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    });
   };
   //-----cancel----
   const handleCancel = async () => {

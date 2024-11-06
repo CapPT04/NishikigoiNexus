@@ -9,6 +9,7 @@ const END_POINT = {
   GETALLUSER: "User/GetAllUser",
   FEE: "Fee/GetFee",
   //breeder
+  ENROLLMENTHISTORY: "Enrollment/GetAllEnrollmentsByFishEntryId",
   CREATEREQUEST: "Request/CreateRequest",
   GETALLREQUEST: "Request/GetAllRequest",
   LOGINWITHGOOGLE: "User/GoogleLogin",
@@ -71,12 +72,17 @@ const END_POINT = {
   RECHARGEPAYMENTCALLBACK: "Payment/RechargePaymentCallBack",
   TRANSACTIONHISTORY: "Transaction/GetTransactionHistory",
   //Payment
-  WALLETPAYMENT: "Payment/WalletPayment",
+  FEEWALLETPAYMENT: "Payment/FeePayment",
 };
-export const handleWalletPaymentApi = (token, amount) => {
-  return axiosClient.post(`${END_POINT.WALLETPAYMENT}`, {
+export const handleEnrollHistoryByFishEntryId = (fishEntryId) => {
+  return axiosClient.get(
+    `${END_POINT.ENROLLMENTHISTORY}?fishEntryId=${fishEntryId}`
+  );
+};
+export const handleFeeWalletPaymentApi = (token, requestId) => {
+  return axiosClient.post(`${END_POINT.FEEWALLETPAYMENT}`, {
     token: token,
-    amount: amount,
+    requestID: requestId,
   });
 };
 export const handleBalanceByUserIdApi = (userId) => {
@@ -343,11 +349,11 @@ export const handleWinnerPaymentCallbackApi = async (info, checkoutData) => {
   }
 };
 
-
 export const handleCheckEnrollApi = async (token, fishEntryId) => {
   try {
     return await axiosClient.post(`${END_POINT.CHECKENROLL}`, {
       token: token,
+
       fishEntryId: fishEntryId
     });
   } catch (error) {
@@ -359,6 +365,7 @@ export const handleEnrollApi = async (token, fishEntryId) => {
   try {
     return await axiosClient.post(`${END_POINT.ENROLL}`, {
       token: token,
+
       fishEntryId: fishEntryId
     });
   } catch (error) {
