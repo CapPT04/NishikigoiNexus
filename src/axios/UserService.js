@@ -61,8 +61,6 @@ const END_POINT = {
   GETUNPAIDBIDDINGHISTORYBYMEMBERID: "User/GetUnpaidBiddingHistoryByMemberId",
   WINNERPAYMENT: "Payment/WinnerPayment",
   WINNERPAYMENTCALLBACK: "Payment/WinnerPaymentCallBack",
-<<<<<<< Updated upstream
-=======
   CHECKENROLL: "Enrollment/CheckEnrollment",
   ENROLL: "Enrollment/Enroll",
 
@@ -100,7 +98,6 @@ export const handleRechargePaymentCallBackApi = (object) => {
 };
 export const handleTransactionHistoryApi = (token) => {
   return axiosClient.post(`${END_POINT.TRANSACTIONHISTORY}?token=${token}`);
->>>>>>> Stashed changes
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -123,7 +120,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -307,7 +304,6 @@ export const handleGetBiddingHistoryByMemberIdApi = async (id) => {
   }
 };
 
-
 export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
   try {
     return axiosClient.get(`${END_POINT.GETUNPAIDBIDDINGHISTORYBYMEMBERID}`, {
@@ -339,16 +335,14 @@ export const handleWinnerPaymentCallbackApi = async (info, checkoutData) => {
       vnp_ResponseCode: info.vnp_ResponseCode,
       phone: checkoutData.phone,
       address: checkoutData.address,
-      city: checkoutData.city
+      city: checkoutData.city,
     });
   } catch (error) {
     throw error;
   }
 };
 
-<<<<<<< Updated upstream
 
-=======
 export const handleCheckEnrollApi = async (token, fishEntryId) => {
   try {
     return await axiosClient.post(`${END_POINT.CHECKENROLL}`, {
@@ -370,7 +364,6 @@ export const handleEnrollApi = async (token, fishEntryId) => {
     throw error;
   }
 };
->>>>>>> Stashed changes
 
 export const handleGetAllBreeders = () => {
   try {

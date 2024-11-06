@@ -41,7 +41,7 @@ const FishList = () => {
           >
             Request
           </a>
-          <a class="koi selected" onClick={() => navigate("/Breeder/FishList")}>
+          <a class="koi" onClick={() => navigate("/Breeder/FishList")}>
             KOI
           </a>
         </div>
@@ -79,7 +79,11 @@ const FishList = () => {
                       <td>{index + 1}</td>
                       <td>{fish.fishId}</td>
                       <td>{fish.fishName}</td>
-                      <td>{fish.createDate}</td>
+                      <td>
+                        {fish.createDate
+                          ? new Date(fish.createDate).toLocaleString()
+                          : "Not yet"}
+                      </td>
                       <td>{statusName[fish.status - 1]}</td>
                       <td>
                         <a

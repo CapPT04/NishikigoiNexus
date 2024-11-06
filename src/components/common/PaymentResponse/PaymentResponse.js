@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { handlePayCallBack } from "../../../axios/UserService";
+import {
+  handlePayCallBack,
+  handleRechargePaymentCallBackApi,
+} from "../../../axios/UserService";
 import "./PaymentResponse.scss";
 
 const PaymentResponse = () => {
@@ -9,6 +12,7 @@ const PaymentResponse = () => {
   const [searchParams] = useSearchParams();
   const [requestId, setRequestId] = useState("");
   const navigate = useNavigate();
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   const vnp_Amount = searchParams.get("vnp_Amount");
   const vnp_OrderInfo = searchParams.get("vnp_OrderInfo");
@@ -16,15 +20,24 @@ const PaymentResponse = () => {
   const vnp_ResponseCode = searchParams.get("vnp_ResponseCode");
 
   const PayCallBack = async (info) => {
-    const res = await handlePayCallBack(info);
+    // const res = await handlePayCallBack(info);
+    const res = await handleRechargePaymentCallBackApi(info);
     // console.log(res);
     setResult(res);
   };
   useEffect(() => {
-    const info = { vnp_Amount, vnp_OrderInfo, vnp_PayDate, vnp_ResponseCode };
-    const match = vnp_OrderInfo.match(/Request (\d+)/);
-    setRequestId(match ? match[1] : null);
-    console.log(requestId);
+    const amount = parseInt(sessionStorage.getItem("amount"));
+    sessionStorage.removeItem("amount");
+    const info = {
+      amount,
+      vnp_Amount,
+      vnp_OrderInfo,
+      vnp_PayDate,
+      vnp_ResponseCode,
+    };
+    // const match = vnp_OrderInfo.match(/Request (\d+)/);
+    // setRequestId(match ? match[1] : null);
+    // console.log(requestId);
     PayCallBack(info);
     setTimeout(() => setLoading(false), 5000);
   }, []);
@@ -45,10 +58,13 @@ const PaymentResponse = () => {
             src="https://firebasestorage.googleapis.com/v0/b/nishikigoinexus-fa24.appspot.com/o/sp%2Ffree-check-icon-3278-thumb.png?alt=media&token=b040f1d3-b653-4108-8011-bb7f56bc7172"
             alt=""
           />
-          {setTimeout(
-            () => navigate(`/Breeder/DetailRequest?id=${requestId}`),
-            500
-          )}
+          {setTimeout(() => {
+            if (user.Role === "1") {
+              navigate("/User/UserWallet");
+            } else {
+              navigate("/Breeder/UserWallet");
+            }
+          }, 500)}
         </div>
       ) : (
         <div className="fail-screen">
@@ -57,10 +73,13 @@ const PaymentResponse = () => {
             src="https://firebasestorage.googleapis.com/v0/b/nishikigoinexus-fa24.appspot.com/o/sp%2Fgui-check-no-icon-512x512-9qqp1ph5.png?alt=media&token=3dcb26f5-9be9-4005-bcbb-cbbcbc94734a"
             alt=""
           />
-          {setTimeout(
-            () => navigate(`/Breeder/DetailRequest?id=${requestId}`),
-            500
-          )}
+          {setTimeout(() => {
+            if (user.Role === "1") {
+              navigate("/User/UserWallet");
+            } else {
+              navigate("/Breeder/UserWallet");
+            }
+          }, 500)}
         </div>
       )}
     </div>

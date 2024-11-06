@@ -83,10 +83,14 @@ const Request = () => {
   }, []);
   //--------
   const formatPrice = (value) => {
-    // Remove non-digit characters
-    const cleanedValue = value.replace(/\D/g, "");
-    // Format with dots as thousand separators
-    return cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    // Ensure the value is a number or a string
+    let [integerPart, decimalPart] = String(value).split(".");
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted number with the decimal part (if present)
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
   };
   //..........
 
@@ -666,7 +670,7 @@ const Request = () => {
             progress: undefined,
           });
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   };
   //--------
@@ -726,7 +730,7 @@ const Request = () => {
                       name="submit"
                       className={`submit action-button `}
                       onClick={handleSubmit}
-                    // disabled={btnReady}
+                      // disabled={btnReady}
                     >
                       Submit
                     </button>

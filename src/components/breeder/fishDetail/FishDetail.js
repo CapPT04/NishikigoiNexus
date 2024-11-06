@@ -48,7 +48,10 @@ const FishDetail = () => {
             Fish #{myFish.fishId} Detail
           </div>
           <div className="request-detail-content-row3">
-            Create date: {myFish.createDate}
+            Create date:{" "}
+            {myFish.createDate
+              ? new Date(myFish.createDate).toLocaleString()
+              : "Not Yet"}
           </div>
           <div className="request-detail-content-row4">
             <div className="update-by">
