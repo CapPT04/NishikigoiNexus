@@ -29,10 +29,14 @@ const UserWallet = () => {
 
   //format to display
   const formatMoney = (value) => {
-    // Ensure the value is a string
-    const cleanedValue = String(value).replace(/\D/g, "");
-    // Format with dots as thousand separators
-    return cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Ensure the value is a number or a string
+    let [integerPart, decimalPart] = String(value).split(".");
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted number with the decimal part (if present)
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
   };
   //----handle amount input------
   const handleInputChange = (e) => {

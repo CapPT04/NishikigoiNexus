@@ -11,25 +11,12 @@ import Navbar from "../../common/Navbar/Navbar";
 
 const HomePage = () => {
   return (
-    <div className="home-page">
-      <div className="header-parent">
-        {/* <div className="navigation-bar">
-          <div className="navigation-bar-left-content">
-            <img className="logo" src={logo} alt="Logo Nishikigoi" />
-            <div className="project-name">Nishikigoi Nexus</div>
-          </div>
 
-          <div className="navigation-bar-right-content">
-            <a className="home">HOME</a>
-            <a className="auction">AUCTION</a>
-            <a className="blog">BLOG</a>
-            <a className="about">ABOUT</a>
-            <div className="account">SIGN UP</div>
-          </div>
-        </div> */}
-        <div className="header">
-          <Navbar></Navbar>
-        </div>
+    <div className="home-page">
+      <div className="header">
+        <Navbar></Navbar>
+      </div>
+      <div className="header-parent">
 
         <div className="slogan-homepage">
           <div className="slogan-above">BIDDING FOR</div>

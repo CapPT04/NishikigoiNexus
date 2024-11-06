@@ -82,6 +82,17 @@ const Request = () => {
     getFee();
   }, []);
   //--------
+  const formatPrice = (value) => {
+    // Ensure the value is a number or a string
+    let [integerPart, decimalPart] = String(value).split(".");
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted number with the decimal part (if present)
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  };
+  //..........
 
   const steps = [
     { title: "Fish Details", subtitle: "Enter information about Fish" },
@@ -514,7 +525,7 @@ const Request = () => {
               <input
                 type="text"
                 name="auctionPrice"
-                value={startPrice}
+                value={startPrice ? formatPrice(startPrice) : ""}
                 disabled={true}
               />
               <span className="dollar-sign">vnd</span>
@@ -532,7 +543,7 @@ const Request = () => {
                 type="text"
                 name="auctionPrice"
                 placeholder="XXXXXXX"
-                value={maxPrice}
+                value={maxPrice ? formatPrice(maxPrice) : ""}
                 disabled={true}
               />
               <span className="dollar-sign">vnd</span>
@@ -548,7 +559,7 @@ const Request = () => {
                 type="text"
                 name="incrementStep"
                 placeholder="XXXXXXX"
-                value={stepPrice}
+                value={stepPrice ? formatPrice(stepPrice) : ""}
                 disabled={true}
               />
               <span className="dollar-sign">vnd</span>
@@ -672,7 +683,7 @@ const Request = () => {
       <ToastContainer /> {/* Add ToastContainer for displaying toasts */}
       <div className="row">
         <div className="col-md-6 col-md-offset-3">
-          <form className="request">
+          <form className="request-content">
             <ul className="progressbar">
               {steps.map((step, index) => (
                 <li
