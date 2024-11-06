@@ -41,7 +41,7 @@ const FishList = () => {
           >
             Request
           </a>
-          <a class="koi selected" onClick={() => navigate("/Breeder/FishList")}>
+          <a class="koi" onClick={() => navigate("/Breeder/FishList")}>
             KOI
           </a>
         </div>

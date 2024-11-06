@@ -47,4 +47,7 @@ export const path = {
   CHECKOUT: "Checkout",
   WINNERPAYMENTCALLBACK: "WinnerPaymentCallback",
   USERWALLET: "UserWallet",
+
+  PAYMENT: "/Payment",
+  PAYMENTRESPONSE: "PaymentResponse",
 };
