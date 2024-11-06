@@ -63,6 +63,7 @@ const END_POINT = {
   WINNERPAYMENTCALLBACK: "Payment/WinnerPaymentCallBack",
   CHECKENROLL: "Enrollment/CheckEnrollment",
   ENROLL: "Enrollment/Enroll",
+  GETFISHENTRYDEPOSIT: "FishEntry/GetFishEntryDeposit",
 
   //user
   GETBALANCEBYUSERID: "User/GetBalanceByUserId",
@@ -120,7 +121,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -360,6 +361,15 @@ export const handleEnrollApi = async (token, fishEntryId) => {
       token: token,
       fishEntryId: fishEntryId
     });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetFishEntryDepositApi = (fishEntryID) => {
+  try {
+    const url = `${END_POINT.GETFISHENTRYDEPOSIT}?fishEntryId=${fishEntryID}`;
+    return axiosClient.get(url);
   } catch (error) {
     throw error;
   }

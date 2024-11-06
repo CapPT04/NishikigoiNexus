@@ -15,6 +15,10 @@ import {
     handleGetAuctionDetailByIdApi,
     handleCheckEnrollApi,
     handleEnrollApi,
+<<<<<<< Updated upstream
+=======
+    handleGetFishEntryDepositApi,
+>>>>>>> Stashed changes
 } from "../../../axios/UserService";
 import Swal from "sweetalert2";
 import * as signalR from "@microsoft/signalr";
@@ -40,6 +44,7 @@ const FishAuctionMethod2 = () => {
     const [winnerData, setWinnerData] = useState(null);
     const [auctionDetails, setAuctionDetails] = useState();
     const [checkEnroll, setCheckEnroll] = useState(false);
+<<<<<<< Updated upstream
 
 <<<<<<< Updated upstream
     useEffect(() => {
@@ -262,6 +267,280 @@ const FishAuctionMethod2 = () => {
         fetchWinnerData();
     }, [auctionItem.status, auctionItem.fishEntryId]);
 
+=======
+    const [fishEntryDeposit, setFishEntryDeposit] = useState(0);
+
+
+    const handleEnrollBtn = async () => {
+        // Show confirmation dialog with deposit amount
+
+        const result = await Swal.fire({
+            title: 'Confirm Enrollment',
+            text: `To enroll in this auction, a deposit of ${fishEntryDeposit} VND is required. Do you wish to proceed?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, proceed',
+            cancelButtonText: 'No, cancel'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                Swal.fire({
+                    title: 'Enrolling...',
+                    text: 'Please wait while we enroll you in the auction.',
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                const response = await handleEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId);
+                console.log(response);
+
+                if (response && response.status === 200) {
+                    // Success notification
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Enrollment Successful!',
+                        text: `You have been successfully enrolled with a ${fishEntryDeposit} VND deposit.`
+                    }).then(() => {
+                        // Reload the page after the user clicks "OK" on the success message
+                        window.location.reload(); // This will reload the current page
+                    });
+                    // Update component state (if needed)
+                } else if (response && response.status === 400) {
+                    // Handle insufficient balance error
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Enrollment Partially Successful',
+                        text: 'You do not have enough balance to enroll! Please deposit money into your account.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Go to Deposit Page',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirect to deposit page
+                            if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
+                                navigate("/user/UserWallet");
+                            } else if (JSON.parse(sessionStorage.getItem("user")).Role === "2") {
+                                navigate("/breeder/UserWallet");
+
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.log(error);
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Enrollment Failed',
+                    text: 'There was an error enrolling in the auction. Please try again later.'
+                });
+            }
+        } else {
+            Swal.fire({
+                icon: 'info',
+                title: 'Enrollment Canceled',
+                text: 'You chose not to proceed with the enrollment.'
+            });
+        }
+    };
+
+
+
+    useEffect(() => {
+        const fishEntryDeposit = async () => {
+            try {
+                const response = await handleGetFishEntryDepositApi(auctionItem.fishEntryId);
+                if (response && response.status === 200) {
+                    setFishEntryDeposit(response.data);
+                } else if (response.status === 400) {
+                    setFishEntryDeposit(0);
+                }
+            } catch (error) {
+                console.error("Error checking gt fish entry deposite status:", error);
+            }
+        };
+        fishEntryDeposit();
+    }, [auctionItem.fishEntryId]);
+
+    useEffect(() => {
+        const checkEnrollmentStatus = async () => {
+            try {
+                const response = await handleCheckEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId);
+                console.log(response);
+                console.log(sessionStorage.getItem("token"));
+                console.log(response.status);
+                if (response && response.status === 200) {
+                    setCheckEnroll(true);
+                } else if (response.status === 400) {
+                    setCheckEnroll(false);
+                }
+            } catch (error) {
+                console.error("Error checking enrollment status:", error);
+                setCheckEnroll(false);
+            }
+        };
+        checkEnrollmentStatus();
+    }, [auctionItem.fishEntryId]);
+
+    useEffect(() => {
+        const fetchImageFish = async () => {
+            try {
+                setMainImage(auctionItem.images.$values[0]?.imagePath);
+                const response = await handleGetFishImgById(
+                    auctionItem.images.$values[0].fishId
+                );
+                setFishImage(response.data.$values);
+                // console.log(response.data.$values);
+            } catch (error) {
+                console.error("Error fetching:", error);
+            }
+        };
+        fetchImageFish();
+    }, []);
+
+    useEffect(() => {
+        const fetchHistoryOfSecretBid = async () => {
+            try {
+                // console.log(auctionItem.fishEntryId);
+                const response = await handleGetHistoryOfSecretBidApi(
+                    auctionItem.fishEntryId
+                );
+                // console.log(response.data.$values[0]);
+                setNumberOfBidders(response.data.$values[0].numberOfBidders);
+                // Cập nhật state với 5 phần tử mới nhất
+                setHistoryOfSecretBid(response.data.$values.slice(-5));
+                // console.log(historyOfSecretBid);
+            } catch (error) {
+                console.error("Error fetching:", error);
+            }
+        };
+        fetchHistoryOfSecretBid();
+    }, []);
+
+    useEffect(() => {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl(
+                `https://localhost:7124/secretBidHub?fishEntryId=${auctionItem.fishEntryId}`
+            )
+            .withAutomaticReconnect()
+            .build();
+
+        connection
+            .start()
+            .then(() => {
+                console.log("Connected to SignalR Hub");
+                // Lắng nghe sự kiện ReceiveHistoryOfBids
+                connection.on("ReceiveBidPlacement", (newBid) => {
+                    // Cập nhật lịch sử đấu giá với bid mới nhận được
+                    console.log("Received new bid: ", newBid);
+                    setHistoryOfSecretBid((prevHistory) => [...prevHistory, newBid]);
+                    // Cập nhật số lượng người tham gia
+                    setNumberOfBidders((prevCount) => newBid.numberOfBidders);
+                });
+                connection.on("AuctionEnded", (data) => {
+                    //reload page when auction end
+                    window.location.reload();
+                });
+                connection.om("AuctionStart", (data) => {
+                    //reload page when auction start
+                    window.location.reload();
+                });
+            })
+            .catch((err) => console.log("Error while starting connection: " + err));
+
+        return () => {
+            connection
+                .stop()
+                .then(() => console.log("Disconnected from SignalR Hub"));
+        };
+    }, []);
+
+    const handlePlaceSecretBidBtn = async () => {
+        console.log("adsa");
+
+        if (sessionStorage.getItem("token") === null) {
+            console.log(sessionStorage.getItem("token"));
+            navigate("/login");
+            return;
+        }
+        Swal.fire({
+            title: "Place Secret Bid",
+            text: `Are you sure you want to place a bid of ${amount} VND?`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#28a745", // Customize button color
+            cancelButtonColor: "#dc3545",
+            confirmButtonText: "Yes, place bid!",
+            cancelButtonText: "No, cancel",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await handlePlaceSecretBidApi(
+                        sessionStorage.getItem("token"),
+                        amount,
+                        auctionItem.fishEntryId
+                    );
+                    const responseHisOfSecretBid = await handleGetHistoryOfSecretBidApi(
+                        auctionItem.fishEntryId
+                    );
+
+                    console.log(response);
+
+                    if (response && response.status === 200) {
+                        Swal.fire({
+                            title: "Bid Placed!",
+                            text: "Your bid has been successfully placed.",
+                            icon: "success",
+                            confirmButtonColor: "#28a745",
+                        });
+                    } else if (response.status === 400) {
+                        Swal.fire({
+                            title: "Place bid failed!",
+                            icon: "error",
+                            confirmButtonColor: "#dc3545",
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error placing bid:", error);
+                    Swal.fire({
+                        title: "Error",
+                        text: "There was an issue placing your bid. Please try again.",
+                        icon: "error",
+                        confirmButtonColor: "#dc3545",
+                    });
+                }
+            } else {
+                Swal.fire("Cancelled", "Your bid was not placed.", "info");
+            }
+        });
+    };
+
+    useEffect(() => {
+        const fetchWinnerData = async () => {
+            if (auctionItem.status === 4) {
+                try {
+                    const response = await handleGetWinnerApi(auctionItem.fishEntryId);
+                    if (response && response.status === 200) {
+                        setWinnerData(response.data);
+                    } else if (response.status === 404 && response.data === "No winner") {
+                        setWinnerData(null); // Set winnerData to null when there is no winner
+                    } else {
+                        console.log(response);
+                    }
+                } catch (error) {
+                    console.error("Error fetching winner data:", error);
+                }
+            } else {
+                setWinnerData(null);
+            }
+        };
+
+        fetchWinnerData();
+    }, [auctionItem.status, auctionItem.fishEntryId]);
+
+>>>>>>> Stashed changes
     return (
         <div>
             <div className="header">
@@ -378,7 +657,11 @@ const FishAuctionMethod2 = () => {
                                             <i className="fa-solid fa-file-invoice-dollar"></i>
                                         </div>
                                         <div className="min-price-text">
+<<<<<<< Updated upstream
                                             Min price: ${auctionItem.min}
+=======
+                                            Min price: {auctionItem.min} VND
+>>>>>>> Stashed changes
                                         </div>
                                     </div>
 
@@ -397,12 +680,20 @@ const FishAuctionMethod2 = () => {
                                             onClick={handlePlaceSecretBidBtn}
                                             disabled={auctionItem.status === 2}
                                         >
+<<<<<<< Updated upstream
                                             {auctionItem.status === 2 ? "The auction has not started." : `Place bid at $${amount}`}
+=======
+                                            {auctionItem.status === 2 ? "The auction has not started." : `Place bid at ${amount} VND`}
+>>>>>>> Stashed changes
                                         </button>
                                     ) : (
                                         <button className="enroll-bid"
                                             onClick={() => handleEnrollBtn()}>
+<<<<<<< Updated upstream
                                             Enroll
+=======
+                                            Enroll with {fishEntryDeposit} VND deposit
+>>>>>>> Stashed changes
                                         </button>
                                     )}
 
@@ -421,7 +712,11 @@ const FishAuctionMethod2 = () => {
                                     </div>
                                     <hr />
                                     <div className="place-bid-content-row2-status4">
+<<<<<<< Updated upstream
                                         ${winnerData.amount}
+=======
+                                        {winnerData.amount} VND
+>>>>>>> Stashed changes
                                     </div>
                                     <div className="place-bid-content-row3-status4">
                                         {formatDate(winnerData.endDate)}
