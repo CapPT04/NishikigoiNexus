@@ -61,6 +61,9 @@ const END_POINT = {
   GETUNPAIDBIDDINGHISTORYBYMEMBERID: "User/GetUnpaidBiddingHistoryByMemberId",
   WINNERPAYMENT: "Payment/WinnerPayment",
   WINNERPAYMENTCALLBACK: "Payment/WinnerPaymentCallBack",
+  CHECKENROLL: "Enrollment/CheckEnrollment",
+  ENROLL: "Enrollment/Enroll",
+
   //user
   GETBALANCEBYUSERID: "User/GetBalanceByUserId",
   RECHARGEPAYMENT: "Payment/RechargePayment",
@@ -333,6 +336,29 @@ export const handleWinnerPaymentCallbackApi = async (info, checkoutData) => {
       phone: checkoutData.phone,
       address: checkoutData.address,
       city: checkoutData.city,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const handleCheckEnrollApi = async (token, fishEntryId) => {
+  try {
+    return await axiosClient.post(`${END_POINT.CHECKENROLL}`, {
+      token: token,
+      fishEntryId: fishEntryId
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleEnrollApi = async (token, fishEntryId) => {
+  try {
+    return await axiosClient.post(`${END_POINT.ENROLL}`, {
+      token: token,
+      fishEntryId: fishEntryId
     });
   } catch (error) {
     throw error;
