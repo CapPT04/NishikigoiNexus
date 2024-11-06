@@ -4,13 +4,13 @@ import Navbar from "../../common/Navbar/Navbar";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
   handleBidHistory,
-  handleCheckEnrollApi,
-  handleEnrollApi,
   handleFishEntryById,
   handleGetFishDetailById,
   handleGetFishImgById,
   handleGetWinnerApi,
   handlePublicBidding,
+  handleCheckEnrollApi,
+  handleEnrollApi,
   handleGetFishEntryDepositApi
 } from "../../../axios/UserService";
 import * as signalR from "@microsoft/signalr";
@@ -129,7 +129,6 @@ const FishAuctionMethod3 = () => {
     };
     fishEntryDeposit();
   }, [auctionItem.fishEntryId]);
-
   useEffect(() => {
     const checkEnrollmentStatus = async () => {
       try {
@@ -152,106 +151,7 @@ const FishAuctionMethod3 = () => {
 
 
 
-  const handleEnrollBtn = async () => {
-    // Show confirmation dialog with deposit amount
 
-    const result = await Swal.fire({
-      title: "Confirm Enrollment",
-      text: `To enroll in this auction, a deposit of ${fishEntryDeposit} VND is required. Do you wish to proceed?`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, proceed",
-      cancelButtonText: "No, cancel",
-    });
-
-    if (result.isConfirmed) {
-      try {
-        Swal.fire({
-          title: "Enrolling...",
-          text: "Please wait while we enroll you in the auction.",
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
-
-        const response = await handleEnrollApi(
-          sessionStorage.getItem("token"),
-          fishEntry.fishEntryId
-        );
-        console.log(response);
-
-        if (response && response.status === 200) {
-          // Success notification
-          Swal.fire({
-            icon: "success",
-            title: "Enrollment Successful!",
-            text: `You have been successfully enrolled with a ${fishEntryDeposit} VND deposit.`,
-          }).then(() => {
-            // Reload the page after the user clicks "OK" on the success message
-            window.location.reload(); // This will reload the current page
-          });
-          // Update component state (if needed)
-        } else if (response && response.status === 400) {
-          // Handle insufficient balance error
-          Swal.fire({
-            icon: "error",
-            title: "Enrollment Failed",
-            text: "You do not have enough balance to enroll! Please deposit money into your account.",
-            showCancelButton: true,
-            confirmButtonText: "Go to Deposit Page",
-            cancelButtonText: "Cancel",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // Redirect to deposit page
-              if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
-                navigate("/user/UserWallet");
-              } else if (
-                JSON.parse(sessionStorage.getItem("user")).Role === "2"
-              ) {
-                navigate("/breeder/UserWallet");
-              }
-            }
-          });
-        }
-      } catch (error) {
-        console.log(error);
-
-        Swal.fire({
-          icon: "error",
-          title: "Enrollment Failed",
-          text: "There was an error enrolling in the auction. Please try again later.",
-        });
-      }
-    } else {
-      Swal.fire({
-        icon: "info",
-        title: "Enrollment Canceled",
-        text: "You chose not to proceed with the enrollment.",
-      });
-    }
-  };
-  useEffect(() => {
-    const checkEnrollmentStatus = async () => {
-      try {
-        const response = await handleCheckEnrollApi(
-          sessionStorage.getItem("token"),
-          fishEntry.fishEntryId
-        );
-        console.log(response);
-        console.log(sessionStorage.getItem("token"));
-        console.log(response.status);
-        if (response && response.status === 200) {
-          setCheckEnroll(true);
-        } else if (response.status === 400) {
-          setCheckEnroll(false);
-        }
-      } catch (error) {
-        console.error("Error checking enrollment status:", error);
-        setCheckEnroll(false);
-      }
-    };
-    checkEnrollmentStatus();
-  }, []);
   //format to display
   const formatMoney = (value) => {
     // Ensure the value is a number or a string
