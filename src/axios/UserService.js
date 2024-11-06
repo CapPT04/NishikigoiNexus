@@ -61,6 +61,46 @@ const END_POINT = {
   GETUNPAIDBIDDINGHISTORYBYMEMBERID: "User/GetUnpaidBiddingHistoryByMemberId",
   WINNERPAYMENT: "Payment/WinnerPayment",
   WINNERPAYMENTCALLBACK: "Payment/WinnerPaymentCallBack",
+<<<<<<< Updated upstream
+=======
+  CHECKENROLL: "Enrollment/CheckEnrollment",
+  ENROLL: "Enrollment/Enroll",
+
+  //user
+  GETBALANCEBYUSERID: "User/GetBalanceByUserId",
+  RECHARGEPAYMENT: "Payment/RechargePayment",
+  RECHARGEPAYMENTCALLBACK: "Payment/RechargePaymentCallBack",
+  TRANSACTIONHISTORY: "Transaction/GetTransactionHistory",
+  //Payment
+  WALLETPAYMENT: "Payment/WalletPayment",
+};
+export const handleWalletPaymentApi = (token, amount) => {
+  return axiosClient.post(`${END_POINT.WALLETPAYMENT}`, {
+    token: token,
+    amount: amount,
+  });
+};
+export const handleBalanceByUserIdApi = (userId) => {
+  return axiosClient.get(`${END_POINT.GETBALANCEBYUSERID}?id=${userId}`);
+};
+export const handleRechargePaymentApi = (token, amount) => {
+  return axiosClient.post(`${END_POINT.RECHARGEPAYMENT}`, {
+    token: token,
+    amount: amount,
+  });
+};
+export const handleRechargePaymentCallBackApi = (object) => {
+  return axiosClient.post(`${END_POINT.RECHARGEPAYMENTCALLBACK}`, {
+    amount: object.amount,
+    vnp_Amount: object.vnp_Amount,
+    vnp_OrderInfo: object.vnp_OrderInfo,
+    vnp_PayDate: object.vnp_PayDate,
+    vnp_ResponseCode: object.vnp_ResponseCode,
+  });
+};
+export const handleTransactionHistoryApi = (token) => {
+  return axiosClient.post(`${END_POINT.TRANSACTIONHISTORY}?token=${token}`);
+>>>>>>> Stashed changes
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -306,7 +346,31 @@ export const handleWinnerPaymentCallbackApi = async (info, checkoutData) => {
   }
 };
 
+<<<<<<< Updated upstream
 
+=======
+export const handleCheckEnrollApi = async (token, fishEntryId) => {
+  try {
+    return await axiosClient.post(`${END_POINT.CHECKENROLL}`, {
+      token: token,
+      fishEntryId: fishEntryId
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleEnrollApi = async (token, fishEntryId) => {
+  try {
+    return await axiosClient.post(`${END_POINT.ENROLL}`, {
+      token: token,
+      fishEntryId: fishEntryId
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+>>>>>>> Stashed changes
 
 export const handleGetAllBreeders = () => {
   try {
