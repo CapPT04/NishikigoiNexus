@@ -9,6 +9,7 @@ import {
   handleGetRequestDetail,
   handlePayFeeAPI,
   handleUserById,
+  handleWalletPaymentApi,
 } from "../../../axios/UserService";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
@@ -25,6 +26,17 @@ const RequestDetail = () => {
   const reqID = searchParams.get("id");
   const token = sessionStorage.getItem("token");
 
+  //format to display
+  const formatMoney = (value) => {
+    // Ensure the value is a number or a string
+    let [integerPart, decimalPart] = String(value).split(".");
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted number with the decimal part (if present)
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  };
   //-------get info----------
   const getInfoRequestDetail = async () => {
     try {
@@ -44,12 +56,33 @@ const RequestDetail = () => {
   };
   //------ pay fee----------
   const handlePayFee = async () => {
-    // implement your payment logic here
-    // console.log("pay");
-    // console.log(token);
-    const link = await handlePayFeeAPI(token, reqID);
-    // console.log(link);
-    window.location.href = link.data;
+    const res = await handleWalletPaymentApi(token, myRequest.fee);
+    console.log(res);
+    if (res.status === 200) {
+      toast.success("Pay Fee Sucessfully", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      // window.location.reload();
+    } else {
+      toast.error(res.data, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   };
   //-----cancel----
   const handleCancel = async () => {
@@ -127,19 +160,23 @@ const RequestDetail = () => {
               <input
                 type="text"
                 className="update-by-input"
-                value={fishEntry.expectedDate ? fishEntry.expectedDate : ""}
+                value={
+                  fishEntry.expectedDate
+                    ? new Date(fishEntry.expectedDate).toLocaleString()
+                    : ""
+                }
                 disabled={true}
               />
             </div>
             <div className="update-date">
               {" "}
               <label for="update-date-input" className="update-date-label">
-                Fee($)
+                Fee
               </label>
               <input
                 type="datetime"
                 className="update-date-input"
-                value={myRequest.fee ? myRequest.fee : 0}
+                value={myRequest.fee ? formatMoney(myRequest.fee) + " VND" : 0}
                 disabled={true}
               />
             </div>
@@ -163,12 +200,16 @@ const RequestDetail = () => {
             <div className="expected-date">
               {" "}
               <label for="expected-date-input" className="expected-date-label">
-                Increment($)
+                Increment
               </label>
               <input
-                type="datetime"
+                type="text"
                 className="expected-date-input"
-                value={fishEntry.increment ? fishEntry.increment : 0}
+                value={
+                  fishEntry.increment
+                    ? formatMoney(fishEntry.increment) + " VND"
+                    : "0 VND"
+                }
                 disabled={true}
               />
             </div>
@@ -176,24 +217,32 @@ const RequestDetail = () => {
           <div className="request-detail-content-row6">
             <div className="delivery-cost">
               <label for="delivery-cost-input" className="delivery-cost-label">
-                Min Price($)
+                Min Price
               </label>
               <input
-                type="number"
+                type="text"
                 className="delivery-cost-input"
-                value={fishEntry.minPrice ? fishEntry.minPrice : 0}
+                value={
+                  fishEntry.minPrice
+                    ? formatMoney(fishEntry.minPrice) + " VND"
+                    : "0 VND"
+                }
                 disabled={true}
               />
             </div>
             <div className="fee">
               {" "}
               <label for="fee-input" className="fee-label">
-                Max Price($)
+                Max Price
               </label>
               <input
-                type="number"
+                type="text"
                 className="fee-input"
-                value={fishEntry.maxPrice ? fishEntry.maxPrice : 0}
+                value={
+                  fishEntry.maxPrice
+                    ? formatMoney(fishEntry.maxPrice) + " VND"
+                    : "0 VND"
+                }
                 disabled={true}
               />
             </div>
@@ -218,7 +267,11 @@ const RequestDetail = () => {
               <input
                 type="text"
                 className="note-input"
-                value={myRequest.paymentDate ? myRequest.paymentDate : ""}
+                value={
+                  myRequest.paymentDate
+                    ? new Date(myRequest.paymentDate).toLocaleString()
+                    : ""
+                }
                 disabled={true}
               />
             </div>
@@ -300,7 +353,11 @@ const RequestDetail = () => {
               <input
                 type="datetime"
                 className="expected-date-input"
-                value={fishEntry.highestPrice ? fishEntry.highestPrice : ""}
+                value={
+                  fishEntry.highestPrice
+                    ? formatMoney(fishEntry.highestPrice) + " VND"
+                    : ""
+                }
                 disabled={true}
               />
             </div>
@@ -325,6 +382,7 @@ const RequestDetail = () => {
               </button>
             </div>
           )}
+          {(myRequest.status === 3 || myRequest.status === 4) && <div></div>}
         </div>
       </div>
     </div>
