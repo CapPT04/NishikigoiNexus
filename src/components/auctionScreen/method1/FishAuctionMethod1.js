@@ -13,7 +13,7 @@ import {
   handlePlaceFixedPrice,
   handleCheckEnrollApi,
   handleEnrollApi,
-  handleGetFishEntryDepositApi
+  handleGetFishEntryDepositApi,
 } from "../../../axios/UserService";
 import * as signalR from "@microsoft/signalr";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
@@ -38,33 +38,36 @@ const FishAuctionMethod1 = () => {
     // Show confirmation dialog with deposit amount
 
     const result = await Swal.fire({
-      title: 'Confirm Enrollment',
+      title: "Confirm Enrollment",
       text: `To enroll in this auction, a deposit of ${fishEntryDeposit} VND is required. Do you wish to proceed?`,
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: 'Yes, proceed',
-      cancelButtonText: 'No, cancel'
+      confirmButtonText: "Yes, proceed",
+      cancelButtonText: "No, cancel",
     });
 
     if (result.isConfirmed) {
       try {
         Swal.fire({
-          title: 'Enrolling...',
-          text: 'Please wait while we enroll you in the auction.',
+          title: "Enrolling...",
+          text: "Please wait while we enroll you in the auction.",
           didOpen: () => {
             Swal.showLoading();
-          }
+          },
         });
 
-        const response = await handleEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId);
+        const response = await handleEnrollApi(
+          sessionStorage.getItem("token"),
+          auctionItem.fishEntryId
+        );
         console.log(response);
 
         if (response && response.status === 200) {
           // Success notification
           Swal.fire({
-            icon: 'success',
-            title: 'Enrollment Successful!',
-            text: `You have been successfully enrolled with a ${fishEntryDeposit} VND deposit.`
+            icon: "success",
+            title: "Enrollment Successful!",
+            text: `You have been successfully enrolled with a ${fishEntryDeposit} VND deposit.`,
           }).then(() => {
             // Reload the page after the user clicks "OK" on the success message
             window.location.reload(); // This will reload the current page
@@ -73,20 +76,21 @@ const FishAuctionMethod1 = () => {
         } else if (response && response.status === 400) {
           // Handle insufficient balance error
           Swal.fire({
-            icon: 'error',
-            title: 'Enrollment Failed',
-            text: 'You do not have enough balance to enroll! Please deposit money into your account.',
+            icon: "error",
+            title: "Enrollment Failed",
+            text: "You do not have enough balance to enroll! Please deposit money into your account.",
             showCancelButton: true,
-            confirmButtonText: 'Go to Deposit Page',
-            cancelButtonText: 'Cancel'
+            confirmButtonText: "Go to Deposit Page",
+            cancelButtonText: "Cancel",
           }).then((result) => {
             if (result.isConfirmed) {
               // Redirect to deposit page
               if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
                 navigate("/user/UserWallet");
-              } else if (JSON.parse(sessionStorage.getItem("user")).Role === "2") {
+              } else if (
+                JSON.parse(sessionStorage.getItem("user")).Role === "2"
+              ) {
                 navigate("/breeder/UserWallet");
-
               }
             }
           });
@@ -95,16 +99,16 @@ const FishAuctionMethod1 = () => {
         console.log(error);
 
         Swal.fire({
-          icon: 'error',
-          title: 'Enrollment Failed',
-          text: 'There was an error enrolling in the auction. Please try again later.'
+          icon: "error",
+          title: "Enrollment Failed",
+          text: "There was an error enrolling in the auction. Please try again later.",
         });
       }
     } else {
       Swal.fire({
-        icon: 'info',
-        title: 'Enrollment Canceled',
-        text: 'You chose not to proceed with the enrollment.'
+        icon: "info",
+        title: "Enrollment Canceled",
+        text: "You chose not to proceed with the enrollment.",
       });
     }
   };
@@ -112,7 +116,9 @@ const FishAuctionMethod1 = () => {
   useEffect(() => {
     const fishEntryDeposit = async () => {
       try {
-        const response = await handleGetFishEntryDepositApi(auctionItem.fishEntryId);
+        const response = await handleGetFishEntryDepositApi(
+          auctionItem.fishEntryId
+        );
         if (response && response.status === 200) {
           setFishEntryDeposit(response.data);
         } else if (response.status === 400) {
@@ -127,7 +133,10 @@ const FishAuctionMethod1 = () => {
   useEffect(() => {
     const checkEnrollmentStatus = async () => {
       try {
-        const response = await handleCheckEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId);
+        const response = await handleCheckEnrollApi(
+          sessionStorage.getItem("token"),
+          auctionItem.fishEntryId
+        );
         console.log(response);
         console.log(sessionStorage.getItem("token"));
         console.log(response.status);
@@ -274,11 +283,10 @@ const FishAuctionMethod1 = () => {
         </div>
         <div className="fish-aucction-method3-content-row2">
           {fishEntry.status === 3
-            ? `Ending in: ${new Date(auctionItem.endTime).toLocaleString()}`
+            ? `Ending in: ${new Date(fishEntry.endDate).toLocaleString()}`
             : fishEntry.status === 2
             ? "Waiting"
             : "Ended"}
-
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
@@ -306,7 +314,7 @@ const FishAuctionMethod1 = () => {
               </div>
               <div className="fish-info-row2">
                 <div className="fish-info-ending">
-                  Ending in: {new Date(auctionItem.endTime).toLocaleString()}
+                  Ending in: {new Date(fishEntry.endDate).toLocaleString()}
                 </div>
                 <div className="fish-info-tag">
                   <i className="fa-solid fa-tag"></i>
@@ -362,7 +370,7 @@ const FishAuctionMethod1 = () => {
                 })}
               </div>
             </div>
-            {(auctionItem.status === 3 || auctionItem.status === 2) && (
+            {(fishEntry.status === 3 || fishEntry.status === 2) && (
               <div className="place-bid">
                 <div className="place-bid-content">
                   <div className="place-bid-content-row1">
@@ -387,21 +395,23 @@ const FishAuctionMethod1 = () => {
 
                   {checkEnroll ? (
                     <button className="place-bid-btn" onClick={placeABid}>
-                      {auctionItem.status === 2 ? "The auction has not started." : `Place bid at ${fishEntry.minPrice} VND`}
-
+                      {fishEntry.status === 2
+                        ? "The auction has not started."
+                        : `Place bid at ${fishEntry.minPrice} VND`}
                     </button>
                   ) : (
-                    <button className="enroll-bid"
-                      onClick={() => handleEnrollBtn()}>
+                    <button
+                      className="enroll-bid"
+                      onClick={() => handleEnrollBtn()}
+                    >
                       Enroll with {fishEntryDeposit} VND deposit
                     </button>
                   )}
-
                 </div>
               </div>
             )}
 
-            {auctionItem.status === 4 && winnerData ? (
+            {fishEntry.status === 4 && winnerData ? (
               <div className="place-bid-status4">
                 <div className="place-bid-content-status4">
                   <div className="place-bid-content-row1-status4">
@@ -416,7 +426,7 @@ const FishAuctionMethod1 = () => {
                   </div>
                 </div>
               </div>
-            ) : auctionItem.status === 4 && winnerData === null ? (
+            ) : fishEntry.status === 4 && winnerData === null ? (
               <div className="place-bid-status4">
                 <div className="place-bid-content-status4">
                   <div className="place-bid-content-row1-status4-no-winner">
