@@ -38,7 +38,6 @@ const FishAuctionMethod3 = () => {
   const auctionItem = useLocation().state.auctionItem;
 
 
-
   const handleEnrollBtn = async () => {
     // Show confirmation dialog with deposit amount
 
@@ -115,7 +114,6 @@ const FishAuctionMethod3 = () => {
   };
 
 
-
   useEffect(() => {
     const fishEntryDeposit = async () => {
       try {
@@ -152,6 +150,19 @@ const FishAuctionMethod3 = () => {
   }, [auctionItem.fishEntryId]);
 
 
+
+
+  //format to display
+  const formatMoney = (value) => {
+    // Ensure the value is a number or a string
+    let [integerPart, decimalPart] = String(value).split(".");
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted number with the decimal part (if present)
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  };
   const getFishEntry = async () => {
     if (entryId) {
       const res = await handleFishEntryById(entryId);
@@ -208,7 +219,7 @@ const FishAuctionMethod3 = () => {
           //reload page when auction end
           window.location.reload();
         });
-        connection.om("AuctionStart", (data) => {
+        connection.on("AuctionStart", (data) => {
           //reload page when auction start
           window.location.reload();
         });
@@ -266,6 +277,9 @@ const FishAuctionMethod3 = () => {
 
     fetchWinnerData();
   }, [fishEntry.status, fishEntry.fishEntryId]);
+  useEffect(() => {
+    console.log("fishentry:", fishEntry);
+  });
   return (
     <div className="auction-screen-container">
       <div className="header">
@@ -276,7 +290,7 @@ const FishAuctionMethod3 = () => {
         <div className="fish-aucction-method3-content-row1">Auction#13</div>
         <div className="fish-aucction-method3-content-row2">
           {fishEntry.status === 3
-            ? `Ending in: ${new Date(fishEntry.endTime).toLocaleString()}`
+            ? `Ending in: ${new Date(fishEntry.endDate).toLocaleString()}`
             : fishEntry.status === 2
               ? "Waiting"
               : "Ended"}
@@ -307,7 +321,10 @@ const FishAuctionMethod3 = () => {
               </div>
               <div className="fish-info-row2">
                 <div className="fish-info-ending">
-                  Ending in: {new Date(fishEntry.endDate).toLocaleString()}
+                  Ending in:{" "}
+                  {fishEntry.endDate
+                    ? new Date(fishEntry.endDate).toLocaleString()
+                    : ""}
                 </div>
                 <div className="fish-info-tag">
                   <i className="fa-solid fa-tag"></i>
@@ -360,6 +377,7 @@ const FishAuctionMethod3 = () => {
                           {/* Assuming you have a bidderName property */}
                         </div>
                         <div className="bidding-price">{bided.bidAmount} VND</div>{" "}
+
                         {/* Assuming you have a price property */}
                       </div>
                     );
@@ -376,12 +394,14 @@ const FishAuctionMethod3 = () => {
                     </div>
                     <div class="current-price-text">Current price</div>
                     <div class="current-price">{currentPrice} VND</div>
+
                   </div>
                   <hr />
                   <div class="place-bid-content-row2">
                     <div class="increment">
                       <div class="increment-text">Increment</div>
                       <div class="increment-number">{stepPrice} VND</div>
+
                     </div>
                     <div class="multiple">x</div>
                     <div class="cen-div">
@@ -407,6 +427,7 @@ const FishAuctionMethod3 = () => {
                       Enroll with {fishEntryDeposit} VND deposit
                     </button>
                   )}
+
 
                 </div>
               </div>
