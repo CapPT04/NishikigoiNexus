@@ -4,6 +4,7 @@ import "./RequestDetail.scss";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   handleCancelRequest,
+  handleFeeWalletPaymentApi,
   handleFishEntryByRequestId,
   handleGetFishEntry,
   handleGetRequestDetail,
@@ -56,7 +57,7 @@ const RequestDetail = () => {
   };
   //------ pay fee----------
   const handlePayFee = async () => {
-    const res = await handleWalletPaymentApi(token, myRequest.fee);
+    const res = await handleFeeWalletPaymentApi(token, reqID);
     console.log(res);
     if (res.status === 200) {
       toast.success("Pay Fee Sucessfully", {
@@ -80,9 +81,9 @@ const RequestDetail = () => {
         progress: undefined,
       });
     }
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 2000);
   };
   //-----cancel----
   const handleCancel = async () => {
