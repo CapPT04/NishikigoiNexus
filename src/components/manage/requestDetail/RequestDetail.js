@@ -27,6 +27,18 @@ const RequestDetail = () => {
 
   const [deliveryCost, setDeliveryCost] = useState(0);
 
+  //format to display
+  const formatMoney = (value) => {
+    // Ensure the value is a number or a string
+    let [integerPart, decimalPart] = String(value).split(".");
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted number with the decimal part (if present)
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  };
+
   const statusName = ["Processing", "Paying", "Approved", "Denied"];
   const method = ["FixedPriceSale", "SecretBid", "PublicBid", "DutchAuction"];
 
@@ -222,7 +234,7 @@ const RequestDetail = () => {
                   for="delivery-cost-input"
                   className="delivery-cost-label"
                 >
-                  Delivery Cost
+                  Delivery Cost (VND)
                 </label>
                 <input
                   type="number"
@@ -238,9 +250,13 @@ const RequestDetail = () => {
                   Fee
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   className="fee-input"
-                  value={requestDetail.fee}
+                  value={
+                    requestDetail.fee
+                      ? formatMoney(requestDetail.fee) + " VND"
+                      : "0 VND"
+                  }
                   disabled={true}
                 />
               </div>
@@ -328,7 +344,11 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="auction-method-input"
-                  value={fishEntry.increment}
+                  value={
+                    fishEntry.increment
+                      ? formatMoney(fishEntry.increment) + " VND"
+                      : "0"
+                  }
                   disabled={true}
                 />
               </div>
@@ -344,7 +364,11 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="auction-method-input"
-                  value={fishEntry.minPrice}
+                  value={
+                    fishEntry.minPrice
+                      ? formatMoney(fishEntry.minPrice) + " VND"
+                      : "0 VND"
+                  }
                   disabled={true}
                 />
               </div>
@@ -356,7 +380,11 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="auction-method-input"
-                  value={fishEntry.maxPrice}
+                  value={
+                    fishEntry.maxPrice
+                      ? formatMoney(fishEntry.maxPrice) + " VND"
+                      : "0 VND"
+                  }
                   disabled={true}
                 />
               </div>
@@ -373,13 +401,17 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="auction-method-input"
-                  value={new Date(fishEntry.startDate).toLocaleString()}
+                  value={
+                    fishEntry.startDate
+                      ? new Date(fishEntry.startDate).toLocaleString()
+                      : "Not Start Yet"
+                  }
                 />
               </div>
               <div className="auction-method">
                 {" "}
                 <label for="increment-input" className="auction-method-label">
-                  Increment
+                  End Date
                 </label>
                 <input
                   type="text"
@@ -387,7 +419,7 @@ const RequestDetail = () => {
                   value={
                     fishEntry.endDate
                       ? new Date(fishEntry.endDate).toLocaleString()
-                      : "Not ended"
+                      : "Not Ended"
                   }
                   disabled={true}
                 />
@@ -404,9 +436,7 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="auction-method-input"
-                  value={
-                    fishEntry.highestBidder ? fishEntry.highestBidder : "No one"
-                  }
+                  value={fishEntry.highestBidder ? fishEntry.highestBidder : ""}
                   disabled={true}
                 />
               </div>
@@ -418,7 +448,11 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="auction-method-input"
-                  value={fishEntry.highestPrice ? fishEntry.highestPrice : 0}
+                  value={
+                    fishEntry.highestPrice
+                      ? formatMoney(fishEntry.highestPrice) + " VND"
+                      : ""
+                  }
                   disabled={true}
                 />
               </div>
