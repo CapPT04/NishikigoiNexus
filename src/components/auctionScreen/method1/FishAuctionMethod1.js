@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./FishAuctionMethod1.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import { useLocation, useNavigate } from "react-router";
+import Swal from "sweetalert2";
+
 import {
   handleFishEntryById,
   handleFixedPriceHistory,
@@ -9,6 +11,9 @@ import {
   handleGetFishImgById,
   handleGetWinnerApi,
   handlePlaceFixedPrice,
+  handleCheckEnrollApi,
+  handleEnrollApi,
+  handleGetFishEntryDepositApi
 } from "../../../axios/UserService";
 import * as signalR from "@microsoft/signalr";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
@@ -26,6 +31,118 @@ const FishAuctionMethod1 = () => {
   const [bidHistory, setBidHistory] = useState([]);
   const [currentPlaced, setCurrentPlaced] = useState(0);
   const [winnerData, setWinnerData] = useState("");
+  const [checkEnroll, setCheckEnroll] = useState(false);
+  const [fishEntryDeposit, setFishEntryDeposit] = useState(0);
+
+  const handleEnrollBtn = async () => {
+    // Show confirmation dialog with deposit amount
+
+    const result = await Swal.fire({
+      title: 'Confirm Enrollment',
+      text: `To enroll in this auction, a deposit of ${fishEntryDeposit} VND is required. Do you wish to proceed?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, proceed',
+      cancelButtonText: 'No, cancel'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        Swal.fire({
+          title: 'Enrolling...',
+          text: 'Please wait while we enroll you in the auction.',
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+
+        const response = await handleEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId);
+        console.log(response);
+
+        if (response && response.status === 200) {
+          // Success notification
+          Swal.fire({
+            icon: 'success',
+            title: 'Enrollment Successful!',
+            text: `You have been successfully enrolled with a ${fishEntryDeposit} VND deposit.`
+          }).then(() => {
+            // Reload the page after the user clicks "OK" on the success message
+            window.location.reload(); // This will reload the current page
+          });
+          // Update component state (if needed)
+        } else if (response && response.status === 400) {
+          // Handle insufficient balance error
+          Swal.fire({
+            icon: 'error',
+            title: 'Enrollment Failed',
+            text: 'You do not have enough balance to enroll! Please deposit money into your account.',
+            showCancelButton: true,
+            confirmButtonText: 'Go to Deposit Page',
+            cancelButtonText: 'Cancel'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Redirect to deposit page
+              if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
+                navigate("/user/UserWallet");
+              } else if (JSON.parse(sessionStorage.getItem("user")).Role === "2") {
+                navigate("/breeder/UserWallet");
+
+              }
+            }
+          });
+        }
+      } catch (error) {
+        console.log(error);
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Enrollment Failed',
+          text: 'There was an error enrolling in the auction. Please try again later.'
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: 'info',
+        title: 'Enrollment Canceled',
+        text: 'You chose not to proceed with the enrollment.'
+      });
+    }
+  };
+
+  useEffect(() => {
+    const fishEntryDeposit = async () => {
+      try {
+        const response = await handleGetFishEntryDepositApi(auctionItem.fishEntryId);
+        if (response && response.status === 200) {
+          setFishEntryDeposit(response.data);
+        } else if (response.status === 400) {
+          setFishEntryDeposit(0);
+        }
+      } catch (error) {
+        console.error("Error checking gt fish entry deposite status:", error);
+      }
+    };
+    fishEntryDeposit();
+  }, [auctionItem.fishEntryId]);
+  useEffect(() => {
+    const checkEnrollmentStatus = async () => {
+      try {
+        const response = await handleCheckEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId);
+        console.log(response);
+        console.log(sessionStorage.getItem("token"));
+        console.log(response.status);
+        if (response && response.status === 200) {
+          setCheckEnroll(true);
+        } else if (response.status === 400) {
+          setCheckEnroll(false);
+        }
+      } catch (error) {
+        console.error("Error checking enrollment status:", error);
+        setCheckEnroll(false);
+      }
+    };
+    checkEnrollmentStatus();
+  }, []);
 
   const getInfo = async () => {
     if (auctionItem) {
@@ -161,6 +278,7 @@ const FishAuctionMethod1 = () => {
             : fishEntry.status === 2
             ? "Waiting"
             : "Ended"}
+
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
@@ -244,7 +362,7 @@ const FishAuctionMethod1 = () => {
                 })}
               </div>
             </div>
-            {fishEntry.status === 3 && (
+            {(auctionItem.status === 3 || auctionItem.status === 2) && (
               <div className="place-bid">
                 <div className="place-bid-content">
                   <div className="place-bid-content-row1">
@@ -264,20 +382,25 @@ const FishAuctionMethod1 = () => {
                     <div className="buy-price-text">Buy price</div>
                   </div>
                   <div className="place-bid-content-row31">
-                    ${fishEntry.minPrice}
+                    {fishEntry.minPrice} VND
                   </div>
-                  <button className="place-bid-btn" onClick={placeABid}>
-                    Place a bid at ${fishEntry.minPrice}
-                  </button>
+
+                  {checkEnroll ? (
+                    <button className="place-bid-btn" onClick={placeABid}>
+                      {auctionItem.status === 2 ? "The auction has not started." : `Place bid at ${fishEntry.minPrice} VND`}
+
+                    </button>
+                  ) : (
+                    <button className="enroll-bid"
+                      onClick={() => handleEnrollBtn()}>
+                      Enroll with {fishEntryDeposit} VND deposit
+                    </button>
+                  )}
+
                 </div>
               </div>
             )}
-            {auctionItem.status === 2 && (
-              <div className="auction-status-message">
-                <i className="fa-solid fa-clock"></i> {/* Biểu tượng đồng hồ */}
-                <p>The auction has not started yet.</p>
-              </div>
-            )}
+
             {auctionItem.status === 4 && winnerData ? (
               <div className="place-bid-status4">
                 <div className="place-bid-content-status4">
