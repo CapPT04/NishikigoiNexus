@@ -83,8 +83,8 @@ const FishAuctionMethod2 = () => {
                 } else if (response && response.status === 400) {
                     // Handle insufficient balance error
                     Swal.fire({
-                        icon: 'warning',
-                        title: 'Enrollment Partially Successful',
+                        icon: 'error',
+                        title: 'Enrollment Failed',
                         text: 'You do not have enough balance to enroll! Please deposit money into your account.',
                         showCancelButton: true,
                         confirmButtonText: 'Go to Deposit Page',
