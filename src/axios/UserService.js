@@ -26,7 +26,7 @@ const END_POINT = {
   GETFISHENTRYINAUCTION: "FishEntry/GetFishEntriesInAuction",
   GETALLMEMBER: "User/GetAllMember",
   BANUSER: "User/ToggleMemAndBreedStatus",
-  USERBIDHISTORY: "User/GetBiddingHistoryByMemberId",
+  USERBIDHISTORY: "Enrollment/GetBiddingHistoryByMemberId",
   GETFISHENTRYBYREQUESTID: "FishEntry/GetFishEntriesByRequestId",
   GETFISHBYFISHENTRYID: "Fish/GetFishByFishEntryId",
   ACCEPTREQUEST: "Request/CheckRequest",
@@ -59,7 +59,7 @@ const END_POINT = {
   GETWINNER: "FishEntry/GetWinner",
   GETOTHERBIDDINGHISTORYBYMEMBERID: "User/GetOtherBiddingHistoryByMemberId",
   GETBIDDINGHISTORYBYMEMBERID: "User/GetBiddingHistoryByMemberId",
-  GETUNPAIDBIDDINGHISTORYBYMEMBERID: "User/GetUnpaidBiddingHistoryByMemberId",
+  GETUNPAIDBIDDINGHISTORYBYMEMBERID: "Enrollment/GetUnpaidBiddingHistoryByMemberId",
   WINNERPAYMENT: "Payment/WinnerPayment",
   WINNERPAYMENTCALLBACK: "Payment/WinnerPaymentCallBack",
   CHECKENROLL: "Enrollment/CheckEnrollment",
@@ -322,9 +322,12 @@ export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
   }
 };
 
-export const handleWinnerPaymentApi = async (token, fishEntryId) => {
+export const handleWinnerPaymentApi = async (checkoutData, token, fishEntryId) => {
   try {
     return await axiosClient.post(`${END_POINT.WINNERPAYMENT}`, {
+      phone: checkoutData.phone,
+      address: checkoutData.address,
+      city: checkoutData.city,
       token: token,
       fishEntryId: fishEntryId,
     });

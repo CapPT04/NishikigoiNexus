@@ -14,6 +14,7 @@ const UserBidHistory = () => {
             try {
                 const user = JSON.parse(sessionStorage.getItem("user"));
                 const response = await handleGetBiddingHistoryByMemberIdApi(user.UserID);
+
                 setBiddingHistory(response.data.$values || []);
             } catch (error) {
                 console.error("Error fetching bidding history:", error);
@@ -27,6 +28,8 @@ const UserBidHistory = () => {
             try {
                 const user = JSON.parse(sessionStorage.getItem("user"));
                 const response = await handleGetUnpaidBiddingHistoryByMemberIdApi(user.UserID);
+                console.log(response);
+
                 setUnpaidBiddingHistory(response.data.$values || []);
             } catch (error) {
                 console.error("Error fetching unpaid bidding history:", error);
