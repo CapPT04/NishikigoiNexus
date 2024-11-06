@@ -65,6 +65,7 @@ const END_POINT = {
   GETBALANCEBYUSERID: "User/GetBalanceByUserId",
   RECHARGEPAYMENT: "Payment/RechargePayment",
   RECHARGEPAYMENTCALLBACK: "Payment/RechargePaymentCallBack",
+  TRANSACTIONHISTORY: "Transaction/GetTransactionHistory",
 };
 export const handleBalanceByUserIdApi = (userId) => {
   return axiosClient.get(`${END_POINT.GETBALANCEBYUSERID}?id=${userId}`);
@@ -83,6 +84,9 @@ export const handleRechargePaymentCallBackApi = (object) => {
     vnp_PayDate: object.vnp_PayDate,
     vnp_ResponseCode: object.vnp_ResponseCode,
   });
+};
+export const handleTransactionHistoryApi = (token) => {
+  return axiosClient.post(`${END_POINT.TRANSACTIONHISTORY}?token=${token}`);
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {

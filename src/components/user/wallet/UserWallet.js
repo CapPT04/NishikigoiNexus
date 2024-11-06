@@ -5,6 +5,7 @@ import logo from "../../../assets/images/logo_png.png";
 import {
   handleBalanceByUserIdApi,
   handleRechargePaymentApi,
+  handleTransactionHistoryApi,
 } from "../../../axios/UserService";
 
 const UserWallet = () => {
@@ -20,6 +21,10 @@ const UserWallet = () => {
     const res = await handleBalanceByUserIdApi(user.UserID);
     // console.log(res.data);
     setUserBalance(res.data);
+    const token = sessionStorage.getItem("token");
+    const resTransaction = await handleTransactionHistoryApi(token);
+    console.log(resTransaction.data.$values);
+    setUserBalanceHistory(resTransaction.data.$values);
   };
 
   //format to display
@@ -45,6 +50,7 @@ const UserWallet = () => {
     // console.log("Nap tien ", amountTopUp);
     const token = sessionStorage.getItem("token");
     const resLink = await handleRechargePaymentApi(token, amountTopUp);
+    sessionStorage.setItem("amount", amountTopUp);
     // console.log(resLink.data);
     window.location.href = resLink.data;
   };
@@ -137,13 +143,25 @@ const UserWallet = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>10000</td>
-                <td>YYYY/MM/DD hh:mm:ss</td>
-                <td>Nạp tiền vào tài khoản</td>
-              </tr>
+              {userBalanceHistory.length > 0 ? (
+                userBalanceHistory.map((transaction, index) => {
+                  return (
+                    <tr key={transaction.transactionId}>
+                      <td>{index}</td>
+                      <td>{transaction.transactionId}</td>
+                      <td>{transaction.amount}</td>
+                      <td>
+                        {new Date(transaction.updateDate).toLocaleString()}
+                      </td>
+                      <td>{transaction.description}</td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="5">No transaction history</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

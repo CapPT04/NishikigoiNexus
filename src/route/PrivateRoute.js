@@ -14,9 +14,6 @@ const HistoryRequest = React.lazy(() =>
 const DetailRequest = React.lazy(() =>
   import("../components/breeder/requestDetail/RequestDetail")
 );
-const PaymentResponse = React.lazy(() =>
-  import("../components/common/PaymentResponse/PaymentResponse")
-);
 const FishList = React.lazy(() =>
   import("../components/breeder/fish/FishList")
 );
@@ -88,6 +85,11 @@ const WinnerPaymentCallback = React.lazy(() =>
 const UserWallet = React.lazy(() =>
   import("../components/user/wallet/UserWallet")
 );
+//payment
+const Payment = React.lazy(() => import("../route/PaymentRoute"));
+const PaymentResponse = React.lazy(() =>
+  import("../components/common/PaymentResponse/PaymentResponse")
+);
 
 // Private routes definition
 const PrivateRoutes = [
@@ -116,6 +118,10 @@ const PrivateRoutes = [
       {
         path: path.DETAILFISH,
         element: <LoadLazy children={<DetailFish />} />,
+      },
+      {
+        path: path.USERWALLET,
+        element: <LoadLazy children={<UserWallet />} />,
       },
     ],
   },
@@ -199,6 +205,17 @@ const PrivateRoutes = [
       {
         path: path.USERWALLET,
         element: <LoadLazy children={<UserWallet />} />,
+      },
+    ],
+  },
+  // Payment
+  {
+    path: path.PAYMENT,
+    element: <LoadLazy children={<Payment />} />,
+    children: [
+      {
+        path: path.PAYMENTRESPONSE,
+        element: <LoadLazy children={<PaymentResponse />} />,
       },
     ],
   },
