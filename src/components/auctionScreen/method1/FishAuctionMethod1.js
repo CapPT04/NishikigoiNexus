@@ -113,46 +113,6 @@ const FishAuctionMethod1 = () => {
     }
   };
 
-  useEffect(() => {
-    const fishEntryDeposit = async () => {
-      try {
-        const response = await handleGetFishEntryDepositApi(
-          auctionItem.fishEntryId
-        );
-        if (response && response.status === 200) {
-          setFishEntryDeposit(response.data);
-        } else if (response.status === 400) {
-          setFishEntryDeposit(0);
-        }
-      } catch (error) {
-        console.error("Error checking gt fish entry deposite status:", error);
-      }
-    };
-    fishEntryDeposit();
-  }, [auctionItem.fishEntryId]);
-  useEffect(() => {
-    const checkEnrollmentStatus = async () => {
-      try {
-        const response = await handleCheckEnrollApi(
-          sessionStorage.getItem("token"),
-          auctionItem.fishEntryId
-        );
-        console.log(response);
-        console.log(sessionStorage.getItem("token"));
-        console.log(response.status);
-        if (response && response.status === 200) {
-          setCheckEnroll(true);
-        } else if (response.status === 400) {
-          setCheckEnroll(false);
-        }
-      } catch (error) {
-        console.error("Error checking enrollment status:", error);
-        setCheckEnroll(false);
-      }
-    };
-    checkEnrollmentStatus();
-  }, []);
-
   const getInfo = async () => {
     if (auctionItem) {
       const resFishEntry = await handleFishEntryById(auctionItem.fishEntryId);
@@ -197,11 +157,11 @@ const FishAuctionMethod1 = () => {
           // Update bids list when new data is received
           setBidHistory((prevBids) => [...prevBids, FixedPriceSaleResponse]);
         });
-        connection.on("AuctionEnded", (data) => {
+        connection.on("Auct d", (data) => {
           //reload page when auction end
           window.location.reload();
         });
-        connection.oN("AuctionStart", (data) => {
+        connection.on("AuctionStart", (data) => {
           //reload page when auction start
           window.location.reload();
         });
@@ -214,7 +174,45 @@ const FishAuctionMethod1 = () => {
       connection.stop();
     };
   }, [bidHistory, currentPlaced]);
-
+  useEffect(() => {
+    const fishEntryDeposit = async () => {
+      try {
+        const response = await handleGetFishEntryDepositApi(
+          auctionItem.fishEntryId
+        );
+        if (response && response.status === 200) {
+          setFishEntryDeposit(response.data);
+        } else if (response.status === 400) {
+          setFishEntryDeposit(0);
+        }
+      } catch (error) {
+        console.error("Error checking gt fish entry deposite status:", error);
+      }
+    };
+    fishEntryDeposit();
+  }, [auctionItem.fishEntryId]);
+  useEffect(() => {
+    const checkEnrollmentStatus = async () => {
+      try {
+        const response = await handleCheckEnrollApi(
+          sessionStorage.getItem("token"),
+          auctionItem.fishEntryId
+        );
+        console.log(response);
+        console.log(sessionStorage.getItem("token"));
+        console.log(response.status);
+        if (response && response.status === 200) {
+          setCheckEnroll(true);
+        } else if (response.status === 400) {
+          setCheckEnroll(false);
+        }
+      } catch (error) {
+        console.error("Error checking enrollment status:", error);
+        setCheckEnroll(false);
+      }
+    };
+    checkEnrollmentStatus();
+  }, []);
   const placeABid = async () => {
     if (sessionStorage.getItem("token") === null) {
       console.log(sessionStorage.getItem("token"));
