@@ -183,7 +183,7 @@ const FishAuctionMethod1 = () => {
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(
-        `https://localhost:7124/fixedPriceSalefishEntryId=${fishEntry.fishEntryId}`
+        `https://localhost:7124/fixedPriceSale?fishEntryId=${fishEntry.fishEntryId}`
       ) // URL của Hub trong ASP.NET Core
       .withAutomaticReconnect()
       .build();
@@ -201,7 +201,7 @@ const FishAuctionMethod1 = () => {
           //reload page when auction end
           window.location.reload();
         });
-        connection.om("AuctionStart", (data) => {
+        connection.oN("AuctionStart", (data) => {
           //reload page when auction start
           window.location.reload();
         });
@@ -283,7 +283,6 @@ const FishAuctionMethod1 = () => {
           Auction#{auctionId}
         </div>
         <div className="fish-aucction-method3-content-row2">
-
           {fishEntry.status === 3
             ? `Ending in: ${new Date(fishEntry.endDate).toLocaleString()}`
             : fishEntry.status === 2
