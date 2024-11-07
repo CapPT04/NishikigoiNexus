@@ -26,6 +26,17 @@ const AuctionScreenDetail = () => {
     });
   };
 
+  const formatMoney = (value) => {
+    // Convert the value to a string and take only the integer part
+    let integerPart = String(Math.floor(Number(value)));
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted integer part
+    return integerPart;
+  };
+
   console.log(auction.auctionId);
   useEffect(() => {
     const fetchAuctionsDetail = async () => {
@@ -98,7 +109,7 @@ const AuctionScreenDetail = () => {
                   Ending in: {formatDate(auctionItem.endTime)}
                 </div>
                 <div className="fish-auction-price">
-                  {auctionItem.min || 0} VND
+                  {formatMoney(auctionItem.min) || 0} VND
                 </div>
               </div>
               <div className="fish-auction-left-content">
