@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 const ManageMember = () => {
   const [users, setUsers] = React.useState([]);
   const navigate = useNavigate();
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   const handleAllUser = async () => {
     const res = await handleGetAllMember();
@@ -29,7 +30,7 @@ const ManageMember = () => {
       <div className="body-content">
         <VerticallyNavbar></VerticallyNavbar>
         <div className="body-content-right">
-          <div className="search">
+          {/* <div className="search">
             <div className="search-text">Search: </div>
             <div className="search-value">
               <input
@@ -41,6 +42,30 @@ const ManageMember = () => {
                 <img src={search} alt="Search Icon" />
               </div>
             </div>
+          </div> */}
+          <div className="search-and-create">
+            <div className="search">
+              <div className="search-text">Search: </div>
+              <div className="search-value">
+                <input
+                  className="search-input"
+                  placeholder="Search by Email and Phone number"
+                  type="text"
+                />
+                <div className="search-icon">
+                  <img src={search} alt="search-icon" />
+                </div>
+              </div>
+            </div>
+            {user.Role === "4" && (
+              <div
+                className="create-btn"
+                onClick={() => navigate("/Manager/CreateStaff")}
+              >
+                New Staff
+                <i className="fa-solid fa-plus"></i>
+              </div>
+            )}
           </div>
 
           <table className="table-manage-breeder">
