@@ -155,6 +155,14 @@ const FishAuctionMethod1 = () => {
         connection.on("ReceiveBidPlacement", (FixedPriceSaleResponse) => {
           // console.log("Received bid placement: ", data);
           // Update bids list when new data is received
+          connection.on("AuctionEnded", (data) => {
+            //reload page when auction end
+            window.location.reload();
+          });
+          connection.on("AuctionStart", (data) => {
+            //reload page when auction start
+            window.location.reload();
+          });
           setBidHistory((prevBids) => [...prevBids, FixedPriceSaleResponse]);
         });
         connection.on("AuctionEnded", (data) => {
@@ -284,8 +292,8 @@ const FishAuctionMethod1 = () => {
           {fishEntry.status === 3
             ? `Ending in: ${new Date(fishEntry.endDate).toLocaleString()}`
             : fishEntry.status === 2
-            ? "Waiting"
-            : "Ended"}
+              ? "Waiting"
+              : "Ended"}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">

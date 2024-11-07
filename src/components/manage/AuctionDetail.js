@@ -8,6 +8,7 @@ import {
   handleGetFishEntryForAuctionApi,
   handleGetFishEntryInAuction,
   handlePublicAuctionApi,
+  handleGetAuctionByIdApi
 } from "../../axios/UserService";
 import logo from "../../assets/images/logo_png.png";
 import { handleUpdateAuctionDetailApi } from "../../axios/UserService";
@@ -18,21 +19,42 @@ import Navbar from "../common/Navbar/Navbar";
 
 const AuctionDetail = () => {
   const location = useLocation();
-  const [auction, setAuction] = useState(location.state || {});
+  const auctionId = useState(location.state.auctionId);
+  const [auction, setAuction] = useState({});
+
   const [fishEntryInAuction, setFishEntryInAuction] = useState([]);
   const [startTime, setStartTime] = useState("");
   const [finishTime, setFinishTime] = useState("");
-  console.log(startTime);
-  console.log(finishTime);
+  // console.log(startTime);
+  // console.log(finishTime);
   const [fishEntryForAuction, setFishEntryForAuction] = useState([]);
   const [showFishEntryTable, setShowFishEntryTable] = useState(false);
   const [auctionStatus, setAuctionStatus] = useState(auction.status);
+  console.log(auction);
+
+
+  useEffect(() => {
+    const fetchGetAuction = async () => {
+      try {
+        const response = await handleGetAuctionByIdApi(
+          parseInt(auctionId)
+        );
+        console.log(response);
+
+        setAuction(response.data)
+      } catch (error) {
+        console.error("Error fetching auctions:", error);
+      }
+    };
+    fetchGetAuction();
+  }, []);
+
 
   useEffect(() => {
     const fetchAuctions = async () => {
       try {
-        console.log("Location Object:", location);
-        console.log("Auction Data:", auction);
+        // console.log("Location Object:", location);
+        // console.log("Auction Data:", auction);
         const response = await handleGetFishEntryInAuction(
           parseInt(auction.auctionId, 10)
         );
@@ -53,7 +75,7 @@ const AuctionDetail = () => {
         updatedStartTime,
         updatedFinishTime
       );
-      console.log(response);
+      // console.log(response);
 
       if (response && response.status === 200) {
         toast.success("Auction updated successfully!", {
@@ -141,7 +163,7 @@ const AuctionDetail = () => {
   const handleAddFishBtn = async () => {
     try {
       const response = await handleGetFishEntryForAuctionApi();
-      console.log(response);
+      // console.log(response);
       setFishEntryForAuction(response.data.$values);
       setShowFishEntryTable(true);
     } catch (error) {
@@ -155,7 +177,7 @@ const AuctionDetail = () => {
         auction.auctionId,
         sessionStorage.getItem("token")
       );
-      console.log(response);
+      // console.log(response);
 
       if (response && response.status === 200) {
         // Fetch updated fish entries in auction after successful addition
@@ -220,7 +242,7 @@ const AuctionDetail = () => {
       if (result.isConfirmed) {
         try {
           const response = await handlePublicAuctionApi(auction.auctionId);
-          console.log(auction.auctionId);
+          // console.log(auction.auctionId);
           // Cập nhật trạng thái phiên đấu giá nếu phản hồi thành công
           if (response && response.status === 200) {
             // Giả định rằng phản hồi sẽ có trạng thái mới, nếu không thì bạn có thể cần gọi lại API để lấy thông tin mới
