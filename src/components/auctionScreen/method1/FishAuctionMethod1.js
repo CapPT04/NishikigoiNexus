@@ -157,7 +157,7 @@ const FishAuctionMethod1 = () => {
           // Update bids list when new data is received
           setBidHistory((prevBids) => [...prevBids, FixedPriceSaleResponse]);
         });
-        connection.on("Auct d", (data) => {
+        connection.on("AuctionEnded", (data) => {
           //reload page when auction end
           window.location.reload();
         });
@@ -166,7 +166,7 @@ const FishAuctionMethod1 = () => {
           window.location.reload();
         });
         // console.log(bids.slice(-1)[0]?.currentPrice);
-        setCurrentPlaced(bidHistory.slice(-1)[0].numberOfBidders);
+        setCurrentPlaced(bidHistory.slice(-1)[0]?.numberOfBidders);
       })
       .catch((err) => console.log("Error while starting connection: " + err));
     // Cleanup when component unmounts
