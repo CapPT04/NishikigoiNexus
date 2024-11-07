@@ -417,7 +417,7 @@ const FishAuctionMethod4 = () => {
                   </div>
                   <hr />
                   <div className="place-bid-content-row2-status4">
-                    {winnerData.amount}$
+                    {winnerData.amount} VND
                   </div>
                   <div className="place-bid-content-row3-status4">
                     {formatDate(winnerData.endDate)}

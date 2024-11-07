@@ -86,7 +86,6 @@ const FishAuctionMethod1 = () => {
                 navigate("/user/UserWallet");
               } else if (JSON.parse(sessionStorage.getItem("user")).Role === "2") {
                 navigate("/breeder/UserWallet");
-
               }
             }
           });
@@ -174,7 +173,7 @@ const FishAuctionMethod1 = () => {
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(
-        `https://localhost:7124/fixedPriceSale?fishEntryId=${fishEntry.fishEntryId}`
+        `https://localhost:7124/fixedPriceSalefishEntryId=${fishEntry.fishEntryId}`
       ) // URL của Hub trong ASP.NET Core
       .withAutomaticReconnect()
       .build();
@@ -192,11 +191,11 @@ const FishAuctionMethod1 = () => {
           //reload page when auction end
           window.location.reload();
         });
-        connection.on("AuctionStart", (data) => {
+        connection.om("AuctionStart", (data) => {
           //reload page when auction start
           window.location.reload();
         });
-        // console.log("his:", bidHistory);
+        // console.log(bids.slice(-1)[0]?.currentPrice);
         setCurrentPlaced(bidHistory.slice(-1)[0].numberOfBidders);
       })
       .catch((err) => console.log("Error while starting connection: " + err));
@@ -210,6 +209,7 @@ const FishAuctionMethod1 = () => {
     if (sessionStorage.getItem("token") === null) {
       console.log(sessionStorage.getItem("token"));
       navigate("/login");
+      return;
     }
     const token = sessionStorage.getItem("token");
     const response = await handlePlaceFixedPrice(
@@ -273,12 +273,11 @@ const FishAuctionMethod1 = () => {
           Auction#{auctionId}
         </div>
         <div className="fish-aucction-method3-content-row2">
-          {fishEntry.status === 3
+          {auctionItem.status === 3
             ? `Ending in: ${new Date(auctionItem.endTime).toLocaleString()}`
-            : fishEntry.status === 2
-            ? "Waiting"
-            : "Ended"}
-
+            : auctionItem.status === 2
+              ? "Waiting"
+              : "Ended"}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
