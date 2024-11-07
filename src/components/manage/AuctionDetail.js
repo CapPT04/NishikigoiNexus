@@ -109,18 +109,22 @@ const AuctionDetail = () => {
             auction.auctionId,
             fishEntry.fishEntryId
           );
-          const updatedAuctionEntriesResponse =
-            await handleGetFishEntryInAuction(parseInt(auction.auctionId, 10));
-          setFishEntryInAuction(
-            updatedAuctionEntriesResponse.data.$values || []
-          );
-          const availableFishEntriesResponse =
-            await handleGetFishEntryForAuctionApi();
-          setFishEntryForAuction(
-            availableFishEntriesResponse.data.$values || []
-          );
 
-          Swal.fire("Deleted!", "The fish entry has been deleted.", "success");
+          if (response && response.status === 200) {
+            const updatedAuctionEntriesResponse =
+              await handleGetFishEntryInAuction(parseInt(auction.auctionId, 10));
+            setFishEntryInAuction(
+              updatedAuctionEntriesResponse.data.$values || []
+            );
+            const availableFishEntriesResponse =
+              await handleGetFishEntryForAuctionApi();
+            setFishEntryForAuction(
+              availableFishEntriesResponse.data.$values || []
+            );
+            Swal.fire("Deleted!", "The fish entry has been deleted.", "success");
+          } else {
+            Swal.fire("Deleted!", "Failed to delete.", "error");
+          }
         } catch (error) {
           Swal.fire(
             "Error!",
