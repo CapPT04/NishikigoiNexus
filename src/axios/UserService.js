@@ -65,6 +65,7 @@ const END_POINT = {
   CHECKENROLL: "Enrollment/CheckEnrollment",
   ENROLL: "Enrollment/Enroll",
   GETFISHENTRYDEPOSIT: "FishEntry/GetFishEntryDeposit",
+  GETAUCTIONBYID: "Auction/GetAuctionById",
 
   //user
   GETBALANCEBYUSERID: "User/GetBalanceByUserId",
@@ -74,6 +75,15 @@ const END_POINT = {
   //Payment
   FEEWALLETPAYMENT: "Payment/FeePayment",
 };
+
+export const handleGetAuctionByIdApi = (auctionId) => {
+  return axiosClient.get(
+    `${END_POINT.GETAUCTIONBYID}/${auctionId}`
+  );
+};
+
+
+
 export const handleEnrollHistoryByFishEntryId = (fishEntryId) => {
   return axiosClient.get(
     `${END_POINT.ENROLLMENTHISTORY}?fishEntryId=${fishEntryId}`

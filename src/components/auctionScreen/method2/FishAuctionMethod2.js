@@ -21,6 +21,7 @@ import Swal from "sweetalert2";
 import * as signalR from "@microsoft/signalr";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { Navigate } from "react-router";
+import { faArrowUpFromWaterPump } from "@fortawesome/free-solid-svg-icons";
 
 const FishAuctionMethod2 = () => {
     const navigate = useNavigate();
@@ -42,14 +43,23 @@ const FishAuctionMethod2 = () => {
     const [auctionDetails, setAuctionDetails] = useState();
     const [checkEnroll, setCheckEnroll] = useState(false);
     const [fishEntryDeposit, setFishEntryDeposit] = useState(0);
-
+    const formatMoney = (value) => {
+        // Convert the value to a string and take only the integer part
+        let integerPart = String(Math.floor(Number(value)));
+        // Remove non-digit characters from the integer part
+        integerPart = integerPart.replace(/\D/g, "");
+        // Format the integer part with commas as thousand separators
+        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        // Return the formatted integer part
+        return integerPart;
+    };
 
     const handleEnrollBtn = async () => {
         // Show confirmation dialog with deposit amount
 
         const result = await Swal.fire({
             title: 'Confirm Enrollment',
-            text: `To enroll in this auction, a deposit of ${fishEntryDeposit} VND is required. Do you wish to proceed?`,
+            text: `To enroll in this auction, a deposit of ${formatMoney(fishEntryDeposit)} VND is required. Do you wish to proceed?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, proceed',
@@ -74,7 +84,7 @@ const FishAuctionMethod2 = () => {
                     Swal.fire({
                         icon: 'success',
                         title: 'Enrollment Successful!',
-                        text: `You have been successfully enrolled with a ${fishEntryDeposit} VND deposit.`
+                        text: `You have been successfully enrolled with a ${formatMoney(fishEntryDeposit)} VND deposit.`
                     }).then(() => {
                         // Reload the page after the user clicks "OK" on the success message
                         window.location.reload(); // This will reload the current page
@@ -240,7 +250,7 @@ const FishAuctionMethod2 = () => {
         }
         Swal.fire({
             title: "Place Secret Bid",
-            text: `Are you sure you want to place a bid of ${amount} VND?`,
+            text: `Are you sure you want to place a bid of ${formatMoney(amount)} VND?`,
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#28a745", // Customize button color
@@ -429,7 +439,7 @@ const FishAuctionMethod2 = () => {
                                             <i className="fa-solid fa-file-invoice-dollar"></i>
                                         </div>
                                         <div className="min-price-text">
-                                            Min price: {auctionItem.min} VND
+                                            Min price: {formatMoney(auctionItem.min)} VND
                                         </div>
                                     </div>
 
@@ -448,7 +458,7 @@ const FishAuctionMethod2 = () => {
                                             onClick={handlePlaceSecretBidBtn}
                                             disabled={auctionItem.status === 2}
                                         >
-                                            {auctionItem.status === 2 ? "The auction has not started." : `Place bid at ${amount} VND`}
+                                            {auctionItem.status === 2 ? "The auction has not started." : `Place bid at ${formatMoney(amount)} VND`}
                                         </button>
                                     ) : (
                                         <button className="enroll-bid"
