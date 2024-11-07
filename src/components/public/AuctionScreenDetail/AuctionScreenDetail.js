@@ -98,7 +98,7 @@ const AuctionScreenDetail = () => {
                   Ending in: {formatDate(auctionItem.endTime)}
                 </div>
                 <div className="fish-auction-price">
-                  ${auctionItem.min || 0}
+                  {auctionItem.min || 0} VND
                 </div>
               </div>
               <div className="fish-auction-left-content">
