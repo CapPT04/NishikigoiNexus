@@ -113,6 +113,75 @@ const FishAuctionMethod1 = () => {
     }
   };
 
+  const getInfo = async () => {
+    if (auctionItem) {
+      const resFishEntry = await handleFishEntryById(auctionItem.fishEntryId);
+      setFishEntry(resFishEntry.data);
+
+      const resFish = await handleGetFishDetailById(resFishEntry.data.fishId);
+      setFishInfo(resFish.data);
+
+      const resImgs = await handleGetFishImgById(resFishEntry.data.fishId);
+      setFishImgs(resImgs.data.$values);
+      setMainImage(resImgs.data.$values[0]?.imagePath || "");
+
+      const resHis = await handleFixedPriceHistory(auctionItem.fishEntryId);
+      // console.log(resHis.data.$values);
+      setBidHistory(resHis.data.$values);
+      // setBidHistory((prevBids) => [...prevBids, resHis.data.$values]);
+
+      // setCurrentPlaced(resHis.data.)
+    } else {
+      navigate("/AuctionDetails");
+    }
+  };
+
+  useEffect(() => {
+    getInfo();
+  }, []);
+
+  useEffect(() => {
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl(
+        `https://localhost:7124/fixedPriceSale?fishEntryId=${fishEntry.fishEntryId}`
+      ) // URL của Hub trong ASP.NET Core
+      .withAutomaticReconnect()
+      .build();
+    connection
+      .start()
+      .then(() => {
+        console.log("Connected to SignalR Hub");
+        // Listen for the event ReceiveBidPlacement
+        connection.on("ReceiveBidPlacement", (FixedPriceSaleResponse) => {
+          // console.log("Received bid placement: ", data);
+          // Update bids list when new data is received
+          connection.on("AuctionEnded", (data) => {
+            //reload page when auction end
+            window.location.reload();
+          });
+          connection.on("AuctionStart", (data) => {
+            //reload page when auction start
+            window.location.reload();
+          });
+          setBidHistory((prevBids) => [...prevBids, FixedPriceSaleResponse]);
+        });
+        connection.on("AuctionEnded", (data) => {
+          //reload page when auction end
+          window.location.reload();
+        });
+        connection.on("AuctionStart", (data) => {
+          //reload page when auction start
+          window.location.reload();
+        });
+        // console.log(bids.slice(-1)[0]?.currentPrice);
+        setCurrentPlaced(bidHistory.slice(-1)[0]?.numberOfBidders);
+      })
+      .catch((err) => console.log("Error while starting connection: " + err));
+    // Cleanup when component unmounts
+    return () => {
+      connection.stop();
+    };
+  }, [bidHistory, currentPlaced]);
   useEffect(() => {
     const fishEntryDeposit = async () => {
       try {
@@ -152,77 +221,6 @@ const FishAuctionMethod1 = () => {
     };
     checkEnrollmentStatus();
   }, []);
-
-  const getInfo = async () => {
-    if (auctionItem) {
-      const resFishEntry = await handleFishEntryById(auctionItem.fishEntryId);
-      setFishEntry(resFishEntry.data);
-
-      const resFish = await handleGetFishDetailById(resFishEntry.data.fishId);
-      setFishInfo(resFish.data);
-
-      const resImgs = await handleGetFishImgById(resFishEntry.data.fishId);
-      setFishImgs(resImgs.data.$values);
-      setMainImage(resImgs.data.$values[0]?.imagePath || "");
-
-      const resHis = await handleFixedPriceHistory(auctionItem.fishEntryId);
-      // console.log(resHis.data.$values);
-      setBidHistory(resHis.data.$values);
-      // setBidHistory((prevBids) => [...prevBids, resHis.data.$values]);
-
-      // setCurrentPlaced(resHis.data.)
-    } else {
-      navigate("/AuctionDetails");
-    }
-  };
-
-  useEffect(() => {
-    getInfo();
-  }, []);
-
-  useEffect(() => {
-    const connection = new signalR.HubConnectionBuilder()
-      .withUrl(
-        `https://localhost:7124/fixedPriceSalefishEntryId=${fishEntry.fishEntryId}`
-      ) // URL của Hub trong ASP.NET Core
-      .withAutomaticReconnect()
-      .build();
-    connection
-      .start()
-      .then(() => {
-        console.log("Connected to SignalR Hub");
-        // Listen for the event ReceiveBidPlacement
-        connection.on("ReceiveBidPlacement", (FixedPriceSaleResponse) => {
-          // console.log("Received bid placement: ", data);
-          // Update bids list when new data is received
-          connection.on("AuctionEnded", (data) => {
-            //reload page when auction end
-            window.location.reload();
-          });
-          connection.on("AuctionStart", (data) => {
-            //reload page when auction start
-            window.location.reload();
-          });
-          setBidHistory((prevBids) => [...prevBids, FixedPriceSaleResponse]);
-        });
-        connection.on("AuctionEnded", (data) => {
-          //reload page when auction end
-          window.location.reload();
-        });
-        connection.om("AuctionStart", (data) => {
-          //reload page when auction start
-          window.location.reload();
-        });
-        // console.log(bids.slice(-1)[0]?.currentPrice);
-        setCurrentPlaced(bidHistory.slice(-1)[0].numberOfBidders);
-      })
-      .catch((err) => console.log("Error while starting connection: " + err));
-    // Cleanup when component unmounts
-    return () => {
-      connection.stop();
-    };
-  }, [bidHistory, currentPlaced]);
-
   const placeABid = async () => {
     if (sessionStorage.getItem("token") === null) {
       console.log(sessionStorage.getItem("token"));
@@ -291,7 +289,6 @@ const FishAuctionMethod1 = () => {
           Auction#{auctionId}
         </div>
         <div className="fish-aucction-method3-content-row2">
-
           {fishEntry.status === 3
             ? `Ending in: ${new Date(fishEntry.endDate).toLocaleString()}`
             : fishEntry.status === 2

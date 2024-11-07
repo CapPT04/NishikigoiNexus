@@ -1,0 +1,25 @@
+# Bỏ qua node_modules và build
+node_modules
+build
+
+# Bỏ qua các tệp cấu hình IDE/editor
+.vscode
+.idea
+*.swp
+
+# Bỏ qua các tệp không cần thiết
+*.log
+*.lock
+Dockerfile
+docker-compose.yml
+
+# Bỏ qua các tệp hệ thống
+.DS_Store
+Thumbs.db
+
+# Bỏ qua tệp test
+*.test.js
+*.spec.js
+__tests__
+__mocks__
+coverage

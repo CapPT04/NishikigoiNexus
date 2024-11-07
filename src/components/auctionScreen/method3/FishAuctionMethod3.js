@@ -31,7 +31,7 @@ const FishAuctionMethod3 = () => {
   const [increment, setIncrement] = useState(1);
   const [bids, setBids] = useState([]);
   const [highestPrice, setHighestPrice] = useState(null);
-  const entryId = location.state.auctionItem.fishEntryId;
+  const entryId = location.state.auctionItem.fishEntryId || 0;
   const [winnerData, setWinnerData] = useState("");
   const [checkEnroll, setCheckEnroll] = useState(false);
   const [fishEntryDeposit, setFishEntryDeposit] = useState(0);

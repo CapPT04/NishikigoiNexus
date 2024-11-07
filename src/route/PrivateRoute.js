@@ -75,6 +75,9 @@ const UserBidHistory = React.lazy(() =>
 const DashBoard = React.lazy(() =>
   import("../components/manage/dashboard/Dashboard")
 );
+const CreateStaff = React.lazy(() =>
+  import("../components/manage/createStaff/CreateStaff")
+);
 
 //user
 const User = React.lazy(() => import("../route/UserRoute"));
@@ -179,6 +182,10 @@ const PrivateRoutes = [
         element: <LoadLazy children={<FishEntryDetail />} />,
       },
       { path: path.DASHBOARD, element: <LoadLazy children={<DashBoard />} /> },
+      {
+        path: path.CREATESTAFF,
+        element: <LoadLazy children={<CreateStaff />} />,
+      },
     ],
   },
 
