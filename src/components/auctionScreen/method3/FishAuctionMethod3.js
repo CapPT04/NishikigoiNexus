@@ -204,7 +204,7 @@ const FishAuctionMethod3 = () => {
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(
-        `https://localhost:7124/publicBidHub?fishEntryId=${fishEntry.fishEntryId}`
+        `${process.env.REACT_APP_LINK_REALTIME_SERVER}publicBidHub?fishEntryId=${fishEntry.fishEntryId}`
       ) // URL của Hub trong ASP.NET Core
 
       .withAutomaticReconnect()

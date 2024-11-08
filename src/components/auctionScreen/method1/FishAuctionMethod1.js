@@ -153,7 +153,7 @@ const FishAuctionMethod1 = () => {
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(
-        `https://localhost:7124/fixedPriceSale?fishEntryId=${fishEntry.fishEntryId}`
+        `${process.env.REACT_APP_LINK_REALTIME_SERVER}fixedPriceSale?fishEntryId=${fishEntry.fishEntryId}`
       ) // URL của Hub trong ASP.NET Core
       .withAutomaticReconnect()
       .build();
@@ -302,8 +302,8 @@ const FishAuctionMethod1 = () => {
           {fishEntry.status === 3
             ? `Ending in: ${new Date(fishEntry.endDate).toLocaleString()}`
             : fishEntry.status === 2
-              ? "Waiting"
-              : "Ended"}
+            ? "Waiting"
+            : "Ended"}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
