@@ -156,17 +156,19 @@ const RequestDetail = () => {
       </div>
       <div className="body-content">
         <ToastContainer />
-        <div className="request-detail-content">
-          <div className="request-detail-content-row1">
+        <div className="request-detail-content-breeder">
+          <div className="request-detail-breeder-content-row1">
             <div className="status">
               Status: {statusName[myRequest.status - 1]}
             </div>
           </div>
-          <div className="request-detail-content-row2">Request Detail</div>
-          <div className="request-detail-content-row3">
+          <div className="request-detail-breeder-content-row2">
+            Request Detail
+          </div>
+          <div className="request-detail-breeder-content-row3">
             Create date: {new Date(myRequest.createDate).toLocaleString()}
           </div>
-          <div className="request-detail-content-row4">
+          <div className="request-detail-breeder-content-row4">
             <div className="update-by">
               <label for="update-by-input" className="update-by-label">
                 Expected Date
@@ -195,7 +197,7 @@ const RequestDetail = () => {
               />
             </div>
           </div>
-          <div className="request-detail-content-row5">
+          <div className="request-detail-breeder-content-row5">
             <div className="create-by">
               <label for="create-by-input" className="create-by-label">
                 Auction Method
@@ -228,7 +230,7 @@ const RequestDetail = () => {
               />
             </div>
           </div>
-          <div className="request-detail-content-row6">
+          <div className="request-detail-breeder-content-row6">
             <div className="delivery-cost">
               <label for="delivery-cost-input" className="delivery-cost-label">
                 Min Price
@@ -261,7 +263,7 @@ const RequestDetail = () => {
               />
             </div>
           </div>
-          <div className="request-detail-content-row7">
+          <div className="request-detail-breeder-content-row7">
             <label for="note-input" className="note-label">
               Note
             </label>
@@ -274,7 +276,7 @@ const RequestDetail = () => {
           </div>
 
           {myRequest.status === 3 && (
-            <div className="request-detail-content-row16">
+            <div className="request-detail-breeder-content-row16">
               <label for="note-input" className="note-label">
                 Payment Date
               </label>
@@ -291,7 +293,7 @@ const RequestDetail = () => {
             </div>
           )}
 
-          <div className="request-detail-content-row5">
+          <div className="request-detail-breeder-content-row5">
             <div className="create-by">
               <label for="create-by-input" className="create-by-label">
                 Auction ID
@@ -316,7 +318,7 @@ const RequestDetail = () => {
               />
             </div>
           </div>
-          <div className="request-detail-content-row5">
+          <div className="request-detail-breeder-content-row5">
             <div className="create-by">
               <label for="create-by-input" className="create-by-label">
                 Start Date
@@ -343,7 +345,7 @@ const RequestDetail = () => {
               />
             </div>
           </div>
-          <div className="request-detail-content-row17">
+          <div className="request-detail-breeder-content-row17">
             <div className="create-by">
               <label for="create-by-input" className="create-by-label">
                 Highest Bidder
@@ -377,7 +379,7 @@ const RequestDetail = () => {
             </div>
           </div>
           {myRequest.status === 2 && (
-            <div className="request-detail-content-row18">
+            <div className="request-detail-breeder-content-row18">
               <button
                 className="send-payment-request-btn"
                 onClick={handlePayFee}
@@ -387,7 +389,7 @@ const RequestDetail = () => {
             </div>
           )}
           {myRequest.status === 1 && (
-            <div className="request-detail-content-row18">
+            <div className="request-detail-breeder-content-row18">
               <button
                 className="send-cancel-request-btn"
                 onClick={handleCancel}

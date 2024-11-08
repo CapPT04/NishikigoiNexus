@@ -267,9 +267,9 @@ const FishAuctionMethod1 = () => {
 
   useEffect(() => {
     const fetchWinnerData = async () => {
-      if (auctionItem.status === 4) {
+      if (fishEntry.status === 4) {
         try {
-          const response = await handleGetWinnerApi(auctionItem.fishEntryId);
+          const response = await handleGetWinnerApi(fishEntry.fishEntryId);
           if (response && response.status === 200) {
             setWinnerData(response.data);
           } else if (response.status === 404 && response.data === "No winner") {
@@ -286,7 +286,7 @@ const FishAuctionMethod1 = () => {
     };
 
     fetchWinnerData();
-  }, [auctionItem.status, auctionItem.fishEntryId]);
+  }, [fishEntry.status, fishEntry.fishEntryId]);
 
   return (
     <div className="auction-screen-container">
