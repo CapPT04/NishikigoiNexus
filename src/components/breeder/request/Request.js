@@ -331,13 +331,17 @@ const Request = () => {
               <h5>{auctionMethod === "1" ? "Fixed Price" : "Start Price"}</h5>
               <div className="price">
                 <input
-                  type="text"
+                  type="number"
                   name="auctionPrice"
+                  min={0}
                   placeholder="XXXXXXX"
                   onChange={(e) => setStartPrice(e.target.value)}
                   className="input-price"
                 />
                 <span className="dollar-sign">vnd</span>
+              </div>
+              <div className="noticeBox">
+                Please enter amount in multiples of 10000
               </div>
             </div>
           </div>
@@ -351,12 +355,16 @@ const Request = () => {
               <h5>Max Price</h5>
               <div className="price">
                 <input
-                  type="text"
+                  type="number"
+                  min={0}
                   name="auctionPrice"
                   placeholder="XXXXXXX"
                   onChange={(e) => setMaxPrice(e.target.value)}
                 />
                 <span className="dollar-sign">vnd</span>
+              </div>
+              <div className="noticeBox">
+                Please enter amount in multiples of 10000
               </div>
             </div>
           </div>
@@ -368,12 +376,16 @@ const Request = () => {
               <h5>Increment Step</h5>
               <div className="price">
                 <input
-                  type="text"
+                  type="number"
                   name="incrementStep"
+                  min={0}
                   placeholder="XXXXXXX"
                   onChange={(e) => setStepPrice(e.target.value)}
                 />
                 <span className="dollar-sign">vnd</span>
+              </div>
+              <div className="noticeBox">
+                Please enter amount in multiples of 10000
               </div>
             </div>
           </div>
@@ -637,20 +649,37 @@ const Request = () => {
     if (btnReady === true) {
       toast.error("Please accept fee before submit your request", {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
       });
+    } else if (
+      startPrice % 10000 !== 0 ||
+      maxPrice % 10000 !== 0 ||
+      stepPrice % 10000 !== 0
+    ) {
+      toast.error(
+        "Please enter the correct amount before submit your request",
+        {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
     } else {
       try {
         const response = await handleSubmitRequest(fishAuction);
         if (response.status === 200) {
           toast.success("Created new request successfully! Redirecting...", {
             position: "top-right",
-            autoClose: 3000,
+            autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -659,7 +688,7 @@ const Request = () => {
           });
           setTimeout(() => {
             navigate("/Breeder/HistoryRequest");
-          }, 3500);
+          }, 2000);
         } else {
           //response.data.errors.NewRequest[0]
           toast.error("Some fields are incorrect. Please check again", {

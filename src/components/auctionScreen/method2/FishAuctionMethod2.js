@@ -16,6 +16,7 @@ import {
   handleCheckEnrollApi,
   handleEnrollApi,
   handleGetFishEntryDepositApi,
+  handleFishEntryById,
 } from "../../../axios/UserService";
 import Swal from "sweetalert2";
 import * as signalR from "@microsoft/signalr";
@@ -43,6 +44,8 @@ const FishAuctionMethod2 = () => {
   const [auctionDetails, setAuctionDetails] = useState();
   const [checkEnroll, setCheckEnroll] = useState(false);
   const [fishEntryDeposit, setFishEntryDeposit] = useState(0);
+  const [fishEntry, setFishEntry] = useState({});
+
   const formatMoney = (value) => {
     // Convert the value to a string and take only the integer part
     let integerPart = String(Math.floor(Number(value)));
@@ -136,7 +139,21 @@ const FishAuctionMethod2 = () => {
       });
     }
   };
-
+  useEffect(() => {
+    const GetFishEntryById = async () => {
+      try {
+        const response = await handleFishEntryById(auctionItem.fishEntryId);
+        if (response && response.status === 200) {
+          setFishEntry(response.data);
+        } else if (response.status === 400) {
+          console.log("error when call api GetFishEntryById");
+        }
+      } catch (error) {
+        console.error("Error checking gt fish entry deposite status:", error);
+      }
+    };
+    GetFishEntryById();
+  }, [auctionItem.fishEntryId]);
   useEffect(() => {
     const fishEntryDeposit = async () => {
       try {
@@ -315,7 +332,7 @@ const FishAuctionMethod2 = () => {
 
   useEffect(() => {
     const fetchWinnerData = async () => {
-      if (auctionItem.status === 4) {
+      if (fishEntry.status === 4) {
         try {
           const response = await handleGetWinnerApi(auctionItem.fishEntryId);
           if (response && response.status === 200) {
@@ -334,7 +351,7 @@ const FishAuctionMethod2 = () => {
     };
 
     fetchWinnerData();
-  }, [auctionItem.status, auctionItem.fishEntryId]);
+  }, [fishEntry.status, fishEntry.fishEntryId]);
 
   return (
     <div>

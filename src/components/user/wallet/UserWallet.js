@@ -42,7 +42,7 @@ const UserWallet = () => {
   const handleInputChange = (e) => {
     const inputValue = Number(e.target.value);
     // Check if the input value is divisible by 1000
-    if (inputValue % 1000 === 0 && inputValue > 0) {
+    if (inputValue % 10000 === 0 && inputValue > 0) {
       setAmountTopUp(inputValue);
       setTopUpReady(true);
     } else {
@@ -93,9 +93,17 @@ const UserWallet = () => {
                 type="number"
                 ref={inputRef} // Attach ref to the input
                 onChange={handleInputChange}
+                min={0}
+                max={20000000}
               />
               <div className="vnd">VND</div>
             </div>
+            <div className="notice-input">
+              <div className="notice-input-text">
+                Please enter amount in multiples of 10000
+              </div>
+            </div>
+
             <button
               className={topUpReady ? "top-up-btn" : "top-up-btn-off"}
               onClick={handleTopUp}
@@ -151,7 +159,7 @@ const UserWallet = () => {
                 userBalanceHistory.map((transaction, index) => {
                   return (
                     <tr key={transaction.transactionId}>
-                      <td>{index}</td>
+                      <td>{index + 1}</td>
                       <td>{transaction.transactionId}</td>
                       <td>{transaction.amount}</td>
                       <td>
