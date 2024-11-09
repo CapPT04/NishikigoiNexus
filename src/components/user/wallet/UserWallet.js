@@ -155,7 +155,7 @@ const UserWallet = () => {
               </tr>
             </thead>
             <tbody>
-              {userBalanceHistory.length > 0 ? (
+              {userBalanceHistory && userBalanceHistory.length > 0 ? (
                 userBalanceHistory.map((transaction, index) => {
                   return (
                     <tr key={transaction.transactionId}>
