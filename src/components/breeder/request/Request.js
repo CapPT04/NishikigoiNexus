@@ -134,7 +134,6 @@ const Request = () => {
               <input
                 type="text"
                 name="fishName"
-                placeholder="Fish Name"
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
@@ -143,7 +142,6 @@ const Request = () => {
               <input
                 type="text"
                 name="FishShape"
-                placeholder="Fish Shape"
                 onChange={(e) => setShape(e.target.value)}
               />
             </div>
@@ -154,8 +152,7 @@ const Request = () => {
               <h5>Fish Age</h5>
               <input
                 type="text"
-                name="FishAge"
-                placeholder="Fish Age"
+                name="FishAge (month)"
                 onChange={(e) => setAge(e.target.value)}
               />
             </div>
@@ -163,8 +160,7 @@ const Request = () => {
               <h5>Fish Weight</h5>
               <input
                 type="text"
-                name="FishWeight"
-                placeholder="Fish Weight"
+                name="FishWeight (gram)"
                 onChange={(e) => setWeight(e.target.value)}
               />
             </div>
@@ -175,8 +171,7 @@ const Request = () => {
               <h5>Fish Size</h5>
               <input
                 type="text"
-                name="FishSize"
-                placeholder="Fish Size"
+                name="FishSize (mm)"
                 onChange={(e) => setSize(e.target.value)}
               />
             </div>
@@ -185,7 +180,6 @@ const Request = () => {
               <input
                 type="text"
                 name="FishOrigin"
-                placeholder="Fish Origin"
                 onChange={(e) => setOrigin(e.target.value)}
               />
             </div>
@@ -197,7 +191,6 @@ const Request = () => {
               <input
                 type="text"
                 name="FondArrdess"
-                placeholder="Fond Arrdess"
                 onChange={(e) => setPondAddress(e.target.value)}
               />
             </div>
@@ -206,7 +199,6 @@ const Request = () => {
               <input
                 type="text"
                 name="FishCity"
-                placeholder="Fish City"
                 onChange={(e) => setCity(e.target.value)}
               />
             </div>
@@ -334,7 +326,6 @@ const Request = () => {
                   type="number"
                   name="auctionPrice"
                   min={0}
-                  placeholder="XXXXXXX"
                   onChange={(e) => setStartPrice(e.target.value)}
                   className="input-price"
                 />
@@ -358,7 +349,6 @@ const Request = () => {
                   type="number"
                   min={0}
                   name="auctionPrice"
-                  placeholder="XXXXXXX"
                   onChange={(e) => setMaxPrice(e.target.value)}
                 />
                 <span className="dollar-sign">vnd</span>
@@ -379,7 +369,6 @@ const Request = () => {
                   type="number"
                   name="incrementStep"
                   min={0}
-                  placeholder="XXXXXXX"
                   onChange={(e) => setStepPrice(e.target.value)}
                 />
                 <span className="dollar-sign">vnd</span>
@@ -395,7 +384,6 @@ const Request = () => {
             <input
               type="text"
               name="Note"
-              placeholder="Note"
               onChange={(e) => setNote(e.target.value)}
             />
           </div>
