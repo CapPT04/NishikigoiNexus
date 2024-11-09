@@ -7,6 +7,8 @@ import {
   handleRechargePaymentApi,
   handleTransactionHistoryApi,
 } from "../../../axios/UserService";
+import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 
 const UserWallet = () => {
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -51,12 +53,25 @@ const UserWallet = () => {
   };
   //----top up------
   const handleTopUp = async () => {
-    // console.log("Nap tien ", amountTopUp);
-    const token = sessionStorage.getItem("token");
-    const resLink = await handleRechargePaymentApi(token, amountTopUp);
-    sessionStorage.setItem("amount", amountTopUp);
-    // console.log(resLink.data);
-    window.location.href = resLink.data;
+    // console.log(amountTopUp);
+    if (amountTopUp > 0 && amountTopUp < 20000001) {
+      // console.log("Nap tien ", amountTopUp);
+      const token = sessionStorage.getItem("token");
+      const resLink = await handleRechargePaymentApi(token, amountTopUp);
+      sessionStorage.setItem("amount", amountTopUp);
+      // console.log(resLink.data);
+      window.location.href = resLink.data;
+    } else {
+      toast.error("Amount only validate between 10,000VND and 20,000,000VND", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
   //-----auto update amount fill-------
   const handlePackageClick = (value) => {
@@ -76,6 +91,7 @@ const UserWallet = () => {
         <Navbar></Navbar>
       </div>
       <div className="user-wallet-content">
+        <ToastContainer /> {/* Add ToastContainer for displaying toasts */}
         <div className="user-wallet-content-row1">
           <div className="user-wallet-content-row1-col1">
             <div className="total-balance">
