@@ -74,7 +74,7 @@ const Navbar = () => {
         {user && (
           <div className="account-dropdown">
             <button className="dropdown-button">
-              {user.FirstName + " " + user.lastName}{" "}
+              {user.FirstName}{" "}
               <span className="arrow-down">▼</span>
             </button>
             <ul className="dropdown-menu">

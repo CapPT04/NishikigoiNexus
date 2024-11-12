@@ -37,7 +37,16 @@ const UserBidHistory = () => {
         };
         fetchUnpaidBiddingHistoryByMemberId();
     }, []);
-
+    const formatMoney = (value) => {
+        // Convert the value to a string and take only the integer part
+        let integerPart = String(Math.floor(Number(value)));
+        // Remove non-digit characters from the integer part
+        integerPart = integerPart.replace(/\D/g, "");
+        // Format the integer part with commas as thousand separators
+        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        // Return the formatted integer part
+        return integerPart;
+    };
     return (
         <div className="user-bid-history">
             <div className="header">
@@ -66,7 +75,7 @@ const UserBidHistory = () => {
                                         <td>{auction.auctionId}</td>
                                         <td>{auction.fishEntryId}</td>
                                         <td>{new Date(auction.startDate).toLocaleString()}</td>
-                                        <td>{auction.highestPrice}</td>
+                                        <td>{formatMoney(auction.highestPrice)}</td>
                                         <td>
                                             <button
                                                 className="pay-auction-btn"
@@ -114,7 +123,7 @@ const UserBidHistory = () => {
                                                 <span role="img" aria-label="lose">❌</span>
                                             )}
                                         </td>
-                                        <td>{bid.highestPrice}</td>
+                                        <td>{formatMoney(bid.highestPrice)}</td>
                                     </tr>
                                 ))
                             ) : (
