@@ -11,9 +11,10 @@ import { useLocation, useNavigate } from "react-router";
 import { Navigate } from "react-router";
 
 const AuctionScreenDetail = () => {
-  const auction = useLocation().state;
-  const [auctionDetails, setAuctionDetails] = useState([]);
   const navigate = useNavigate();
+  const auction = useLocation().state;
+
+  const [auctionDetails, setAuctionDetails] = useState([]);
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleString(undefined, {
@@ -37,21 +38,32 @@ const AuctionScreenDetail = () => {
     return integerPart;
   };
 
-  console.log(auction.auctionId);
+  useEffect(() => {
+    if (auction === null) {
+      navigate("/auction")
+    }
+  }, [])
+
+
+
   useEffect(() => {
     const fetchAuctionsDetail = async () => {
       try {
-        const response = await handleGetAuctionDetailByIdApi(auction.auctionId);
+        if (auction.auctionId != null) {
+          const response = await handleGetAuctionDetailByIdApi(auction.auctionId);
+          setAuctionDetails(response.data.$values);
+        } else {
+          navigate("/auction");
+        }
 
-        setAuctionDetails(response.data.$values);
-        console.log(auctionDetails);
       } catch (error) {
         console.error("Error fetching auctions:", error);
       }
     };
     fetchAuctionsDetail();
-  }, [auction]);
+  }, []);
 
+  console.log(auctionDetails);
   return (
     <div className="auction-screen-detail">
       <header className="header">
@@ -59,11 +71,14 @@ const AuctionScreenDetail = () => {
       </header>
 
       <div className="auction-screen-detail-content">
-        <div className="auction-screen-id">Auction#{auction.auctionId}</div>
+        <div className="auction-screen-id">
+          {auction?.auctionId ? `Auction#${auction.auctionId}` : "Auction ID not available"}
+        </div>
+
         <div className="auction-screen-status">
-          {auction.status === 2 && "Waiting"}
-          {auction.status === 3 && "Bidding"}
-          {auction.status === 4 && "Ended"}
+          {auction?.status === 2 && (<span>Starting: {formatDate(auction.startDate)}</span>)}
+          {auction?.status === 3 && "Bidding"}
+          {auction?.status === 4 && "Ended"}
         </div>
 
         <div className="auction-screen-detail-content-row">
@@ -106,8 +121,24 @@ const AuctionScreenDetail = () => {
                   {auctionItem.name || "Unknown Fish"}
                 </div>
                 <div className="fish-auction-ending-time">
-                  Ending in: {formatDate(auctionItem.endTime)}
+                  {auctionItem.status === 2 && (
+                    <span style={{ color: 'yellow' }}>
+                      Starting: {formatDate(auctionItem.startTime)}
+                    </span>
+                  )}
+                  {auctionItem.status === 3 && (
+                    <span style={{ color: '#34a853' }}>
+                      Ending: {formatDate(auctionItem.endTime)}
+                    </span>
+                  )}
+                  {auctionItem.status === 4 && (
+                    <span style={{ color: 'red' }}>
+                      Ended
+                    </span>
+                  )}
                 </div>
+
+
                 <div className="fish-auction-price">
                   {formatMoney(auctionItem.min) || 0} VND
                 </div>
