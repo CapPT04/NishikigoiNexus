@@ -177,7 +177,7 @@ const UserWallet = () => {
                     <tr key={transaction.transactionId}>
                       <td>{index + 1}</td>
                       <td>{transaction.transactionId}</td>
-                      <td>{transaction.amount}</td>
+                      <td>{formatMoney(transaction.amount)}</td>
                       <td>
                         {new Date(transaction.updateDate).toLocaleString()}
                       </td>
