@@ -11,6 +11,7 @@ const ManageMember = () => {
   const [users, setUsers] = React.useState([]);
   const navigate = useNavigate();
   const user = JSON.parse(sessionStorage.getItem("user"));
+  const statusName = ["Active", "Inactive"];
 
   const handleAllUser = async () => {
     const res = await handleGetAllMember();
@@ -92,7 +93,7 @@ const ManageMember = () => {
                       <td>{user.lastName}</td>
                       <td>{user.email}</td>
                       <td>{user.phone}</td>
-                      <td>{user.status}</td>
+                      <td>{statusName[user.status - 1]}</td>
                       <td>
                         <i
                           className="fa-solid fa-arrow-right"

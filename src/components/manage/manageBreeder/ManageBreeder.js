@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 const ManageBreeder = () => {
   const [breeders, setBreeders] = useState([]);
   const navigate = useNavigate();
+  const statusName = ["Active", "Inactive"];
 
   const getAllBreeders = async () => {
     const resBreeder = await handleGetAllBreeders();
@@ -76,7 +77,7 @@ const ManageBreeder = () => {
                       <td>{breeder.lastName}</td>
                       <td>{breeder.email}</td>
                       <td>{breeder.phone}</td>
-                      <td>{breeder.status}</td>
+                      <td>{statusName[breeder.status - 1]}</td>
                       <td>
                         {/* <a href="#"> */}
                         <i
