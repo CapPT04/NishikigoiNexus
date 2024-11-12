@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../common/Navbar/Navbar";
 import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
-import { handleAllFishEntry, handleCountNewMemberApi, handleFishEntryDashBoardApi, handleMonthlyRevenueApi, handleRevenueByTimeFrame } from "../../../axios/UserService";
+import { handleUpdateFeeApi, handleAllFishEntry, handleCountNewMemberApi, handleFishEntryDashBoardApi, handleGetFeeApi, handleMonthlyRevenueApi, handleRevenueByTimeFrame, handleFeeApi } from "../../../axios/UserService";
 import { useNavigate } from "react-router";
 import { PieChart, Pie, Cell, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import "./DashBoard.scss";
+import Swal from 'sweetalert2';
 
 const DashBoard = () => {
     const navigate = useNavigate();
@@ -22,11 +23,87 @@ const DashBoard = () => {
     const [selectedTimeFrame, setSelectedTimeFrame] = useState("month");
     const [totalRevenue, setTotalRevenue] = useState([]);
     const [monthlyRevenue, setMonthlyRevenue] = useState([]);
+    const [fee, setFee] = useState();
+
 
     const getFishEntries = async () => {
         const res = await handleAllFishEntry();
         setFishEntries(res.data.$values);
     };
+
+    const handleUpdateFeeBtn = async () => {
+
+        if (fee < 10000 || fee % 10000 !== 0 || fee > 20000000) {
+            await Swal.fire({
+                title: 'Invalid Fee',
+                text: 'The fee must be larger than 10,000 and divisible by 10,000.',
+                icon: 'error',
+                confirmButtonColor: '#d33',
+            });
+            return; // Exit the function if the fee is invalid
+        }
+
+        const confirmResult = await Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to update the fee?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, update it!'
+        });
+
+
+
+        if (confirmResult.isConfirmed) {
+            try {
+                const response = await handleUpdateFeeApi(sessionStorage.getItem("token"), fee);
+                console.log(sessionStorage.getItem("token"));
+
+                console.log(response);
+
+                if (response && response.status === 200) {
+                    Swal.fire({
+                        title: 'Updated!',
+                        text: 'The fee has been successfully updated.',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6'
+                    });
+                } else if (response.status === 403) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Unanthorize !!!.',
+                        icon: 'error',
+                        confirmButtonColor: '#d33'
+                    });
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'There was an error updating the fee. Please try again.',
+                    icon: 'error',
+                    confirmButtonColor: '#d33'
+                });
+            }
+        }
+    };
+
+    useEffect(() => {
+        const fetchGetFee = async () => {
+            try {
+                const response = await handleGetFeeApi();
+                if (response && response.status === 200) {
+                    setFee(response.data);
+                } else {
+                    console.log("Error in handleGetFeeApi");
+
+                }
+            } catch (error) {
+                console.error("Error fetching new members count:", error);
+            }
+        };
+        fetchGetFee();
+    }, []);
 
     useEffect(() => {
         const fetchNewMembersCount = async () => {
@@ -116,7 +193,16 @@ const DashBoard = () => {
         { month: "Dec", revenue: monthlyRevenue[11] },
     ];
 
-
+    const formatMoney = (value) => {
+        // Convert the value to a string and take only the integer part
+        let integerPart = String(Math.floor(Number(value)));
+        // Remove non-digit characters from the integer part
+        integerPart = integerPart.replace(/\D/g, "");
+        // Format the integer part with commas as thousand separators
+        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        // Return the formatted integer part
+        return integerPart;
+    };
 
     const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042"];
 
@@ -128,6 +214,33 @@ const DashBoard = () => {
             <div className="body-content-dashboard">
                 <VerticallyNavbar />
                 <div className="body-content-dashboard-right">
+                    <div className="management">Management</div>
+                    <div className="fee-set-up">
+                        <label className="request-fee-text">Request fee</label>
+                        <input
+                            className="request-fee-input"
+                            value={formatMoney(fee)}
+                            onChange={(e) => {
+                                const rawValue = e.target.value.replace(/,/g, ''); // Remove commas
+                                const numericValue = Number(rawValue); // Parse as a number
+                                if (!isNaN(numericValue)) {
+                                    setFee(numericValue); // Update fee state
+                                }
+                            }}
+                        />
+
+                        <div className="vnd-fee">VND</div>
+                        <button
+                            className="update-fee-btn"
+                            onClick={() => handleUpdateFeeBtn()}
+                        >Update</button>
+                        <button
+                            className="cancel-fee-btn"
+                            onClick={() => window.location.reload()}
+                        >Cancel</button>
+                    </div>
+                    <div className="overview">Overview</div>
+
                     <div className="chart-container1">
                         <div className="pie-chart">
                             <h2>Fish Entry Dashboard</h2>

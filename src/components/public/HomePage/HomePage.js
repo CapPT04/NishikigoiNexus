@@ -13,6 +13,7 @@ import { handleFishForHomePage } from "../../../axios/UserService";
 import { useNavigate } from "react-router";
 
 const HomePage = () => {
+
   const [fishHomePage, setFishHomePage] = useState("");
   const navigate = useNavigate();
   const startFish = async () => {
@@ -20,6 +21,19 @@ const HomePage = () => {
     setFishHomePage(resFish.data);
     // console.log(resFish);
   };
+  const formatMoney = (value) => {
+    // Convert the value to a string and take only the integer part
+    let integerPart = String(Math.floor(Number(value)));
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted integer part
+    return integerPart;
+  };
+  useEffect(() => {
+    startFish();
+  }, []);
   useEffect(() => {
     startFish();
   }, []);
@@ -49,7 +63,9 @@ const HomePage = () => {
                   Auction #{fishHomePage.auctionId}
                 </div>
                 <div className="representative-sample-fish-start-price">
-                  Start price: {fishHomePage.startPrice} VND
+
+                  Start price: {formatMoney(fishHomePage.startPrice)} VND
+
                 </div>
               </div>
             </div>
