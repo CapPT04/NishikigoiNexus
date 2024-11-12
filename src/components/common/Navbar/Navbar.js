@@ -63,9 +63,6 @@ const Navbar = () => {
         <a className="auction" onClick={() => navigate("/auction")}>
           AUCTION
         </a>
-        <a className="blog" onClick={() => navigate("/blog")}>
-          BLOG
-        </a>
         <a className="about" onClick={() => navigate("/about")}>
           ABOUT
         </a>

@@ -8,7 +8,11 @@ const END_POINT = {
   SIGNUP: "User/MemberRegister",
   GETUSERBYID: "User/GetUserById",
   GETALLUSER: "User/GetAllUser",
-  FEE: "Fee/GetFee",
+
+  //Fee
+  GETFEE: "Fee/GetFee",
+  UPDATEFEE: "Fee/UpdateFee",
+
   //breeder
   ENROLLMENTHISTORY: "Enrollment/GetAllEnrollmentsByFishEntryId",
   CREATEREQUEST: "Request/CreateRequest",
@@ -150,7 +154,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -412,6 +416,14 @@ export const handleGetFishEntryDepositApi = (fishEntryID) => {
   }
 };
 
+export const handleGetFeeApi = async () => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETFEE}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const handleGetAllBreeders = () => {
   try {
     return axiosClient.get(`${END_POINT.GETALLBREEDERS}`);
@@ -429,11 +441,10 @@ export const handleSignUpApi = async (user) => {
       lastName: user.lastName,
       phone: user.phone,
     });
-    // console.log("Signup successful:", response);
     return response;
   } catch (error) {
-    // return error;
-    // console.log("looi:", error);
+    throw error;
+
   }
 };
 
@@ -442,10 +453,20 @@ export const handleFeeApi = async () => {
     const res = await axiosClient.get(END_POINT.FEE);
     return res;
   } catch (error) {
-    console.error("Lỗi khi gọi API FEE:", error);
-    throw error; // Ném lỗi để các thành phần gọi hàm này có thể xử lý tiếp
+    throw error;
   }
 };
+
+export const handleUpdateFeeApi = async (token, fee) => {
+  try {
+    const res = await axiosClient.put(`${END_POINT.UPDATEFEE}?token=${token}&fee=${fee}`);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 
 export const handleSubmitRequest = async (request) => {
   try {
