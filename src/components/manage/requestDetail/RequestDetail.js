@@ -186,7 +186,7 @@ const RequestDetail = () => {
             <div className="request-detail-staff-content-row3">
               Create date: {new Date(requestDetail.createDate).toLocaleString()}
             </div>
-            <div className="request-detail-staff-content-row4">
+            <div className="request-detail-staff-content-row10">
               <div className="update-by">
                 <label for="update-by-input" className="update-by-label">
                   Update By
@@ -215,7 +215,7 @@ const RequestDetail = () => {
                 />
               </div>
             </div>
-            <div className="request-detail-staff-content-row5">
+            <div className="request-detail-staff-content-row10">
               <div className="create-by">
                 <label for="create-by-input" className="create-by-label">
                   Create By
@@ -242,7 +242,7 @@ const RequestDetail = () => {
                 />
               </div>
             </div>
-            <div className="request-detail-staff-content-row6">
+            <div className="request-detail-staff-content-row10">
               <div className="delivery-cost">
                 <label
                   for="delivery-cost-input"
