@@ -27,6 +27,15 @@ const FishAuctionMethod1 = React.lazy(() =>
 const FishAuctionMethod4 = React.lazy(() =>
   import("../components/auctionScreen/method4/FishAuctionMethod4")
 );
+const ForgetPassword = React.lazy(() =>
+  import("../components/public/forgetPassword/ForgetPassword")
+);
+const WaitingEmail = React.lazy(() =>
+  import("../components/public/waitingEmail/WaitingEmail")
+);
+const ResetPassword = React.lazy(() =>
+  import("../components/public/resetPassword/ResetPassword")
+);
 const PublicRoutes = [
   // { path: path.HOME, element: <LoadLazy children={<Home />} /> },
   { path: path.LOGIN, element: <Login /> },
@@ -35,6 +44,18 @@ const PublicRoutes = [
   { path: path.AUCTIONSCREENDETAIL, element: <AuctionScreenDetail /> },
   { path: path.LOGIN, element: <LoadLazy children={<Login />} /> },
   { path: path.SIGNUP, element: <LoadLazy children={<Signup />} /> },
+  {
+    path: path.RESETPASSWORD,
+    element: <LoadLazy children={<ResetPassword />} />,
+  },
+  {
+    path: path.WAITINGEMAIL,
+    element: <LoadLazy children={<WaitingEmail />} />,
+  },
+  {
+    path: path.FORGOTPASSWORD,
+    element: <LoadLazy children={<ForgetPassword />} />,
+  },
   {
     path: path.AUCTIONMETHOD2,
     element: <LoadLazy children={<FishAuctionMethod2 />} />,

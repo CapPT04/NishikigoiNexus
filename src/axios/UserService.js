@@ -9,6 +9,11 @@ const END_POINT = {
   GETUSERBYID: "User/GetUserById",
   GETALLUSER: "User/GetAllUser",
 
+  FORGOTPASSWORD: "User/ForgotPassword",
+  RESETPASSWORD: "User/ResetPassword",
+
+
+
   //Fee
   GETFEE: "Fee/GetFee",
   UPDATEFEE: "Fee/UpdateFee",
@@ -82,7 +87,18 @@ const END_POINT = {
   //Payment
   FEEWALLETPAYMENT: "Payment/FeePayment",
 };
-
+export const handleResetPasswordApi = (password, token) => {
+  return axiosClient.put(`${END_POINT.RESETPASSWORD}`, {
+    password: password,
+    token: token,
+  });
+};
+export const handleForgetPasswordApi = (email, clienUri) => {
+  return axiosClient.post(`${END_POINT.FORGOTPASSWORD}`, {
+    email: email,
+    clientUri: clienUri,
+  });
+};
 export const handleGetAuctionByIdApi = (auctionId) => {
   return axiosClient.get(`${END_POINT.GETAUCTIONBYID}/${auctionId}`);
 };
@@ -432,9 +448,9 @@ export const handleGetAllBreeders = () => {
   }
 };
 
-export const handleSignUpApi = async (user) => {
+export const handleSignUpApi = (user) => {
   try {
-    const response = await axiosClient.post(`${END_POINT.SIGNUP}`, {
+    const response = axiosClient.post(`${END_POINT.SIGNUP}`, {
       email: user.email,
       password: user.password,
       firstName: user.firstName,
@@ -443,7 +459,12 @@ export const handleSignUpApi = async (user) => {
     });
     return response;
   } catch (error) {
+
+    // return error;
+    // console.log("looi:", error);
+
     throw error;
+
 
   }
 };
@@ -465,6 +486,20 @@ export const handleUpdateFeeApi = async (token, fee) => {
     throw error;
   }
 };
+
+
+export const handleUpdateFeeApi = async (token, fee) => {
+  try {
+    const res = await axiosClient.put(
+      `${END_POINT.UPDATEFEE}?token=${token}&fee=${fee}`
+    );
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 
 
 
