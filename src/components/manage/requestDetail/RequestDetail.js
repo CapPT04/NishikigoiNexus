@@ -25,8 +25,6 @@ const RequestDetail = () => {
   const [deniable, setDeniable] = useState(false);
   const [staff, setStaff] = useState("");
 
-  const [deliveryCost, setDeliveryCost] = useState(0);
-
   //format to display
   const formatMoney = (value) => {
     // Ensure the value is a number or a string
@@ -54,8 +52,10 @@ const RequestDetail = () => {
       resFishEntry.data.fishEntryId
     );
     setFish(resFish.data);
-    const resStaff = await handleUserById(resReq.data.updateBy);
-    setStaff(resStaff.data);
+    if (resReq.data.updateBy) {
+      const resStaff = await handleUserById(resReq.data.updateBy);
+      setStaff(resStaff.data);
+    }
   };
   const acceptRequest = async () => {
     Swal.fire({
@@ -70,44 +70,31 @@ const RequestDetail = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const token = sessionStorage.getItem("token");
-        console.log(deliveryCost);
-        if (deliveryCost < 0) {
-          toast.error("Delivery cost can not under 0", {
+        const res = await handleAcceptRequest(token, requestId);
+        if (res.status === 200) {
+          toast.success("Accept Request Sucessfully", {
             position: "top-right",
-            autoClose: 1000,
+            autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
           });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         } else {
-          const res = await handleAcceptRequest(token, requestId, deliveryCost);
-          if (res.status === 200) {
-            toast.success("Accept Request Sucessfully", {
-              position: "top-right",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
-          } else {
-            toast.error(res.data, {
-              position: "top-right",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-            // window.location.reload();
-          }
+          toast.error(res.data, {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          // window.location.reload();
         }
       }
     });
@@ -209,7 +196,7 @@ const RequestDetail = () => {
                   value={
                     requestDetail.updateDate
                       ? new Date(requestDetail.updateDate).toLocaleString()
-                      : "Not Update Yet"
+                      : "Not Updated Yet"
                   }
                   disabled={true}
                 />
@@ -248,14 +235,13 @@ const RequestDetail = () => {
                   for="delivery-cost-input"
                   className="delivery-cost-label"
                 >
-                  Delivery Cost (VND)
+                  Note
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   className="delivery-cost-input"
-                  min={0}
-                  defaultValue={fish.deliveryCost ? fish.deliveryCost : ""}
-                  onChange={(e) => setDeliveryCost(e.target.value)}
+                  value={requestDetail.note}
+                  disabled={true}
                 />
               </div>
               <div className="fee">
@@ -275,24 +261,9 @@ const RequestDetail = () => {
                 />
               </div>
             </div>
-            <div className="request-detail-staff-content-row7">
-              <label for="note-input" className="note-label">
-                Note
-              </label>
-              <input
-                type="text"
-                className="note-input"
-                value={requestDetail.note}
-              />
-            </div>
             <div className="request-detail-staff-content-row8">
               <button
-                className={`${
-                  deliveryCost > 0
-                    ? "send-payment-request-btn"
-                    : "send-payment-request-btn-off"
-                }`}
-                disabled={deliveryCost === 0}
+                className="send-payment-request-btn"
                 onClick={acceptRequest}
                 style={{ display: requestDetail.status === 1 ? "" : "none" }}
               >
