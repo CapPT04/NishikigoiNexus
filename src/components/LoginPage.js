@@ -126,8 +126,11 @@ const LoginPage = () => {
                   <input className="remember-checkbox" type="checkbox" />
                   <div className="remember-text">Keep me logged in</div>
                 </div>
-                <a className="forget-account" href="#">
-                  Forgot username or password?
+                <a
+                  className="forget-account"
+                  onClick={() => navigate("/ForgotPassword")}
+                >
+                  Forgot password?
                 </a>
               </div>
               <div className="login-and-signup">
@@ -159,13 +162,11 @@ const LoginPage = () => {
                   src={facebookIcon}
                   alt="Facebook"
                 />
-                <div className="login-facebook-text">
-                  Continue with Facebook
-                </div>
+                <div className="login-facebook-text">Coming soon</div>
               </div>
               <div className="login-X">
                 <img className="X-icon" src={xIcon} alt="X" />
-                <div className="login-X-text">Continue with X</div>
+                <div className="login-X-text">Coming soon</div>
               </div>
             </div>
             <div className="note">

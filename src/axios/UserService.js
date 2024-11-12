@@ -8,7 +8,16 @@ const END_POINT = {
   SIGNUP: "User/MemberRegister",
   GETUSERBYID: "User/GetUserById",
   GETALLUSER: "User/GetAllUser",
+<<<<<<< Updated upstream
   FEE: "Fee/GetFee",
+=======
+  FORGOTPASSWORD: "User/ForgotPassword",
+  RESETPASSWORD: "User/ResetPassword",
+  //Fee
+  GETFEE: "Fee/GetFee",
+  UPDATEFEE: "Fee/UpdateFee",
+
+>>>>>>> Stashed changes
   //breeder
   ENROLLMENTHISTORY: "Enrollment/GetAllEnrollmentsByFishEntryId",
   CREATEREQUEST: "Request/CreateRequest",
@@ -78,7 +87,18 @@ const END_POINT = {
   //Payment
   FEEWALLETPAYMENT: "Payment/FeePayment",
 };
-
+export const handleResetPasswordApi = (password, token) => {
+  return axiosClient.put(`${END_POINT.RESETPASSWORD}`, {
+    password: password,
+    token: token,
+  });
+};
+export const handleForgetPasswordApi = (email, clienUri) => {
+  return axiosClient.post(`${END_POINT.FORGOTPASSWORD}`, {
+    email: email,
+    clientUri: clienUri,
+  });
+};
 export const handleGetAuctionByIdApi = (auctionId) => {
   return axiosClient.get(`${END_POINT.GETAUCTIONBYID}/${auctionId}`);
 };
@@ -420,9 +440,9 @@ export const handleGetAllBreeders = () => {
   }
 };
 
-export const handleSignUpApi = async (user) => {
+export const handleSignUpApi = (user) => {
   try {
-    const response = await axiosClient.post(`${END_POINT.SIGNUP}`, {
+    const response = axiosClient.post(`${END_POINT.SIGNUP}`, {
       email: user.email,
       password: user.password,
       firstName: user.firstName,
@@ -432,8 +452,12 @@ export const handleSignUpApi = async (user) => {
     // console.log("Signup successful:", response);
     return response;
   } catch (error) {
+<<<<<<< Updated upstream
     // return error;
     // console.log("looi:", error);
+=======
+    throw error;
+>>>>>>> Stashed changes
   }
 };
 
@@ -447,6 +471,20 @@ export const handleFeeApi = async () => {
   }
 };
 
+<<<<<<< Updated upstream
+=======
+export const handleUpdateFeeApi = async (token, fee) => {
+  try {
+    const res = await axiosClient.put(
+      `${END_POINT.UPDATEFEE}?token=${token}&fee=${fee}`
+    );
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+>>>>>>> Stashed changes
 export const handleSubmitRequest = async (request) => {
   try {
     const response = await axiosClient.post(`${END_POINT.CREATEREQUEST}`, {

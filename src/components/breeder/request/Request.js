@@ -151,15 +151,17 @@ const Request = () => {
             <div className="col-md-6 inputBox">
               <h5>Fish Age</h5>
               <input
-                type="text"
+                type="number"
                 name="FishAge (month)"
+                min={0}
                 onChange={(e) => setAge(e.target.value)}
               />
             </div>
             <div className="col-md-6 inputBox">
               <h5>Fish Weight</h5>
               <input
-                type="text"
+                type="number"
+                min={0}
                 name="FishWeight (gram)"
                 onChange={(e) => setWeight(e.target.value)}
               />
@@ -170,7 +172,8 @@ const Request = () => {
             <div className="col-md-6 inputBox">
               <h5>Fish Size</h5>
               <input
-                type="text"
+                type="number"
+                min={0}
                 name="FishSize (mm)"
                 onChange={(e) => setSize(e.target.value)}
               />
@@ -339,7 +342,8 @@ const Request = () => {
           <div
             className="fieldInput"
             style={{
-              display: auctionMethod === "4" ? "" : "none",
+              display:
+                auctionMethod === "4" || auctionMethod === "3" ? "" : "none",
             }}
           >
             <div className="inputBox">

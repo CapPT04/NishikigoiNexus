@@ -7,6 +7,9 @@ export const path = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   AUCTIONSCREENDETAIL: "/AuctionDetails",
+  FORGOTPASSWORD: "/ForgotPassword",
+  WAITINGEMAIL: "/WaitingEmail",
+  RESETPASSWORD: "/ResetPassword",
 
   //breeder
   BREEDER: "breeder",
