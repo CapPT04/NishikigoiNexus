@@ -7,6 +7,8 @@ import {
   handleRechargePaymentApi,
   handleTransactionHistoryApi,
 } from "../../../axios/UserService";
+import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 
 const UserWallet = () => {
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -42,7 +44,7 @@ const UserWallet = () => {
   const handleInputChange = (e) => {
     const inputValue = Number(e.target.value);
     // Check if the input value is divisible by 1000
-    if (inputValue % 1000 === 0 && inputValue > 0) {
+    if (inputValue % 10000 === 0 && inputValue > 0) {
       setAmountTopUp(inputValue);
       setTopUpReady(true);
     } else {
@@ -51,12 +53,25 @@ const UserWallet = () => {
   };
   //----top up------
   const handleTopUp = async () => {
-    // console.log("Nap tien ", amountTopUp);
-    const token = sessionStorage.getItem("token");
-    const resLink = await handleRechargePaymentApi(token, amountTopUp);
-    sessionStorage.setItem("amount", amountTopUp);
-    // console.log(resLink.data);
-    window.location.href = resLink.data;
+    // console.log(amountTopUp);
+    if (amountTopUp > 0 && amountTopUp < 20000001) {
+      // console.log("Nap tien ", amountTopUp);
+      const token = sessionStorage.getItem("token");
+      const resLink = await handleRechargePaymentApi(token, amountTopUp);
+      sessionStorage.setItem("amount", amountTopUp);
+      // console.log(resLink.data);
+      window.location.href = resLink.data;
+    } else {
+      toast.error("Amount only validate between 10,000VND and 20,000,000VND", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
   //-----auto update amount fill-------
   const handlePackageClick = (value) => {
@@ -76,6 +91,7 @@ const UserWallet = () => {
         <Navbar></Navbar>
       </div>
       <div className="user-wallet-content">
+        <ToastContainer /> {/* Add ToastContainer for displaying toasts */}
         <div className="user-wallet-content-row1">
           <div className="user-wallet-content-row1-col1">
             <div className="total-balance">
@@ -93,9 +109,17 @@ const UserWallet = () => {
                 type="number"
                 ref={inputRef} // Attach ref to the input
                 onChange={handleInputChange}
+                min={0}
+                max={20000000}
               />
               <div className="vnd">VND</div>
             </div>
+            <div className="notice-input">
+              <div className="notice-input-text">
+                Please enter amount in multiples of 10000
+              </div>
+            </div>
+
             <button
               className={topUpReady ? "top-up-btn" : "top-up-btn-off"}
               onClick={handleTopUp}
@@ -147,11 +171,11 @@ const UserWallet = () => {
               </tr>
             </thead>
             <tbody>
-              {userBalanceHistory.length > 0 ? (
+              {userBalanceHistory && userBalanceHistory.length > 0 ? (
                 userBalanceHistory.map((transaction, index) => {
                   return (
                     <tr key={transaction.transactionId}>
-                      <td>{index}</td>
+                      <td>{index + 1}</td>
                       <td>{transaction.transactionId}</td>
                       <td>{transaction.amount}</td>
                       <td>

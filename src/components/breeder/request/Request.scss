@@ -10,7 +10,7 @@
 html {
   height: 100%;
   background: #e7cdbf;
-  background: -webkit-linear-gradient(to left, #6441a5, #2a0845);
+  // background: -webkit-linear-gradient(to left, #6441a5, #2a0845); //comment lại tránh nền màu tím
 }
 
 body {
@@ -186,9 +186,13 @@ body {
         .fieldInput {
           display: flex;
           gap: 5%;
-          margin: 20px 0;
+          margin: 10px 0 10px;
           justify-content: center;
-
+          .noticeBox {
+            margin-top: -10px;
+            font-size: 12px;
+            color: red;
+          }
           h5 {
             width: fit-content;
             position: relative;

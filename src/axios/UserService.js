@@ -3,6 +3,7 @@ import axiosClient from "./axiosClient";
 import { useNavigate } from "react-router-dom";
 import CreateAuction from "../components/common/CreateAuction/CreateAuction";
 const END_POINT = {
+  FISHHOMEPAGE: "Fish/GetFishForHomePage",
   LOGIN: "User/Login",
   SIGNUP: "User/MemberRegister",
   GETUSERBYID: "User/GetUserById",
@@ -83,12 +84,11 @@ const END_POINT = {
 };
 
 export const handleGetAuctionByIdApi = (auctionId) => {
-  return axiosClient.get(
-    `${END_POINT.GETAUCTIONBYID}/${auctionId}`
-  );
+  return axiosClient.get(`${END_POINT.GETAUCTIONBYID}/${auctionId}`);
 };
-
-
+export const handleFishForHomePage = () => {
+  return axiosClient.get(`${END_POINT.FISHHOMEPAGE}`);
+};
 
 export const handleCreateStaff = (token, staff) => {
   return axiosClient.post(`${END_POINT.CREATESTAFF}`, {

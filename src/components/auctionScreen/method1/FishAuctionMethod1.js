@@ -34,6 +34,16 @@ const FishAuctionMethod1 = () => {
   const [checkEnroll, setCheckEnroll] = useState(false);
   const [fishEntryDeposit, setFishEntryDeposit] = useState(0);
 
+  const formatMoney = (value) => {
+    // Convert the value to a string and take only the integer part
+    let integerPart = String(Math.floor(Number(value)));
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted integer part
+    return integerPart;
+  };
   const handleEnrollBtn = async () => {
     // Show confirmation dialog with deposit amount
 
@@ -143,7 +153,7 @@ const FishAuctionMethod1 = () => {
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(
-        `https://localhost:7124/fixedPriceSale?fishEntryId=${fishEntry.fishEntryId}`
+        `${process.env.REACT_APP_LINK_REALTIME_SERVER}fixedPriceSale?fishEntryId=${fishEntry.fishEntryId}`
       ) // URL của Hub trong ASP.NET Core
       .withAutomaticReconnect()
       .build();
@@ -257,9 +267,9 @@ const FishAuctionMethod1 = () => {
 
   useEffect(() => {
     const fetchWinnerData = async () => {
-      if (auctionItem.status === 4) {
+      if (fishEntry.status === 4) {
         try {
-          const response = await handleGetWinnerApi(auctionItem.fishEntryId);
+          const response = await handleGetWinnerApi(fishEntry.fishEntryId);
           if (response && response.status === 200) {
             setWinnerData(response.data);
           } else if (response.status === 404 && response.data === "No winner") {
@@ -276,7 +286,7 @@ const FishAuctionMethod1 = () => {
     };
 
     fetchWinnerData();
-  }, [auctionItem.status, auctionItem.fishEntryId]);
+  }, [fishEntry.status, fishEntry.fishEntryId]);
 
   return (
     <div className="auction-screen-container">
@@ -292,8 +302,8 @@ const FishAuctionMethod1 = () => {
           {fishEntry.status === 3
             ? `Ending in: ${new Date(fishEntry.endDate).toLocaleString()}`
             : fishEntry.status === 2
-              ? "Waiting"
-              : "Ended"}
+            ? "Waiting"
+            : "Ended"}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
@@ -397,21 +407,21 @@ const FishAuctionMethod1 = () => {
                     <div className="buy-price-text">Buy price</div>
                   </div>
                   <div className="place-bid-content-row31">
-                    {fishEntry.minPrice} VND
+                    {formatMoney(fishEntry.minPrice)} VND
                   </div>
 
                   {checkEnroll ? (
                     <button className="place-bid-btn" onClick={placeABid}>
                       {fishEntry.status === 2
                         ? "The auction has not started."
-                        : `Place bid at ${fishEntry.minPrice} VND`}
+                        : `Place bid at ${formatMoney(fishEntry.minPrice)} VND`}
                     </button>
                   ) : (
                     <button
                       className="enroll-bid"
                       onClick={() => handleEnrollBtn()}
                     >
-                      Enroll with {fishEntryDeposit} VND deposit
+                      Enroll with {formatMoney(fishEntryDeposit)} VND deposit
                     </button>
                   )}
                 </div>
@@ -426,7 +436,7 @@ const FishAuctionMethod1 = () => {
                   </div>
                   <hr />
                   <div className="place-bid-content-row2-status4">
-                    ${winnerData.amount}
+                    {formatMoney(winnerData.amount)} VND
                   </div>
                   <div className="place-bid-content-row3-status4">
                     {new Date(winnerData.endDate).toLocaleString()}

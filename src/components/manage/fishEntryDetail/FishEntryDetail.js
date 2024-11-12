@@ -38,6 +38,7 @@ const FishEntryDetail = () => {
   };
 
   const getInfo = async () => {
+    // console.log("koi:", koi);
     if (koi) {
       const resReq = await handleGetRequestDetail(koi.requestId);
       setRequest(resReq.data);
@@ -49,8 +50,10 @@ const FishEntryDetail = () => {
       const resEnrollHistory = await handleEnrollHistoryByFishEntryId(
         koi.fishEntryId
       );
-      // console.log(resEnrollHistory.data);
-      setEnrollHistory(resEnrollHistory.data);
+      if (resEnrollHistory.status === 200) {
+        setEnrollHistory(resEnrollHistory.data || null);
+      }
+      // console.log("rell:", resEnrollHistory.data);
     }
   };
 
@@ -59,6 +62,7 @@ const FishEntryDetail = () => {
       navigate("/Manager/ManageFishEntry");
     } else {
       getInfo();
+      // console.log("roll:", enrollHistory);
     }
   }, [koi]);
 
@@ -86,7 +90,7 @@ const FishEntryDetail = () => {
               Create date: {new Date(request.createDate).toLocaleString()}
             </div>
             <div className="fish-detail-content-row4">
-              <label for="create-by-input" className="create-by-label">
+              <label htmlFor="create-by-input" className="create-by-label">
                 Create By
               </label>
               <input
@@ -98,7 +102,7 @@ const FishEntryDetail = () => {
             </div>
             <div className="fish-detail-content-row5">
               <div className="update-by">
-                <label for="update-by-input" className="update-by-label">
+                <label htmlFor="update-by-input" className="update-by-label">
                   Fish ID
                 </label>
                 <input
@@ -110,7 +114,10 @@ const FishEntryDetail = () => {
               </div>
               <div className="last-update">
                 {" "}
-                <label for="last-update-input" className="last-update-label">
+                <label
+                  htmlFor="last-update-input"
+                  className="last-update-label"
+                >
                   Auction ID
                 </label>
                 <input
@@ -125,7 +132,7 @@ const FishEntryDetail = () => {
             </div>
             <div className="fish-detail-content-row6">
               <div className="fish-name">
-                <label for="fish-name-input" className="fish-name-label">
+                <label htmlFor="fish-name-input" className="fish-name-label">
                   Auction Method
                 </label>
                 <input
@@ -136,7 +143,7 @@ const FishEntryDetail = () => {
                 />
               </div>
               <div className="origin">
-                <label for="origin-input" className="origin-label">
+                <label htmlFor="origin-input" className="origin-label">
                   Increment
                 </label>
                 <input
@@ -153,7 +160,7 @@ const FishEntryDetail = () => {
             </div>
             <div className="fish-detail-content-row7">
               <div className="shape">
-                <label for="shape-input" className="shape-label">
+                <label htmlFor="shape-input" className="shape-label">
                   Min Price
                 </label>
                 <input
@@ -166,7 +173,7 @@ const FishEntryDetail = () => {
                 />
               </div>
               <div className="size">
-                <label for="size-input" className="size-label">
+                <label htmlFor="size-input" className="size-label">
                   Max Price
                 </label>
                 <input
@@ -183,7 +190,7 @@ const FishEntryDetail = () => {
             </div>
             <div className="fish-detail-content-row8">
               <div className="gender">
-                <label for="gender-input" className="gender-label">
+                <label htmlFor="gender-input" className="gender-label">
                   Expected Date
                 </label>
                 <input
@@ -194,7 +201,7 @@ const FishEntryDetail = () => {
                 />
               </div>
               <div className="age">
-                <label for="age-input" className="age-label">
+                <label htmlFor="age-input" className="age-label">
                   Start Date
                 </label>
                 <input
@@ -211,7 +218,7 @@ const FishEntryDetail = () => {
             </div>
             <div className="fish-detail-content-row9">
               <div className="weight">
-                <label for="weight-input" className="weight-label">
+                <label htmlFor="weight-input" className="weight-label">
                   End Date
                 </label>
                 <input
@@ -226,7 +233,7 @@ const FishEntryDetail = () => {
                 />
               </div>
               <div className="sold-price">
-                <label for="sold-price-input" className="sold-price-label">
+                <label htmlFor="sold-price-input" className="sold-price-label">
                   Request Fee
                 </label>
                 <input
@@ -239,7 +246,7 @@ const FishEntryDetail = () => {
             </div>
             <div className="fish-detail-content-row9">
               <div className="weight">
-                <label for="weight-input" className="weight-label">
+                <label htmlFor="weight-input" className="weight-label">
                   Highest Bidder
                 </label>
                 <input
@@ -250,7 +257,7 @@ const FishEntryDetail = () => {
                 />
               </div>
               <div className="sold-price">
-                <label for="sold-price-input" className="sold-price-label">
+                <label htmlFor="sold-price-input" className="sold-price-label">
                   Highest Price
                 </label>
                 <input
@@ -286,24 +293,37 @@ const FishEntryDetail = () => {
                 </thead>
                 <tbody>
                   {enrollHistory.length > 0 ? (
-                    enrollHistory.map((enroll, index) => {
-                      return (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          {/* <td>{enroll.enrollmentId}</td> */}
-                          <td>{enroll.userId}</td>
-                          <td>
-                            {enroll.enrollDate
-                              ? new Date(enroll.enrollDate).toLocaleString()
-                              : "Not Yet"}
-                          </td>
-                        </tr>
-                      );
-                    })
+                    () => {
+                      try {
+                        enrollHistory.map((enroll, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              {/* <td>{enroll.enrollmentId}</td> */}
+                              <td>{enroll.userId}</td>
+                              <td>
+                                {enroll.enrollDate
+                                  ? new Date(enroll.enrollDate).toLocaleString()
+                                  : "Not Yet"}
+                              </td>
+                            </tr>
+                          );
+                        });
+                      } catch (error) {
+                        return (
+                          <tr>
+                            <td colSpan={3}>No one enroll to this fish</td>
+                          </tr>
+                        );
+                      }
+                    }
                   ) : (
-                    <tr>
-                      <td colSpan={3}>No one enroll to this fish</td>
-                    </tr>
+                    <>
+                      <tr>
+                        <td colSpan={3}>No one enroll to this fish</td>
+                      </tr>
+                      {console.log("as")}
+                    </>
                   )}
                 </tbody>
               </table>

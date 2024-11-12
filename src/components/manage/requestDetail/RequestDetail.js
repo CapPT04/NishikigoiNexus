@@ -71,9 +71,8 @@ const RequestDetail = () => {
       if (result.isConfirmed) {
         const token = sessionStorage.getItem("token");
         console.log(deliveryCost);
-        const res = await handleAcceptRequest(token, requestId, deliveryCost);
-        if (res.status === 200) {
-          toast.success("Accept Request Sucessfully", {
+        if (deliveryCost < 0) {
+          toast.error("Delivery cost can not under 0", {
             position: "top-right",
             autoClose: 1000,
             hideProgressBar: false,
@@ -82,20 +81,33 @@ const RequestDetail = () => {
             draggable: true,
             progress: undefined,
           });
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
         } else {
-          toast.error(res.data, {
-            position: "top-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          // window.location.reload();
+          const res = await handleAcceptRequest(token, requestId, deliveryCost);
+          if (res.status === 200) {
+            toast.success("Accept Request Sucessfully", {
+              position: "top-right",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          } else {
+            toast.error(res.data, {
+              position: "top-right",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            // window.location.reload();
+          }
         }
       }
     });
@@ -163,16 +175,18 @@ const RequestDetail = () => {
         <VerticallyNavbar></VerticallyNavbar>
         <div className="body-content-right">
           <div className="request-detail-content">
-            <div className="request-detail-content-row1">
+            <div className="request-detail-staff-content-row1">
               <div className="status">
                 Status: {statusName[requestDetail.status - 1]}
               </div>
             </div>
-            <div className="request-detail-content-row2">Request Detail</div>
-            <div className="request-detail-content-row3">
+            <div className="request-detail-staff-content-row2">
+              Request Detail
+            </div>
+            <div className="request-detail-staff-content-row3">
               Create date: {new Date(requestDetail.createDate).toLocaleString()}
             </div>
-            <div className="request-detail-content-row4">
+            <div className="request-detail-staff-content-row10">
               <div className="update-by">
                 <label for="update-by-input" className="update-by-label">
                   Update By
@@ -201,7 +215,7 @@ const RequestDetail = () => {
                 />
               </div>
             </div>
-            <div className="request-detail-content-row5">
+            <div className="request-detail-staff-content-row10">
               <div className="create-by">
                 <label for="create-by-input" className="create-by-label">
                   Create By
@@ -228,7 +242,7 @@ const RequestDetail = () => {
                 />
               </div>
             </div>
-            <div className="request-detail-content-row6">
+            <div className="request-detail-staff-content-row10">
               <div className="delivery-cost">
                 <label
                   for="delivery-cost-input"
@@ -261,7 +275,7 @@ const RequestDetail = () => {
                 />
               </div>
             </div>
-            <div className="request-detail-content-row7">
+            <div className="request-detail-staff-content-row7">
               <label for="note-input" className="note-label">
                 Note
               </label>
@@ -271,7 +285,7 @@ const RequestDetail = () => {
                 value={requestDetail.note}
               />
             </div>
-            <div className="request-detail-content-row8">
+            <div className="request-detail-staff-content-row8">
               <button
                 className={`${
                   deliveryCost > 0
@@ -285,13 +299,13 @@ const RequestDetail = () => {
                 Send Payment Request
               </button>
             </div>
-            <div className="request-detail-content-row9">
+            <div className="request-detail-staff-content-row9">
               <div className="fish-entry-information">
                 Fish Entry #{fishEntry.fishEntryId} Information
               </div>
             </div>
 
-            <div className="request-detail-content-row10">
+            <div className="request-detail-staff-content-row10">
               <div className="fish-id">
                 <label for="fish-id-input" className="fish-id-label">
                   Fish ID
@@ -321,7 +335,7 @@ const RequestDetail = () => {
               </div>
             </div>
 
-            <div className="request-detail-content-row11">
+            <div className="request-detail-staff-content-row11">
               <div className="auction-method">
                 <label
                   for="auction-method-input"
@@ -353,7 +367,7 @@ const RequestDetail = () => {
                 />
               </div>
             </div>
-            <div className="request-detail-content-row11">
+            <div className="request-detail-staff-content-row11">
               <div className="auction-method">
                 <label
                   for="auction-method-input"
@@ -390,7 +404,7 @@ const RequestDetail = () => {
               </div>
             </div>
 
-            <div className="request-detail-content-row11">
+            <div className="request-detail-staff-content-row11">
               <div className="auction-method">
                 <label
                   for="auction-method-input"
@@ -425,7 +439,7 @@ const RequestDetail = () => {
                 />
               </div>
             </div>
-            <div className="request-detail-content-row11">
+            <div className="request-detail-staff-content-row11">
               <div className="auction-method">
                 <label
                   for="auction-method-input"
@@ -457,7 +471,7 @@ const RequestDetail = () => {
                 />
               </div>
             </div>
-            <div className="request-detail-content-row15">
+            <div className="request-detail-staff-content-row15">
               <div
                 className="deny"
                 style={{ display: requestDetail.status === 1 ? "" : "none" }}
@@ -466,7 +480,7 @@ const RequestDetail = () => {
               </div>
             </div>
             <div
-              className="request-detail-content-row16"
+              className="request-detail-staff-content-row16"
               style={{ display: requestDetail.status === 1 ? "" : "none" }}
             >
               <label for="reason-input" className="reason-label">
@@ -487,7 +501,7 @@ const RequestDetail = () => {
               />
             </div>
             <div
-              className="request-detail-content-row17"
+              className="request-detail-staff-content-row17"
               style={{ display: requestDetail.status === 1 ? "" : "none" }}
             >
               <button

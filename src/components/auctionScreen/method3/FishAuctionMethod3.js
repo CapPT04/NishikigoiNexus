@@ -158,14 +158,14 @@ const FishAuctionMethod3 = () => {
 
   //format to display
   const formatMoney = (value) => {
-    // Ensure the value is a number or a string
-    let [integerPart, decimalPart] = String(value).split(".");
+    // Convert the value to a string and take only the integer part
+    let integerPart = String(Math.floor(Number(value)));
     // Remove non-digit characters from the integer part
     integerPart = integerPart.replace(/\D/g, "");
     // Format the integer part with commas as thousand separators
     integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    // Return the formatted number with the decimal part (if present)
-    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+    // Return the formatted integer part
+    return integerPart;
   };
   const getFishEntry = async () => {
     if (entryId) {
@@ -204,7 +204,7 @@ const FishAuctionMethod3 = () => {
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(
-        `https://localhost:7124/publicBidHub?fishEntryId=${fishEntry.fishEntryId}`
+        `${process.env.REACT_APP_LINK_REALTIME_SERVER}publicBidHub?fishEntryId=${fishEntry.fishEntryId}`
       ) // URL của Hub trong ASP.NET Core
 
       .withAutomaticReconnect()
@@ -381,7 +381,7 @@ const FishAuctionMethod3 = () => {
                           {/* Assuming you have a bidderName property */}
                         </div>
                         <div className="bidding-price">
-                          {bided.bidAmount} VND
+                          {formatMoney(bided.bidAmount)} VND
                         </div>{" "}
                         {/* Assuming you have a price property */}
                       </div>
@@ -398,13 +398,17 @@ const FishAuctionMethod3 = () => {
                       <i class="fa-solid fa-file-invoice-dollar"></i>
                     </div>
                     <div class="current-price-text">Current price</div>
-                    <div class="current-price">{currentPrice} VND</div>
+                    <div class="current-price">
+                      {formatMoney(currentPrice)} VND
+                    </div>
                   </div>
                   <hr />
                   <div class="place-bid-content-row2">
                     <div class="increment">
                       <div class="increment-text">Increment</div>
-                      <div class="increment-number">{stepPrice} VND</div>
+                      <div class="increment-number">
+                        {formatMoney(stepPrice)} VND
+                      </div>
                     </div>
                     <div class="multiple">x</div>
                     <div class="cen-div">
@@ -417,21 +421,23 @@ const FishAuctionMethod3 = () => {
                       </div>
                     </div>
                     <div class="equal">=</div>
-                    <div class="total-bid-price">{totalBidPrice} VND</div>
+                    <div class="total-bid-price">
+                      {formatMoney(totalBidPrice)} VND
+                    </div>
                   </div>
 
                   {checkEnroll ? (
                     <button class="place-bid-btn" onClick={bidding}>
                       {fishEntry.status === 2
                         ? "The auction has not started."
-                        : `Place bid at ${newPrice} VND`}
+                        : `Place bid at ${formatMoney(newPrice)} VND`}
                     </button>
                   ) : (
                     <button
                       className="enroll-bid"
                       onClick={() => handleEnrollBtn()}
                     >
-                      Enroll with {fishEntryDeposit} VND deposit
+                      Enroll with {formatMoney(fishEntryDeposit)} VND deposit
                     </button>
                   )}
                 </div>
@@ -446,7 +452,7 @@ const FishAuctionMethod3 = () => {
                   </div>
                   <hr />
                   <div className="place-bid-content-row2-status4">
-                    {winnerData.amount} VND
+                    {formatMoney(winnerData.amount)} VND
                   </div>
                   <div className="place-bid-content-row3-status4">
                     {new Date(winnerData.endDate).toLocaleString()}

@@ -20,7 +20,7 @@ import {
   handleGetFishEntryDepositApi,
   handlePlaceDutchAuctionBid,
   handleFishEntryById,
-  handleGetFishDetailById
+  handleGetFishDetailById,
 } from "../../../axios/UserService";
 import Swal from "sweetalert2";
 import startPriceIcon from "../../../assets/images/mintmark.svg";
@@ -53,7 +53,6 @@ const FishAuctionMethod4 = () => {
   console.log("asdasd: ", fishEntry.maxPrice);
   console.log("highest: ", highestPrice);
 
-
   const formatMoney = (value) => {
     // Convert the value to a string and take only the integer part
     let integerPart = String(Math.floor(Number(value)));
@@ -70,10 +69,9 @@ const FishAuctionMethod4 = () => {
       try {
         const response = await handleFishEntryById(auctionItem.fishEntryId);
         if (response && response.status === 200) {
-          setFishEntry(response.data)
+          setFishEntry(response.data);
         } else if (response.status === 400) {
           console.log("error when call api GetFishEntryById");
-
         }
       } catch (error) {
         console.error("Error checking gt fish entry deposite status:", error);
@@ -86,33 +84,40 @@ const FishAuctionMethod4 = () => {
     // Show confirmation dialog with deposit amount
 
     const result = await Swal.fire({
-      title: 'Confirm Enrollment',
-      text: `To enroll in this auction, a deposit of ${formatMoney(fishEntryDeposit)} VND is required. Do you wish to proceed?`,
-      icon: 'warning',
+      title: "Confirm Enrollment",
+      text: `To enroll in this auction, a deposit of ${formatMoney(
+        fishEntryDeposit
+      )} VND is required. Do you wish to proceed?`,
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: 'Yes, proceed',
-      cancelButtonText: 'No, cancel'
+      confirmButtonText: "Yes, proceed",
+      cancelButtonText: "No, cancel",
     });
 
     if (result.isConfirmed) {
       try {
         Swal.fire({
-          title: 'Enrolling...',
-          text: 'Please wait while we enroll you in the auction.',
+          title: "Enrolling...",
+          text: "Please wait while we enroll you in the auction.",
           didOpen: () => {
             Swal.showLoading();
-          }
+          },
         });
 
-        const response = await handleEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId);
+        const response = await handleEnrollApi(
+          sessionStorage.getItem("token"),
+          auctionItem.fishEntryId
+        );
         console.log(response);
 
         if (response && response.status === 200) {
           // Success notification
           Swal.fire({
-            icon: 'success',
-            title: 'Enrollment Successful!',
-            text: `You have been successfully enrolled with a ${formatMoney(fishEntryDeposit)} VND deposit.`
+            icon: "success",
+            title: "Enrollment Successful!",
+            text: `You have been successfully enrolled with a ${formatMoney(
+              fishEntryDeposit
+            )} VND deposit.`,
           }).then(() => {
             // Reload the page after the user clicks "OK" on the success message
             window.location.reload(); // This will reload the current page
@@ -121,20 +126,21 @@ const FishAuctionMethod4 = () => {
         } else if (response && response.status === 400) {
           // Handle insufficient balance error
           Swal.fire({
-            icon: 'error',
-            title: 'Enrollment Failed',
-            text: 'You do not have enough balance to enroll! Please deposit money into your account.',
+            icon: "error",
+            title: "Enrollment Failed",
+            text: "You do not have enough balance to enroll! Please deposit money into your account.",
             showCancelButton: true,
-            confirmButtonText: 'Go to Deposit Page',
-            cancelButtonText: 'Cancel'
+            confirmButtonText: "Go to Deposit Page",
+            cancelButtonText: "Cancel",
           }).then((result) => {
             if (result.isConfirmed) {
               // Redirect to deposit page
               if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
                 navigate("/user/UserWallet");
-              } else if (JSON.parse(sessionStorage.getItem("user")).Role === "2") {
+              } else if (
+                JSON.parse(sessionStorage.getItem("user")).Role === "2"
+              ) {
                 navigate("/breeder/UserWallet");
-
               }
             }
           });
@@ -143,16 +149,16 @@ const FishAuctionMethod4 = () => {
         console.log(error);
 
         Swal.fire({
-          icon: 'error',
-          title: 'Enrollment Failed',
-          text: 'There was an error enrolling in the auction. Please try again later.'
+          icon: "error",
+          title: "Enrollment Failed",
+          text: "There was an error enrolling in the auction. Please try again later.",
         });
       }
     } else {
       Swal.fire({
-        icon: 'info',
-        title: 'Enrollment Canceled',
-        text: 'You chose not to proceed with the enrollment.'
+        icon: "info",
+        title: "Enrollment Canceled",
+        text: "You chose not to proceed with the enrollment.",
       });
     }
   };
@@ -160,7 +166,9 @@ const FishAuctionMethod4 = () => {
   useEffect(() => {
     const fishEntryDeposit = async () => {
       try {
-        const response = await handleGetFishEntryDepositApi(auctionItem.fishEntryId);
+        const response = await handleGetFishEntryDepositApi(
+          auctionItem.fishEntryId
+        );
         if (response && response.status === 200) {
           setFishEntryDeposit(response.data);
         } else if (response.status === 400) {
@@ -175,7 +183,10 @@ const FishAuctionMethod4 = () => {
   useEffect(() => {
     const checkEnrollmentStatus = async () => {
       try {
-        const response = await handleCheckEnrollApi(sessionStorage.getItem("token"), auctionItem.fishEntryId);
+        const response = await handleCheckEnrollApi(
+          sessionStorage.getItem("token"),
+          auctionItem.fishEntryId
+        );
         console.log(response);
         console.log(sessionStorage.getItem("token"));
         console.log(response.status);
@@ -212,7 +223,7 @@ const FishAuctionMethod4 = () => {
     // Tạo kết nối đến SignalR Hub
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(
-        `https://localhost:7124/dutchAuctionHub?fishEntryId=${auctionItem.fishEntryId}`
+        `${process.env.REACT_APP_LINK_REALTIME_SERVER}dutchAuctionHub?fishEntryId=${auctionItem.fishEntryId}`
       ) // URL ánh xạ trong app.MapHub
       .withAutomaticReconnect()
       .build();
@@ -279,7 +290,7 @@ const FishAuctionMethod4 = () => {
           }).then(() => {
             // Reload the page after the user clicks "OK" on the success message
             window.location.reload(); // This will reload the current page
-          });;
+          });
         } else {
           Swal.fire({
             title: "Place bid failed!",
@@ -424,7 +435,9 @@ const FishAuctionMethod4 = () => {
                       <img src={startPriceIcon} alt="" />
                     </div>
                     <div className="start-price-text">Start price</div>
-                    <div className="start-price">{formatMoney(fishEntry.maxPrice)} VND</div>
+                    <div className="start-price">
+                      {formatMoney(fishEntry.maxPrice)} VND
+                    </div>
                   </div>
                   <hr />
                   <div className="place-bid-content-row2">
@@ -432,8 +445,11 @@ const FishAuctionMethod4 = () => {
                       <i className="fa-solid fa-file-invoice-dollar"></i>
                     </div>
                     <div className="current-price-text">
-                      Current price: {highestPrice !== undefined ? formatMoney(highestPrice) : formatMoney(fishEntry.maxPrice)} VND
-
+                      Current price:{" "}
+                      {highestPrice !== undefined
+                        ? formatMoney(highestPrice)
+                        : formatMoney(fishEntry.maxPrice)}{" "}
+                      VND
                     </div>
                   </div>
 
@@ -442,15 +458,21 @@ const FishAuctionMethod4 = () => {
                       className="place-bid-btn"
                       onClick={() => handlePlaceBidBtn()}
                     >
-                      {fishEntry.status === 2 ? "The auction has not started." : `Place bid at ${formatMoney(highestPrice) ?? formatMoney(fishEntry.maxPrice)} VND`}
+                      {fishEntry.status === 2
+                        ? "The auction has not started."
+                        : `Place bid at ${
+                            formatMoney(highestPrice) ??
+                            formatMoney(fishEntry.maxPrice)
+                          } VND`}
                     </button>
                   ) : (
-                    <button className="enroll-bid"
-                      onClick={() => handleEnrollBtn()}>
+                    <button
+                      className="enroll-bid"
+                      onClick={() => handleEnrollBtn()}
+                    >
                       Enroll with {formatMoney(fishEntryDeposit)} VND deposit
                     </button>
                   )}
-
                 </div>
               </div>
             )}
