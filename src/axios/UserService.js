@@ -715,12 +715,11 @@ export const handleFishByFishEntryId = async (fishEntryId) => {
     throw error;
   }
 };
-export const handleAcceptRequest = async (token, requestId, deliveryCost) => {
+export const handleAcceptRequest = async (token, requestId) => {
   try {
     return await axiosClient.put(`${END_POINT.ACCEPTREQUEST}`, {
       token: token,
       requestId: requestId,
-      deliveryCost: deliveryCost,
     });
   } catch (error) {
     throw error;
