@@ -12,8 +12,6 @@ const END_POINT = {
   FORGOTPASSWORD: "User/ForgotPassword",
   RESETPASSWORD: "User/ResetPassword",
 
-
-
   //Fee
   GETFEE: "Fee/GetFee",
   UPDATEFEE: "Fee/UpdateFee",
@@ -170,7 +168,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -459,13 +457,10 @@ export const handleSignUpApi = (user) => {
     });
     return response;
   } catch (error) {
-
     // return error;
     // console.log("looi:", error);
 
     throw error;
-
-
   }
 };
 
@@ -480,16 +475,6 @@ export const handleFeeApi = async () => {
 
 export const handleUpdateFeeApi = async (token, fee) => {
   try {
-    const res = await axiosClient.put(`${END_POINT.UPDATEFEE}?token=${token}&fee=${fee}`);
-    return res;
-  } catch (error) {
-    throw error;
-  }
-};
-
-
-export const handleUpdateFeeApi = async (token, fee) => {
-  try {
     const res = await axiosClient.put(
       `${END_POINT.UPDATEFEE}?token=${token}&fee=${fee}`
     );
@@ -498,10 +483,6 @@ export const handleUpdateFeeApi = async (token, fee) => {
     throw error;
   }
 };
-
-
-
-
 
 export const handleSubmitRequest = async (request) => {
   try {
