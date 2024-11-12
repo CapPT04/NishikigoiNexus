@@ -197,7 +197,7 @@ const RequestDetail = () => {
               />
             </div>
           </div>
-          <div className="request-detail-breeder-content-row5">
+          <div className="request-detail-breeder-content-row4">
             <div className="create-by">
               <label for="create-by-input" className="create-by-label">
                 Auction Method
@@ -230,7 +230,7 @@ const RequestDetail = () => {
               />
             </div>
           </div>
-          <div className="request-detail-breeder-content-row6">
+          <div className="request-detail-breeder-content-row4">
             <div className="delivery-cost">
               <label for="delivery-cost-input" className="delivery-cost-label">
                 Min Price
@@ -293,7 +293,7 @@ const RequestDetail = () => {
             </div>
           )}
 
-          <div className="request-detail-breeder-content-row5">
+          <div className="request-detail-breeder-content-row4">
             <div className="create-by">
               <label for="create-by-input" className="create-by-label">
                 Auction ID
@@ -318,7 +318,7 @@ const RequestDetail = () => {
               />
             </div>
           </div>
-          <div className="request-detail-breeder-content-row5">
+          <div className="request-detail-breeder-content-row4">
             <div className="create-by">
               <label for="create-by-input" className="create-by-label">
                 Start Date
