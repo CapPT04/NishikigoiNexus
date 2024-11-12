@@ -98,6 +98,107 @@
         margin-left: 140px;
         margin-top : 100px;
 
+        .management {
+            margin-left: 100px;
+            color      : #121212;
+            font-family: "Saira Condensed";
+            font-size  : 40px;
+            font-style : normal;
+            font-weight: 600;
+            line-height: normal;
+            margin-top : 20px;
+        }
+
+        .overview {
+            color      : #121212;
+            font-family: "Saira Condensed";
+            font-size  : 40px;
+            font-style : normal;
+            font-weight: 600;
+            line-height: normal;
+            margin-top : 50px;
+            margin-left: 100px;
+        }
+
+        .fee-set-up {
+            margin-left: 100px;
+            position   : relative;
+
+            .request-fee-text {
+                display    : block;
+                color      : #121212;
+                font-family: Inter;
+                font-size  : 24px;
+                font-style : normal;
+                font-weight: 400;
+                line-height: normal;
+                position   : relative;
+                margin-top : 10px;
+            }
+
+            .request-fee-input {
+                width        : 523.365px;
+                height       : 56px;
+                border-radius: 12px;
+                border       : 1px solid #121212;
+                margin-top   : 10px;
+                display      : block;
+                margin-bottom: 30px;
+                position     : relative;
+                text-indent  : 5px;
+                font-size    : 26px;
+                font-style   : normal;
+            }
+
+            .vnd-fee {
+                position: absolute;
+                right   : 0;
+            }
+
+
+            .update-fee-btn {
+                width        : 187.12px;
+                height       : 52px;
+                flex-shrink  : 0;
+                border-radius: 9px;
+                background   : #0097B2;
+                color        : #121212;
+                text-align   : center;
+                font-family  : Poppins;
+                font-size    : 26px;
+                font-style   : normal;
+                font-weight  : 700;
+                line-height  : normal;
+
+                &:hover {
+                    opacity: 0.7;
+                    cursor : pointer;
+                }
+            }
+
+            .cancel-fee-btn {
+                border-radius: 9px;
+                border       : 1px solid #0097B2;
+                width        : 187.115px;
+                height       : 52px;
+                flex-shrink  : 0;
+                color        : #121212;
+                font-family  : Poppins;
+                font-size    : 26px;
+                font-style   : normal;
+                font-weight  : 700;
+                line-height  : normal;
+                margin-left  : 30px;
+                background   : none;
+
+                &:hover {
+                    opacity: 0.7;
+                    cursor : pointer;
+                }
+            }
+
+        }
+
         .search {
             display    : flex;
             width      : 560px;

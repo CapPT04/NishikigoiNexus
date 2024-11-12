@@ -10,6 +10,29 @@ import google from "../../../assets/images/Vector.svg";
 import Navbar from "../../common/Navbar/Navbar";
 
 const HomePage = () => {
+<<<<<<< Updated upstream
+=======
+  const [fishHomePage, setFishHomePage] = useState("");
+  const navigate = useNavigate();
+  const startFish = async () => {
+    const resFish = await handleFishForHomePage();
+    setFishHomePage(resFish.data);
+    // console.log(resFish);
+  };
+  const formatMoney = (value) => {
+    // Convert the value to a string and take only the integer part
+    let integerPart = String(Math.floor(Number(value)));
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted integer part
+    return integerPart;
+  };
+  useEffect(() => {
+    startFish();
+  }, []);
+>>>>>>> Stashed changes
   return (
 
     <div className="home-page">
@@ -38,7 +61,11 @@ const HomePage = () => {
                   Auction #69
                 </div>
                 <div className="representative-sample-fish-start-price">
+<<<<<<< Updated upstream
                   Start price: $210
+=======
+                  Start price: {formatMoney(fishHomePage.startPrice)} VND
+>>>>>>> Stashed changes
                 </div>
               </div>
             </div>
