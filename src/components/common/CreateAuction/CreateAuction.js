@@ -39,7 +39,7 @@ const CreateAuction = () => {
           progress: undefined,
         });
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (

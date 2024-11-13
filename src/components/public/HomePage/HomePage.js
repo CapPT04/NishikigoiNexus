@@ -68,6 +68,7 @@ const HomePage = () => {
                 </div>
                 <div className="representative-sample-fish-start-price">
                   Start price: {formatMoney(fishHomePage.startPrice)} VND
+
                 </div>
                 <div
                   className="representative-sample-fish-fish-status"

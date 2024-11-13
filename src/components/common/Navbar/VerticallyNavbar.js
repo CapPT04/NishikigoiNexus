@@ -18,8 +18,6 @@ const VerticallyNavbar = () => {
     return <div>Loading...</div>; // Or handle the case when the user is not found
   }
 
-  console.log(user.Role);
-
   return (
     <div className="navigation-bar-vertically">
       {user && user.Role === "4" ? (

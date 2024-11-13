@@ -123,6 +123,7 @@
         .fee-set-up {
             margin-left: 100px;
             position   : relative;
+            display    : inline-block;
 
             .request-fee-text {
                 display    : block;
@@ -151,8 +152,12 @@
             }
 
             .vnd-fee {
-                position: absolute;
-                right   : 0;
+                position   : absolute;
+                right      : 0;
+                top        : 60px;
+                right      : 10px;
+                font-weight: 600;
+                font-size  : 24px;
             }
 
 
@@ -314,6 +319,15 @@
         align-items    : center;
         gap            : 10px;
         flex-shrink    : 0;
+
+        h2 {
+            font-size: 28px;
+        }
+
+        .total-pie-chart {
+            font-weight: 600;
+            font-size  : 20px;
+        }
     }
 
     .statistics-summary {
@@ -400,7 +414,7 @@
     background     : #fff;
     width          : 82.2%;
     display        : flex;
-    height         : 322px;
+    height         : 350px;
     padding        : 21px 26px;
     flex-direction : column;
     justify-content: center;
@@ -411,4 +425,10 @@
     box-shadow     : 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
     padding-bottom : 20px;
     margin-bottom  : 50px;
+
+
+
+    h3 {
+        font-size: 28px;
+    }
 }
