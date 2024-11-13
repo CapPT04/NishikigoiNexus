@@ -48,8 +48,12 @@ const FishAuctionMethod1 = () => {
     return integerPart;
   };
   const handleEnrollBtn = async () => {
-    // Show confirmation dialog with deposit amount
+    if (!sessionStorage.getItem("token")) {
+      navigate("/login");
+      return;
+    }
 
+    // Show confirmation dialog with deposit amount
     const result = await Swal.fire({
       title: "Confirm Enrollment",
       text: `To enroll in this auction, a deposit of ${fishEntryDeposit} VND is required. Do you wish to proceed?`,
