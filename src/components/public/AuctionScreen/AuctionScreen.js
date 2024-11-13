@@ -24,6 +24,10 @@ const AuctionScreen = () => {
     fetchAuctions();
   }, []);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString();
+  };
   return (
     <div className="auction-screen">
       <div className="header">
@@ -47,9 +51,21 @@ const AuctionScreen = () => {
               </div>
               <div className="auction-item-row2">
                 <div className={`auction-status`}>
-                  {auction.status === 2 && "Waiting"}
-                  {auction.status === 3 && "Bidding"}
-                  {auction.status === 4 && "Ended"}
+                  {auction.status === 2 && (
+                    <span style={{ color: '#007bff' }}> {/* Màu xanh lam */}
+                      Starting: {formatDate(auction.startDate)}
+                    </span>
+                  )}
+                  {auction.status === 3 && (
+                    <span style={{ color: '#34a853' }}>
+                      Bidding
+                    </span>
+                  )}
+                  {auction.status === 4 && (
+                    <span style={{ color: 'red' }}>
+                      Ended
+                    </span>
+                  )}
                 </div>
                 <div className="auction-details">
                   <i
