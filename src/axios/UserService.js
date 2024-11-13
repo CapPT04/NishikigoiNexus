@@ -16,6 +16,8 @@ const END_POINT = {
   GETFEE: "Fee/GetFee",
   UPDATEFEE: "Fee/UpdateFee",
 
+
+
   //breeder
   ENROLLMENTHISTORY: "Enrollment/GetAllEnrollmentsByFishEntryId",
   CREATEREQUEST: "Request/CreateRequest",
@@ -83,6 +85,8 @@ const END_POINT = {
   RECHARGEPAYMENT: "Payment/RechargePayment",
   RECHARGEPAYMENTCALLBACK: "Payment/RechargePaymentCallBack",
   TRANSACTIONHISTORY: "Transaction/GetTransactionHistory",
+  GETPAYMENTPRICE: "FishEntry/GetPaymentPrice",
+
   //Payment
   FEEWALLETPAYMENT: "Payment/FeePayment",
 };
@@ -365,15 +369,11 @@ export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
 };
 
 export const handleWinnerPaymentApi = async (
-  checkoutData,
   token,
   fishEntryId
 ) => {
   try {
     return await axiosClient.post(`${END_POINT.WINNERPAYMENT}`, {
-      phone: checkoutData.phone,
-      address: checkoutData.address,
-      city: checkoutData.city,
       token: token,
       fishEntryId: fishEntryId,
     });
@@ -508,6 +508,14 @@ export const handleSubmitRequest = async (request) => {
       expectedDate: request.expectedDate,
     });
     return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetPaymentPriceApi = async (fishEntryId) => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETPAYMENTPRICE}?f=${fishEntryId}`);
   } catch (error) {
     throw error;
   }
