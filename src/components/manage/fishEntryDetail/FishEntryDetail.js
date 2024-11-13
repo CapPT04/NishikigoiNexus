@@ -50,8 +50,9 @@ const FishEntryDetail = () => {
       const resEnrollHistory = await handleEnrollHistoryByFishEntryId(
         koi.fishEntryId
       );
+      // console.log(resEnrollHistory);
       if (resEnrollHistory.status === 200) {
-        setEnrollHistory(resEnrollHistory.data || null);
+        setEnrollHistory(resEnrollHistory.data);
       }
       // console.log("rell:", resEnrollHistory.data);
     }
@@ -293,37 +294,24 @@ const FishEntryDetail = () => {
                 </thead>
                 <tbody>
                   {enrollHistory.length > 0 ? (
-                    () => {
-                      try {
-                        enrollHistory.map((enroll, index) => {
-                          return (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              {/* <td>{enroll.enrollmentId}</td> */}
-                              <td>{enroll.userId}</td>
-                              <td>
-                                {enroll.enrollDate
-                                  ? new Date(enroll.enrollDate).toLocaleString()
-                                  : "Not Yet"}
-                              </td>
-                            </tr>
-                          );
-                        });
-                      } catch (error) {
-                        return (
-                          <tr>
-                            <td colSpan={3}>No one enroll to this fish</td>
-                          </tr>
-                        );
-                      }
-                    }
+                    enrollHistory.map((enroll, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          {/* <td>{enroll.enrollmentId}</td> */}
+                          <td>{enroll.userId}</td>
+                          <td>
+                            {enroll.enrollDate
+                              ? new Date(enroll.enrollDate).toLocaleString()
+                              : "Not Yet"}
+                          </td>
+                        </tr>
+                      );
+                    })
                   ) : (
-                    <>
-                      <tr>
-                        <td colSpan={3}>No one enroll to this fish</td>
-                      </tr>
-                      {console.log("as")}
-                    </>
+                    <tr>
+                      <td colSpan={3}>No one enroll to this fish</td>
+                    </tr>
                   )}
                 </tbody>
               </table>

@@ -37,6 +37,7 @@ export const path = {
   MANAGEFISHENTRY: "ManageFishEntry",
   FISHENTRYDETAIL: "FishEntryDetail",
   DASHBOARD: "DashBoard",
+  MANAGESTAFF: "ManageStaff",
   //
   AUCTIONMETHOD3: "/AuctionFishMethod3",
   AUCTIONMETHOD2: "/AuctionFishMethod2",

@@ -36,6 +36,7 @@ const END_POINT = {
   BANBREEDER: "Breeder/ToggleBreederStatus",
   GETFISHENTRYINAUCTION: "FishEntry/GetFishEntriesInAuction",
   GETALLMEMBER: "User/GetAllMember",
+  GETALLSTAFF: "Staff/GetAllStaff",
   BANUSER: "User/ToggleMemAndBreedStatus",
   USERBIDHISTORY: "Enrollment/GetBiddingHistoryByMemberId",
   GETFISHENTRYBYREQUESTID: "FishEntry/GetFishEntriesByRequestId",
@@ -684,6 +685,13 @@ export const handlePublicBidding = async (token, entryId, amount) => {
 export const handleGetAllMember = async () => {
   try {
     return await axiosClient.get(`${END_POINT.GETALLMEMBER}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleGetAllStaff = async () => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETALLSTAFF}`);
   } catch (error) {
     throw error;
   }
