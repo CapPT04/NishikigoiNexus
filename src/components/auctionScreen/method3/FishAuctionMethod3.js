@@ -141,8 +141,7 @@ const FishAuctionMethod3 = () => {
     return date.toLocaleString();
   };
   const handleEnrollBtn = async () => {
-    const user = jwtDecode(sessionStorage.getItem("token"));
-    if (!sessionStorage.getItem("token") || user.Role != 1) {
+    if (!sessionStorage.getItem("token") || jwtDecode(sessionStorage.getItem("token").Role != 1)) {
       navigate("/login");
       return;
     }
