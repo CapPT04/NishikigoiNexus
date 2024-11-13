@@ -10,7 +10,7 @@ const Navbar = () => {
   const userStorage = sessionStorage.getItem("user");
   const user = JSON.parse(userStorage);
 
-  useEffect(() => { });
+  useEffect(() => {});
 
   const handleLogout = () => {
     sessionStorage.removeItem("user");
@@ -51,10 +51,10 @@ const Navbar = () => {
             {user.Role === "1"
               ? ""
               : user.Role === "2"
-                ? "REQUEST"
-                : user.Role === "3"
-                  ? "Staff"
-                  : "Manager"}
+              ? "REQUEST"
+              : user.Role === "3"
+              ? "Staff"
+              : "Manager"}
           </a>
         )}
         <a className="home" onClick={() => navigate("/")}>
@@ -74,21 +74,20 @@ const Navbar = () => {
         {user && (
           <div className="account-dropdown">
             <button className="dropdown-button">
-              {user.FirstName}{" "}
-              <span className="arrow-down">▼</span>
+              {user.FirstName} <span className="arrow-down">▼</span>
             </button>
             <ul className="dropdown-menu">
-
               <li
                 onClick={() => {
                   if (user.Role === "1") {
                     navigate("/User/userwallet");
                   } else if (user.Role === "2") {
                     navigate("/Breeder/UserWallet");
+                  } else if (user.Role === "4") {
+                    navigate("/Manager/UserWallet");
                   }
                 }}
               >
-
                 <i className="fa-regular fa-user icon-account"></i> Account
               </li>
               <li onClick={() => handleHistory()}>
