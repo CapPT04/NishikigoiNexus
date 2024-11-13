@@ -117,7 +117,7 @@ const Request = () => {
         "A public bid auction is fully transparent, where all bids are visible to participants. Bidders can see others' offers and increase their bids until no one is willing to pay a higher price.",
     },
     {
-      title: "Descending price auction",
+      title: "Dutch auction",
       subtitle:
         "In this descending-price auction, the seller starts with a high price and gradually lowers it until a buyer accepts the current price, creating a unique urgency among potential buyers.",
     },
@@ -150,33 +150,42 @@ const Request = () => {
           <div className="fieldInput">
             <div className="col-md-6 inputBox">
               <h5>Fish Age</h5>
-              <input
-                type="number"
-                name="FishAge (month)"
-                min={0}
-                onChange={(e) => setAge(e.target.value)}
-              />
+              <div className="input-note">
+                <input
+                  type="number"
+                  name="FishAge (month)"
+                  min={0}
+                  onChange={(e) => setAge(e.target.value)}
+                />
+                <span className="note">month</span>
+              </div>
             </div>
             <div className="col-md-6 inputBox">
               <h5>Fish Weight</h5>
-              <input
-                type="number"
-                min={0}
-                name="FishWeight (gram)"
-                onChange={(e) => setWeight(e.target.value)}
-              />
+              <div className="input-note">
+                <input
+                  type="number"
+                  min={0}
+                  name="FishWeight (gram)"
+                  onChange={(e) => setWeight(e.target.value)}
+                />
+                <span className="note">Gram</span>
+              </div>
             </div>
           </div>
           {/* size+origin */}
           <div className="fieldInput">
             <div className="col-md-6 inputBox">
               <h5>Fish Size</h5>
-              <input
-                type="number"
-                min={0}
-                name="FishSize (mm)"
-                onChange={(e) => setSize(e.target.value)}
-              />
+              <div className="input-note">
+                <input
+                  type="number"
+                  min={0}
+                  name="FishSize (mm)"
+                  onChange={(e) => setSize(e.target.value)}
+                />
+                <span className="note">mm</span>
+              </div>
             </div>
             <div className="col-md-6 inputBox">
               <h5>Fish Origin</h5>
@@ -288,7 +297,7 @@ const Request = () => {
               <option value="1">Fixed Price</option>
               <option value="2">Secret Auction</option>
               <option value="3">Public Auction</option>
-              <option value="4">Descending Auction</option>
+              <option value="4">Dutch Auction</option>
             </select>
           </div>
           <div>
@@ -323,12 +332,13 @@ const Request = () => {
           </div>
           <div className="fieldInput">
             <div className="inputBox">
-              <h5>{auctionMethod === "1" ? "Fixed Price" : "Start Price"}</h5>
+              <h5>{auctionMethod === "1" ? "Fixed Price" : "Min Price"}</h5>
               <div className="price">
                 <input
                   type="number"
                   name="auctionPrice"
                   min={0}
+                  step={10000}
                   onChange={(e) => setStartPrice(e.target.value)}
                   className="input-price"
                 />
@@ -352,6 +362,7 @@ const Request = () => {
                 <input
                   type="number"
                   min={0}
+                  step={10000}
                   name="auctionPrice"
                   onChange={(e) => setMaxPrice(e.target.value)}
                 />
@@ -373,6 +384,7 @@ const Request = () => {
                   type="number"
                   name="incrementStep"
                   min={0}
+                  step={10000}
                   onChange={(e) => setStepPrice(e.target.value)}
                 />
                 <span className="dollar-sign">vnd</span>
@@ -524,7 +536,7 @@ const Request = () => {
             <input type="date" name="autionDate" value={date} disabled={true} />
           </div>
           <div className="inputBox">
-            <h5>{auctionMethod === "1" ? "Fixed Price" : "Start Price"}</h5>
+            <h5>{auctionMethod === "1" ? "Fixed Price" : "Min Price"}</h5>
             <div className="price">
               <input
                 type="text"
@@ -667,34 +679,51 @@ const Request = () => {
         }
       );
     } else {
-      try {
-        const response = await handleSubmitRequest(fishAuction);
-        if (response.status === 200) {
-          toast.success("Created new request successfully! Redirecting...", {
-            position: "top-right",
-            autoClose: 1500,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          setTimeout(() => {
-            navigate("/Breeder/HistoryRequest");
-          }, 2000);
-        } else {
-          //response.data.errors.NewRequest[0]
-          toast.error("Some fields are incorrect. Please check again", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        }
-      } catch (error) {}
+      if (
+        startPrice > 0 &&
+        (auctionMethod === "1" ||
+          auctionMethod === "2" ||
+          (auctionMethod === "3" && maxPrice > 0 && stepPrice > 0) ||
+          (auctionMethod === "4" && maxPrice > 0))
+      ) {
+        try {
+          const response = await handleSubmitRequest(fishAuction);
+          if (response.status === 200) {
+            toast.success("Created new request successfully! Redirecting...", {
+              position: "top-right",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setTimeout(() => {
+              navigate("/Breeder/HistoryRequest");
+            }, 2000);
+          } else {
+            toast.error("Some field error, please check again", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+        } catch (error) {}
+      } else {
+        toast.error("Field about money is wrong", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     }
   };
   //--------
