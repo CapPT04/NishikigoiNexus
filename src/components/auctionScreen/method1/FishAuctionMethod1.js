@@ -19,6 +19,7 @@ import {
 import * as signalR from "@microsoft/signalr";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import { jwtDecode } from "jwt-decode";
 
 const FishAuctionMethod1 = () => {
   const location = useLocation();
@@ -48,7 +49,8 @@ const FishAuctionMethod1 = () => {
     return integerPart;
   };
   const handleEnrollBtn = async () => {
-    if (!sessionStorage.getItem("token")) {
+    const user = jwtDecode(sessionStorage.getItem("token"));
+    if (!sessionStorage.getItem("token") || user.Role != 1) {
       navigate("/login");
       return;
     }

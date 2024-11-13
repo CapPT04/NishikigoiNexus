@@ -8,6 +8,7 @@ import body1 from "../../../assets/images/body1.png";
 import { useLocation, useNavigate } from "react-router";
 import Navbar from "../../common/Navbar/Navbar";
 import { Navigate } from "react-router";
+import { jwtDecode } from "jwt-decode";
 
 import {
   handleGetFishImgById,
@@ -313,7 +314,8 @@ const FishAuctionMethod4 = () => {
   };
 
   const handleEnrollBtn = async () => {
-    if (!sessionStorage.getItem("token")) {
+    const user = jwtDecode(sessionStorage.getItem("token"));
+    if (!sessionStorage.getItem("token") || user.Role != 1) {
       navigate("/login");
       return;
     }

@@ -22,6 +22,7 @@ import * as signalR from "@microsoft/signalr";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 import Swal from "sweetalert2";
+import { jwtDecode } from "jwt-decode";
 
 const FishAuctionMethod3 = () => {
   const navigate = useNavigate();
@@ -140,7 +141,8 @@ const FishAuctionMethod3 = () => {
     return date.toLocaleString();
   };
   const handleEnrollBtn = async () => {
-    if (!sessionStorage.getItem("token")) {
+    const user = jwtDecode(sessionStorage.getItem("token"));
+    if (!sessionStorage.getItem("token") || user.Role != 1) {
       navigate("/login");
       return;
     }
