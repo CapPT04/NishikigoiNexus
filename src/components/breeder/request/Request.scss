@@ -39,11 +39,22 @@ body {
         width: 90%;
         margin: 0 auto;
 
-        input[type="text"] {
+        input[type="text"],
+        input[type="number"] {
           width: 100%;
           padding: 8px;
           border: 2px solid #ccc;
           border-radius: 15px;
+        }
+        .input-note {
+          display: flex;
+          align-items: center;
+          .note {
+            margin-left: -80px;
+            font-size: 22px;
+            margin-bottom: 10px;
+            opacity: 0.6;
+          }
         }
 
         h5 {
@@ -57,9 +68,14 @@ body {
           .dollar-sign {
             margin-left: -60px;
             font-size: 30px;
-
             margin-bottom: 10px;
             opacity: 0.6;
+          }
+          input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #ccc;
+            border-radius: 15px;
           }
 
           .input-price {
@@ -209,13 +225,6 @@ body {
             width: 40%;
             margin: 0 auto;
 
-            input[type="text"] {
-              width: 100%;
-              padding: 8px;
-              border: 2px solid #ccc;
-              border-radius: 15px;
-            }
-
             .price {
               display: flex;
               align-items: center;
@@ -226,6 +235,12 @@ body {
 
                 margin-bottom: 10px;
                 opacity: 0.6;
+              }
+              input[type="number"] {
+                width: 100%;
+                padding: 8px;
+                border: 2px solid #ccc;
+                border-radius: 15px;
               }
             }
           }

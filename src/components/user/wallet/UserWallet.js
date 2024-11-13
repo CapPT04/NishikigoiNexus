@@ -177,7 +177,11 @@ const UserWallet = () => {
                     <tr key={transaction.transactionId}>
                       <td>{index + 1}</td>
                       <td>{transaction.transactionId}</td>
-                      <td>{formatMoney(transaction.amount)}</td>
+                      <td>
+                        {transaction.amount < 0
+                          ? "-" + formatMoney(transaction.amount) + " VND"
+                          : "+" + formatMoney(transaction.amount) + " VND"}
+                      </td>
                       <td>
                         {new Date(transaction.updateDate).toLocaleString()}
                       </td>
