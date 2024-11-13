@@ -1,10 +1,10 @@
 * {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
+  margin     : 0;
+  padding    : 0;
+  border     : 0;
+  font-size  : 100%;
   font-family: "Saira Condensed";
-  --nude: #e7cdbf;
+  --nude     : #e7cdbf;
 }
 
 .header {
@@ -15,43 +15,43 @@
   // align-items    : center;
 
   .navigation-bar {
-    width: 1120px;
-    height: 64px;
-    display: flex;
+    width          : 1120px;
+    height         : 64px;
+    display        : flex;
     justify-content: space-between;
-    top: 10px !important;
+    top            : 10px !important;
 
     .navigation-bar-left-content {
-      display: inline-flex;
+      display    : inline-flex;
       align-items: center;
-      gap: 11px;
+      gap        : 11px;
 
       .logo {
-        width: 64px;
+        width : 64px;
         height: 64px;
       }
 
       .project-name {
-        font-size: 32px;
+        font-size  : 32px;
         font-weight: 700;
-        color: #fff;
+        color      : #fff;
       }
     }
 
     .navigation-bar-right-content {
-      display: flex;
-      width: 600px;
+      display        : flex;
+      width          : 600px;
       justify-content: space-between;
-      align-items: center;
-      flex-shrink: 0;
+      align-items    : center;
+      flex-shrink    : 0;
 
       a {
-        color: #fff;
-        font-size: 20px;
+        color      : #fff;
+        font-size  : 20px;
         font-weight: 700;
-        padding: 8px 15px;
-        cursor: pointer;
-        padding: 7px 21px;
+        padding    : 8px 15px;
+        cursor     : pointer;
+        padding    : 7px 21px;
 
         &:hover {
           opacity: 0.7;
@@ -60,7 +60,7 @@
 
       .staff {
         border-radius: 24px;
-        background: #df0012;
+        background   : #df0012;
 
         &:hover {
           opacity: 0.7;
@@ -124,69 +124,68 @@
 //     }
 //   }
 // }
-.manager-member {
-}
+.manager-member {}
 
 .body-content {
   display: flex;
 
   .body-content-right {
-    background: var(--nude);
+    background     : var(--nude);
     justify-content: center;
-    margin: 0 auto;
-    margin-left: 135px;
+    margin         : 0 auto;
+    margin-left    : 135px;
 
     // margin: 10px auto;
     width: 100%;
 
     .search-and-create {
-      display: flex;
+      display    : flex;
       align-items: baseline;
 
       .search {
-        display: flex;
-        width: 560px;
-        height: 44px;
-        margin-top: 140px;
+        display    : flex;
+        width      : 560px;
+        height     : 44px;
+        margin-top : 140px;
         margin-left: 135px;
         align-items: center;
 
         .search-text {
-          font-size: 24px;
-          font-weight: 300;
+          font-size   : 24px;
+          font-weight : 300;
           margin-right: 20px;
         }
 
         .search-value {
-          width: 80%;
-          height: 100%;
-          position: relative;
-          display: flex;
-          align-items: center;
+          width          : 80%;
+          height         : 100%;
+          position       : relative;
+          display        : flex;
+          align-items    : center;
           justify-content: center;
 
           .search-input {
-            height: 100%;
-            width: 100%;
+            height       : 100%;
+            width        : 100%;
             border-radius: 8px;
-            border: 1px solid #3d3d3d;
-            outline: none;
-            text-indent: 5px;
-            font-size: 24px;
+            border       : 1px solid #3d3d3d;
+            outline      : none;
+            text-indent  : 5px;
+            font-size    : 24px;
 
             &::placeholder {
-              font-size: 24px;
+              font-size  : 24px;
               font-weight: 250;
-              opacity: 0.4;
+              opacity    : 0.4;
             }
           }
 
           .search-icon {
-            position: absolute;
-            right: 10px;
-            display: flex;
+            position       : absolute;
+            right          : 10px;
+            display        : flex;
             justify-content: center;
-            align-items: center;
+            align-items    : center;
 
             &:hover {
               opacity: 0.5;
@@ -196,46 +195,48 @@
       }
 
       .create-btn {
-        border-radius: 24px;
-        background: var(--Do, #df0012);
-        margin: 50px 225px 0 auto;
-        display: flex;
-        width: 198px;
-        height: 44px;
+        margin-top     : 120px !important;
+        border-radius  : 24px;
+        background     : var(--Do, #df0012);
+        margin         : 50px 225px 0 auto;
+        display        : flex;
+        width          : 198px;
+        height         : 44px;
         justify-content: center;
-        align-items: center;
-        color: #fff;
-        font-family: "Saira Condensed";
-        font-size: 24px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        gap: 10px;
+        align-items    : center;
+        color          : #fff;
+        font-family    : "Saira Condensed";
+        font-size      : 24px;
+        font-style     : normal;
+        font-weight    : 700;
+        line-height    : normal;
+        gap            : 10px;
+        margin-left    : 125px;
 
         &:hover {
-          cursor: pointer;
+          cursor : pointer;
           opacity: 0.7;
         }
       }
     }
 
     table {
-      width: 1120px;
-      margin-top: 50px;
-      margin: 50px auto 0;
+      width          : 1120px;
+      margin-top     : 50px;
+      margin         : 50px auto 0;
       border-collapse: collapse;
-      border: 1px solid black;
+      border         : 1px solid black;
     }
 
     th,
     td {
-      border: none;
-      color: #fff;
-      height: 60px;
-      font-size: 24px;
+      border     : none;
+      color      : #fff;
+      height     : 60px;
+      font-size  : 24px;
       font-weight: 400;
-      text-align: left;
-      padding: 0 10px;
+      text-align : left;
+      padding    : 0 10px;
     }
 
     th {
@@ -257,6 +258,6 @@
 }
 
 .error-message {
-  color: red;
+  color      : red;
   font-weight: 600;
 }

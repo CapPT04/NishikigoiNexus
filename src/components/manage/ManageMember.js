@@ -44,7 +44,7 @@ const ManageMember = () => {
               </div>
             </div>
           </div> */}
-          <div className="search-and-create">
+          {/* <div className="search-and-create">
             <div className="search">
               <div className="search-text">Search: </div>
               <div className="search-value">
@@ -58,9 +58,9 @@ const ManageMember = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <table className="table-manage-breeder">
+          <table className="table-manage-member">
             <thead>
               <tr>
                 <th>No</th>

@@ -48,7 +48,7 @@ const ManageMember = () => {
             </div>
           </div> */}
           <div className="search-and-create">
-            <div className="search">
+            {/* <div className="search">
               <div className="search-text">Search: </div>
               <div className="search-value">
                 <input
@@ -60,7 +60,7 @@ const ManageMember = () => {
                   <img src={search} alt="search-icon" />
                 </div>
               </div>
-            </div>
+            </div> */}
             <div
               className="create-btn"
               onClick={() => navigate("/Manager/CreateStaff")}
@@ -70,7 +70,7 @@ const ManageMember = () => {
             </div>
           </div>
 
-          <table className="table-manage-breeder">
+          <table className="table-manage-staff">
             <thead>
               <tr>
                 <th>No</th>
