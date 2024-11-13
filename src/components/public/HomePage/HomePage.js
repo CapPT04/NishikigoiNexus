@@ -65,7 +65,23 @@ const HomePage = () => {
                 <div className="representative-sample-fish-start-price">
 
                   Start price: {formatMoney(fishHomePage.startPrice)} VND
+<<<<<<< Updated upstream
 
+=======
+                </div>
+                <div
+                  className="representative-sample-fish-fish-status"
+                  style={{
+                    color:
+                      fishHomePage.fishEntryStatus === "Bidding"
+                        ? "#34a853"
+                        : fishHomePage.fishEntryStatus === "Waiting"
+                          ? "yellow"
+                          : "red",
+                  }}
+                >
+                  Status: {fishHomePage.fishEntryStatus}
+>>>>>>> Stashed changes
                 </div>
               </div>
             </div>

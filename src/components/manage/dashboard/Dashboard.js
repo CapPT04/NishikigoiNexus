@@ -244,7 +244,7 @@ const DashBoard = () => {
                     <div className="chart-container1">
                         <div className="pie-chart">
                             <h2>Fish Entry Dashboard</h2>
-                            <div>Total: {total}</div>
+                            <div className="total-pie-chart">Total: {total}</div>
 
                             <PieChart width={400} height={300}>
                                 <Pie
@@ -278,14 +278,14 @@ const DashBoard = () => {
                                     <i className="fa-solid fa-users-line"></i>
                                 </div>
                                 <div className="total-member-text">Total members</div>
-                                <div className="total-member-number">{newMembersCount}</div>
+                                <div className="total-member-number">{formatMoney(newMembersCount)}</div>
                             </div>
                             <div className="total-revenue">
                                 <div className="total-revenue-icon">
                                     <i className="fa-regular fa-money-bill-1"></i>
                                 </div>
                                 <div className="total-revenue-text">Total revenue</div>
-                                <div className="total-revenue-number">{totalRevenue}</div> {/* Display total revenue */}
+                                <div className="total-revenue-number">{formatMoney(totalRevenue)}</div> {/* Display total revenue */}
                             </div>
                         </div>
                     </div>
