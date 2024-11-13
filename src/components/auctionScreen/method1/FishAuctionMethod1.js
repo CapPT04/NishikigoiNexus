@@ -82,7 +82,7 @@ const FishAuctionMethod1 = () => {
           sessionStorage.getItem("token"),
           fishEntry.fishEntryId
         );
-        console.log(response);
+        // console.log(response);
 
         if (response && response.status === 200) {
           // Success notification
@@ -180,9 +180,9 @@ const FishAuctionMethod1 = () => {
           sessionStorage.getItem("token"),
           resFishEntry.data.fishEntryId
         );
-        console.log(response);
-        console.log(sessionStorage.getItem("token"));
-        console.log(response.status);
+        // console.log(response);
+        // console.log(sessionStorage.getItem("token"));
+        // console.log(response.status);
         if (response && response.status === 200) {
           setCheckEnroll(true);
         } else if (response.status === 400) {
@@ -246,7 +246,7 @@ const FishAuctionMethod1 = () => {
 
   const placeABid = async () => {
     if (sessionStorage.getItem("token") === null) {
-      console.log(sessionStorage.getItem("token"));
+      // console.log(sessionStorage.getItem("token"));
       navigate("/login");
       return;
     }
