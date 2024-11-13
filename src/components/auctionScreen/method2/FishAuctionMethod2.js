@@ -464,7 +464,7 @@ const FishAuctionMethod2 = () => {
           <div className="fish-aucction-method3-content-row3-col2">
             <div className="fish-info">
               <div className="fish-info-row1">
-                <div className="fish-info-name">{fishEntry?.fishName}</div>
+                <div className="fish-info-name">{fishInfor?.fishName}</div>
                 <div className="fish-info-notion">
                   <i className="fa-solid fa-circle-exclamation"></i>
                 </div>
