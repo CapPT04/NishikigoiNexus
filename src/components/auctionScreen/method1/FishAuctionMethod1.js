@@ -23,7 +23,8 @@ import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 const FishAuctionMethod1 = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const auctionItem = location.state.auctionItem || location.state.fishHomePage;
+  const auctionItem =
+    location.state?.auctionItem || location.state?.fishHomePage;
 
   const [auctionStatus, setAuctionStatus] = useState("");
   const [fishEntry, setFishEntry] = useState("");
@@ -70,7 +71,7 @@ const FishAuctionMethod1 = () => {
 
         const response = await handleEnrollApi(
           sessionStorage.getItem("token"),
-          auctionItem.fishEntryId
+          fishEntry.fishEntryId
         );
         console.log(response);
 
@@ -127,7 +128,7 @@ const FishAuctionMethod1 = () => {
 
   const getInfo = async () => {
     if (auctionItem) {
-      const resFishEntry = await handleFishEntryById(auctionItem.fishEntryId);
+      const resFishEntry = await handleFishEntryById(auctionItem?.fishEntryId);
       setFishEntry(resFishEntry.data);
 
       const resFish = await handleGetFishDetailById(resFishEntry.data.fishId);
@@ -137,7 +138,9 @@ const FishAuctionMethod1 = () => {
       setFishImgs(resImgs.data.$values);
       setMainImage(resImgs.data.$values[0]?.imagePath || "");
 
-      const resHis = await handleFixedPriceHistory(auctionItem.fishEntryId);
+      const resHis = await handleFixedPriceHistory(
+        resFishEntry.data.fishEntryId
+      );
       // console.log(resHis.data.$values);
       setBidHistory(resHis.data.$values);
       // setBidHistory((prevBids) => [...prevBids, resHis.data.$values]);
@@ -151,7 +154,7 @@ const FishAuctionMethod1 = () => {
       //deposit
       try {
         const response = await handleGetFishEntryDepositApi(
-          auctionItem.fishEntryId
+          resFishEntry.data.fishEntryId
         );
         if (response && response.status === 200) {
           setFishEntryDeposit(response.data);
@@ -166,7 +169,7 @@ const FishAuctionMethod1 = () => {
       try {
         const response = await handleCheckEnrollApi(
           sessionStorage.getItem("token"),
-          auctionItem.fishEntryId
+          resFishEntry.data.fishEntryId
         );
         console.log(response);
         console.log(sessionStorage.getItem("token"));
@@ -239,10 +242,7 @@ const FishAuctionMethod1 = () => {
       return;
     }
     const token = sessionStorage.getItem("token");
-    const response = await handlePlaceFixedPrice(
-      token,
-      auctionItem.fishEntryId
-    );
+    const response = await handlePlaceFixedPrice(token, fishEntry.fishEntryId);
     if (response.status === 200) {
       toast.success("Placed a bid", {
         position: "top-right",
@@ -340,7 +340,7 @@ const FishAuctionMethod1 = () => {
                 <div className="fish-info-tag">
                   <i className="fa-solid fa-tag"></i>
                   <div className="fish-number">
-                    Fish#{auctionItem.fishEntryId}
+                    Fish#{fishEntry.fishEntryId}
                   </div>
                 </div>
               </div>
