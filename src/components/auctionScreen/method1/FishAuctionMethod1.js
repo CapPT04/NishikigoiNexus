@@ -49,8 +49,11 @@ const FishAuctionMethod1 = () => {
     return integerPart;
   };
   const handleEnrollBtn = async () => {
-    const user = jwtDecode(sessionStorage.getItem("token"));
-    if (!sessionStorage.getItem("token") || user.Role != 1 || sessionStorage.getItem("token") === null) {
+    if (
+      !sessionStorage.getItem("token") ||
+      jwtDecode(sessionStorage.getItem("token")).Role != 1 ||
+      sessionStorage.getItem("token") === null
+    ) {
       navigate("/login");
       return;
     }
@@ -312,20 +315,16 @@ const FishAuctionMethod1 = () => {
         </div>
         <div className="fish-aucction-method3-content-row2">
           {auction.status === 2 && (
-            <span style={{ color: '#007bff' }}> {/* Màu xanh lam */}
+            <span style={{ color: "#007bff" }}>
+              {" "}
+              {/* Màu xanh lam */}
               Starting: {formatDate(auction.startDate)}
             </span>
           )}
           {auction.status === 3 && (
-            <span style={{ color: '#34a853' }}>
-              Bidding
-            </span>
+            <span style={{ color: "#34a853" }}>Bidding</span>
           )}
-          {auction.status === 4 && (
-            <span style={{ color: 'red' }}>
-              Ended
-            </span>
-          )}
+          {auction.status === 4 && <span style={{ color: "red" }}>Ended</span>}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
