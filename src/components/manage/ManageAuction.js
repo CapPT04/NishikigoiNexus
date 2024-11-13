@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import './ManageAuction.scss';
-import logo from '../../assets/images/logo_png.png';
-import searchIcon from '../../assets/images/search.svg';
-import VerticallyNavbar from '../common/Navbar/VerticallyNavbar';
-import Navbar from '../common/Navbar/Navbar';
+import React, { useEffect, useState } from "react";
+import "./ManageAuction.scss";
+import logo from "../../assets/images/logo_png.png";
+import searchIcon from "../../assets/images/search.svg";
+import VerticallyNavbar from "../common/Navbar/VerticallyNavbar";
+import Navbar from "../common/Navbar/Navbar";
 
-import { handleManageAuctionApi } from '../../axios/UserService';
-import { useNavigate } from 'react-router-dom';
+import { handleManageAuctionApi } from "../../axios/UserService";
+import { useNavigate } from "react-router-dom";
 
 const ManageAuction = () => {
   const [auctions, setAuctions] = useState([]);
@@ -44,7 +44,10 @@ const ManageAuction = () => {
                 </div>
               </div>
             </div> */}
-            <div className="create-btn" onClick={() => navigate("/Manager/CreateAuction")}>
+            <div
+              className="create-btn"
+              onClick={() => navigate("/Manager/CreateAuction")}
+            >
               New Auction
               <i className="fa-solid fa-plus"></i>
             </div>
@@ -67,20 +70,26 @@ const ManageAuction = () => {
                   <tr key={auction.auctionId}>
                     <td>{index + 1}</td>
                     <td>{auction.auctionId}</td>
-                    <td>{auction.startDate}</td>
+                    <td>
+                      {auction.startDate
+                        ? new Date(auction.startDate).toLocaleString()
+                        : ""}
+                    </td>
                     <td>{auction.fishEntryCount}</td>
                     <td>
-                      {auction.status === 1 && 'Preparing'}
-                      {auction.status === 2 && 'Waiting'}
-                      {auction.status === 3 && 'Bidding'}
-                      {auction.status === 4 && 'Ended'}
+                      {auction.status === 1 && "Preparing"}
+                      {auction.status === 2 && "Waiting"}
+                      {auction.status === 3 && "Bidding"}
+                      {auction.status === 4 && "Ended"}
                     </td>
                     <td>
                       <i
                         className="fa-solid fa-arrow-right"
-                        onClick={() => navigate("/Manager/AuctionDetail", {
-                          state: auction // Đảm bảo auction object có đầy đủ dữ liệu
-                        })}
+                        onClick={() =>
+                          navigate("/Manager/AuctionDetail", {
+                            state: auction, // Đảm bảo auction object có đầy đủ dữ liệu
+                          })
+                        }
                       ></i>
                     </td>
                   </tr>
