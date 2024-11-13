@@ -306,84 +306,10 @@ const DashBoard = () => {
                 <option value="all">Overall</option>
               </select>
 
-              <div className="chart-container1">
-                <div className="pie-chart">
-                  <h2>Fish Entry Dashboard</h2>
-                  <div className="total-pie-chart">Total: {total}</div>
 
-                  <PieChart width={400} height={300}>
-                    <Pie
-                      data={processDataForPieChart()}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={({ name, value }) => `${name}: ${value}`}
-                      outerRadius={100}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {processDataForPieChart().map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                    <Legend />
-                  </PieChart>
-                </div>
-
-                <div className="statistics-summary">
-                  <select
-                    className="time-frame"
-                    value={selectedTimeFrame}
-                    onChange={(e) => setSelectedTimeFrame(e.target.value)}
-                  >
-                    <option value="month">This month</option>
-                    <option value="year">This year</option>
-                    <option value="all">Overall</option>
-                  </select>
-
-                  <div className="total-member">
-                    <div className="total-member-icon">
-                      <i className="fa-solid fa-users-line"></i>
-                    </div>
-                    <div className="total-member-text">Total members</div>
-                    <div className="total-member-number">
-                      {formatMoney(newMembersCount)}
-                    </div>
-                  </div>
-                  <div className="total-revenue">
-                    <div className="total-revenue-icon">
-                      <i className="fa-regular fa-money-bill-1"></i>
-                    </div>
-                    <div className="total-revenue-text">Total revenue</div>
-                    <div className="total-revenue-number">
-                      {formatMoney(totalRevenue)}
-                    </div>{" "}
-                    {/* Display total revenue */}
-                  </div>
-                </div>
-              </div>
 
               {/* Bar Chart */}
-              <div className="chart-container2">
-                <h3>Monthly Recurring Revenue</h3>
-                <BarChart
-                  width={1120}
-                  height={300}
-                  data={monthlyRevenueData}
-                  barCategoryGap="30%"
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="revenue" fill="#ff8042" />
-                </BarChart>
-              </div>
+
               <div className="total-member">
                 <div className="total-member-icon">
                   <i className="fa-solid fa-users-line"></i>
