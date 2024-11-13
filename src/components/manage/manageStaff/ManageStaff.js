@@ -1,25 +1,28 @@
-import React, { useEffect } from "react";
-import "./ManageMember.scss";
+import React, { useEffect, useState } from "react";
+import "./ManageStaff.scss";
 // import logo from '../../assets/images/logo_png.png';
-import search from "../../assets/images/search.svg";
-import Navbar from "../common/Navbar/Navbar";
-import VerticallyNavbar from "../common/Navbar/VerticallyNavbar";
-import { handleGetAllMember, handleGetAllUser } from "../../axios/UserService";
+import search from "../../../assets/images/search.svg";
+import Navbar from "../../common/Navbar/Navbar";
+import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
+import { handleGetAllStaff } from "../../../axios/UserService";
 import { useNavigate } from "react-router";
 
 const ManageMember = () => {
-  const [users, setUsers] = React.useState([]);
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const user = JSON.parse(sessionStorage.getItem("user"));
   const statusName = ["Active", "Inactive"];
 
   const handleAllUser = async () => {
-    const res = await handleGetAllMember();
+    const res = await handleGetAllStaff();
     console.log(res.data.$values);
     setUsers(res.data.$values);
   };
-  //asdasdas
   useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    if (user.Role !== "4") {
+      navigate("/");
+    }
     handleAllUser();
   }, []);
 
@@ -57,6 +60,13 @@ const ManageMember = () => {
                   <img src={search} alt="search-icon" />
                 </div>
               </div>
+            </div>
+            <div
+              className="create-btn"
+              onClick={() => navigate("/Manager/CreateStaff")}
+            >
+              New Staff
+              <i className="fa-solid fa-plus"></i>
             </div>
           </div>
 

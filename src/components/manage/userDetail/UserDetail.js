@@ -35,9 +35,12 @@ const UserDetail = () => {
 
   const getInfo = async () => {
     const resUser = await handleUserById(userId);
+    console.log("uesr", resUser);
     setUser(resUser.data);
-    const resStaff = await handleUserById(resUser.data.updateBy);
-    setStaff(resStaff.data);
+    if (resUser.data.updateBy) {
+      const resStaff = await handleUserById(resUser.data.updateBy);
+      setStaff(resStaff.data);
+    }
     const resHistory = await handleUserBidHistory(userId);
     setBidHistory(resHistory.data.$values);
   };
@@ -142,7 +145,7 @@ const UserDetail = () => {
           </select> */}
             </div>
             <div className="member-detail-content-row2">
-              Member #{user.userId} Detail
+              {user.role === 3 ? "Staff" : "Member"} #{user.userId} Detail
             </div>
             <div className="member-detail-content-row3">
               Create date: {new Date(user.createDate).toLocaleString()}
@@ -155,7 +158,7 @@ const UserDetail = () => {
                 <input
                   type="text"
                   className="email-input"
-                  value={staff.firstName + " " + staff.lastName}
+                  value={staff ? staff.firstName + " " + staff.lastName : ""}
                   disabled={true}
                 />
               </div>
@@ -167,7 +170,11 @@ const UserDetail = () => {
                 <input
                   type="text"
                   className="gender-input"
-                  value={new Date(user.updateDate).toLocaleString()}
+                  value={
+                    user.updateDate
+                      ? new Date(user.updateDate).toLocaleString()
+                      : "Not Updated Yet"
+                  }
                   disabled={true}
                 />
               </div>
@@ -299,42 +306,49 @@ const UserDetail = () => {
                 Unban
               </button>
             </div>
-
-            <div className="member-detail-content-row11">
-              <div className="bidding-history">Bidding History</div>
-            </div>
-            <div className="member-detail-content-row12">
-              <table className="table-request-history">
-                <thead>
-                  <tr>
-                    <th>No.</th>
-                    <th>Fish Entry Id</th>
-                    <th>Bidding date</th>
-                    <th>Auction Method</th>
-                    <th>Is winner</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bidHistory && bidHistory.length > 0 ? (
-                    bidHistory.map((bid, index) => {
-                      return (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{bid.fishEntryId}</td>
-                          <td>{new Date(bid.startDate).toLocaleString()}</td>
-                          <td>{methodName[bid.auctionMethod]}</td>
-                          <td>{bid.isWinner ? "Winner" : "No Win"}</td>
+            {user.role !== 3 ? (
+              <>
+                <div className="member-detail-content-row11">
+                  <div className="bidding-history">Bidding History</div>
+                </div>
+                <div className="member-detail-content-row12">
+                  <table className="table-request-history">
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                        <th>Fish Entry Id</th>
+                        <th>Bidding date</th>
+                        <th>Auction Method</th>
+                        <th>Is winner</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bidHistory && bidHistory.length > 0 ? (
+                        bidHistory.map((bid, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{bid.fishEntryId}</td>
+                              <td>
+                                {new Date(bid.startDate).toLocaleString()}
+                              </td>
+                              <td>{methodName[bid.auctionMethod]}</td>
+                              <td>{bid.isWinner ? "Winner" : "No Win"}</td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan="5">No Bided History</td>
                         </tr>
-                      );
-                    })
-                  ) : (
-                    <tr>
-                      <td colSpan="5">No Bided History</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>
