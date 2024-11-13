@@ -140,6 +140,10 @@ const FishAuctionMethod3 = () => {
     return date.toLocaleString();
   };
   const handleEnrollBtn = async () => {
+    if (!sessionStorage.getItem("token")) {
+      navigate("/login");
+      return;
+    }
     // Show confirmation dialog with deposit amount
     const result = await Swal.fire({
       title: "Confirm Enrollment",
@@ -256,7 +260,9 @@ const FishAuctionMethod3 = () => {
         });
         connection.on("AuctionEnded", (data) => {
           //reload page when auction end
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 5000);
         });
         connection.on("AuctionStart", (data) => {
           //reload page when auction start

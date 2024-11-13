@@ -85,7 +85,7 @@ const FishAuctionMethod4 = () => {
         const response = await handleFishEntryById(idToUse);
         if (response && response.status === 200) {
           setFishEntry(response.data);
-          console.log(response.data);
+          // console.log(response.data);
 
           setHighestPrice(response.data.highestPrice)
         } else if (response.status === 400) {
@@ -103,8 +103,10 @@ const FishAuctionMethod4 = () => {
   useEffect(() => {
     const fetchGetAuction = async () => {
       try {
-        const response = await handleGetAuctionByIdApi(auctionId);
-        setAuction(response.data);
+        if (fishEntry) {
+          const response = await handleGetAuctionByIdApi(auctionId);
+          setAuction(response.data);
+        }
       } catch (error) {
         console.error("Error checking gt fish entry deposite status:", error);
       }
@@ -115,8 +117,10 @@ const FishAuctionMethod4 = () => {
   useEffect(() => {
     const fetchGetFishInfor = async () => {
       try {
-        const response = await handleGetFishDetailById(fishEntry.fishId);
-        setFishInfor(response.data);
+        if (fishEntry && fishEntry.fishId) {
+          const response = await handleGetFishDetailById(fishEntry.fishId);
+          setFishInfor(response.data);
+        }
       } catch (error) {
         console.error("Error checking gt fish entry deposite status:", error);
       }
@@ -126,13 +130,15 @@ const FishAuctionMethod4 = () => {
   useEffect(() => {
     const fishEntryDeposit = async () => {
       try {
-        const response = await handleGetFishEntryDepositApi(
-          fishEntry.fishEntryId
-        );
-        if (response && response.status === 200) {
-          setFishEntryDeposit(response.data);
-        } else if (response.status === 400) {
-          setFishEntryDeposit(0);
+        if (fishEntry && fishEntry.fishId) {
+          const response = await handleGetFishEntryDepositApi(
+            fishEntry.fishEntryId
+          );
+          if (response && response.status === 200) {
+            setFishEntryDeposit(response.data);
+          } else if (response.status === 400) {
+            setFishEntryDeposit(0);
+          }
         }
       } catch (error) {
         console.error("Error checking get fish entry deposite status:", error);
@@ -143,15 +149,17 @@ const FishAuctionMethod4 = () => {
   useEffect(() => {
     const checkEnrollmentStatus = async () => {
       try {
-        const response = await handleCheckEnrollApi(
-          sessionStorage.getItem("token"),
-          fishEntry.fishEntryId
-        );
+        if (fishEntry) {
+          const response = await handleCheckEnrollApi(
+            sessionStorage.getItem("token"),
+            fishEntry.fishEntryId
+          );
 
-        if (response && response.status === 200) {
-          setCheckEnroll(true);
-        } else if (response.status === 400) {
-          setCheckEnroll(false);
+          if (response && response.status === 200) {
+            setCheckEnroll(true);
+          } else if (response.status === 400) {
+            setCheckEnroll(false);
+          }
         }
       } catch (error) {
         console.error("Error checking enrollment status:", error);
@@ -164,11 +172,13 @@ const FishAuctionMethod4 = () => {
   useEffect(() => {
     const fetchImageFish = async () => {
       try {
-        const response = await handleGetFishImgById(
-          fishEntry.fishId
-        );
-        setMainImage(response.data.$values[0]?.imagePath);
-        setFishImage(response.data.$values);
+        if (fishEntry && fishEntry.fishId) {
+          const response = await handleGetFishImgById(
+            fishEntry.fishId
+          );
+          setMainImage(response.data.$values[0]?.imagePath);
+          setFishImage(response.data.$values);
+        }
       } catch (error) {
         console.error("Error fetching:", error);
       }
@@ -217,13 +227,15 @@ const FishAuctionMethod4 = () => {
     const fetchWinnerData = async () => {
       if (fishEntry.status === 4) {
         try {
-          const response = await handleGetWinnerApi(fishEntry.fishEntryId);
-          if (response && response.status === 200) {
-            setWinnerData(response.data);
-          } else if (response.status === 404 && response.data === "No winner") {
-            setWinnerData(null); // Set winnerData to null when there is no winner
-          } else {
-            console.log(response);
+          if (fishEntry && fishEntry.fishId) {
+            const response = await handleGetWinnerApi(fishEntry.fishEntryId);
+            if (response && response.status === 200) {
+              setWinnerData(response.data);
+            } else if (response.status === 404 && response.data === "No winner") {
+              setWinnerData(null); // Set winnerData to null when there is no winner
+            } else {
+              console.log(response);
+            }
           }
         } catch (error) {
           console.error("Error fetching winner data:", error);
@@ -301,8 +313,12 @@ const FishAuctionMethod4 = () => {
   };
 
   const handleEnrollBtn = async () => {
-    // Show confirmation dialog with deposit amount
+    if (!sessionStorage.getItem("token")) {
+      navigate("/login");
+      return;
+    }
 
+    // Show confirmation dialog with deposit amount
     const result = await Swal.fire({
       title: "Confirm Enrollment",
       text: `To enroll in this auction, a deposit of ${formatMoney(
@@ -487,7 +503,7 @@ const FishAuctionMethod4 = () => {
                 <div className="place-bid-content">
                   <div className="place-bid-content-row1">
                     <div className="start-price-icon">
-                      <i class="fa-solid fa-maximize"></i>
+                      <i className="fa-solid fa-maximize"></i>
                     </div>
                     <div className="start-price-text">Start price</div>
                     <div className="start-price">
@@ -498,7 +514,7 @@ const FishAuctionMethod4 = () => {
                   <hr />
                   <div className="place-bid-content-row1">
                     <div className="start-price-icon">
-                      <i class="fa-solid fa-minimize"></i>
+                      <i className="fa-solid fa-minimize"></i>
                     </div>
                     <div className="start-price-text">Min price</div>
                     <div className="start-price">
