@@ -3,12 +3,23 @@ import axiosClient from "./axiosClient";
 import { useNavigate } from "react-router-dom";
 import CreateAuction from "../components/common/CreateAuction/CreateAuction";
 const END_POINT = {
+  FISHHOMEPAGE: "Fish/GetFishForHomePage",
   LOGIN: "User/Login",
   SIGNUP: "User/MemberRegister",
   GETUSERBYID: "User/GetUserById",
   GETALLUSER: "User/GetAllUser",
-  FEE: "Fee/GetFee",
+
+  FORGOTPASSWORD: "User/ForgotPassword",
+  RESETPASSWORD: "User/ResetPassword",
+
+  //Fee
+  GETFEE: "Fee/GetFee",
+  UPDATEFEE: "Fee/UpdateFee",
+
+
+
   //breeder
+  ENROLLMENTHISTORY: "Enrollment/GetAllEnrollmentsByFishEntryId",
   CREATEREQUEST: "Request/CreateRequest",
   GETALLREQUEST: "Request/GetAllRequest",
   LOGINWITHGOOGLE: "User/GoogleLogin",
@@ -20,12 +31,14 @@ const END_POINT = {
   GETALLBREEDERS: "Breeder/GetAllBreeders",
   //manager
   CREATEBREEDER: "Breeder/CreateBreeder",
+  CREATESTAFF: "Staff/CreateStaff",
   UPDATECOMMISSION: "Staff/UpdateBreederCommission",
   BANBREEDER: "Breeder/ToggleBreederStatus",
   GETFISHENTRYINAUCTION: "FishEntry/GetFishEntriesInAuction",
   GETALLMEMBER: "User/GetAllMember",
+  GETALLSTAFF: "Staff/GetAllStaff",
   BANUSER: "User/ToggleMemAndBreedStatus",
-  USERBIDHISTORY: "User/GetBiddingHistoryByMemberId",
+  USERBIDHISTORY: "Enrollment/GetBiddingHistoryByMemberId",
   GETFISHENTRYBYREQUESTID: "FishEntry/GetFishEntriesByRequestId",
   GETFISHBYFISHENTRYID: "Fish/GetFishByFishEntryId",
   ACCEPTREQUEST: "Request/CheckRequest",
@@ -58,9 +71,86 @@ const END_POINT = {
   GETWINNER: "FishEntry/GetWinner",
   GETOTHERBIDDINGHISTORYBYMEMBERID: "User/GetOtherBiddingHistoryByMemberId",
   GETBIDDINGHISTORYBYMEMBERID: "User/GetBiddingHistoryByMemberId",
-  GETUNPAIDBIDDINGHISTORYBYMEMBERID: "User/GetUnpaidBiddingHistoryByMemberId",
+  GETUNPAIDBIDDINGHISTORYBYMEMBERID:
+    "Enrollment/GetUnpaidBiddingHistoryByMemberId",
   WINNERPAYMENT: "Payment/WinnerPayment",
   WINNERPAYMENTCALLBACK: "Payment/WinnerPaymentCallBack",
+  CHECKENROLL: "Enrollment/CheckEnrollment",
+  ENROLL: "Enrollment/Enroll",
+  GETFISHENTRYDEPOSIT: "FishEntry/GetFishEntryDeposit",
+  GETAUCTIONBYID: "Auction/GetAuctionById",
+  ENDAUCTIONFISH: "FishEntry/EndFishEntry",
+  //user
+  GETBALANCEBYUSERID: "User/GetBalanceByUserId",
+  RECHARGEPAYMENT: "Payment/RechargePayment",
+  RECHARGEPAYMENTCALLBACK: "Payment/RechargePaymentCallBack",
+  TRANSACTIONHISTORY: "Transaction/GetTransactionHistory",
+  GETPAYMENTPRICE: "FishEntry/GetPaymentPrice",
+
+  //Payment
+  FEEWALLETPAYMENT: "Payment/FeePayment",
+};
+export const handleResetPasswordApi = (password, token) => {
+  return axiosClient.put(`${END_POINT.RESETPASSWORD}`, {
+    password: password,
+    token: token,
+  });
+};
+export const handleForgetPasswordApi = (email, clienUri) => {
+  return axiosClient.post(`${END_POINT.FORGOTPASSWORD}`, {
+    email: email,
+    clientUri: clienUri,
+  });
+};
+export const handleGetAuctionByIdApi = (auctionId) => {
+  return axiosClient.get(`${END_POINT.GETAUCTIONBYID}/${auctionId}`);
+};
+export const handleFishForHomePage = () => {
+  return axiosClient.get(`${END_POINT.FISHHOMEPAGE}`);
+};
+
+export const handleCreateStaff = (token, staff) => {
+  return axiosClient.post(`${END_POINT.CREATESTAFF}`, {
+    token: token,
+    email: staff.email,
+    firstName: staff.firstName,
+    lastName: staff.lastName,
+    phone: staff.phone,
+    gender: 1,
+    password: staff.password,
+  });
+};
+export const handleEnrollHistoryByFishEntryId = (fishEntryId) => {
+  return axiosClient.get(
+    `${END_POINT.ENROLLMENTHISTORY}?fishEntryId=${fishEntryId}`
+  );
+};
+export const handleFeeWalletPaymentApi = (token, requestId) => {
+  return axiosClient.post(`${END_POINT.FEEWALLETPAYMENT}`, {
+    token: token,
+    requestID: requestId,
+  });
+};
+export const handleBalanceByUserIdApi = (userId) => {
+  return axiosClient.get(`${END_POINT.GETBALANCEBYUSERID}?id=${userId}`);
+};
+export const handleRechargePaymentApi = (token, amount) => {
+  return axiosClient.post(`${END_POINT.RECHARGEPAYMENT}`, {
+    token: token,
+    amount: amount,
+  });
+};
+export const handleRechargePaymentCallBackApi = (object) => {
+  return axiosClient.post(`${END_POINT.RECHARGEPAYMENTCALLBACK}`, {
+    amount: object.amount,
+    vnp_Amount: object.vnp_Amount,
+    vnp_OrderInfo: object.vnp_OrderInfo,
+    vnp_PayDate: object.vnp_PayDate,
+    vnp_ResponseCode: object.vnp_ResponseCode,
+  });
+};
+export const handleTransactionHistoryApi = (token) => {
+  return axiosClient.post(`${END_POINT.TRANSACTIONHISTORY}?token=${token}`);
 };
 
 export const handleLoginApi = (userEmail, userPassword) => {
@@ -267,7 +357,6 @@ export const handleGetBiddingHistoryByMemberIdApi = async (id) => {
   }
 };
 
-
 export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
   try {
     return axiosClient.get(`${END_POINT.GETUNPAIDBIDDINGHISTORYBYMEMBERID}`, {
@@ -279,7 +368,10 @@ export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
   }
 };
 
-export const handleWinnerPaymentApi = async (token, fishEntryId) => {
+export const handleWinnerPaymentApi = async (
+  token,
+  fishEntryId
+) => {
   try {
     return await axiosClient.post(`${END_POINT.WINNERPAYMENT}`, {
       token: token,
@@ -299,14 +391,64 @@ export const handleWinnerPaymentCallbackApi = async (info, checkoutData) => {
       vnp_ResponseCode: info.vnp_ResponseCode,
       phone: checkoutData.phone,
       address: checkoutData.address,
-      city: checkoutData.city
+      city: checkoutData.city,
     });
   } catch (error) {
     throw error;
   }
 };
 
+export const handleCheckEnrollApi = async (token, fishEntryId) => {
+  try {
+    return await axiosClient.post(`${END_POINT.CHECKENROLL}`, {
+      token: token,
 
+      fishEntryId: fishEntryId,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleEnrollApi = async (token, fishEntryId) => {
+  try {
+    return await axiosClient.post(`${END_POINT.ENROLL}`, {
+      token: token,
+
+      fishEntryId: fishEntryId,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetFishEntryDepositApi = (fishEntryID) => {
+  try {
+    const url = `${END_POINT.GETFISHENTRYDEPOSIT}?fishEntryId=${fishEntryID}`;
+    return axiosClient.get(url);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetFeeApi = async () => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETFEE}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleEndFishAuctioningApi = (fishEntryId, token) => {
+  try {
+    return axiosClient.put(`${END_POINT.ENDAUCTIONFISH}`, {
+      fishEntryId: fishEntryId,
+      token: token,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const handleGetAllBreeders = () => {
   try {
@@ -316,30 +458,41 @@ export const handleGetAllBreeders = () => {
   }
 };
 
-export const handleSignUpApi = async (user) => {
+export const handleSignUpApi = (user) => {
   try {
-    const response = await axiosClient.post(`${END_POINT.SIGNUP}`, {
+    const response = axiosClient.post(`${END_POINT.SIGNUP}`, {
       email: user.email,
       password: user.password,
       firstName: user.firstName,
       lastName: user.lastName,
       phone: user.phone,
     });
-    // console.log("Signup successful:", response);
     return response;
   } catch (error) {
     // return error;
     // console.log("looi:", error);
+
+    throw error;
   }
 };
 
 export const handleFeeApi = async () => {
   try {
-    const res = await axiosClient.get(END_POINT.FEE);
+    const res = await axiosClient.get(END_POINT.GETFEE);
     return res;
   } catch (error) {
-    console.error("Lỗi khi gọi API FEE:", error);
-    throw error; // Ném lỗi để các thành phần gọi hàm này có thể xử lý tiếp
+    throw error;
+  }
+};
+
+export const handleUpdateFeeApi = async (token, fee) => {
+  try {
+    const res = await axiosClient.put(
+      `${END_POINT.UPDATEFEE}?token=${token}&fee=${fee}`
+    );
+    return res;
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -366,6 +519,14 @@ export const handleSubmitRequest = async (request) => {
       expectedDate: request.expectedDate,
     });
     return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetPaymentPriceApi = async (fishEntryId) => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETPAYMENTPRICE}?f=${fishEntryId}`);
   } catch (error) {
     throw error;
   }
@@ -535,6 +696,13 @@ export const handlePublicBidding = async (token, entryId, amount) => {
 export const handleGetAllMember = async () => {
   try {
     return await axiosClient.get(`${END_POINT.GETALLMEMBER}`);
+  } catch (error) {
+    throw error;
+  }
+};
+export const handleGetAllStaff = async () => {
+  try {
+    return await axiosClient.get(`${END_POINT.GETALLSTAFF}`);
   } catch (error) {
     throw error;
   }

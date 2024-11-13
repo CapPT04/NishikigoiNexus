@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 const ManageBreeder = () => {
   const [breeders, setBreeders] = useState([]);
   const navigate = useNavigate();
+  const statusName = ["Active", "Inactive"];
 
   const getAllBreeders = async () => {
     const resBreeder = await handleGetAllBreeders();
@@ -30,7 +31,7 @@ const ManageBreeder = () => {
         <VerticallyNavbar />
         <div className="body-content-right">
           <div className="search-and-create">
-            <div className="search">
+            {/* <div className="search">
               <div className="search-text">Search: </div>
               <div className="search-value">
                 <input
@@ -42,7 +43,7 @@ const ManageBreeder = () => {
                   <img src={searchIcon} alt="search-icon" />
                 </div>
               </div>
-            </div>
+            </div> */}
             <div
               className="create-btn"
               onClick={() => navigate("/Manager/CreateBreeder")}
@@ -76,7 +77,7 @@ const ManageBreeder = () => {
                       <td>{breeder.lastName}</td>
                       <td>{breeder.email}</td>
                       <td>{breeder.phone}</td>
-                      <td>{breeder.status}</td>
+                      <td>{statusName[breeder.status - 1]}</td>
                       <td>
                         {/* <a href="#"> */}
                         <i

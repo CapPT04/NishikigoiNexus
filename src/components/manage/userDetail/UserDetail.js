@@ -8,6 +8,9 @@ import {
   handleUserBidHistory,
   handleUserById,
 } from "../../../axios/UserService";
+import Swal from "sweetalert2";
+import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 
 const UserDetail = () => {
   const [searchParams] = useSearchParams();
@@ -32,30 +35,78 @@ const UserDetail = () => {
 
   const getInfo = async () => {
     const resUser = await handleUserById(userId);
+    console.log("uesr", resUser);
     setUser(resUser.data);
-    const resStaff = await handleUserById(resUser.data.updateBy);
-    setStaff(resStaff.data);
+    if (resUser.data.updateBy) {
+      const resStaff = await handleUserById(resUser.data.updateBy);
+      setStaff(resStaff.data);
+    }
     const resHistory = await handleUserBidHistory(userId);
     setBidHistory(resHistory.data.$values);
   };
 
   const handleBan = async () => {
-    const token = sessionStorage.getItem("token");
-    console.log("ban");
-    const res = await handleToggleUserStatus(token, user.userId, reasonBan);
-    if (res.status === 200) {
-      // console.log("Banned");
-      window.location.reload();
-    }
+    Swal.fire({
+      title: "Are you sure to ban breeder?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Ban it!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = sessionStorage.getItem("token");
+        const res = await handleToggleUserStatus(token, user.userId, reasonBan);
+        if (res.status === 200) {
+          // console.log("Banned");
+          toast.success("Ban Breeder Successful", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+      }
+    });
   };
   const handleUnBan = async () => {
-    const token = sessionStorage.getItem("token");
-    console.log("Unban");
-    const res = await handleToggleUserStatus(token, user.userId, null);
-    // console.log(res);
-    if (res.status === 200) {
-      window.location.reload();
-    }
+    Swal.fire({
+      title: "Are you sure to unban breeder?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Unban it!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = sessionStorage.getItem("token");
+        const res = await handleToggleUserStatus(token, user.userId, null);
+        if (res.status === 200) {
+          toast.success("Unban User Successful", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+      }
+    });
   };
   useEffect(() => {
     getInfo();
@@ -94,7 +145,7 @@ const UserDetail = () => {
           </select> */}
             </div>
             <div className="member-detail-content-row2">
-              Member #{user.userId} Detail
+              {user.role === 3 ? "Staff" : "Member"} #{user.userId} Detail
             </div>
             <div className="member-detail-content-row3">
               Create date: {new Date(user.createDate).toLocaleString()}
@@ -107,7 +158,7 @@ const UserDetail = () => {
                 <input
                   type="text"
                   className="email-input"
-                  value={staff.firstName + " " + staff.lastName}
+                  value={staff ? staff.firstName + " " + staff.lastName : ""}
                   disabled={true}
                 />
               </div>
@@ -119,7 +170,11 @@ const UserDetail = () => {
                 <input
                   type="text"
                   className="gender-input"
-                  value={new Date(user.updateDate).toLocaleString()}
+                  value={
+                    user.updateDate
+                      ? new Date(user.updateDate).toLocaleString()
+                      : "Not Updated Yet"
+                  }
                   disabled={true}
                 />
               </div>
@@ -237,7 +292,7 @@ const UserDetail = () => {
             </div>
             <div className="member-detail-content-row10">
               <button
-                className={`ban-btn ${bannable ? "bannable" : ""}`}
+                className={`ban-btn ${bannable ? "" : "bannable"}`}
                 disabled={!bannable}
                 onClick={handleBan}
               >
@@ -251,42 +306,49 @@ const UserDetail = () => {
                 Unban
               </button>
             </div>
-
-            <div className="member-detail-content-row11">
-              <div className="bidding-history">Bidding History</div>
-            </div>
-            <div className="member-detail-content-row12">
-              <table className="table-request-history">
-                <thead>
-                  <tr>
-                    <th>No.</th>
-                    <th>Fish Entry Id</th>
-                    <th>Bidding date</th>
-                    <th>Auction Method</th>
-                    <th>Is winner</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bidHistory && bidHistory.length > 0 ? (
-                    bidHistory.map((bid, index) => {
-                      return (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{bid.fishEntryId}</td>
-                          <td>{new Date(bid.startDate).toLocaleString()}</td>
-                          <td>{methodName[bid.auctionMethod]}</td>
-                          <td>{bid.isWinner ? "Winner" : "No Win"}</td>
+            {user.role !== 3 ? (
+              <>
+                <div className="member-detail-content-row11">
+                  <div className="bidding-history">Bidding History</div>
+                </div>
+                <div className="member-detail-content-row12">
+                  <table className="table-request-history">
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                        <th>Fish Entry Id</th>
+                        <th>Bidding date</th>
+                        <th>Auction Method</th>
+                        <th>Is winner</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bidHistory && bidHistory.length > 0 ? (
+                        bidHistory.map((bid, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{bid.fishEntryId}</td>
+                              <td>
+                                {new Date(bid.startDate).toLocaleString()}
+                              </td>
+                              <td>{methodName[bid.auctionMethod]}</td>
+                              <td>{bid.isWinner ? "Winner" : "No Win"}</td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan="5">No Bided History</td>
                         </tr>
-                      );
-                    })
-                  ) : (
-                    <tr>
-                      <td colSpan="5">No Bided History</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

@@ -6,13 +6,12 @@ import facebookIcon from "../assets/images/facebook.svg";
 import xIcon from "../assets/images/X.png";
 import { handleLoginApi, handleLoginWithGoogleApi } from "../axios/UserService";
 import { jwtDecode } from "jwt-decode";
-import { useGoogleLogin } from '@react-oauth/google';
-import { useGoogleOneTapLogin } from '@react-oauth/google';
-import { googleLogout } from '@react-oauth/google';
-import { GoogleLogin } from '@react-oauth/google';
-import { hasGrantedAllScopesGoogle } from '@react-oauth/google';
-import axios from 'axios';
-
+import { useGoogleLogin } from "@react-oauth/google";
+import { useGoogleOneTapLogin } from "@react-oauth/google";
+import { googleLogout } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
+import { hasGrantedAllScopesGoogle } from "@react-oauth/google";
+import axios from "axios";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -22,43 +21,35 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [loadingAPI, setLoadingAPI] = useState(false);
 
-
-
   const login = useGoogleLogin({
-    onSuccess: async tokenResponse => {
+    onSuccess: async (tokenResponse) => {
       const token = JSON.stringify(tokenResponse.access_token);
-      const userInfo = await axios
-        .get('https://www.googleapis.com/oauth2/v3/userinfo',
-          {
-            headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-          })
+      const userInfo = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        }
+      );
       const result = userInfo.data;
-      console.log(tokenResponse);
-      console.log(userInfo);
+      // console.log(tokenResponse);
+      // console.log(userInfo);
 
       const response = await handleLoginWithGoogleApi(token);
       // console.log(token);
-      // console.log(response);
+      sessionStorage.setItem("token", response.data);
+      // console.log("token: ", response.data);
       // console.log(response.status);
       const user = jwtDecode(response.data);
       // console.log(user);
       sessionStorage.setItem("user", JSON.stringify(user));
 
-
       if (response && userInfo.status === 200 && response.status === 200) {
         navigate("/");
       } else {
         setErrorMessage("Something wrong! Please try again");
-
       }
-
     },
   });
-
-
-
-
-
 
   const handleLogin = async () => {
     try {
@@ -82,7 +73,7 @@ const LoginPage = () => {
         }
       }
       setLoadingAPI(false);
-    } catch (error) { }
+    } catch (error) {}
   };
   return (
     <div className="login-page">
@@ -135,8 +126,11 @@ const LoginPage = () => {
                   <input className="remember-checkbox" type="checkbox" />
                   <div className="remember-text">Keep me logged in</div>
                 </div>
-                <a className="forget-account" href="#">
-                  Forgot username or password?
+                <a
+                  className="forget-account"
+                  onClick={() => navigate("/ForgotPassword")}
+                >
+                  Forgot password?
                 </a>
               </div>
               <div className="login-and-signup">
@@ -159,10 +153,8 @@ const LoginPage = () => {
                 </div>
               </div>
               <div className="login-google" onClick={() => login()}>
-
                 <img className="google-icon" src={googleIcon} alt="Google" />
                 <div className="login-google-text">Continue with Google</div>
-
               </div>
               <div className="login-facebook">
                 <img
@@ -170,13 +162,11 @@ const LoginPage = () => {
                   src={facebookIcon}
                   alt="Facebook"
                 />
-                <div className="login-facebook-text">
-                  Continue with Facebook
-                </div>
+                <div className="login-facebook-text">Coming soon</div>
               </div>
               <div className="login-X">
                 <img className="X-icon" src={xIcon} alt="X" />
-                <div className="login-X-text">Continue with X</div>
+                <div className="login-X-text">Coming soon</div>
               </div>
             </div>
             <div className="note">
@@ -194,7 +184,7 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

@@ -30,18 +30,18 @@
     width  : 80%;
 }
 
-.phone,
-.city,
-.address {
+.winning-price,
+.deposit-price,
+.payment-due {
     display: grid;
     gap    : 10px;
     width  : 80%;
     margin : 0 auto;
 }
 
-.phone-label,
-.city-label,
-.address-label {
+.winning-price-label,
+.deposit-price-label,
+.payment-due-label {
     color      : #121212;
     font-family: Inter, sans-serif;
     font-size  : 24px;
@@ -49,9 +49,9 @@
     line-height: normal;
 }
 
-.phone-input,
-.city-input,
-.address-input {
+.winning-price-input,
+.deposit-price-input,
+.payment-due-input {
     border-radius: 12px;
     border       : 1px solid #121212;
     height       : 56px;
@@ -60,6 +60,8 @@
     font-family  : Inter, sans-serif;
     font-size    : 20px;
     background   : #E7CDBF;
+    align-items  : center;
+    display      : flex;
 }
 
 .checkout-btn {
@@ -77,4 +79,17 @@
     background     : #DF0012;
     margin         : 0 auto;
     margin-top     : 20px;
+
+    &:hover {
+        cursor          : pointer;
+        opadeposit-price: 0.7;
+    }
+
+    &:disabled {
+        background-color: #d3d3d3;
+        /* Gray color when disabled */
+        color           : #888;
+        /* Lighter text color when disabled */
+        cursor          : not-allowed;
+    }
 }

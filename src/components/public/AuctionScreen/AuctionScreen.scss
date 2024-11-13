@@ -85,13 +85,14 @@ body {
 .footer {
     background     : url('../../../assets/images/Form.png');
     background-size: cover;
-    width          : 100vw;
+    width          : 100%;
     height         : 300px;
     display        : flex;
     justify-content: center;
     align-items    : center;
-    flex-direction : column;
+
 }
+
 
 .logo-footer {
     display    : inline-flex;
@@ -154,6 +155,8 @@ body {
     gap                  : 40px;
     margin-top           : 130px;
     margin-bottom        : 50px;
+    min-height           : 50vh;
+
 }
 
 .auction-screen-content1 {
@@ -168,6 +171,7 @@ body {
     background   : #e7cdbf;
     box-shadow   : 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
     animation    : fadeIn 1s ease-in-out;
+    height       : 120px;
 
 }
 
@@ -205,19 +209,6 @@ body {
     padding-bottom: 20px;
 }
 
-@media (max-width: 768px) {
-    .auction-screen-content {
-        grid-template-columns: repeat(2, 1fr);
-        gap                  : 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .auction-screen-content {
-        grid-template-columns: 1fr;
-        gap                  : 20px;
-    }
-}
 
 .auction-details-icon:hover {
     cursor : pointer;

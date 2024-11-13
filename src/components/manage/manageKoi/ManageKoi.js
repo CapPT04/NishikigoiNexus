@@ -32,7 +32,7 @@ const ManageKoi = () => {
       <div className="body-content">
         <VerticallyNavbar></VerticallyNavbar>
         <div className="body-content-right">
-          <div className="search">
+          {/* <div className="search">
             <div className="search-text">Search: </div>
             <div className="search-value">
               {" "}
@@ -45,7 +45,7 @@ const ManageKoi = () => {
                 <img src="../assets/images/search.svg" alt="" />
               </div>
             </div>
-          </div>
+          </div> */}
           <table className="table-manage-koi">
             <thead>
               <tr>

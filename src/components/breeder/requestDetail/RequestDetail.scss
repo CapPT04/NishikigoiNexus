@@ -6,16 +6,18 @@
   font-family: "Saira Condensed";
   --nude: #e7cdbf;
 }
+
 .request-detail-container {
   display: grid;
   grid-template-rows: auto auto;
+
   .body-content {
     display: grid;
     grid-template-columns: 10% auto;
 
     background: var(--nude);
 
-    .request-detail-content {
+    .request-detail-content-breeder {
       display: grid;
       width: 80%;
       margin: 0 auto 40px;
@@ -24,14 +26,16 @@
       gap: 30px;
       background-color: #ffffff;
       opacity: 0.7;
+      margin-top: 120px;
 
-      .request-detail-content-row1 {
+      .request-detail-breeder-content-row1 {
         display: flex;
         width: 90%;
         margin: 40px auto 10px;
         gap: 100px;
         justify-content: flex-end;
         align-items: center;
+
         .status {
           color: #121212;
           text-align: right;
@@ -43,7 +47,7 @@
         }
       }
 
-      .request-detail-content-row2 {
+      .request-detail-breeder-content-row2 {
         color: #121212;
         font-family: Poppins;
         font-size: 36px;
@@ -54,7 +58,7 @@
         margin: 0 auto;
       }
 
-      .request-detail-content-row3 {
+      .request-detail-breeder-content-row3 {
         color: #121212;
         font-family: Inter;
         font-size: 24px;
@@ -65,7 +69,7 @@
         margin: 0 auto;
       }
 
-      .request-detail-content-row7 {
+      .request-detail-breeder-content-row7 {
         display: grid;
         grid-template-rows: auto;
         gap: 10px;
@@ -99,14 +103,14 @@
         }
       }
 
-      .request-detail-content-row4,
-      .request-detail-content-row5,
-      .request-detail-content-row6,
-      .request-detail-content-row10,
-      .request-detail-content-row11,
-      .request-detail-content-row12,
-      .request-detail-content-row13,
-      .request-detail-content-row14 {
+      .request-detail-breeder-content-row4,
+      .request-detail-breeder-content-row5,
+      .request-detail-breeder-content-row6,
+      .request-detail-breeder-content-row10,
+      .request-detail-breeder-content-row11,
+      .request-detail-breeder-content-row12,
+      .request-detail-breeder-content-row13,
+      .request-detail-breeder-content-row14 {
         display: grid;
         grid-template-columns: auto auto;
         gap: 100px;
@@ -188,7 +192,7 @@
         }
       }
 
-      .request-detail-content-row8 {
+      .request-detail-breeder-content-row8 {
         display: flex;
         justify-content: flex-end;
         gap: 30px;
@@ -214,8 +218,8 @@
         }
       }
 
-      .request-detail-content-row9,
-      .request-detail-content-row15 {
+      .request-detail-breeder-content-row9,
+      .request-detail-breeder-content-row15 {
         color: #121212;
         font-family: Poppins;
         font-size: 36px;
@@ -224,7 +228,7 @@
         line-height: normal;
       }
 
-      .request-detail-content-row17 {
+      .request-detail-breeder-content-row17 {
         display: grid;
         grid-template-columns: auto auto;
         gap: 100px;
@@ -306,7 +310,7 @@
         }
       }
 
-      .request-detail-content-row16 {
+      .request-detail-breeder-content-row16 {
         display: grid;
         grid-template-rows: auto;
         gap: 10px;
@@ -339,12 +343,14 @@
           background: none;
         }
       }
-      .request-detail-content-row18 {
+
+      .request-detail-breeder-content-row18 {
         display: flex;
         justify-content: flex-end;
         gap: 30px;
         width: 90%;
         margin: 0 auto 20px;
+
         .send-payment-request-btn {
           border-radius: 9px;
           background: #0097b2;
@@ -357,10 +363,12 @@
           font-weight: 700;
           line-height: normal;
         }
+
         .send-payment-request-btn:hover {
           cursor: pointer;
           opacity: 0.7;
         }
+
         .send-cancel-request-btn {
           border-radius: 9px;
           background: #e32d09;
@@ -374,6 +382,7 @@
           font-weight: 800;
           line-height: normal;
         }
+
         .send-cancel-request-btn:hover {
           cursor: pointers;
           opacity: 0.7;

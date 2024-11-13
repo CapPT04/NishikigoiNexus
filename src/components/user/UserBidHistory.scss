@@ -69,84 +69,103 @@ body {
     }
 }
 
-.user-bid-history-content {
-    background: #e7cdbf;
-    height    : 100vh;
+.user-bid-history {
+    display: grid;
 
-    .table-unpaid-auction,
-    .table-auction-history {
-        background: var(--nude);
-        width     : 80%;
-        margin    : 0 auto;
-        margin-top: 50px;
+    .user-bid-history-content {
+        margin-top: 80px;
+        background: #e7cdbf;
+        height    : 100vh;
 
-        .table-unpaid-auction-name,
-        .table-auction-history-name {
-            color      : #000;
-            font-family: "Saira Condensed";
-            font-size  : 40px;
-            font-style : normal;
-            font-weight: 600;
-            line-height: normal;
+
+        .table-auction-history {
+            padding-bottom: 50px;
         }
 
-        table {
-            width          : 100%;
-            border-collapse: collapse;
-            border         : 1px solid black;
-            margin         : 0 auto;
-            margin-top     : 20px;
-            text-align     : center;
+        .table-unpaid-auction,
+        .table-auction-history {
+            background   : var(--nude);
+            width        : 80%;
+            margin       : 0 auto;
+            margin-bottom: 50px;
 
-            .pay-auction-btn {
-                color        : #000;
-                text-align   : center;
-                font-family  : "Saira Condensed";
-                font-size    : 20px;
-                font-style   : normal;
-                font-weight  : 400;
-                line-height  : normal;
-                background   : aquamarine;
-                border-radius: 10px;
-                padding      : 5px 10px;
-
-
-                &:hover {
-                    opacity: 0.7;
-                    cursor : pointer;
-                }
+            .table-unpaid-auction-name,
+            .table-auction-history-name {
+                color      : #000;
+                font-family: "Saira Condensed";
+                font-size  : 40px;
+                font-style : normal;
+                font-weight: 600;
+                line-height: normal;
+                margin-top : 50px;
             }
 
-            th,
-            td {
-                border     : none;
-                color      : #fff;
-                height     : 60px;
-                font-size  : 24px;
-                font-weight: 400;
-                padding    : 0 10px;
+            table {
+                width          : 100%;
+                border-collapse: collapse;
+                border         : 1px solid black;
+                margin         : 0 auto;
+                margin-top     : 20px;
+                text-align     : center;
+                margin-bottom  : 50px;
 
-                a {
-                    color: black;
+                .pay-auction-btn {
+                    color        : #000;
+                    text-align   : center;
+                    font-family  : "Saira Condensed";
+                    font-size    : 20px;
+                    font-style   : normal;
+                    font-weight  : 400;
+                    line-height  : normal;
+                    background   : aquamarine;
+                    border-radius: 10px;
+                    padding      : 5px 10px;
+
+
+                    &:hover {
+                        opacity: 0.7;
+                        cursor : pointer;
+                    }
                 }
 
-                a:hover {
-                    cursor : pointer;
-                    opacity: 0.5;
-                }
-            }
-
-            th {
-                background: #1c1b1f;
-            }
-
-            tr:nth-child(even) {
-                background: #d5bdb0;
-
+                th,
                 td {
-                    color: black;
+                    border     : none;
+                    color      : #fff;
+                    height     : 60px;
+                    font-size  : 24px;
+                    font-weight: 400;
+                    padding    : 0 10px;
+
+                    a {
+                        color: black;
+                    }
+
+                    a:hover {
+                        cursor : pointer;
+                        opacity: 0.5;
+                    }
+                }
+
+                th {
+                    background: #1c1b1f;
+                }
+
+                tr:nth-child(even) {
+                    background: #d5bdb0;
+
+                    td {
+                        color: black;
+                    }
+                }
+
+                tr:nth-child(odd) {
+                    td {
+                        color: black;
+                    }
                 }
             }
         }
+
     }
 }

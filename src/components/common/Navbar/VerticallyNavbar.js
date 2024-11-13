@@ -9,25 +9,35 @@ const VerticallyNavbar = () => {
   const handleSelect = (path) => {
     navigate(path); // Navigate to the specified path
   };
-  const user = JSON.parse(sessionStorage.getItem("user"));
-  console.log(user.Role);
 
+  // Get user data from sessionStorage
+  const user = JSON.parse(sessionStorage.getItem("user"));
+
+  // Add a check to ensure user is not null or undefined
+  if (!user) {
+    return <div>Loading...</div>; // Or handle the case when the user is not found
+  }
 
   return (
     <div className="navigation-bar-vertically">
       {user && user.Role === "4" ? (
-        <a
-          className="dashboard-vertically"
-          onClick={() => handleSelect("/Manager/DashBoard")}
-        >
-          DashBoard
-        </a>
-      ) : ""}
+        <>
+          <a
+            className="dashboard-vertically"
+            onClick={() => handleSelect("/Manager/DashBoard")}
+          >
+            DashBoard
+          </a>
+          <a
+            className="dashboard-vertically"
+            onClick={() => handleSelect("/Manager/ManageStaff")}
+          >
+            Staff
+          </a>
+        </>
+      ) : null}
 
-      <a
-        className="member"
-        onClick={() => handleSelect("/Manager/Manage")}
-      >
+      <a className="member" onClick={() => handleSelect("/Manager/Manage")}>
         Member
       </a>
       <a
@@ -48,10 +58,7 @@ const VerticallyNavbar = () => {
       >
         Auction
       </a>
-      <a
-        className="koi"
-        onClick={() => handleSelect("/Manager/ManageKoi")}
-      >
+      <a className="koi" onClick={() => handleSelect("/Manager/ManageKoi")}>
         KOI
       </a>
       <a
@@ -59,12 +66,6 @@ const VerticallyNavbar = () => {
         onClick={() => handleSelect("/Manager/ManageFishEntry")}
       >
         Fish Entry
-      </a>
-      <a
-        className="blog-vertically"
-        onClick={() => handleSelect("/Manager/Blog")} // Navigate to '/blog'
-      >
-        Blog
       </a>
     </div>
   );

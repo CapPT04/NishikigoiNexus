@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./FishAuctionMethod1.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import { useLocation, useNavigate } from "react-router";
+import Swal from "sweetalert2";
+
 import {
   handleFishEntryById,
   handleFixedPriceHistory,
@@ -9,16 +11,23 @@ import {
   handleGetFishImgById,
   handleGetWinnerApi,
   handlePlaceFixedPrice,
+  handleCheckEnrollApi,
+  handleEnrollApi,
+  handleGetFishEntryDepositApi,
+  handleGetAuctionByIdApi,
 } from "../../../axios/UserService";
 import * as signalR from "@microsoft/signalr";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import { jwtDecode } from "jwt-decode";
 
 const FishAuctionMethod1 = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const auctionItem = useLocation().state.auctionItem;
-  const auctionId = useLocation().state.auctionId;
+  const auctionItem =
+    location.state?.auctionItem || location.state?.fishHomePage;
+
+  const [auction, setAuction] = useState("");
   const [fishEntry, setFishEntry] = useState("");
   const [fishInfo, setFishInfo] = useState("");
   const [fishImgs, setFishImgs] = useState([]);
@@ -26,10 +35,106 @@ const FishAuctionMethod1 = () => {
   const [bidHistory, setBidHistory] = useState([]);
   const [currentPlaced, setCurrentPlaced] = useState(0);
   const [winnerData, setWinnerData] = useState("");
+  const [checkEnroll, setCheckEnroll] = useState(false);
+  const [fishEntryDeposit, setFishEntryDeposit] = useState(0);
+
+  const formatMoney = (value) => {
+    // Convert the value to a string and take only the integer part
+    let integerPart = String(Math.floor(Number(value)));
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted integer part
+    return integerPart;
+  };
+  const handleEnrollBtn = async () => {
+    const user = jwtDecode(sessionStorage.getItem("token"));
+    if (!sessionStorage.getItem("token") || user.Role != 1 || sessionStorage.getItem("token") === null) {
+      navigate("/login");
+      return;
+    }
+
+    // Show confirmation dialog with deposit amount
+    const result = await Swal.fire({
+      title: "Confirm Enrollment",
+      text: `To enroll in this auction, a deposit of ${fishEntryDeposit} VND is required. Do you wish to proceed?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, proceed",
+      cancelButtonText: "No, cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        Swal.fire({
+          title: "Enrolling...",
+          text: "Please wait while we enroll you in the auction.",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
+        const response = await handleEnrollApi(
+          sessionStorage.getItem("token"),
+          fishEntry.fishEntryId
+        );
+        console.log(response);
+
+        if (response && response.status === 200) {
+          // Success notification
+          Swal.fire({
+            icon: "success",
+            title: "Enrollment Successful!",
+            text: `You have been successfully enrolled with a ${fishEntryDeposit} VND deposit.`,
+          }).then(() => {
+            // Reload the page after the user clicks "OK" on the success message
+            window.location.reload(); // This will reload the current page
+          });
+          // Update component state (if needed)
+        } else if (response && response.status === 400) {
+          // Handle insufficient balance error
+          Swal.fire({
+            icon: "error",
+            title: "Enrollment Failed",
+            text: "You do not have enough balance to enroll! Please deposit money into your account.",
+            showCancelButton: true,
+            confirmButtonText: "Go to Deposit Page",
+            cancelButtonText: "Cancel",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Redirect to deposit page
+              if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
+                navigate("/user/UserWallet");
+              } else if (
+                JSON.parse(sessionStorage.getItem("user")).Role === "2"
+              ) {
+                navigate("/breeder/UserWallet");
+              }
+            }
+          });
+        }
+      } catch (error) {
+        console.log(error);
+
+        Swal.fire({
+          icon: "error",
+          title: "Enrollment Failed",
+          text: "There was an error enrolling in the auction. Please try again later.",
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: "info",
+        title: "Enrollment Canceled",
+        text: "You chose not to proceed with the enrollment.",
+      });
+    }
+  };
 
   const getInfo = async () => {
     if (auctionItem) {
-      const resFishEntry = await handleFishEntryById(auctionItem.fishEntryId);
+      const resFishEntry = await handleFishEntryById(auctionItem?.fishEntryId);
       setFishEntry(resFishEntry.data);
 
       const resFish = await handleGetFishDetailById(resFishEntry.data.fishId);
@@ -39,12 +144,51 @@ const FishAuctionMethod1 = () => {
       setFishImgs(resImgs.data.$values);
       setMainImage(resImgs.data.$values[0]?.imagePath || "");
 
-      const resHis = await handleFixedPriceHistory(auctionItem.fishEntryId);
+      const resHis = await handleFixedPriceHistory(
+        resFishEntry.data.fishEntryId
+      );
       // console.log(resHis.data.$values);
       setBidHistory(resHis.data.$values);
       // setBidHistory((prevBids) => [...prevBids, resHis.data.$values]);
-
       // setCurrentPlaced(resHis.data.)
+
+      const resAuction = await handleGetAuctionByIdApi(
+        resFishEntry.data.auctionId
+      );
+      setAuction(resAuction.data);
+
+      //deposit
+      try {
+        const response = await handleGetFishEntryDepositApi(
+          resFishEntry.data.fishEntryId
+        );
+        if (response && response.status === 200) {
+          setFishEntryDeposit(response.data);
+        } else if (response.status === 400) {
+          setFishEntryDeposit(0);
+        }
+      } catch (error) {
+        console.error("Error checking gt fish entry deposite status:", error);
+      }
+
+      //enroll status
+      try {
+        const response = await handleCheckEnrollApi(
+          sessionStorage.getItem("token"),
+          resFishEntry.data.fishEntryId
+        );
+        console.log(response);
+        console.log(sessionStorage.getItem("token"));
+        console.log(response.status);
+        if (response && response.status === 200) {
+          setCheckEnroll(true);
+        } else if (response.status === 400) {
+          setCheckEnroll(false);
+        }
+      } catch (error) {
+        console.error("Error checking enrollment status:", error);
+        setCheckEnroll(false);
+      }
     } else {
       navigate("/AuctionDetails");
     }
@@ -56,7 +200,9 @@ const FishAuctionMethod1 = () => {
 
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7124/fixedPriceSale") // URL của Hub trong ASP.NET Core
+      .withUrl(
+        `${process.env.REACT_APP_LINK_REALTIME_SERVER}fixedPriceSale?fishEntryId=${fishEntry.fishEntryId}`
+      ) // URL của Hub trong ASP.NET Core
       .withAutomaticReconnect()
       .build();
     connection
@@ -67,10 +213,26 @@ const FishAuctionMethod1 = () => {
         connection.on("ReceiveBidPlacement", (FixedPriceSaleResponse) => {
           // console.log("Received bid placement: ", data);
           // Update bids list when new data is received
+          connection.on("AuctionEnded", (data) => {
+            //reload page when auction end
+            window.location.reload();
+          });
+          connection.on("AuctionStart", (data) => {
+            //reload page when auction start
+            window.location.reload();
+          });
           setBidHistory((prevBids) => [...prevBids, FixedPriceSaleResponse]);
         });
+        connection.on("AuctionEnded", (data) => {
+          //reload page when auction end
+          window.location.reload();
+        });
+        connection.on("AuctionStart", (data) => {
+          //reload page when auction start
+          window.location.reload();
+        });
         // console.log(bids.slice(-1)[0]?.currentPrice);
-        setCurrentPlaced(bidHistory.slice(-1)[0].numberOfBidders);
+        setCurrentPlaced(bidHistory.slice(-1)[0]?.numberOfBidders);
       })
       .catch((err) => console.log("Error while starting connection: " + err));
     // Cleanup when component unmounts
@@ -86,10 +248,7 @@ const FishAuctionMethod1 = () => {
       return;
     }
     const token = sessionStorage.getItem("token");
-    const response = await handlePlaceFixedPrice(
-      token,
-      auctionItem.fishEntryId
-    );
+    const response = await handlePlaceFixedPrice(token, fishEntry.fishEntryId);
     if (response.status === 200) {
       toast.success("Placed a bid", {
         position: "top-right",
@@ -115,9 +274,9 @@ const FishAuctionMethod1 = () => {
 
   useEffect(() => {
     const fetchWinnerData = async () => {
-      if (auctionItem.status === 4) {
+      if (fishEntry.status === 4) {
         try {
-          const response = await handleGetWinnerApi(auctionItem.fishEntryId);
+          const response = await handleGetWinnerApi(fishEntry.fishEntryId);
           if (response && response.status === 200) {
             setWinnerData(response.data);
           } else if (response.status === 404 && response.data === "No winner") {
@@ -134,7 +293,12 @@ const FishAuctionMethod1 = () => {
     };
 
     fetchWinnerData();
-  }, [auctionItem.status, auctionItem.fishEntryId]);
+  }, [fishEntry.status, fishEntry.fishEntryId]);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString();
+  };
 
   return (
     <div className="auction-screen-container">
@@ -144,14 +308,24 @@ const FishAuctionMethod1 = () => {
       <div className="fish-aucction-method3-content">
         <ToastContainer />
         <div className="fish-aucction-method3-content-row1">
-          Auction#{auctionId}
+          Auction#{fishEntry.auctionId}
         </div>
         <div className="fish-aucction-method3-content-row2">
-          {auctionItem.status === 3
-            ? `Ending in: ${new Date(auctionItem.endTime).toLocaleString()}`
-            : auctionItem.status === 2
-            ? "Waiting"
-            : "Ended"}
+          {auction.status === 2 && (
+            <span style={{ color: '#007bff' }}> {/* Màu xanh lam */}
+              Starting: {formatDate(auction.startDate)}
+            </span>
+          )}
+          {auction.status === 3 && (
+            <span style={{ color: '#34a853' }}>
+              Bidding
+            </span>
+          )}
+          {auction.status === 4 && (
+            <span style={{ color: 'red' }}>
+              Ended
+            </span>
+          )}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
@@ -179,12 +353,15 @@ const FishAuctionMethod1 = () => {
               </div>
               <div className="fish-info-row2">
                 <div className="fish-info-ending">
-                  Ending in: {new Date(auctionItem.endTime).toLocaleString()}
+                  Ends at:{" "}
+                  {fishEntry.endDate
+                    ? new Date(fishEntry.endDate).toLocaleString()
+                    : ""}
                 </div>
                 <div className="fish-info-tag">
                   <i className="fa-solid fa-tag"></i>
                   <div className="fish-number">
-                    Fish#{auctionItem.fishEntryId}
+                    Fish#{fishEntry.fishEntryId}
                   </div>
                 </div>
               </div>
@@ -235,7 +412,7 @@ const FishAuctionMethod1 = () => {
                 })}
               </div>
             </div>
-            {fishEntry.status === 3 && (
+            {(fishEntry.status === 3 || fishEntry.status === 2) && (
               <div className="place-bid">
                 <div className="place-bid-content">
                   <div className="place-bid-content-row1">
@@ -255,21 +432,28 @@ const FishAuctionMethod1 = () => {
                     <div className="buy-price-text">Buy price</div>
                   </div>
                   <div className="place-bid-content-row31">
-                    ${fishEntry.minPrice}
+                    {formatMoney(fishEntry.minPrice)} VND
                   </div>
-                  <button className="place-bid-btn" onClick={placeABid}>
-                    Place a bid at ${fishEntry.minPrice}
-                  </button>
+
+                  {checkEnroll ? (
+                    <button className="place-bid-btn" onClick={placeABid}>
+                      {fishEntry.status === 2
+                        ? "The auction has not started."
+                        : `Place bid at ${formatMoney(fishEntry.minPrice)} VND`}
+                    </button>
+                  ) : (
+                    <button
+                      className="enroll-bid"
+                      onClick={() => handleEnrollBtn()}
+                    >
+                      Enroll with {formatMoney(fishEntryDeposit)} VND deposit
+                    </button>
+                  )}
                 </div>
               </div>
             )}
-            {auctionItem.status === 2 && (
-              <div className="auction-status-message">
-                <i className="fa-solid fa-clock"></i> {/* Biểu tượng đồng hồ */}
-                <p>The auction has not started yet.</p>
-              </div>
-            )}
-            {auctionItem.status === 4 && winnerData ? (
+
+            {fishEntry.status === 4 && winnerData ? (
               <div className="place-bid-status4">
                 <div className="place-bid-content-status4">
                   <div className="place-bid-content-row1-status4">
@@ -277,14 +461,14 @@ const FishAuctionMethod1 = () => {
                   </div>
                   <hr />
                   <div className="place-bid-content-row2-status4">
-                    ${winnerData.amount}
+                    {formatMoney(winnerData.amount)} VND
                   </div>
                   <div className="place-bid-content-row3-status4">
                     {new Date(winnerData.endDate).toLocaleString()}
                   </div>
                 </div>
               </div>
-            ) : auctionItem.status === 4 && winnerData === null ? (
+            ) : fishEntry.status === 4 && winnerData === null ? (
               <div className="place-bid-status4">
                 <div className="place-bid-content-status4">
                   <div className="place-bid-content-row1-status4-no-winner">

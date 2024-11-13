@@ -63,9 +63,6 @@ const Navbar = () => {
         <a className="auction" onClick={() => navigate("/auction")}>
           AUCTION
         </a>
-        <a className="blog" onClick={() => navigate("/blog")}>
-          BLOG
-        </a>
         <a className="about" onClick={() => navigate("/about")}>
           ABOUT
         </a>
@@ -77,11 +74,20 @@ const Navbar = () => {
         {user && (
           <div className="account-dropdown">
             <button className="dropdown-button">
-              {user.FirstName + " " + user.lastName}{" "}
-              <span className="arrow-down">▼</span>
+              {user.FirstName} <span className="arrow-down">▼</span>
             </button>
             <ul className="dropdown-menu">
-              <li>
+              <li
+                onClick={() => {
+                  if (user.Role === "1") {
+                    navigate("/User/userwallet");
+                  } else if (user.Role === "2") {
+                    navigate("/Breeder/UserWallet");
+                  } else if (user.Role === "4") {
+                    navigate("/Manager/UserWallet");
+                  }
+                }}
+              >
                 <i className="fa-regular fa-user icon-account"></i> Account
               </li>
               <li onClick={() => handleHistory()}>

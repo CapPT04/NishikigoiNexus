@@ -1,74 +1,140 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Checkout.scss';
-import { useLocation } from 'react-router';
-import { handleWinnerPaymentApi } from "../../axios/UserService";
+import { handleGetPaymentPriceApi, handleWinnerPaymentApi } from "../../axios/UserService";
+import Swal from "sweetalert2";
+import { useLocation, useNavigate } from "react-router";
 
 const Checkout = () => {
     // Step 1: Create state variables to store input values
-    const [phone, setPhone] = useState('');
-    const [city, setCity] = useState('');
-    const [address, setAddress] = useState('');
+    const [winningPrice, setWinningPrice] = useState('');
+    const [depositPrice, setDepositPrice] = useState('');
+    const [paymentDue, setPaymentDue] = useState('');
     const location = useLocation();
-    const fishEntryId = location.state; // Access fishEntryId safely
+    const fishEntryId = location?.state;
+    const isCheckoutDisabled = !winningPrice || !depositPrice || !paymentDue;
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        const fetchGetPaymentPrice = async () => {
+            const response = await handleGetPaymentPriceApi(fishEntryId);
+            // console.log("payment: ", response);
 
+            if (response && response.status === 200) {
+                setDepositPrice(response.data.deposit);
+                setWinningPrice(response.data.soldPrice);
+                setPaymentDue(response.data.finalPrice);
+            }
+        }
+        fetchGetPaymentPrice();
+    }, [fishEntryId])
 
     const handleCheckout = async () => {
-        const checkoutData = {
-            phone,
-            city,
-            address,
-        };
+        const result = await Swal.fire({
+            title: 'Confirm Checkout',
+            text: 'Are you sure you want to proceed with the checkout?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, proceed',
+            cancelButtonText: 'No, cancel'
+        });
 
-        sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
-        try {
-            const response = await handleWinnerPaymentApi(sessionStorage.getItem("token"), fishEntryId);
-            if (response && response.status === 200) {
-                window.location.href = response.data;
+        if (result.isConfirmed) {
+            // Show loading indicator
+            Swal.fire({
+                title: 'Processing Checkout...',
+                text: 'Please wait while we process your order.',
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            try {
+                const response = await handleWinnerPaymentApi(sessionStorage.getItem("token"), fishEntryId);
+                // console.log("response: ", response);
+
+                if (response && response.status === 200) {
+                    // Success notification
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Checkout Successful!',
+                        text: 'Your checkout has been completed successfully.'
+                    }).then(() => {
+                        navigate("/user/UserBidHistory");
+                    });
+                } else if (response && response.status === 400) {
+                    // Insufficient balance error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Checkout Failed',
+                        text: 'You do not have enough balance to complete the checkout. Please deposit money into your account.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Go to Deposit Page',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate("/user/UserWallet");
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error during checkout:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Checkout Failed',
+                    text: 'An error occurred during checkout. Please try again later.'
+                });
             }
-            console.log('Payment API response:', response);
-            // Optionally handle success (e.g., navigate or show a success message)
-        } catch (error) {
-            console.error('Error calling payment API:', error);
-            // Optionally handle the error (e.g., show an alert or message to the user)
+        } else {
+            Swal.fire({
+                icon: 'info',
+                title: 'Checkout Canceled',
+                text: 'You chose not to proceed with the checkout.'
+            });
         }
     };
 
+    const formatMoney = (value) => {
+        // Convert the value to a string and take only the integer part
+        let integerPart = String(Math.floor(Number(value)));
+        // Remove non-digit characters from the integer part
+        integerPart = integerPart.replace(/\D/g, "");
+        // Format the integer part with commas as thousand separators
+        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        // Return the formatted integer part
+        return integerPart;
+    };
     return (
         <div className="checkout-page">
             <div className="checkout-background">
                 <div className="checkout-content">
-                    <div className="phone">
-                        <label htmlFor="phone-input" className="phone-label">Phone</label>
-                        <input
-                            type="text"
-                            className="phone-input"
-                            id="phone-input"
-                            value={phone} // Bind state to input
-                            onChange={(e) => setPhone(e.target.value)} // Handle input change
-                        />
+                    <div className="winning-price">
+                        <label htmlFor="winning-price-input" className="winning-price-label">Winning Price</label>
+                        <div
+                            className="winning-price-input"
+                            id="winning-price-input">
+                            {formatMoney(winningPrice)}
+                        </div>
                     </div>
-                    <div className="city">
-                        <label htmlFor="city-input" className="city-label">City</label>
-                        <input
-                            type="text"
-                            className="city-input"
-                            id="city-input"
-                            value={city} // Bind state to input
-                            onChange={(e) => setCity(e.target.value)} // Handle input change
-                        />
+                    <div className="deposit-price">
+                        <label htmlFor="deposit-price-input" className="deposit-price-label">Deposit Price</label>
+                        <div
+                            className="deposit-price-input"
+                            id="deposit-price-input">
+                            {formatMoney(depositPrice)}
+                        </div>
                     </div>
-                    <div className="address">
-                        <label htmlFor="address-input" className="address-label">Address</label>
-                        <input
-                            type="text"
-                            className="address-input"
-                            id="address-input"
-                            value={address} // Bind state to input
-                            onChange={(e) => setAddress(e.target.value)} // Handle input change
-                        />
+                    <div className="payment-due">
+                        <label htmlFor="payment-due-input" className="payment-due-label">Payment Due</label>
+                        <div className="payment-due-input">
+                            {formatMoney(paymentDue)}
+                        </div>
+
+
+
                     </div>
-                    <button className="checkout-btn" onClick={handleCheckout}>
+                    <button className="checkout-btn" onClick={handleCheckout}
+                        disabled={isCheckoutDisabled}
+                    >
                         Checkout
                     </button>
                 </div>

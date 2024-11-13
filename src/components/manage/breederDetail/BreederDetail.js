@@ -10,6 +10,9 @@ import {
   handleUpdateBreederCommission,
   handleUserById,
 } from "../../../axios/UserService";
+import Swal from "sweetalert2";
+import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 
 const BreederDetail = () => {
   const navigate = useNavigate();
@@ -46,35 +49,112 @@ const BreederDetail = () => {
     }
   };
   const handleBan = async () => {
-    const token = sessionStorage.getItem("token");
-    const res = await handleToggleUserStatus(token, breeder.userId, reasonBan);
-    console.log(res);
-    if (res.status === 200) {
-      // console.log("Banned");
-      window.location.reload();
-    }
+    Swal.fire({
+      title: "Are you sure to ban breeder?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Ban it!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = sessionStorage.getItem("token");
+        const res = await handleToggleUserStatus(
+          token,
+          breeder.userId,
+          reasonBan
+        );
+        console.log(res);
+        if (res.status === 200) {
+          // console.log("Banned");
+          toast.success("Ban Breeder Successful", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+      }
+    });
   };
   const handleUnBan = async () => {
-    const token = sessionStorage.getItem("token");
-    const res = await handleToggleUserStatus(token, breeder.userId, null);
-    // console.log(res);
-    if (res.status === 200) {
-      // console.log("UnBanned");
-      window.location.reload();
-    }
+    Swal.fire({
+      title: "Are you sure to unban breeder?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Unban it!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = sessionStorage.getItem("token");
+        const res = await handleToggleUserStatus(token, breeder.userId, null);
+        // console.log(res);
+        if (res.status === 200) {
+          toast.success("Unban Breeder Successful", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+      }
+    });
   };
 
   const handleUpdateCommission = async () => {
-    const token = sessionStorage.getItem("token");
-    const res = await handleUpdateBreederCommission(
-      token,
-      breeder.userId,
-      commission
-    );
-    if (res.status === 200) {
-      // console.log("UnBanned");
-      window.location.reload();
-    }
+    Swal.fire({
+      title: "Are you sure to update commission of breeder?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Update it!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = sessionStorage.getItem("token");
+        const res = await handleUpdateBreederCommission(
+          token,
+          breeder.userId,
+          commission
+        );
+        if (res.status === 200) {
+          // console.log("UnBanned");
+          window.location.reload();
+        } else if (res && res.status === 500) {
+          // Show SweetAlert for the error message
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Commission must be less than 10%",
+          });
+        } else if (res && res.status === 400) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "The value of commission is not valid",
+          });
+        }
+      }
+    });
   };
   useEffect(() => {
     getAllInfo();
@@ -103,6 +183,7 @@ const BreederDetail = () => {
       <div className="body-content">
         <VerticallyNavbar />
         <div className="body-content-right">
+          <ToastContainer />
           <div className="breeder-detail-content">
             <div className="breeder-detail-content-row1">
               <div className="status">
@@ -224,7 +305,9 @@ const BreederDetail = () => {
                 <input
                   type="text"
                   className="commission-input"
-                  placeholder={`${breeder.commission} %`}
+                  defaultValue={
+                    breeder.commission ? breeder.commission + " %" : ""
+                  }
                   onChange={(e) => setCommission(e.target.value)}
                   // disabled={true}
                 />
@@ -264,7 +347,7 @@ const BreederDetail = () => {
                 type="text"
                 className="reason-input"
                 // value={breeder.reason}
-                placeholder={breeder.reason}
+                defaultValue={breeder.reason}
                 onChange={(e) => {
                   setReasonBan(e.target.value);
                 }}

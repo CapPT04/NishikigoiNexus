@@ -1,59 +1,59 @@
 * {
-  margin     : 0;
-  padding    : 0;
-  border     : 0;
-  font-size  : 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
   font-family: "Saira Condensed";
-  --nude     : #e7cdbf;
+  --nude: #e7cdbf;
 }
 
 .blog-detail-container {
-  display           : grid;
+  display: grid;
   grid-template-rows: auto auto;
 
   .header {
-    height         : 84px;
-    background     : #121212;
-    display        : flex;
+    height: 84px;
+    background: #121212;
+    display: flex;
     justify-content: center;
-    align-items    : center;
+    align-items: center;
 
     .navigation-bar {
-      width          : 1120px;
-      height         : 64px;
-      display        : flex;
+      width: 1120px;
+      height: 64px;
+      display: flex;
       justify-content: space-between;
 
       .navigation-bar-left-content {
-        display    : inline-flex;
+        display: inline-flex;
         align-items: center;
-        gap        : 11px;
+        gap: 11px;
 
         .logo {
-          width : 64px;
+          width: 64px;
           height: 64px;
         }
 
         .project-name {
-          font-size  : 32px;
+          font-size: 32px;
           font-weight: 700;
-          color      : #fff;
+          color: #fff;
         }
       }
 
       .navigation-bar-right-content {
-        display        : flex;
-        width          : 600px;
+        display: flex;
+        width: 600px;
         justify-content: space-between;
-        align-items    : center;
-        flex-shrink    : 0;
+        align-items: center;
+        flex-shrink: 0;
 
         a {
-          color      : #fff;
-          font-size  : 20px;
+          color: #fff;
+          font-size: 20px;
           font-weight: 700;
-          padding    : 8px 15px;
-          cursor     : pointer;
+          padding: 8px 15px;
+          cursor: pointer;
 
           &:hover {
             opacity: 0.7;
@@ -62,113 +62,114 @@
 
         .staff {
           border-radius: 24px;
-          background   : #df0012;
-          padding      : 7px 21px;
+          background: #df0012;
+          padding: 7px 21px;
         }
       }
     }
   }
 
   .body-content {
-    display              : grid;
+    display: grid;
     grid-template-columns: 10% auto;
 
-    .navigation-bar-vertically {
-      padding-top   : 56px;
-      display       : flex;
-      flex-direction: column;
-      gap           : 56px;
-      flex-shrink   : 0;
-      background    : #1c1c1c;
-      color         : #fff;
-      font-size     : 26px;
-      font-weight   : 400;
-      line-height   : normal;
-      align-items   : center !important;
-      height        : 100% !important;
+    // .navigation-bar-vertically {
+    //   padding-top   : 56px;
+    //   display       : flex;
+    //   flex-direction: column;
+    //   gap           : 56px;
+    //   flex-shrink   : 0;
+    //   background    : #1c1c1c;
+    //   color         : #fff;
+    //   font-size     : 26px;
+    //   font-weight   : 400;
+    //   line-height   : normal;
+    //   align-items   : center !important;
+    //   height        : 100% !important;
 
-      a {
-        color: #fff;
+    //   a {
+    //     color: #fff;
 
-        &:hover {
-          opacity: 0.7;
-        }
-      }
+    //     &:hover {
+    //       opacity: 0.7;
+    //     }
+    //   }
 
-      // .fishEntry {
-      //   margin-left: 30px;
-      //   display: flex;
-      //   height: 67px;
-      //   padding: 10px 21px;
-      //   justify-content: center;
-      //   align-items: center;
-      //   gap: 10px;
-      //   align-self: stretch;
-      //   background: #df0012;
-      // }
-    }
+    //   // .fishEntry {
+    //   //   margin-left: 30px;
+    //   //   display: flex;
+    //   //   height: 67px;
+    //   //   padding: 10px 21px;
+    //   //   justify-content: center;
+    //   //   align-items: center;
+    //   //   gap: 10px;
+    //   //   align-self: stretch;
+    //   //   background: #df0012;
+    //   // }
+    // }
 
     .body-content-right {
       background: var(--nude);
 
       .fish-detail-content {
-        display           : grid;
-        width             : 80%;
-        margin            : 0 auto;
-        margin-top        : 40px;
+        display: grid;
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 40px;
         grid-template-rows: auto;
-        gap               : 30px;
+        gap: 30px;
+        margin-top: 120px;
 
         .fish-detail-content-row1 {
-          display        : flex;
-          gap            : 100px;
+          display: flex;
+          gap: 100px;
           justify-content: flex-end;
-          align-items    : center;
+          align-items: center;
 
           .status {
-            color      : #121212;
-            text-align : right;
+            color: #121212;
+            text-align: right;
             font-family: Poppins;
-            font-size  : 26px;
-            font-style : normal;
+            font-size: 26px;
+            font-style: normal;
             font-weight: 700;
             line-height: normal;
           }
 
           .set-status {
             -webkit-appearance: none;
-            width             : 226px;
-            height            : 52px;
-            flex-shrink       : 0;
-            border-radius     : 9px;
-            border            : 0.75px solid #0097b2;
-            background        : #fff;
-            color             : #121212;
-            font-family       : Poppins;
-            font-size         : 26px;
-            font-style        : normal;
-            font-weight       : 400;
-            line-height       : normal;
-            align-items       : center;
-            justify-content   : center;
-            text-align        : center;
+            width: 226px;
+            height: 52px;
+            flex-shrink: 0;
+            border-radius: 9px;
+            border: 0.75px solid #0097b2;
+            background: #fff;
+            color: #121212;
+            font-family: Poppins;
+            font-size: 26px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
           }
         }
 
         .fish-detail-content-row2 {
-          color      : #121212;
+          color: #121212;
           font-family: Poppins;
-          font-size  : 36px;
-          font-style : normal;
+          font-size: 36px;
+          font-style: normal;
           font-weight: 600;
           line-height: normal;
         }
 
         .fish-detail-content-row3 {
-          color      : #121212;
+          color: #121212;
           font-family: Inter;
-          font-size  : 24px;
-          font-style : normal;
+          font-size: 24px;
+          font-style: normal;
           font-weight: 500;
           line-height: normal;
         }
@@ -177,19 +178,18 @@
         .fish-detail-content-row6
 
         /*,
-                .fish-detail-content-row7 */
-          {
-          display           : grid;
+                .fish-detail-content-row7 */ {
+          display: grid;
           grid-template-rows: auto;
-          gap               : 10px;
+          gap: 10px;
 
           .create-by-label,
           .title-label,
           .pond-address-label {
-            color      : #121212;
+            color: #121212;
             font-family: Inter;
-            font-size  : 24px;
-            font-style : normal;
+            font-size: 24px;
+            font-style: normal;
             font-weight: 400;
             line-height: normal;
           }
@@ -197,18 +197,18 @@
           .create-by-input,
           .title-input,
           .pond-address-input {
-            width        : 100%;
-            height       : 56px;
+            width: 100%;
+            height: 56px;
             border-radius: 12px;
-            border       : 1px solid #121212;
-            text-indent  : 5px;
-            color        : #121212;
-            font-family  : Inter;
-            font-size    : 24px;
-            font-style   : normal;
-            font-weight  : 400;
-            line-height  : normal;
-            background   : none;
+            border: 1px solid #121212;
+            text-indent: 5px;
+            color: #121212;
+            font-family: Inter;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            background: none;
           }
         }
 
@@ -217,9 +217,9 @@
         .fish-detail-content-row7,
         .fish-detail-content-row8,
         .fish-detail-content-row9 {
-          display              : grid;
+          display: grid;
           grid-template-columns: auto auto;
-          gap                  : 100px;
+          gap: 100px;
 
           .update-by,
           .fish-name,
@@ -230,9 +230,9 @@
           .age,
           .weight,
           .sold-price {
-            display           : grid;
+            display: grid;
             grid-template-rows: auto;
-            gap               : 10px;
+            gap: 10px;
 
             .update-by-label,
             .fish-name-label,
@@ -243,10 +243,10 @@
             .age-label,
             .weight-label,
             .sold-price-label {
-              color      : #121212;
+              color: #121212;
               font-family: Inter;
-              font-size  : 24px;
-              font-style : normal;
+              font-size: 24px;
+              font-style: normal;
               font-weight: 400;
               line-height: normal;
             }
@@ -261,86 +261,158 @@
             .weight-input,
             .sold-price-input {
               border-radius: 12px;
-              border       : 1px solid #121212;
-              height       : 56px;
-              color        : #121212;
-              font-family  : Inter;
-              font-size    : 24px;
-              font-style   : normal;
-              font-weight  : 400;
-              line-height  : normal;
-              text-indent  : 5px;
-              background   : none;
+              border: 1px solid #121212;
+              height: 56px;
+              color: #121212;
+              font-family: Inter;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+              text-indent: 5px;
+              background: none;
             }
           }
 
           .last-update {
-            display           : grid;
+            display: grid;
             grid-template-rows: auto;
-            gap               : 10px;
+            gap: 10px;
 
             .last-update-label {
-              color      : #121212;
+              color: #121212;
               font-family: Inter;
-              font-size  : 24px;
-              font-style : normal;
+              font-size: 24px;
+              font-style: normal;
               font-weight: 400;
               line-height: normal;
             }
 
             .last-update-input {
               border-radius: 12px;
-              border       : 1px solid #121212;
-              height       : 56px;
-              color        : #121212;
-              font-family  : Inter;
-              font-size    : 24px;
-              font-style   : normal;
-              font-weight  : 400;
-              line-height  : normal;
-              text-indent  : 5px;
-              background   : none;
+              border: 1px solid #121212;
+              height: 56px;
+              color: #121212;
+              font-family: Inter;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+              text-indent: 5px;
+              background: none;
             }
           }
         }
 
         .fish-detail-content-row10 {
-          display        : flex;
+          display: flex;
           justify-content: flex-end;
-          gap            : 30px;
+          gap: 30px;
 
           .update-btn {
             border-radius: 9px;
-            background   : #0097b2;
-            width        : 187.115px;
-            height       : 52px;
-            color        : #121212;
-            font-family  : Poppins;
-            font-size    : 26px;
-            font-style   : normal;
-            font-weight  : 700;
-            line-height  : normal;
+            background: #0097b2;
+            width: 187.115px;
+            height: 52px;
+            color: #121212;
+            font-family: Poppins;
+            font-size: 26px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
           }
 
           .cancel-btn {
-            border       : 2px solid #0097b2;
-            background   : none;
+            border: 2px solid #0097b2;
+            background: none;
             border-radius: 9px;
-            width        : 187.115px;
-            height       : 52px;
-            color        : #121212;
-            font-family  : Poppins;
-            font-size    : 26px;
-            font-style   : normal;
-            font-weight  : 700;
-            line-height  : normal;
+            width: 187.115px;
+            height: 52px;
+            color: #121212;
+            font-family: Poppins;
+            font-size: 26px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
             margin-bottom: 50px;
           }
 
           .update-btn:hover,
           .cancel-btn:hover {
-            cursor : pointer;
+            cursor: pointer;
             opacity: 0.7;
+          }
+        }
+        .breeder-detail-content-row13 {
+          .request-history {
+            color: #121212;
+            font-family: Poppins;
+            font-size: 36px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+          }
+        }
+        .fish-detail-content-row11 {
+          margin-top: 0;
+          margin-bottom: 50px;
+
+          table {
+            border-collapse: collapse;
+            border: 1px solid black;
+            width: 100%;
+            margin: 0 !important;
+
+            th,
+            td {
+              border: none;
+              color: #fff;
+              height: 60px;
+              font-size: 24px;
+              font-weight: 400;
+              padding: 0 10px;
+              text-align: center;
+
+              a {
+                color: black;
+              }
+
+              a:hover {
+                cursor: pointer;
+                opacity: 0.5;
+              }
+            }
+
+            th {
+              background: #1c1b1f;
+            }
+
+            .details-btn {
+              width: 142px;
+              height: 35px;
+              border-radius: 15px;
+              border: 1px solid #0097b2;
+              background: none;
+            }
+
+            .details-btn :hover {
+              cursor: pointer;
+              opacity: 0.7;
+            }
+
+            tr:nth-child(even) {
+              background: #d5bdb0;
+
+              td {
+                color: black;
+              }
+            }
+
+            tr:nth-child(odd) {
+              td {
+                color: black;
+              }
+            }
           }
         }
       }

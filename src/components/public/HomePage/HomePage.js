@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../HomePage/HomePage.scss";
 import logo from "../../../assets/images/logo_png.png";
 import sample_fish from "../../../assets/images/Rectangle 7.png";
@@ -8,37 +8,80 @@ import instagram from "../../../assets/images/Instagram.svg";
 import facebook from "../../../assets/images/Social Icons (1).svg";
 import google from "../../../assets/images/Vector.svg";
 import Navbar from "../../common/Navbar/Navbar";
+import { wait } from "@testing-library/user-event/dist/utils";
+import { handleFishForHomePage } from "../../../axios/UserService";
+import { useNavigate } from "react-router";
 
 const HomePage = () => {
-  return (
+  const [fishHomePage, setFishHomePage] = useState("");
+  const navigate = useNavigate();
+  const startFish = async () => {
+    const resFish = await handleFishForHomePage();
+    setFishHomePage(resFish.data);
+    console.log(resFish.data);
+  };
+  const formatMoney = (value) => {
+    // Convert the value to a string and take only the integer part
+    let integerPart = String(Math.floor(Number(value)));
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted integer part
+    return integerPart;
+  };
+  useEffect(() => {
+    startFish();
+  }, []);
 
+  return (
     <div className="home-page">
       <div className="header">
         <Navbar></Navbar>
       </div>
       <div className="header-parent">
-
         <div className="slogan-homepage">
           <div className="slogan-above">BIDDING FOR</div>
           <div className="slogan-under">BEAUTY</div>
         </div>
         <div className="content-extra-parent">
-          <div className="content-extra">
+          <div
+            className="content-extra"
+            onClick={() =>
+              navigate(`/AuctionFishMethod${fishHomePage.auctionMethod}`, {
+                state: { fishHomePage, auctionId: fishHomePage.auctionId },
+              })
+            }
+          >
             <div className="representative-sample-fish">
               <img
                 className="representative-sample-fish-img"
-                src={sample_fish}
-                alt=""
+                src={fishHomePage.fishImage}
+                alt="Fish Random"
               />
               <div className="representative-sample-fish-details">
                 <div className="representative-sample-fish-name">
-                  Tancho Goshiki
+                  {fishHomePage.fishName}
                 </div>
                 <div className="representative-sample-auction-number">
-                  Auction #69
+                  Auction #{fishHomePage.auctionId}
                 </div>
                 <div className="representative-sample-fish-start-price">
-                  Start price: $210
+                  Start price: {formatMoney(fishHomePage.startPrice)} VND
+
+                </div>
+                <div
+                  className="representative-sample-fish-fish-status"
+                  style={{
+                    color:
+                      fishHomePage.fishEntryStatus === "Bidding"
+                        ? "#34a853"
+                        : fishHomePage.fishEntryStatus === "Waiting"
+                        ? "yellow"
+                        : "red",
+                  }}
+                >
+                  Status: {fishHomePage.fishEntryStatus}
                 </div>
               </div>
             </div>

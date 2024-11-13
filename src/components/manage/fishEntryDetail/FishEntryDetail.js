@@ -4,6 +4,7 @@ import "./FishEntryDetail.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
 import {
+  handleEnrollHistoryByFishEntryId,
   handleGetRequestDetail,
   handleUserById,
 } from "../../../axios/UserService";
@@ -14,6 +15,7 @@ const FishEntryDetail = () => {
   const [breeder, setBreeder] = useState("");
   const [bidder, setBidder] = useState("");
   const [request, setRequest] = useState("");
+  const [enrollHistory, setEnrollHistory] = useState([]);
 
   const statusName = ["Unknown", "Preparing", "Waitting", "Bidding", "Ended"];
   const method = [
@@ -23,7 +25,20 @@ const FishEntryDetail = () => {
     "Dutch Auction",
   ];
 
+  //format to display
+  const formatMoney = (value) => {
+    // Ensure the value is a number or a string
+    let [integerPart, decimalPart] = String(value).split(".");
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted number with the decimal part (if present)
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  };
+
   const getInfo = async () => {
+    // console.log("koi:", koi);
     if (koi) {
       const resReq = await handleGetRequestDetail(koi.requestId);
       setRequest(resReq.data);
@@ -32,6 +47,14 @@ const FishEntryDetail = () => {
       setBreeder(res.data);
       const resBid = await handleUserById(koi.highestBidder);
       setBidder(resBid.data);
+      const resEnrollHistory = await handleEnrollHistoryByFishEntryId(
+        koi.fishEntryId
+      );
+      // console.log(resEnrollHistory);
+      if (resEnrollHistory.status === 200) {
+        setEnrollHistory(resEnrollHistory.data);
+      }
+      // console.log("rell:", resEnrollHistory.data);
     }
   };
 
@@ -40,6 +63,7 @@ const FishEntryDetail = () => {
       navigate("/Manager/ManageFishEntry");
     } else {
       getInfo();
+      // console.log("roll:", enrollHistory);
     }
   }, [koi]);
 
@@ -67,7 +91,7 @@ const FishEntryDetail = () => {
               Create date: {new Date(request.createDate).toLocaleString()}
             </div>
             <div className="fish-detail-content-row4">
-              <label for="create-by-input" className="create-by-label">
+              <label htmlFor="create-by-input" className="create-by-label">
                 Create By
               </label>
               <input
@@ -79,7 +103,7 @@ const FishEntryDetail = () => {
             </div>
             <div className="fish-detail-content-row5">
               <div className="update-by">
-                <label for="update-by-input" className="update-by-label">
+                <label htmlFor="update-by-input" className="update-by-label">
                   Fish ID
                 </label>
                 <input
@@ -91,7 +115,10 @@ const FishEntryDetail = () => {
               </div>
               <div className="last-update">
                 {" "}
-                <label for="last-update-input" className="last-update-label">
+                <label
+                  htmlFor="last-update-input"
+                  className="last-update-label"
+                >
                   Auction ID
                 </label>
                 <input
@@ -106,7 +133,7 @@ const FishEntryDetail = () => {
             </div>
             <div className="fish-detail-content-row6">
               <div className="fish-name">
-                <label for="fish-name-input" className="fish-name-label">
+                <label htmlFor="fish-name-input" className="fish-name-label">
                   Auction Method
                 </label>
                 <input
@@ -117,44 +144,54 @@ const FishEntryDetail = () => {
                 />
               </div>
               <div className="origin">
-                <label for="origin-input" className="origin-label">
+                <label htmlFor="origin-input" className="origin-label">
                   Increment
                 </label>
                 <input
                   type="text"
                   className="origin-input"
-                  value={koi.increment}
+                  value={
+                    koi.increment
+                      ? formatMoney(koi.increment) + " VND"
+                      : "0 VND"
+                  }
                   disabled={true}
                 />
               </div>
             </div>
             <div className="fish-detail-content-row7">
               <div className="shape">
-                <label for="shape-input" className="shape-label">
+                <label htmlFor="shape-input" className="shape-label">
                   Min Price
                 </label>
                 <input
                   type="text"
                   className="shape-input"
-                  value={koi.minPrice}
+                  value={
+                    koi.minPrice ? formatMoney(koi.minPrice) + " VND" : "0 VND"
+                  }
                   disabled={true}
                 />
               </div>
               <div className="size">
-                <label for="size-input" className="size-label">
+                <label htmlFor="size-input" className="size-label">
                   Max Price
                 </label>
                 <input
                   type="text"
                   className="origin-input"
-                  value={koi.auctionMethod === 1 ? koi.minPrice : koi.maxPrice}
+                  value={
+                    koi.auctionMethod === 4
+                      ? formatMoney(koi.maxPrice) + " VND"
+                      : ""
+                  }
                   disabled={true}
                 />
               </div>
             </div>
             <div className="fish-detail-content-row8">
               <div className="gender">
-                <label for="gender-input" className="gender-label">
+                <label htmlFor="gender-input" className="gender-label">
                   Expected Date
                 </label>
                 <input
@@ -165,7 +202,7 @@ const FishEntryDetail = () => {
                 />
               </div>
               <div className="age">
-                <label for="age-input" className="age-label">
+                <label htmlFor="age-input" className="age-label">
                   Start Date
                 </label>
                 <input
@@ -182,7 +219,7 @@ const FishEntryDetail = () => {
             </div>
             <div className="fish-detail-content-row9">
               <div className="weight">
-                <label for="weight-input" className="weight-label">
+                <label htmlFor="weight-input" className="weight-label">
                   End Date
                 </label>
                 <input
@@ -197,37 +234,41 @@ const FishEntryDetail = () => {
                 />
               </div>
               <div className="sold-price">
-                <label for="sold-price-input" className="sold-price-label">
+                <label htmlFor="sold-price-input" className="sold-price-label">
                   Request Fee
                 </label>
                 <input
                   type="text"
                   className="sold-price-input"
-                  value={`${request.fee} $`}
+                  value={`${formatMoney(request.fee)} VND`}
                   disabled={true}
                 />
               </div>
             </div>
             <div className="fish-detail-content-row9">
               <div className="weight">
-                <label for="weight-input" className="weight-label">
+                <label htmlFor="weight-input" className="weight-label">
                   Highest Bidder
                 </label>
                 <input
                   type="text"
                   className="weight-input"
-                  value={koi.highestBidder}
+                  value={koi.highestBidder ? koi.highestBidder : ""}
                   disabled={true}
                 />
               </div>
               <div className="sold-price">
-                <label for="sold-price-input" className="sold-price-label">
+                <label htmlFor="sold-price-input" className="sold-price-label">
                   Highest Price
                 </label>
                 <input
                   type="text"
                   className="sold-price-input"
-                  value={koi.highestPrice ? koi.highestPrice : "  "}
+                  value={
+                    koi.highestPrice
+                      ? formatMoney(koi.highestPrice) + " VND"
+                      : ""
+                  }
                   disabled={true}
                 />
               </div>
@@ -236,6 +277,44 @@ const FishEntryDetail = () => {
             <div className="fish-detail-content-row10">
               {/* <button className="update-btn">Update</button>
           <button className="cancel-btn">Cancel</button> */}
+            </div>
+            {/* enroll */}
+            <div className="breeder-detail-content-row13">
+              <div className="request-history">Enroll History</div>
+            </div>
+            <div className="fish-detail-content-row11">
+              <table className="table-request-history">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    {/* <th>Enrollment Id</th> */}
+                    <th>User ID</th>
+                    <th>Enroll Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {enrollHistory.length > 0 ? (
+                    enrollHistory.map((enroll, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          {/* <td>{enroll.enrollmentId}</td> */}
+                          <td>{enroll.userId}</td>
+                          <td>
+                            {enroll.enrollDate
+                              ? new Date(enroll.enrollDate).toLocaleString()
+                              : "Not Yet"}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan={3}>No one enroll to this fish</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

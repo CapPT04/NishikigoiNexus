@@ -11,6 +11,9 @@ import {
   handleCancelRequest,
   handleUserById,
 } from "../../../axios/UserService";
+import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import Swal from "sweetalert2";
 
 const RequestDetail = () => {
   const [searchParams] = useSearchParams();
@@ -22,7 +25,17 @@ const RequestDetail = () => {
   const [deniable, setDeniable] = useState(false);
   const [staff, setStaff] = useState("");
 
-  const [deliveryCost, setDeliveryCost] = useState(0);
+  //format to display
+  const formatMoney = (value) => {
+    // Ensure the value is a number or a string
+    let [integerPart, decimalPart] = String(value).split(".");
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted number with the decimal part (if present)
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  };
 
   const statusName = ["Processing", "Paying", "Approved", "Denied"];
   const method = ["FixedPriceSale", "SecretBid", "PublicBid", "DutchAuction"];
@@ -39,22 +52,92 @@ const RequestDetail = () => {
       resFishEntry.data.fishEntryId
     );
     setFish(resFish.data);
-    const resStaff = await handleUserById(resReq.data.updateBy);
-    setStaff(resStaff.data);
+    if (resReq.data.updateBy) {
+      const resStaff = await handleUserById(resReq.data.updateBy);
+      setStaff(resStaff.data);
+    }
   };
   const acceptRequest = async () => {
-    const token = sessionStorage.getItem("token");
-    const res = await handleAcceptRequest(token, requestId, deliveryCost);
-    if (res.status === 200) {
-      window.location.reload();
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, accept request!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = sessionStorage.getItem("token");
+        const res = await handleAcceptRequest(token, requestId);
+        if (res.status === 200) {
+          toast.success("Accept Request Sucessfully", {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          toast.error(res.data, {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          // window.location.reload();
+        }
+      }
+    });
   };
   const cancelRequest = async () => {
-    const token = sessionStorage.getItem("token");
-    const res = await handleCancelRequest(token, requestId, denyReason);
-    if (res.status === 200) {
-      window.location.reload();
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Deny it!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = sessionStorage.getItem("token");
+        const res = await handleCancelRequest(token, requestId, denyReason);
+        if (res.status === 200) {
+          toast.success("Cancel Request Sucessfully", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          window.location.reload();
+        } else {
+          toast.error(res.data, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          // window.location.reload();
+        }
+      }
+    });
   };
 
   useEffect(() => {
@@ -75,19 +158,22 @@ const RequestDetail = () => {
         <Navbar></Navbar>
       </div>
       <div className="body-content">
+        <ToastContainer />
         <VerticallyNavbar></VerticallyNavbar>
         <div className="body-content-right">
           <div className="request-detail-content">
-            <div className="request-detail-content-row1">
+            <div className="request-detail-staff-content-row1">
               <div className="status">
                 Status: {statusName[requestDetail.status - 1]}
               </div>
             </div>
-            <div className="request-detail-content-row2">Request Detail</div>
-            <div className="request-detail-content-row3">
+            <div className="request-detail-staff-content-row2">
+              Request Detail
+            </div>
+            <div className="request-detail-staff-content-row3">
               Create date: {new Date(requestDetail.createDate).toLocaleString()}
             </div>
-            <div className="request-detail-content-row4">
+            <div className="request-detail-staff-content-row10">
               <div className="update-by">
                 <label for="update-by-input" className="update-by-label">
                   Update By
@@ -95,7 +181,7 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="update-by-input"
-                  value={staff.firstName + " " + staff.lastName}
+                  value={staff ? staff.firstName + " " + staff.lastName : ""}
                   disabled={true}
                 />
               </div>
@@ -107,12 +193,16 @@ const RequestDetail = () => {
                 <input
                   type="datetime"
                   className="update-date-input"
-                  value={new Date(requestDetail.updateDate).toLocaleString()}
+                  value={
+                    requestDetail.updateDate
+                      ? new Date(requestDetail.updateDate).toLocaleString()
+                      : "Not Updated Yet"
+                  }
                   disabled={true}
                 />
               </div>
             </div>
-            <div className="request-detail-content-row5">
+            <div className="request-detail-staff-content-row10">
               <div className="create-by">
                 <label for="create-by-input" className="create-by-label">
                   Create By
@@ -139,19 +229,19 @@ const RequestDetail = () => {
                 />
               </div>
             </div>
-            <div className="request-detail-content-row6">
+            <div className="request-detail-staff-content-row10">
               <div className="delivery-cost">
                 <label
                   for="delivery-cost-input"
                   className="delivery-cost-label"
                 >
-                  Delivery Cost
+                  Note
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   className="delivery-cost-input"
-                  min={0}
-                  onChange={(e) => setDeliveryCost(e.target.value)}
+                  value={requestDetail.note}
+                  disabled={true}
                 />
               </div>
               <div className="fee">
@@ -160,24 +250,18 @@ const RequestDetail = () => {
                   Fee
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   className="fee-input"
-                  value={requestDetail.fee}
+                  value={
+                    requestDetail.fee
+                      ? formatMoney(requestDetail.fee) + " VND"
+                      : "0 VND"
+                  }
                   disabled={true}
                 />
               </div>
             </div>
-            <div className="request-detail-content-row7">
-              <label for="note-input" className="note-label">
-                Note
-              </label>
-              <input
-                type="text"
-                className="note-input"
-                value={requestDetail.note}
-              />
-            </div>
-            <div className="request-detail-content-row8">
+            <div className="request-detail-staff-content-row8">
               <button
                 className="send-payment-request-btn"
                 onClick={acceptRequest}
@@ -186,13 +270,13 @@ const RequestDetail = () => {
                 Send Payment Request
               </button>
             </div>
-            <div className="request-detail-content-row9">
+            <div className="request-detail-staff-content-row9">
               <div className="fish-entry-information">
                 Fish Entry #{fishEntry.fishEntryId} Information
               </div>
             </div>
 
-            <div className="request-detail-content-row10">
+            <div className="request-detail-staff-content-row10">
               <div className="fish-id">
                 <label for="fish-id-input" className="fish-id-label">
                   Fish ID
@@ -222,7 +306,7 @@ const RequestDetail = () => {
               </div>
             </div>
 
-            <div className="request-detail-content-row11">
+            <div className="request-detail-staff-content-row11">
               <div className="auction-method">
                 <label
                   for="auction-method-input"
@@ -245,12 +329,16 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="auction-method-input"
-                  value={fishEntry.increment}
+                  value={
+                    fishEntry.increment
+                      ? formatMoney(fishEntry.increment) + " VND"
+                      : "0"
+                  }
                   disabled={true}
                 />
               </div>
             </div>
-            <div className="request-detail-content-row11">
+            <div className="request-detail-staff-content-row11">
               <div className="auction-method">
                 <label
                   for="auction-method-input"
@@ -261,7 +349,11 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="auction-method-input"
-                  value={fishEntry.minPrice}
+                  value={
+                    fishEntry.minPrice
+                      ? formatMoney(fishEntry.minPrice) + " VND"
+                      : "0 VND"
+                  }
                   disabled={true}
                 />
               </div>
@@ -273,13 +365,17 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="auction-method-input"
-                  value={fishEntry.maxPrice}
+                  value={
+                    fishEntry.maxPrice
+                      ? formatMoney(fishEntry.maxPrice) + " VND"
+                      : "0 VND"
+                  }
                   disabled={true}
                 />
               </div>
             </div>
 
-            <div className="request-detail-content-row11">
+            <div className="request-detail-staff-content-row11">
               <div className="auction-method">
                 <label
                   for="auction-method-input"
@@ -290,13 +386,17 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="auction-method-input"
-                  value={new Date(fishEntry.startDate).toLocaleString()}
+                  value={
+                    fishEntry.startDate
+                      ? new Date(fishEntry.startDate).toLocaleString()
+                      : "Not Start Yet"
+                  }
                 />
               </div>
               <div className="auction-method">
                 {" "}
                 <label for="increment-input" className="auction-method-label">
-                  Increment
+                  End Date
                 </label>
                 <input
                   type="text"
@@ -304,13 +404,13 @@ const RequestDetail = () => {
                   value={
                     fishEntry.endDate
                       ? new Date(fishEntry.endDate).toLocaleString()
-                      : "Not ended"
+                      : "Not Ended"
                   }
                   disabled={true}
                 />
               </div>
             </div>
-            <div className="request-detail-content-row11">
+            <div className="request-detail-staff-content-row11">
               <div className="auction-method">
                 <label
                   for="auction-method-input"
@@ -321,9 +421,7 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="auction-method-input"
-                  value={
-                    fishEntry.highestBidder ? fishEntry.highestBidder : "No one"
-                  }
+                  value={fishEntry.highestBidder ? fishEntry.highestBidder : ""}
                   disabled={true}
                 />
               </div>
@@ -335,12 +433,16 @@ const RequestDetail = () => {
                 <input
                   type="text"
                   className="auction-method-input"
-                  value={fishEntry.highestPrice ? fishEntry.highestPrice : 0}
+                  value={
+                    fishEntry.highestPrice
+                      ? formatMoney(fishEntry.highestPrice) + " VND"
+                      : ""
+                  }
                   disabled={true}
                 />
               </div>
             </div>
-            <div className="request-detail-content-row15">
+            <div className="request-detail-staff-content-row15">
               <div
                 className="deny"
                 style={{ display: requestDetail.status === 1 ? "" : "none" }}
@@ -349,7 +451,7 @@ const RequestDetail = () => {
               </div>
             </div>
             <div
-              className="request-detail-content-row16"
+              className="request-detail-staff-content-row16"
               style={{ display: requestDetail.status === 1 ? "" : "none" }}
             >
               <label for="reason-input" className="reason-label">
@@ -370,7 +472,7 @@ const RequestDetail = () => {
               />
             </div>
             <div
-              className="request-detail-content-row17"
+              className="request-detail-staff-content-row17"
               style={{ display: requestDetail.status === 1 ? "" : "none" }}
             >
               <button

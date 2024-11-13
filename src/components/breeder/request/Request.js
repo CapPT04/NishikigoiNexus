@@ -27,7 +27,7 @@ const Request = () => {
   const [maxPrice, setMaxPrice] = useState(0);
   const [stepPrice, setStepPrice] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
-  const [fee, setFee] = useState("");
+  const [fee, setFee] = useState(0);
   const [btnReady, setBtnReady] = useState(true);
 
   const navigate = useNavigate();
@@ -82,6 +82,17 @@ const Request = () => {
     getFee();
   }, []);
   //--------
+  const formatPrice = (value) => {
+    // Ensure the value is a number or a string
+    let [integerPart, decimalPart] = String(value).split(".");
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted number with the decimal part (if present)
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  };
+  //..........
 
   const steps = [
     { title: "Fish Details", subtitle: "Enter information about Fish" },
@@ -106,7 +117,7 @@ const Request = () => {
         "A public bid auction is fully transparent, where all bids are visible to participants. Bidders can see others' offers and increase their bids until no one is willing to pay a higher price.",
     },
     {
-      title: "Descending price auction",
+      title: "Dutch auction",
       subtitle:
         "In this descending-price auction, the seller starts with a high price and gradually lowers it until a buyer accepts the current price, creating a unique urgency among potential buyers.",
     },
@@ -123,7 +134,6 @@ const Request = () => {
               <input
                 type="text"
                 name="fishName"
-                placeholder="Fish Name"
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
@@ -132,7 +142,6 @@ const Request = () => {
               <input
                 type="text"
                 name="FishShape"
-                placeholder="Fish Shape"
                 onChange={(e) => setShape(e.target.value)}
               />
             </div>
@@ -141,40 +150,48 @@ const Request = () => {
           <div className="fieldInput">
             <div className="col-md-6 inputBox">
               <h5>Fish Age</h5>
-              <input
-                type="text"
-                name="FishAge"
-                placeholder="Fish Age"
-                onChange={(e) => setAge(e.target.value)}
-              />
+              <div className="input-note">
+                <input
+                  type="number"
+                  name="FishAge (month)"
+                  min={0}
+                  onChange={(e) => setAge(e.target.value)}
+                />
+                <span className="note">month</span>
+              </div>
             </div>
             <div className="col-md-6 inputBox">
               <h5>Fish Weight</h5>
-              <input
-                type="text"
-                name="FishWeight"
-                placeholder="Fish Weight"
-                onChange={(e) => setWeight(e.target.value)}
-              />
+              <div className="input-note">
+                <input
+                  type="number"
+                  min={0}
+                  name="FishWeight (gram)"
+                  onChange={(e) => setWeight(e.target.value)}
+                />
+                <span className="note">Gram</span>
+              </div>
             </div>
           </div>
           {/* size+origin */}
           <div className="fieldInput">
             <div className="col-md-6 inputBox">
               <h5>Fish Size</h5>
-              <input
-                type="text"
-                name="FishSize"
-                placeholder="Fish Size"
-                onChange={(e) => setSize(e.target.value)}
-              />
+              <div className="input-note">
+                <input
+                  type="number"
+                  min={0}
+                  name="FishSize (mm)"
+                  onChange={(e) => setSize(e.target.value)}
+                />
+                <span className="note">mm</span>
+              </div>
             </div>
             <div className="col-md-6 inputBox">
               <h5>Fish Origin</h5>
               <input
                 type="text"
                 name="FishOrigin"
-                placeholder="Fish Origin"
                 onChange={(e) => setOrigin(e.target.value)}
               />
             </div>
@@ -186,7 +203,6 @@ const Request = () => {
               <input
                 type="text"
                 name="FondArrdess"
-                placeholder="Fond Arrdess"
                 onChange={(e) => setPondAddress(e.target.value)}
               />
             </div>
@@ -195,7 +211,6 @@ const Request = () => {
               <input
                 type="text"
                 name="FishCity"
-                placeholder="Fish City"
                 onChange={(e) => setCity(e.target.value)}
               />
             </div>
@@ -282,7 +297,7 @@ const Request = () => {
               <option value="1">Fixed Price</option>
               <option value="2">Secret Auction</option>
               <option value="3">Public Auction</option>
-              <option value="4">Descending Auction</option>
+              <option value="4">Dutch Auction</option>
             </select>
           </div>
           <div>
@@ -320,32 +335,41 @@ const Request = () => {
               <h5>{auctionMethod === "1" ? "Fixed Price" : "Min Price"}</h5>
               <div className="price">
                 <input
-                  type="text"
+                  type="number"
                   name="auctionPrice"
-                  placeholder="XXXXXXX"
+                  min={0}
+                  step={10000}
                   onChange={(e) => setStartPrice(e.target.value)}
                   className="input-price"
                 />
-                <span className="dollar-sign">$</span>
+                <span className="dollar-sign">vnd</span>
+              </div>
+              <div className="noticeBox">
+                Please enter amount in multiples of 10000
               </div>
             </div>
           </div>
           <div
             className="fieldInput"
             style={{
-              display: auctionMethod === "4" ? "" : "none",
+              display:
+                auctionMethod === "4" || auctionMethod === "3" ? "" : "none",
             }}
           >
             <div className="inputBox">
               <h5>Max Price</h5>
               <div className="price">
                 <input
-                  type="text"
+                  type="number"
+                  min={0}
+                  step={10000}
                   name="auctionPrice"
-                  placeholder="XXXXXXX"
                   onChange={(e) => setMaxPrice(e.target.value)}
                 />
-                <span className="dollar-sign">$</span>
+                <span className="dollar-sign">vnd</span>
+              </div>
+              <div className="noticeBox">
+                Please enter amount in multiples of 10000
               </div>
             </div>
           </div>
@@ -357,12 +381,16 @@ const Request = () => {
               <h5>Increment Step</h5>
               <div className="price">
                 <input
-                  type="text"
+                  type="number"
                   name="incrementStep"
-                  placeholder="XXXXXXX"
+                  min={0}
+                  step={10000}
                   onChange={(e) => setStepPrice(e.target.value)}
                 />
-                <span className="dollar-sign">$</span>
+                <span className="dollar-sign">vnd</span>
+              </div>
+              <div className="noticeBox">
+                Please enter amount in multiples of 10000
               </div>
             </div>
           </div>
@@ -372,7 +400,6 @@ const Request = () => {
             <input
               type="text"
               name="Note"
-              placeholder="Note"
               onChange={(e) => setNote(e.target.value)}
             />
           </div>
@@ -514,17 +541,17 @@ const Request = () => {
               <input
                 type="text"
                 name="auctionPrice"
-                value={startPrice}
+                value={startPrice ? formatPrice(startPrice) : ""}
                 disabled={true}
               />
-              <span className="dollar-sign">$</span>
+              <span className="dollar-sign">vnd</span>
             </div>
           </div>
           <div
             className="inputBox"
             style={{
               display:
-                auctionMethod === "3" || auctionMethod === "4" ? "" : "none",
+                auctionMethod === "4" || auctionMethod === "3" ? "" : "none",
             }}
           >
             <h5>Max Price</h5>
@@ -533,10 +560,10 @@ const Request = () => {
                 type="text"
                 name="auctionPrice"
                 placeholder="XXXXXXX"
-                value={maxPrice}
+                value={maxPrice ? formatPrice(maxPrice) : ""}
                 disabled={true}
               />
-              <span className="dollar-sign">$</span>
+              <span className="dollar-sign">vnd</span>
             </div>
           </div>
           <div
@@ -549,10 +576,10 @@ const Request = () => {
                 type="text"
                 name="incrementStep"
                 placeholder="XXXXXXX"
-                value={stepPrice}
+                value={stepPrice ? formatPrice(stepPrice) : ""}
                 disabled={true}
               />
-              <span className="dollar-sign">$</span>
+              <span className="dollar-sign">vnd</span>
             </div>
           </div>
           {/* note */}
@@ -561,7 +588,9 @@ const Request = () => {
             <input type="text" name="Note" value={note} disabled={true} />
           </div>
           {/* auction fee */}
-          <div className="feeNotice">* The fee for auction: {fee}$</div>
+          <div className="feeNotice">
+            * The fee for auction: {formatPrice(fee)} VND
+          </div>
           <div className="feeNotice">
             * When the fish auction is successful, we will take a commission
             from the successful auction amount.{" "}
@@ -625,42 +654,76 @@ const Request = () => {
     if (btnReady === true) {
       toast.error("Please accept fee before submit your request", {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
       });
-    } else {
-      try {
-        const response = await handleSubmitRequest(fishAuction);
-        if (response.status === 200) {
-          toast.success("Created new request successfully! Redirecting...", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          setTimeout(() => {
-            navigate("/Breeder/HistoryRequest");
-          }, 3500);
-        } else {
-          //response.data.errors.NewRequest[0]
-          toast.error("Some fields are incorrect. Please check again", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+    } else if (
+      startPrice % 10000 !== 0 ||
+      maxPrice % 10000 !== 0 ||
+      stepPrice % 10000 !== 0
+    ) {
+      toast.error(
+        "Please enter the correct amount before submit your request",
+        {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
         }
-      } catch (error) {}
+      );
+    } else {
+      if (
+        startPrice > 0 &&
+        (auctionMethod === "1" ||
+          auctionMethod === "2" ||
+          (auctionMethod === "3" && maxPrice > 0 && stepPrice > 0) ||
+          (auctionMethod === "4" && maxPrice > 0))
+      ) {
+        try {
+          const response = await handleSubmitRequest(fishAuction);
+          if (response.status === 200) {
+            toast.success("Created new request successfully! Redirecting...", {
+              position: "top-right",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setTimeout(() => {
+              navigate("/Breeder/HistoryRequest");
+            }, 2000);
+          } else {
+            toast.error("Some field error, please check again", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+        } catch (error) {}
+      } else {
+        toast.error("Field about money is wrong", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     }
   };
   //--------
@@ -673,7 +736,7 @@ const Request = () => {
       <ToastContainer /> {/* Add ToastContainer for displaying toasts */}
       <div className="row">
         <div className="col-md-6 col-md-offset-3">
-          <form className="request">
+          <form className="request-content">
             <ul className="progressbar">
               {steps.map((step, index) => (
                 <li
