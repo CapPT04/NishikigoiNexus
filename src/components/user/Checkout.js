@@ -17,7 +17,7 @@ const Checkout = () => {
     useEffect(() => {
         const fetchGetPaymentPrice = async () => {
             const response = await handleGetPaymentPriceApi(fishEntryId);
-            console.log("payment: ", response);
+            // console.log("payment: ", response);
 
             if (response && response.status === 200) {
                 setDepositPrice(response.data.deposit);
@@ -50,7 +50,7 @@ const Checkout = () => {
 
             try {
                 const response = await handleWinnerPaymentApi(sessionStorage.getItem("token"), fishEntryId);
-                console.log("response: ", response);
+                // console.log("response: ", response);
 
                 if (response && response.status === 200) {
                     // Success notification

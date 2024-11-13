@@ -28,7 +28,7 @@ const UserBidHistory = () => {
             try {
                 const user = JSON.parse(sessionStorage.getItem("user"));
                 const response = await handleGetUnpaidBiddingHistoryByMemberIdApi(user.UserID);
-                console.log(response);
+                // console.log(response);
 
                 setUnpaidBiddingHistory(response.data.$values || []);
             } catch (error) {

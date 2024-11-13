@@ -16,7 +16,7 @@ const AuctionScreen = () => {
       try {
         const response = await handleGetPublicAuctionsApi();
         setPublicAuctions(response.data.$values);
-        console.log(response.data.$values);
+        // console.log(response.data.$values);
       } catch (error) {
         console.error("Error fetching auctions:", error);
       }

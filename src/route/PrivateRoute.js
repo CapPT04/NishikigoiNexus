@@ -66,9 +66,9 @@ const ManageFishEntry = React.lazy(() =>
 const FishEntryDetail = React.lazy(() =>
   import("../components/manage/fishEntryDetail/FishEntryDetail")
 );
-const MemberBidHistory = React.lazy(() =>
-  import("../components/member/memberHistory/MemberHistory")
-);
+// const MemberBidHistory = React.lazy(() =>
+//   import("../components/member/memberHistory/MemberHistory")
+// );
 const UserBidHistory = React.lazy(() =>
   import("../components/user/UserBidHistory")
 );
@@ -201,10 +201,10 @@ const PrivateRoutes = [
   },
 
   // Member routes
-  {
-    path: path.MEMBERBIDHISTORY,
-    element: <LoadLazy children={<MemberBidHistory />} />,
-  },
+  // {
+  //   path: path.MEMBERBIDHISTORY,
+  //   element: <LoadLazy children={<MemberBidHistory />} />,
+  // },
 
   // User routes
   {

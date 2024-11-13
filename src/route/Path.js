@@ -44,7 +44,7 @@ export const path = {
   AUCTIONMETHOD1: "/AuctionFishMethod1",
   AUCTIONMETHOD4: "/AuctionFishMethod4",
   //
-  MEMBERBIDHISTORY: "/MemberBidHistory",
+  // MEMBERBIDHISTORY: "/MemberBidHistory",
 
   // user
 

@@ -42,7 +42,7 @@ const FishAuctionMethod4 = () => {
   const [checkEnroll, setCheckEnroll] = useState(false);
   const [fishEntryDeposit, setFishEntryDeposit] = useState(0);
   const [fishEntry, setFishEntry] = useState({});
-  const [highestPrice, setHighestPrice] = useState(fishEntry.highestprice);
+  const [highestPrice, setHighestPrice] = useState();
   const [fishInfor, setFishInfor] = useState({});
   const [auction, setAuction] = useState({});
 
@@ -66,8 +66,8 @@ const FishAuctionMethod4 = () => {
 
 
   useEffect(() => {
-    console.log("auctionitem: ", auctionItem);
-    console.log("fishentryid: ", fishEntryId);
+    // console.log("auctionitem: ", auctionItem);
+    // console.log("fishentryid: ", fishEntryId);
     if (!auctionItem && !fishEntryId) {
       navigate("/auction");
     }
@@ -78,13 +78,16 @@ const FishAuctionMethod4 = () => {
       try {
         const idToUse = auctionItem?.fishEntryId || fishEntryId;
         if (!idToUse) {
-          console.log("No fishEntryId available");
+          // console.log("No fishEntryId available");
           return;
         }
 
         const response = await handleFishEntryById(idToUse);
         if (response && response.status === 200) {
           setFishEntry(response.data);
+          console.log(response.data);
+
+          setHighestPrice(response.data.highestPrice)
         } else if (response.status === 400) {
           console.log("Error when calling API GetFishEntryById");
         }
@@ -208,7 +211,7 @@ const FishAuctionMethod4 = () => {
         .stop()
         .then(() => console.log("Disconnected from SignalR Hub"));
     };
-  }, []);
+  }, [fishEntry, highestPrice]);
 
   useEffect(() => {
     const fetchWinnerData = async () => {
@@ -253,7 +256,7 @@ const FishAuctionMethod4 = () => {
           sessionStorage.getItem("token"),
           fishEntry.fishEntryId
         );
-        console.log(response);
+        // console.log(response);
 
         if (response && response.status === 200) {
           Swal.fire({
@@ -325,7 +328,7 @@ const FishAuctionMethod4 = () => {
           sessionStorage.getItem("token"),
           fishEntry.fishEntryId
         );
-        console.log(response);
+        // console.log(response);
 
         if (response && response.status === 200) {
           // Success notification

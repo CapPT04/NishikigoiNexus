@@ -77,9 +77,9 @@ const DashBoard = () => {
           sessionStorage.getItem("token"),
           fee
         );
-        console.log(sessionStorage.getItem("token"));
+        // console.log(sessionStorage.getItem("token"));
 
-        console.log(response);
+        // console.log(response);
 
         if (response && response.status === 200) {
           Swal.fire({
