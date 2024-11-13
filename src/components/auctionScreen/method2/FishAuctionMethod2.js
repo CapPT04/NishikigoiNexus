@@ -18,7 +18,7 @@ import {
   handleGetFishEntryDepositApi,
   handleFishEntryById,
   handleGetFishDetailById,
-  handleGetAuctionByIdApi
+  handleGetAuctionByIdApi,
 } from "../../../axios/UserService";
 import Swal from "sweetalert2";
 import * as signalR from "@microsoft/signalr";
@@ -31,8 +31,9 @@ const FishAuctionMethod2 = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [auctionItem, setAuctionItem] = useState(location.state?.auctionItem);
-  const [fishEntryId, setFishEntryId] = useState(location.state?.fishHomePage?.fishEntryId);
-
+  const [fishEntryId, setFishEntryId] = useState(
+    location.state?.fishHomePage?.fishEntryId
+  );
 
   const auctionId = location.state?.auctionId;
   const [historyOfSecretBid, setHistoryOfSecretBid] = useState([]);
@@ -52,7 +53,6 @@ const FishAuctionMethod2 = () => {
   const [fishInfor, setFishInfor] = useState({});
   const [auction, setAuction] = useState({});
 
-
   const formatMoney = (value) => {
     // Convert the value to a string and take only the integer part
     let integerPart = String(Math.floor(Number(value)));
@@ -63,7 +63,6 @@ const FishAuctionMethod2 = () => {
     // Return the formatted integer part
     return integerPart;
   };
-
 
   useEffect(() => {
     if (!auctionItem && !fishEntryId) {
@@ -82,7 +81,6 @@ const FishAuctionMethod2 = () => {
     };
     fetchGetAuction();
   }, [fishEntry, fishEntryId]);
-
 
   useEffect(() => {
     const GetFishEntryById = async () => {
@@ -109,7 +107,8 @@ const FishAuctionMethod2 = () => {
   useEffect(() => {
     const fetchGetFishInfor = async () => {
       try {
-        if (fishEntry && fishEntry.fishId) { // Kiểm tra điều kiện trước khi gọi API
+        if (fishEntry && fishEntry.fishId) {
+          // Kiểm tra điều kiện trước khi gọi API
           const response = await handleGetFishDetailById(fishEntry.fishId);
           setFishInfor(response.data);
         }
@@ -162,13 +161,13 @@ const FishAuctionMethod2 = () => {
     checkEnrollmentStatus();
   }, [fishEntry]);
 
-
-
-
   const handleEnrollBtn = async () => {
     // Show confirmation dialog with deposit amount
 
-    if (!sessionStorage.getItem("token") || jwtDecode(sessionStorage.getItem("token").Role != 1)) {
+    if (
+      !sessionStorage.getItem("token") ||
+      jwtDecode(sessionStorage.getItem("token")).Role != 1
+    ) {
       navigate("/login");
       return;
     }
@@ -253,14 +252,11 @@ const FishAuctionMethod2 = () => {
     }
   };
 
-
   useEffect(() => {
     const fetchImageFish = async () => {
       try {
         if (fishEntry && fishEntry.fishId) {
-          const response = await handleGetFishImgById(
-            fishEntry.fishId
-          );
+          const response = await handleGetFishImgById(fishEntry.fishId);
           setMainImage(response.data.$values[0]?.imagePath);
           setFishImage(response.data.$values);
         }
@@ -276,7 +272,6 @@ const FishAuctionMethod2 = () => {
       try {
         // console.log(auctionItem.fishEntryId);
         if (fishEntry && fishEntry.fishId) {
-
           const response = await handleGetHistoryOfSecretBidApi(
             fishEntry.fishEntryId
           );
@@ -401,7 +396,10 @@ const FishAuctionMethod2 = () => {
             const response = await handleGetWinnerApi(fishEntry.fishEntryId);
             if (response && response.status === 200) {
               setWinnerData(response.data);
-            } else if (response.status === 404 && response.data === "No winner") {
+            } else if (
+              response.status === 404 &&
+              response.data === "No winner"
+            ) {
               setWinnerData(null); // Set winnerData to null when there is no winner
             } else {
               console.log(response);
@@ -430,20 +428,16 @@ const FishAuctionMethod2 = () => {
         </div>
         <div className="fish-aucction-method3-content-row2">
           {auction.status === 2 && (
-            <span style={{ color: '#007bff' }}> {/* Màu xanh lam */}
+            <span style={{ color: "#007bff" }}>
+              {" "}
+              {/* Màu xanh lam */}
               Starting: {formatDate(auction.startDate)}
             </span>
           )}
           {auction.status === 3 && (
-            <span style={{ color: '#34a853' }}>
-              Bidding
-            </span>
+            <span style={{ color: "#34a853" }}>Bidding</span>
           )}
-          {auction.status === 4 && (
-            <span style={{ color: 'red' }}>
-              Ended
-            </span>
-          )}
+          {auction.status === 4 && <span style={{ color: "red" }}>Ended</span>}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
@@ -519,20 +513,20 @@ const FishAuctionMethod2 = () => {
 
             <div className="bidding-history-background">
               <div className="bidding-history-content">
-                {historyOfSecretBid.map((bid, index) => (
-                  bid.bidTime && ( // Remove the extra braces around this condition
-                    <div className="bidding-history-info" key={index}>
-                      <div className="bidding-time">
-                        {formatDate(bid.bidTime)} &nbsp;
+                {historyOfSecretBid.map(
+                  (bid, index) =>
+                    bid.bidTime && ( // Remove the extra braces around this condition
+                      <div className="bidding-history-info" key={index}>
+                        <div className="bidding-time">
+                          {formatDate(bid.bidTime)} &nbsp;
+                        </div>
+                        <div className="bidding-name-bidder">
+                          An anonymous person placed a bid
+                        </div>
                       </div>
-                      <div className="bidding-name-bidder">
-                        An anonymous person placed a bid
-                      </div>
-                    </div>
-                  )
-                ))}
+                    )
+                )}
               </div>
-
             </div>
 
             {(fishEntry.status === 3 || fishEntry.status === 2) && (
@@ -580,7 +574,7 @@ const FishAuctionMethod2 = () => {
                     <button
                       className="enroll-bid"
                       onClick={() => handleEnrollBtn()}
-                      style={{ background: '#4CAF50' }}
+                      style={{ background: "#4CAF50" }}
                     >
                       Enroll with {fishEntryDeposit} VND deposit
                     </button>

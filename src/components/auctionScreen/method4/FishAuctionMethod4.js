@@ -22,7 +22,7 @@ import {
   handlePlaceDutchAuctionBid,
   handleFishEntryById,
   handleGetFishDetailById,
-  handleGetAuctionByIdApi
+  handleGetAuctionByIdApi,
 } from "../../../axios/UserService";
 import Swal from "sweetalert2";
 import startPriceIcon from "../../../assets/images/mintmark.svg";
@@ -33,7 +33,9 @@ const FishAuctionMethod4 = () => {
 
   const location = useLocation();
   const [auctionItem, setAuctionItem] = useState(location.state?.auctionItem);
-  const [fishEntryId, setFishEntryId] = useState(location.state?.fishHomePage?.fishEntryId);
+  const [fishEntryId, setFishEntryId] = useState(
+    location.state?.fishHomePage?.fishEntryId
+  );
   const auctionId = location.state?.auctionId;
   const [currentPrice, setCurrentPrice] = useState("");
   const [amount, setAmount] = useState("");
@@ -46,8 +48,6 @@ const FishAuctionMethod4 = () => {
   const [highestPrice, setHighestPrice] = useState();
   const [fishInfor, setFishInfor] = useState({});
   const [auction, setAuction] = useState({});
-
-
 
   // format
   const formatMoney = (value) => {
@@ -64,7 +64,6 @@ const FishAuctionMethod4 = () => {
     const date = new Date(dateString);
     return date.toLocaleString();
   };
-
 
   useEffect(() => {
     // console.log("auctionitem: ", auctionItem);
@@ -88,7 +87,7 @@ const FishAuctionMethod4 = () => {
           setFishEntry(response.data);
           // console.log(response.data);
 
-          setHighestPrice(response.data.highestPrice)
+          setHighestPrice(response.data.highestPrice);
         } else if (response.status === 400) {
           console.log("Error when calling API GetFishEntryById");
         }
@@ -99,7 +98,6 @@ const FishAuctionMethod4 = () => {
 
     GetFishEntryById();
   }, [auctionItem, fishEntryId]);
-
 
   useEffect(() => {
     const fetchGetAuction = async () => {
@@ -174,9 +172,7 @@ const FishAuctionMethod4 = () => {
     const fetchImageFish = async () => {
       try {
         if (fishEntry && fishEntry.fishId) {
-          const response = await handleGetFishImgById(
-            fishEntry.fishId
-          );
+          const response = await handleGetFishImgById(fishEntry.fishId);
           setMainImage(response.data.$values[0]?.imagePath);
           setFishImage(response.data.$values);
         }
@@ -232,7 +228,10 @@ const FishAuctionMethod4 = () => {
             const response = await handleGetWinnerApi(fishEntry.fishEntryId);
             if (response && response.status === 200) {
               setWinnerData(response.data);
-            } else if (response.status === 404 && response.data === "No winner") {
+            } else if (
+              response.status === 404 &&
+              response.data === "No winner"
+            ) {
               setWinnerData(null); // Set winnerData to null when there is no winner
             } else {
               console.log(response);
@@ -314,7 +313,10 @@ const FishAuctionMethod4 = () => {
   };
 
   const handleEnrollBtn = async () => {
-    if (!sessionStorage.getItem("token") || jwtDecode(sessionStorage.getItem("token").Role != 1)) {
+    if (
+      !sessionStorage.getItem("token") ||
+      jwtDecode(sessionStorage.getItem("token")).Role != 1
+    ) {
       navigate("/login");
       return;
     }
@@ -400,7 +402,6 @@ const FishAuctionMethod4 = () => {
     }
   };
 
-
   return (
     <div>
       <div className="header">
@@ -413,20 +414,16 @@ const FishAuctionMethod4 = () => {
         </div>
         <div className="fish-aucction-method3-content-row2">
           {auction.status === 2 && (
-            <span style={{ color: '#007bff' }}> {/* Màu xanh lam */}
+            <span style={{ color: "#007bff" }}>
+              {" "}
+              {/* Màu xanh lam */}
               Starting: {formatDate(auction.startDate)}
             </span>
           )}
           {auction.status === 3 && (
-            <span style={{ color: '#34a853' }}>
-              Bidding
-            </span>
+            <span style={{ color: "#34a853" }}>Bidding</span>
           )}
-          {auction.status === 4 && (
-            <span style={{ color: 'red' }}>
-              Ended
-            </span>
-          )}
+          {auction.status === 4 && <span style={{ color: "red" }}>Ended</span>}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
@@ -543,15 +540,16 @@ const FishAuctionMethod4 = () => {
                     >
                       {fishEntry.status === 2
                         ? "The auction has not started."
-                        : `Place bid at ${formatMoney(highestPrice) ??
-                        formatMoney(fishEntry.maxPrice)
-                        } VND`}
+                        : `Place bid at ${
+                            formatMoney(highestPrice) ??
+                            formatMoney(fishEntry.maxPrice)
+                          } VND`}
                     </button>
                   ) : (
                     <button
                       className="enroll-bid"
                       onClick={() => handleEnrollBtn()}
-                      style={{ background: '#4CAF50' }}
+                      style={{ background: "#4CAF50" }}
                     >
                       Enroll with {formatMoney(fishEntryDeposit)} VND deposit
                     </button>

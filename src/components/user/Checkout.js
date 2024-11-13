@@ -107,7 +107,7 @@ const Checkout = () => {
         <div className="checkout-page">
             <div className="checkout-background">
                 <div className="checkout-content">
-                    <div className="winning-price">
+                    {/* <div className="winning-price">
                         <label htmlFor="winning-price-input" className="winning-price-label">Winning Price</label>
                         <div
                             className="winning-price-input"
@@ -122,15 +122,27 @@ const Checkout = () => {
                             id="deposit-price-input">
                             {formatMoney(depositPrice)}
                         </div>
-                    </div>
-                    <div className="payment-due">
-                        <label htmlFor="payment-due-input" className="payment-due-label">Payment Due</label>
+                    </div> */}
+                    {/* <div className="deposit-price">
+                        <label htmlFor="deposit-price-input" className="deposit-price-label">Deposit Price</label>
+                        <div
+                            className="deposit-price-input"
+                            id="deposit-price-input">
+                            {formatMoney(depositPrice)}
+                        </div>
+                    </div>  */}
+                    {/* <div className="payment-due">
                         <div className="payment-due-input">
                             {formatMoney(paymentDue)}
                         </div>
-
-
-
+                    </div> */}
+                    <div className="winning-notification">
+                        <h2>Congratulations!</h2>
+                        <p>You have won the auction!</p>
+                        <p className="payment-amount">
+                            The amount due for payment is: <strong>{formatMoney(paymentDue)}</strong>
+                        </p>
+                        <p>Please proceed with the payment to complete your purchase.</p>
                     </div>
                     <button className="checkout-btn" onClick={handleCheckout}
                         disabled={isCheckoutDisabled}
