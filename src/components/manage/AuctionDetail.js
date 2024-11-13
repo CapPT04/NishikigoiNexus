@@ -82,22 +82,39 @@ const AuctionDetail = () => {
     }
   }, [auctionId, fishEntryInAuction]);
   const handleEndBtn = async (fishEntry) => {
-    try {
-      const response = await handleEndFishAuctioningApi(
-        fishEntry.fishEntryId,
-        sessionStorage.getItem("token")
-      ); if (response && response.status === 200) {
-        showToast("success", "Auction updated successfully!");
-        //refresh
-        await fetchFishEntryInAuction();
-        await fetchFishEntryForAuction();
-      } else {
-        showToast("error", "Failed to update auction. Please try again.");
+    Swal.fire({
+      title: "End Auction",
+      text: "Are you sure you want to end this fish?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#28a745",
+      cancelButtonColor: "#dc3545",
+      confirmButtonText: "Yes, end it!",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await handleEndFishAuctioningApi(
+            fishEntry.fishEntryId,
+            sessionStorage.getItem("token")
+          );
+          if (response && response.status === 200) {
+            showToast("success", "Auction updated successfully!");
+            //refresh
+            await fetchFishEntryInAuction();
+            await fetchFishEntryForAuction();
+          } else {
+            showToast("error", "Failed to update auction. Please try again.");
+          }
+        } catch (error) {
+          console.error("Error updating auction:", error);
+          showToast(
+            "error",
+            "An error occurred while updating. Please try again."
+          );
+        }
       }
-    } catch (error) {
-      console.error("Error updating auction:", error);
-      showToast("error", "An error occurred while updating. Please try again.");
-    }
+    });
   };
   const handleUpdateBtn = async (fishEntry) => {
     try {
@@ -261,7 +278,8 @@ const AuctionDetail = () => {
                   Public Auction
                 </button>
               )}
-            </div><div className="auction-detail-content-row2">Auction Detail</div>
+            </div>
+            <div className="auction-detail-content-row2">Auction Detail</div>
 
             <div className="auction-detail-content-row4">
               <label htmlFor="start-date-input" className="start-date-label">
@@ -333,7 +351,8 @@ const AuctionDetail = () => {
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>Fish Entry</th><th>Start Time</th>
+                    <th>Fish Entry</th>
+                    <th>Start Time</th>
                     <th>Finish Time</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -399,7 +418,8 @@ const AuctionDetail = () => {
                         <td>
                           <i
                             className="fa-solid fa-trash delete-icon"
-                            onClick={() => handleDeleteFishEntryInAuction(fishEntry)
+                            onClick={() =>
+                              handleDeleteFishEntryInAuction(fishEntry)
                             }
                           ></i>
                         </td>
