@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./AuctionDetail.scss";
 import VerticallyNavbar from "../common/Navbar/VerticallyNavbar";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import {
   handleAddFishEntryForAuctionApi,
   handleDeleteFishEntryInAuctionApi,
@@ -16,55 +16,70 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import Navbar from "../common/Navbar/Navbar";
-
+import { Navigate } from "react-router";
 const AuctionDetail = () => {
-  const location = useLocation();
-  const auctionId = useState(location.state.auctionId);
-  const [auction, setAuction] = useState({});
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const auctionId = location.state?.auctionId;
+  const [auction, setAuction] = useState({});
   const [fishEntryInAuction, setFishEntryInAuction] = useState([]);
-  const [startTime, setStartTime] = useState("");
-  const [finishTime, setFinishTime] = useState("");
-  // console.log(startTime);
-  // console.log(finishTime);
   const [fishEntryForAuction, setFishEntryForAuction] = useState([]);
   const [showFishEntryTable, setShowFishEntryTable] = useState(false);
-  const [auctionStatus, setAuctionStatus] = useState(auction.status);
-  console.log(auction);
+  const [startTime, setStartTime] = useState("");
+  const [finishTime, setFinishTime] = useState("");
 
-
-  useEffect(() => {
-    const fetchGetAuction = async () => {
-      try {
-        const response = await handleGetAuctionByIdApi(
-          parseInt(auctionId)
-        );
-        console.log(response);
-
-        setAuction(response.data)
-      } catch (error) {
-        console.error("Error fetching auctions:", error);
-      }
-    };
-    fetchGetAuction();
-  }, []);
-
+  const showToast = (type, message) => {
+    toast[type](message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  };
 
   useEffect(() => {
-    const fetchAuctions = async () => {
-      try {
-        // console.log("Location Object:", location);
-        // console.log("Auction Data:", auction);
-        const response = await handleGetFishEntryInAuction(
-          parseInt(auction.auctionId, 10)
-        );
-        setFishEntryInAuction(response.data.$values || []);
-      } catch (error) {
-        console.error("Error fetching auctions:", error);
+    if (!auctionId) {
+      navigate("/");
+    } else {
+      fetchAuctionDetails();
+      fetchFishEntryInAuction();
+      fetchFishEntryForAuction();
+    }
+  }, [auctionId]);
+
+  const fetchFishEntryForAuction = async () => {
+    try {
+      const response = await handleGetFishEntryForAuctionApi();
+      if (response && (response.status === 404 || response.status === 200)) {
+        setFishEntryForAuction(response.data.$values || []);
       }
-    };
-    fetchAuctions();
-  }, [location, auction, auction.status]);
+    } catch (error) {
+      console.error("Error fetching auction details:", error);
+    }
+  };
+
+  const fetchAuctionDetails = async () => {
+    try {
+      const response = await handleGetAuctionByIdApi(parseInt(auctionId, 10));
+      if (response && response.status === 200) {
+        setAuction(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching auction details:", error);
+    }
+  };
+
+  const fetchFishEntryInAuction = async () => {
+    try {
+      const response = await handleGetFishEntryInAuction(parseInt(auctionId, 10));
+      setFishEntryInAuction(response.data.$values || []);
+    } catch (error) {
+      console.error("Error fetching fish entries in auction:", error);
+    }
+  };
 
   const handleUpdateBtn = async (fishEntry) => {
     try {
@@ -75,44 +90,17 @@ const AuctionDetail = () => {
         updatedStartTime,
         updatedFinishTime
       );
-      // console.log(response);
 
       if (response && response.status === 200) {
-        toast.success("Auction updated successfully!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        showToast("success", "Auction updated successfully!");
       } else {
-        toast.error("Failed to update auction. Please try again.", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        showToast("error", "Failed to update auction. Please try again.");
       }
     } catch (error) {
       console.error("Error updating auction:", error);
-      toast.error("An error occurred while updating. Please try again.", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      showToast("error", "An error occurred while updating. Please try again.");
     }
   };
-  // fetchAuctions();
-  // }, [location, auction]);
 
   const handleDeleteFishEntryInAuction = async (fishEntry) => {
     Swal.fire({
@@ -128,110 +116,60 @@ const AuctionDetail = () => {
       if (result.isConfirmed) {
         try {
           const response = await handleDeleteFishEntryInAuctionApi(
-            auction.auctionId,
+            auctionId,
             fishEntry.fishEntryId
           );
-
           if (response && response.status === 200) {
-            const updatedAuctionEntriesResponse =
-              await handleGetFishEntryInAuction(parseInt(auction.auctionId, 10));
-            setFishEntryInAuction(
-              updatedAuctionEntriesResponse.data.$values || []
-            );
-            const availableFishEntriesResponse =
-              await handleGetFishEntryForAuctionApi();
-            setFishEntryForAuction(
-              availableFishEntriesResponse.data.$values || []
-            );
             Swal.fire("Deleted!", "The fish entry has been deleted.", "success");
+            // Refresh both tables after deletion
+            fetchFishEntryInAuction();
+            fetchFishEntryForAuction()
           } else {
-            Swal.fire("Deleted!", "Failed to delete.", "error");
+            Swal.fire("Failed!", "Could not delete the fish entry.", "error");
           }
         } catch (error) {
-          Swal.fire(
-            "Error!",
-            "There was an issue deleting the fish entry. Please try again.",
-            "error"
-          );
+          Swal.fire("Error!", "An error occurred. Please try again.", "error");
         }
-      } else {
-        Swal.fire("Cancelled", "Your fish entry is safe :)", "info");
       }
     });
   };
 
-  const handleAddFishBtn = async () => {
+  const handleAddFishEntryBtn = async () => {
     try {
-      const response = await handleGetFishEntryForAuctionApi();
-      // console.log(response);
-      setFishEntryForAuction(response.data.$values);
       setShowFishEntryTable(true);
+      fetchFishEntryForAuction();
     } catch (error) {
-      throw error;
+      console.error("Error fetching fish entries:", error);
     }
   };
+
+
+
   const handleAddFishEntryToAuction = async (fishEntry) => {
     try {
       const response = await handleAddFishEntryForAuctionApi(
         fishEntry.fishEntryId,
-        auction.auctionId,
+        auctionId,
         sessionStorage.getItem("token")
       );
-      // console.log(response);
-
       if (response && response.status === 200) {
-        // Fetch updated fish entries in auction after successful addition
-        const updatedAuctionEntriesResponse = await handleGetFishEntryInAuction(
-          parseInt(auction.auctionId, 10)
-        );
-        setFishEntryInAuction(updatedAuctionEntriesResponse.data.$values || []); // Update state for auction entries
-
-        // Fetch available fish entries for auction
-        const availableFishEntriesResponse =
-          await handleGetFishEntryForAuctionApi();
-        setFishEntryForAuction(availableFishEntriesResponse.data.$values || []); // Update state for available fish entries
-
-        toast.success("Fish entry added to auction successfully!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        showToast("success", "Fish entry added to auction successfully!");
+        await fetchFishEntryInAuction(); // Refresh fish entry in auction
+        await fetchFishEntryForAuction(); // Refresh fish entries for auction
       } else {
-        toast.error("Failed to add fish entry. Please try again.", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        showToast("error", "Failed to add fish entry. Please try again.");
       }
     } catch (error) {
       console.error("Error adding fish entry:", error);
-      toast.error(
-        "An error occurred while adding the fish entry. Please try again.",
-        {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        }
-      );
+      showToast("error", "An error occurred. Please try again.");
     }
   };
+
 
   const handlePublicAuctionBtn = async () => {
     Swal.fire({
       title: "Publish Auction",
-      text: "Are you sure you want to publish this auction? This action cannot be undone.",
+      text: "Are you sure you want to publish this auction?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#28a745",
@@ -241,31 +179,19 @@ const AuctionDetail = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await handlePublicAuctionApi(auction.auctionId);
-          // console.log(auction.auctionId);
-          // Cập nhật trạng thái phiên đấu giá nếu phản hồi thành công
+          const response = await handlePublicAuctionApi(auctionId);
           if (response && response.status === 200) {
-            // Giả định rằng phản hồi sẽ có trạng thái mới, nếu không thì bạn có thể cần gọi lại API để lấy thông tin mới
-            setAuction((prev) => ({ ...prev, status: 2 })); // Thay thế `2` bằng trạng thái mới nếu cần
+            setAuction((prev) => ({ ...prev, status: 2 }));
+            Swal.fire("Published!", "The auction has been published.", "success");
           }
-          Swal.fire(
-            "Published!",
-            "The auction has been published successfully.",
-            "success"
-          );
         } catch (error) {
           console.error("Error publishing auction:", error);
-          Swal.fire(
-            "Error!",
-            "There was an issue publishing the auction. Please try again.",
-            "error"
-          );
+          Swal.fire("Error!", "Could not publish auction. Please try again.", "error");
         }
-      } else {
-        Swal.fire("Cancelled", "Your auction is safe :)", "info");
       }
     });
   };
+
 
   return (
     <div className="auction-detail-container">
@@ -330,7 +256,7 @@ const AuctionDetail = () => {
               <div className="add-fish">
                 <i
                   className="fa-solid fa-plus"
-                  onClick={() => handleAddFishBtn()}
+                  onClick={() => handleAddFishEntryBtn()}
                 ></i>
               </div>
             </div>

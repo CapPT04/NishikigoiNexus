@@ -13,7 +13,6 @@ import { Navigate } from "react-router";
 const AuctionScreenDetail = () => {
   const navigate = useNavigate();
   const auction = useLocation().state;
-
   const [auctionDetails, setAuctionDetails] = useState([]);
   const formatDate = (dateString) => {
     const date = new Date(dateString);

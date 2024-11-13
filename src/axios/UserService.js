@@ -168,7 +168,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {

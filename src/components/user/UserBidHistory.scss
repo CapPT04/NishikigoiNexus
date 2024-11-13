@@ -158,6 +158,12 @@ body {
                         color: black;
                     }
                 }
+
+                tr:nth-child(odd) {
+                    td {
+                        color: black;
+                    }
+                }
             }
         }
 
