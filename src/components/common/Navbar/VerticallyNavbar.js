@@ -21,18 +21,23 @@ const VerticallyNavbar = () => {
   return (
     <div className="navigation-bar-vertically">
       {user && user.Role === "4" ? (
-        <a
-          className="dashboard-vertically"
-          onClick={() => handleSelect("/Manager/DashBoard")}
-        >
-          DashBoard
-        </a>
+        <>
+          <a
+            className="dashboard-vertically"
+            onClick={() => handleSelect("/Manager/DashBoard")}
+          >
+            DashBoard
+          </a>
+          <a
+            className="dashboard-vertically"
+            onClick={() => handleSelect("/Manager/ManageStaff")}
+          >
+            Staff
+          </a>
+        </>
       ) : null}
 
-      <a
-        className="member"
-        onClick={() => handleSelect("/Manager/Manage")}
-      >
+      <a className="member" onClick={() => handleSelect("/Manager/Manage")}>
         Member
       </a>
       <a
@@ -53,10 +58,7 @@ const VerticallyNavbar = () => {
       >
         Auction
       </a>
-      <a
-        className="koi"
-        onClick={() => handleSelect("/Manager/ManageKoi")}
-      >
+      <a className="koi" onClick={() => handleSelect("/Manager/ManageKoi")}>
         KOI
       </a>
       <a

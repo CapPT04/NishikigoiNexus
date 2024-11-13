@@ -51,7 +51,7 @@ const CreateStaff = () => {
           progress: undefined,
         });
         setTimeout(() => {
-          navigate("/Manager/Manage");
+          navigate("/Manager/ManageStaff");
         }, 2500);
       } else {
         // console.log(res.data.message);
@@ -78,7 +78,7 @@ const CreateStaff = () => {
     }
   };
   const cancelCreate = () => {
-    navigate("/Manager/Manage");
+    navigate("/Manager/ManageStaff");
   };
   return (
     <div className="create-breeder-page">

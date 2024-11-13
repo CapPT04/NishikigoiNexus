@@ -78,6 +78,9 @@ const DashBoard = React.lazy(() =>
 const CreateStaff = React.lazy(() =>
   import("../components/manage/createStaff/CreateStaff")
 );
+const ManageStaff = React.lazy(() =>
+  import("../components/manage/manageStaff/ManageStaff")
+);
 
 //user
 const User = React.lazy(() => import("../route/UserRoute"));
@@ -185,6 +188,10 @@ const PrivateRoutes = [
       {
         path: path.CREATESTAFF,
         element: <LoadLazy children={<CreateStaff />} />,
+      },
+      {
+        path: path.MANAGESTAFF,
+        element: <LoadLazy children={<ManageStaff />} />,
       },
     ],
   },
