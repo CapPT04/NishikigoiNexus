@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./FishAuctionMethod3.scss";
+import logo from "../../../assets/images/logo_png.png"; // Adjust based on your file structure
+import instagramIcon from "../../../assets/images/Instagram.svg";
+import facebookIcon from "../../../assets/images/Social Icons (1).svg";
+import googleIcon from "../../../assets/images/Vector.svg";
 import Navbar from "../../common/Navbar/Navbar";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
@@ -12,6 +16,7 @@ import {
   handleCheckEnrollApi,
   handleEnrollApi,
   handleGetFishEntryDepositApi,
+  handleGetAuctionByIdApi,
 } from "../../../axios/UserService";
 import * as signalR from "@microsoft/signalr";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
@@ -22,6 +27,12 @@ const FishAuctionMethod3 = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const location = useLocation();
+
+  const entryId =
+    location.state?.auctionItem?.fishEntryId ||
+    location.state?.fishHomePage?.fishEntryId;
+
+  const [auctionStatus, setAuctionStatus] = useState("");
   const [fishEntry, setFishEntry] = useState("");
   const [fishInfo, setFishInfo] = useState("");
   const [fishImgs, setFishImgs] = useState([]);
@@ -31,15 +42,102 @@ const FishAuctionMethod3 = () => {
   const [increment, setIncrement] = useState(1);
   const [bids, setBids] = useState([]);
   const [highestPrice, setHighestPrice] = useState(null);
-  const entryId = location.state.auctionItem.fishEntryId || 0;
   const [winnerData, setWinnerData] = useState("");
   const [checkEnroll, setCheckEnroll] = useState(false);
   const [fishEntryDeposit, setFishEntryDeposit] = useState(0);
-  const auctionItem = useLocation().state.auctionItem;
+
+  //format to display
+  const formatMoney = (value) => {
+    // Convert the value to a string and take only the integer part
+    let integerPart = String(Math.floor(Number(value)));
+    // Remove non-digit characters from the integer part
+    integerPart = integerPart.replace(/\D/g, "");
+    // Format the integer part with commas as thousand separators
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Return the formatted integer part
+    return integerPart;
+  };
+
+  const getInfoReady = async () => {
+    // console.log("entryId: ", entryId);
+    if (entryId) {
+      const res = await handleFishEntryById(entryId);
+      setFishEntry(res.data);
+      // console.log(res.data);
+      setStepPrice(res.data.increment);
+      setCurrentPrice(res.data.minPrice);
+      const resFish = await handleGetFishDetailById(res.data.fishId);
+      setFishInfo(resFish.data);
+      const resImgs = await handleGetFishImgById(resFish.data.fishId);
+      setFishImgs(resImgs.data.$values);
+      setMainImage(resImgs.data.$values[0]?.imagePath || "");
+      const resAuction = await handleGetAuctionByIdApi(res.data.auctionId);
+      setAuctionStatus(resAuction.data.status);
+
+      const his = await handleBidHistory(entryId);
+      console.log(his.data.$values);
+      // Spread to flatten the array
+      // setBids((preBid) => [...preBid, his.data.$values]);
+      setBids(his.data.$values);
+      // setCurrentPrice(his.data.$values.slice(-1)[0]?.currentPrice);
+
+      //get deposit
+      try {
+        const response = await handleGetFishEntryDepositApi(
+          res.data.fishEntryId
+        );
+        if (response && response.status === 200) {
+          setFishEntryDeposit(response.data);
+        } else if (response.status === 400) {
+          console.log("err:", response.data);
+          setFishEntryDeposit(0);
+        }
+      } catch (error) {
+        console.error("Error checking gt fish entry deposite status:", error);
+      }
+
+      //check enroll status
+      try {
+        const response = await handleCheckEnrollApi(
+          sessionStorage.getItem("token"),
+          res.data.fishEntryId
+        );
+        if (response && response.status === 200) {
+          setCheckEnroll(true);
+        } else if (response.status === 400) {
+          setCheckEnroll(false);
+        }
+      } catch (error) {
+        console.error("Error checking enrollment status:", error);
+        setCheckEnroll(false);
+      }
+    } else {
+      navigate("/AuctionDetails");
+      return;
+    }
+  };
+  // const getFishEntryDeposit = async () => {
+  //   try {
+  //     const response = await handleGetFishEntryDepositApi(
+  //       fishEntry.fishEntryId
+  //     );
+  //     if (response && response.status === 200) {
+  //       setFishEntryDeposit(response.data);
+  //     } else if (response.status === 400) {
+  //       console.log("err:", response.data);
+  //       setFishEntryDeposit(0);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error checking gt fish entry deposite status:", error);
+  //   }
+  // };
+
+  useEffect(() => {
+    getInfoReady();
+  }, []);
 
   const handleEnrollBtn = async () => {
     // Show confirmation dialog with deposit amount
-
     const result = await Swal.fire({
       title: "Confirm Enrollment",
       text: `To enroll in this auction, a deposit of ${fishEntryDeposit} VND is required. Do you wish to proceed?`,
@@ -48,7 +146,6 @@ const FishAuctionMethod3 = () => {
       confirmButtonText: "Yes, proceed",
       cancelButtonText: "No, cancel",
     });
-
     if (result.isConfirmed) {
       try {
         Swal.fire({
@@ -58,13 +155,11 @@ const FishAuctionMethod3 = () => {
             Swal.showLoading();
           },
         });
-
         const response = await handleEnrollApi(
           sessionStorage.getItem("token"),
-          auctionItem.fishEntryId
+          fishEntry.fishEntryId
         );
         console.log(response);
-
         if (response && response.status === 200) {
           // Success notification
           Swal.fire({
@@ -100,7 +195,6 @@ const FishAuctionMethod3 = () => {
         }
       } catch (error) {
         console.log(error);
-
         Swal.fire({
           icon: "error",
           title: "Enrollment Failed",
@@ -116,90 +210,28 @@ const FishAuctionMethod3 = () => {
     }
   };
 
-  useEffect(() => {
-    const fishEntryDeposit = async () => {
-      try {
-        const response = await handleGetFishEntryDepositApi(
-          auctionItem.fishEntryId
-        );
-        if (response && response.status === 200) {
-          setFishEntryDeposit(response.data);
-        } else if (response.status === 400) {
-          setFishEntryDeposit(0);
-        }
-      } catch (error) {
-        console.error("Error checking gt fish entry deposite status:", error);
-      }
-    };
-    fishEntryDeposit();
-  }, [auctionItem.fishEntryId]);
-  useEffect(() => {
-    const checkEnrollmentStatus = async () => {
-      try {
-        const response = await handleCheckEnrollApi(
-          sessionStorage.getItem("token"),
-          auctionItem.fishEntryId
-        );
-        console.log(response);
-        console.log(sessionStorage.getItem("token"));
-        console.log(response.status);
-        if (response && response.status === 200) {
-          setCheckEnroll(true);
-        } else if (response.status === 400) {
-          setCheckEnroll(false);
-        }
-      } catch (error) {
-        console.error("Error checking enrollment status:", error);
-        setCheckEnroll(false);
-      }
-    };
-    checkEnrollmentStatus();
-  }, [auctionItem.fishEntryId]);
-
-  //format to display
-  const formatMoney = (value) => {
-    // Convert the value to a string and take only the integer part
-    let integerPart = String(Math.floor(Number(value)));
-    // Remove non-digit characters from the integer part
-    integerPart = integerPart.replace(/\D/g, "");
-    // Format the integer part with commas as thousand separators
-    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    // Return the formatted integer part
-    return integerPart;
-  };
-  const getFishEntry = async () => {
-    if (entryId) {
-      const res = await handleFishEntryById(entryId);
-      setFishEntry(res.data);
-      setStepPrice(res.data.increment);
-      setCurrentPrice(res.data.minPrice);
-      const resFish = await handleGetFishDetailById(res.data.fishId);
-      setFishInfo(resFish.data);
-      const resImgs = await handleGetFishImgById(resFish.data.fishId);
-      setFishImgs(resImgs.data.$values);
-      setMainImage(resImgs.data.$values[0]?.imagePath || "");
-
-      const his = await handleBidHistory(entryId);
-      console.log(his.data.$values);
-      // Spread to flatten the array
-      // setBids((preBid) => [...preBid, his.data.$values]);
-      setBids(his.data.$values);
-      // setCurrentPrice(his.data.$values.slice(-1)[0]?.currentPrice);
-    } else {
-      navigate("/AuctionDetails");
-    }
-  };
-  const handleIncrement = () => {
-    setIncrement((prevIncrement) => Math.min(prevIncrement + 1, 5)); // Limit to max of 5
-  };
-
-  const handleDecrement = () => {
-    setIncrement((prevIncrement) => Math.max(prevIncrement - 1, 1)); // Limit to min of 1
-  };
-
-  useEffect(() => {
-    getFishEntry();
-  }, []);
+  // useEffect(() => {
+  //   const checkEnrollmentStatus = async () => {
+  //     try {
+  //       const response = await handleCheckEnrollApi(
+  //         sessionStorage.getItem("token"),
+  //         fishEntry.fishEntryId
+  //       );
+  //       console.log(response);
+  //       console.log(sessionStorage.getItem("token"));
+  //       console.log(response.status);
+  //       if (response && response.status === 200) {
+  //         setCheckEnroll(true);
+  //       } else if (response.status === 400) {
+  //         setCheckEnroll(false);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error checking enrollment status:", error);
+  //       setCheckEnroll(false);
+  //     }
+  //   };
+  //   checkEnrollmentStatus();
+  // }, []);
 
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
@@ -236,6 +268,14 @@ const FishAuctionMethod3 = () => {
     };
   }, [bids, currentPrice]);
 
+  const handleIncrement = () => {
+    setIncrement((prevIncrement) => Math.min(prevIncrement + 1, 5)); // Limit to max of 5
+  };
+
+  const handleDecrement = () => {
+    setIncrement((prevIncrement) => Math.max(prevIncrement - 1, 1)); // Limit to min of 1
+  };
+
   const totalBidPrice = stepPrice * increment;
   const newPrice = currentPrice + totalBidPrice;
   const bidding = async () => {
@@ -257,7 +297,39 @@ const FishAuctionMethod3 = () => {
         progress: undefined,
       });
     }
-    // getFishEntry();
+  };
+  const buyItNow = async () => {
+    if (sessionStorage.getItem("token") === null) {
+      console.log(sessionStorage.getItem("token"));
+      navigate("/login");
+      return;
+    }
+    const result = await Swal.fire({
+      title: "Confirm Buy-It-Now",
+      text: `To buy-it-now this fish, you need to paid ${formatMoney(
+        fishEntry.maxPrice
+      )} VND. Do you wish to proceed?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, proceed",
+      cancelButtonText: "No, cancel",
+    });
+    if (result.isConfirmed) {
+      const token = sessionStorage.getItem("token");
+      console.log(fishEntry.maxPrice);
+      const res = await handlePublicBidding(token, entryId, fishEntry.maxPrice);
+      if (res.status === 400) {
+        toast.error(res.data, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    }
   };
   useEffect(() => {
     const fetchWinnerData = async () => {
@@ -281,9 +353,7 @@ const FishAuctionMethod3 = () => {
 
     fetchWinnerData();
   }, [fishEntry.status, fishEntry.fishEntryId]);
-  useEffect(() => {
-    console.log("fishentry:", fishEntry);
-  });
+
   return (
     <div className="auction-screen-container">
       <div className="header">
@@ -291,11 +361,13 @@ const FishAuctionMethod3 = () => {
       </div>
       <div className="fish-aucction-method3-content">
         <ToastContainer />
-        <div className="fish-aucction-method3-content-row1">Auction#13</div>
+        <div className="fish-aucction-method3-content-row1">
+          Auction#{fishEntry.auctionId}
+        </div>
         <div className="fish-aucction-method3-content-row2">
-          {fishEntry.status === 3
-            ? `Ending in: ${new Date(fishEntry.endDate).toLocaleString()}`
-            : fishEntry.status === 2
+          {auctionStatus === 3
+            ? "Bidding"
+            : auctionStatus === 2
             ? "Waiting"
             : "Ended"}
         </div>
@@ -325,7 +397,7 @@ const FishAuctionMethod3 = () => {
               </div>
               <div className="fish-info-row2">
                 <div className="fish-info-ending">
-                  Ending in:{" "}
+                  Ends at:{" "}
                   {fishEntry.endDate
                     ? new Date(fishEntry.endDate).toLocaleString()
                     : ""}
@@ -391,47 +463,67 @@ const FishAuctionMethod3 = () => {
               </div>
             </div>
             {(fishEntry.status === 3 || fishEntry.status === 2) && (
-              <div class="place-bid">
-                <div class="place-bid-content">
-                  <div class="place-bid-content-row1">
-                    <div class="current-price-icon">
-                      <i class="fa-solid fa-file-invoice-dollar"></i>
+              <div className="place-bid">
+                <div className="place-bid-content">
+                  <div className="place-bid-content-row1">
+                    <div className="current-price-icon">
+                      <i className="fa-solid fa-file-invoice-dollar"></i>
                     </div>
-                    <div class="current-price-text">Current price</div>
-                    <div class="current-price">
+                    <div className="current-price-text">Current price</div>
+                    <div className="current-price">
                       {formatMoney(currentPrice)} VND
                     </div>
                   </div>
+                  <div className="place-bid-content-row3">
+                    <div className="current-price-icon">
+                      <i className="fa-solid fa-file-invoice-dollar"></i>
+                    </div>
+                    <div className="current-price-text">Buy-It-Now price</div>
+                    <div className="current-price">
+                      {formatMoney(fishEntry.maxPrice)} VND
+                    </div>
+                  </div>
                   <hr />
-                  <div class="place-bid-content-row2">
-                    <div class="increment">
-                      <div class="increment-text">Increment</div>
-                      <div class="increment-number">
+                  <div className="place-bid-content-row2">
+                    <div className="increment">
+                      <div className="increment-text">Increment</div>
+                      <div className="increment-number">
                         {formatMoney(stepPrice)} VND
                       </div>
                     </div>
-                    <div class="multiple">x</div>
-                    <div class="cen-div">
-                      <div class="substract" onClick={handleDecrement}>
+                    <div className="multiple">x</div>
+                    <div className="cen-div">
+                      <div className="substract" onClick={handleDecrement}>
                         -
                       </div>
-                      <div class="increment-bid-number">{increment}</div>
-                      <div class="add" onClick={handleIncrement}>
+                      <div className="increment-bid-number">{increment}</div>
+                      <div className="add" onClick={handleIncrement}>
                         +
                       </div>
                     </div>
-                    <div class="equal">=</div>
-                    <div class="total-bid-price">
+                    <div className="equal">=</div>
+                    <div className="total-bid-price">
                       {formatMoney(totalBidPrice)} VND
                     </div>
                   </div>
 
                   {checkEnroll ? (
-                    <button class="place-bid-btn" onClick={bidding}>
-                      {fishEntry.status === 2
-                        ? "The auction has not started."
-                        : `Place bid at ${formatMoney(newPrice)} VND`}
-                    </button>
+                    <>
+                      <button className="place-bid-btn" onClick={bidding}>
+                        {fishEntry.status === 2
+                          ? "The auction has not started."
+                          : `Place bid at ${formatMoney(newPrice)} VND`}
+                      </button>
+                      <button
+                        className="buy-now-btn"
+                        onClick={buyItNow}
+                        style={{
+                          display: fishEntry.status !== 3 ? "none" : "",
+                        }}
+                      >
+                        Buy-It-Now with {formatMoney(fishEntry.maxPrice)} VND
+                      </button>
+                    </>
                   ) : (
                     <button
                       className="enroll-bid"
@@ -473,22 +565,18 @@ const FishAuctionMethod3 = () => {
       </div>
       <footer className="footer">
         <div className="logo-footer">
-          <img
-            className="logo-img-footer"
-            src="../../../assets/images/logo_png.png"
-            alt=""
-          />
+          <img className="logo-img-footer" src={logo} alt="" />
           <div className="name-project-footer">Nishikigoi Nexus</div>
         </div>
         <div className="social-contact">
           <div className="instagram">
-            <img src="../assets/images/Instagram.svg" alt="" />
+            <img src={instagramIcon} alt="" />
           </div>
           <div className="facebook">
-            <img src="../assets/images/Social Icons (1).svg" alt="" />
+            <img src={facebookIcon} alt="" />
           </div>
           <div className="google">
-            <img src="../assets/images/Vector.svg" alt="" />
+            <img src={googleIcon} alt="" />
           </div>
         </div>
         <div className="nav-bar-footer">

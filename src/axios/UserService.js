@@ -466,7 +466,7 @@ export const handleSignUpApi = (user) => {
 
 export const handleFeeApi = async () => {
   try {
-    const res = await axiosClient.get(END_POINT.FEE);
+    const res = await axiosClient.get(END_POINT.GETFEE);
     return res;
   } catch (error) {
     throw error;
