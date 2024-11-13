@@ -35,7 +35,7 @@ const ManageAuction = () => {
         <VerticallyNavbar />
         <div className="body-content-right">
           <div className="search-and-create">
-            <div className="search">
+            {/* <div className="search">
               <div className="search-text">Search: </div>
               <div className="search-value">
                 <input className="search-input" placeholder="Search by Email and Phone number" type="text" />
@@ -43,7 +43,7 @@ const ManageAuction = () => {
                   <img src={searchIcon} alt="search-icon" />
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="create-btn" onClick={() => navigate("/Manager/CreateAuction")}>
               New Auction
               <i className="fa-solid fa-plus"></i>

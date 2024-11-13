@@ -8,6 +8,7 @@ import body1 from "../../../assets/images/body1.png";
 import { useLocation, useNavigate } from "react-router";
 import Navbar from "../../common/Navbar/Navbar";
 import { Navigate } from "react-router";
+import { jwtDecode } from "jwt-decode";
 
 import {
   handleGetFishImgById,
@@ -21,6 +22,7 @@ import {
   handlePlaceDutchAuctionBid,
   handleFishEntryById,
   handleGetFishDetailById,
+  handleGetAuctionByIdApi
 } from "../../../axios/UserService";
 import Swal from "sweetalert2";
 import startPriceIcon from "../../../assets/images/mintmark.svg";
@@ -31,8 +33,7 @@ const FishAuctionMethod4 = () => {
 
   const location = useLocation();
   const [auctionItem, setAuctionItem] = useState(location.state?.auctionItem);
-  const [fishEntryId, setFishEntryId] = useState(location.state?.fishHomePage?.fishEntryId)
-
+  const [fishEntryId, setFishEntryId] = useState(location.state?.fishHomePage?.fishEntryId);
   const auctionId = location.state?.auctionId;
   const [currentPrice, setCurrentPrice] = useState("");
   const [amount, setAmount] = useState("");
@@ -42,8 +43,11 @@ const FishAuctionMethod4 = () => {
   const [checkEnroll, setCheckEnroll] = useState(false);
   const [fishEntryDeposit, setFishEntryDeposit] = useState(0);
   const [fishEntry, setFishEntry] = useState({});
-  const [highestPrice, setHighestPrice] = useState(fishEntry.highestprice);
+  const [highestPrice, setHighestPrice] = useState();
   const [fishInfor, setFishInfor] = useState({});
+  const [auction, setAuction] = useState({});
+
+
 
   // format
   const formatMoney = (value) => {
@@ -63,70 +67,100 @@ const FishAuctionMethod4 = () => {
 
 
   useEffect(() => {
-    console.log("auctionitem: ", auctionItem);
-    console.log("fishentryid: ", fishEntryId);
+    // console.log("auctionitem: ", auctionItem);
+    // console.log("fishentryid: ", fishEntryId);
     if (!auctionItem && !fishEntryId) {
-      // navigate("/auction");
+      navigate("/auction");
     }
   }, [auctionItem, fishEntryId]);
+
   useEffect(() => {
     const GetFishEntryById = async () => {
       try {
-        const response = await handleFishEntryById(auctionItem.fishEntryId);
+        const idToUse = auctionItem?.fishEntryId || fishEntryId;
+        if (!idToUse) {
+          // console.log("No fishEntryId available");
+          return;
+        }
+
+        const response = await handleFishEntryById(idToUse);
         if (response && response.status === 200) {
           setFishEntry(response.data);
+          // console.log(response.data);
+
+          setHighestPrice(response.data.highestPrice)
         } else if (response.status === 400) {
-          console.log("error when call api GetFishEntryById");
+          console.log("Error when calling API GetFishEntryById");
+        }
+      } catch (error) {
+        console.error("Error checking fish entry deposit status:", error);
+      }
+    };
+
+    GetFishEntryById();
+  }, [auctionItem, fishEntryId]);
+
+
+  useEffect(() => {
+    const fetchGetAuction = async () => {
+      try {
+        if (fishEntry) {
+          const response = await handleGetAuctionByIdApi(auctionId);
+          setAuction(response.data);
         }
       } catch (error) {
         console.error("Error checking gt fish entry deposite status:", error);
       }
     };
-    GetFishEntryById();
-  }, [auctionItem]);
+    fetchGetAuction();
+  }, [fishEntry, fishEntryId]);
 
   useEffect(() => {
     const fetchGetFishInfor = async () => {
       try {
-        const response = await handleGetFishDetailById(fishEntry.fishId);
-        setFishInfor(response.data);
+        if (fishEntry && fishEntry.fishId) {
+          const response = await handleGetFishDetailById(fishEntry.fishId);
+          setFishInfor(response.data);
+        }
       } catch (error) {
         console.error("Error checking gt fish entry deposite status:", error);
       }
     };
     fetchGetFishInfor();
-  }, [fishEntry]);
+  }, [fishEntry, fishEntryId]);
   useEffect(() => {
     const fishEntryDeposit = async () => {
       try {
-        const response = await handleGetFishEntryDepositApi(
-          fishEntry.fishEntryId
-        );
-        if (response && response.status === 200) {
-          setFishEntryDeposit(response.data);
-        } else if (response.status === 400) {
-          setFishEntryDeposit(0);
+        if (fishEntry && fishEntry.fishId) {
+          const response = await handleGetFishEntryDepositApi(
+            fishEntry.fishEntryId
+          );
+          if (response && response.status === 200) {
+            setFishEntryDeposit(response.data);
+          } else if (response.status === 400) {
+            setFishEntryDeposit(0);
+          }
         }
       } catch (error) {
         console.error("Error checking get fish entry deposite status:", error);
       }
     };
     fishEntryDeposit();
-  }, [fishEntry]);
+  }, [fishEntry, fishEntryId]);
   useEffect(() => {
     const checkEnrollmentStatus = async () => {
       try {
-        const response = await handleCheckEnrollApi(
-          sessionStorage.getItem("token"),
-          fishEntry.fishEntryId
-        );
-        console.log(response);
-        console.log(sessionStorage.getItem("token"));
-        console.log(response.status);
-        if (response && response.status === 200) {
-          setCheckEnroll(true);
-        } else if (response.status === 400) {
-          setCheckEnroll(false);
+        if (fishEntry) {
+          const response = await handleCheckEnrollApi(
+            sessionStorage.getItem("token"),
+            fishEntry.fishEntryId
+          );
+
+          if (response && response.status === 200) {
+            setCheckEnroll(true);
+          } else if (response.status === 400) {
+            setCheckEnroll(false);
+          }
         }
       } catch (error) {
         console.error("Error checking enrollment status:", error);
@@ -134,22 +168,24 @@ const FishAuctionMethod4 = () => {
       }
     };
     checkEnrollmentStatus();
-  }, [fishEntry]);
+  }, [fishEntry, fishEntryId]);
 
   useEffect(() => {
     const fetchImageFish = async () => {
       try {
-        const response = await handleGetFishImgById(
-          fishEntry.fishId
-        );
-        setMainImage(response.data.$values[0]?.imagePath);
-        setFishImage(response.data.$values);
+        if (fishEntry && fishEntry.fishId) {
+          const response = await handleGetFishImgById(
+            fishEntry.fishId
+          );
+          setMainImage(response.data.$values[0]?.imagePath);
+          setFishImage(response.data.$values);
+        }
       } catch (error) {
         console.error("Error fetching:", error);
       }
     };
     fetchImageFish();
-  }, [fishEntry, fishInfor]);
+  }, [fishEntry, fishInfor, fishEntryId]);
 
   useEffect(() => {
     // Tạo kết nối đến SignalR Hub
@@ -186,19 +222,21 @@ const FishAuctionMethod4 = () => {
         .stop()
         .then(() => console.log("Disconnected from SignalR Hub"));
     };
-  }, []);
+  }, [fishEntry, highestPrice]);
 
   useEffect(() => {
     const fetchWinnerData = async () => {
       if (fishEntry.status === 4) {
         try {
-          const response = await handleGetWinnerApi(fishEntry.fishEntryId);
-          if (response && response.status === 200) {
-            setWinnerData(response.data);
-          } else if (response.status === 404 && response.data === "No winner") {
-            setWinnerData(null); // Set winnerData to null when there is no winner
-          } else {
-            console.log(response);
+          if (fishEntry && fishEntry.fishId) {
+            const response = await handleGetWinnerApi(fishEntry.fishEntryId);
+            if (response && response.status === 200) {
+              setWinnerData(response.data);
+            } else if (response.status === 404 && response.data === "No winner") {
+              setWinnerData(null); // Set winnerData to null when there is no winner
+            } else {
+              console.log(response);
+            }
           }
         } catch (error) {
           console.error("Error fetching winner data:", error);
@@ -209,7 +247,7 @@ const FishAuctionMethod4 = () => {
     };
 
     fetchWinnerData();
-  }, [fishEntry.status, fishEntry.fishEntryId]);
+  }, [fishEntry.status, fishEntry.fishEntryId, fishEntryId]);
 
   const handlePlaceBidBtn = async () => {
     // Show confirmation dialog
@@ -231,7 +269,7 @@ const FishAuctionMethod4 = () => {
           sessionStorage.getItem("token"),
           fishEntry.fishEntryId
         );
-        console.log(response);
+        // console.log(response);
 
         if (response && response.status === 200) {
           Swal.fire({
@@ -276,8 +314,13 @@ const FishAuctionMethod4 = () => {
   };
 
   const handleEnrollBtn = async () => {
-    // Show confirmation dialog with deposit amount
+    const user = jwtDecode(sessionStorage.getItem("token"));
+    if (!sessionStorage.getItem("token") || user.Role != 1) {
+      navigate("/login");
+      return;
+    }
 
+    // Show confirmation dialog with deposit amount
     const result = await Swal.fire({
       title: "Confirm Enrollment",
       text: `To enroll in this auction, a deposit of ${formatMoney(
@@ -303,7 +346,7 @@ const FishAuctionMethod4 = () => {
           sessionStorage.getItem("token"),
           fishEntry.fishEntryId
         );
-        console.log(response);
+        // console.log(response);
 
         if (response && response.status === 200) {
           // Success notification
@@ -368,6 +411,23 @@ const FishAuctionMethod4 = () => {
       <div className="fish-aucction-method3-content">
         <div className="fish-aucction-method3-content-row1">
           Auction#{auctionId}
+        </div>
+        <div className="fish-aucction-method3-content-row2">
+          {auction.status === 2 && (
+            <span style={{ color: '#007bff' }}> {/* Màu xanh lam */}
+              Starting: {formatDate(auction.startDate)}
+            </span>
+          )}
+          {auction.status === 3 && (
+            <span style={{ color: '#34a853' }}>
+              Bidding
+            </span>
+          )}
+          {auction.status === 4 && (
+            <span style={{ color: 'red' }}>
+              Ended
+            </span>
+          )}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
@@ -445,17 +505,18 @@ const FishAuctionMethod4 = () => {
                 <div className="place-bid-content">
                   <div className="place-bid-content-row1">
                     <div className="start-price-icon">
-                      <i class="fa-solid fa-maximize"></i>
+                      <i className="fa-solid fa-maximize"></i>
                     </div>
                     <div className="start-price-text">Start price</div>
                     <div className="start-price">
                       {formatMoney(fishEntry.maxPrice)} VND
                     </div>
                   </div>
+
                   <hr />
                   <div className="place-bid-content-row1">
                     <div className="start-price-icon">
-                      <i class="fa-solid fa-minimize"></i>
+                      <i className="fa-solid fa-minimize"></i>
                     </div>
                     <div className="start-price-text">Min price</div>
                     <div className="start-price">

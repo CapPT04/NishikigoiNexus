@@ -8,7 +8,8 @@ import {
   handleGetFishEntryForAuctionApi,
   handleGetFishEntryInAuction,
   handlePublicAuctionApi,
-  handleGetAuctionByIdApi
+  handleGetAuctionByIdApi,
+  handleEndFishAuctioningApi,
 } from "../../axios/UserService";
 import logo from "../../assets/images/logo_png.png";
 import { handleUpdateAuctionDetailApi } from "../../axios/UserService";
@@ -18,7 +19,6 @@ import Swal from "sweetalert2";
 import Navbar from "../common/Navbar/Navbar";
 import { Navigate } from "react-router";
 const AuctionDetail = () => {
-
   const navigate = useNavigate();
   const location = useLocation();
   const auctionId = location.state?.auctionId;
@@ -39,16 +39,6 @@ const AuctionDetail = () => {
       draggable: true,
     });
   };
-
-  useEffect(() => {
-    if (!auctionId) {
-      navigate("/");
-    } else {
-      fetchAuctionDetails();
-      fetchFishEntryInAuction();
-      fetchFishEntryForAuction();
-    }
-  }, [auctionId]);
 
   const fetchFishEntryForAuction = async () => {
     try {
@@ -74,13 +64,41 @@ const AuctionDetail = () => {
 
   const fetchFishEntryInAuction = async () => {
     try {
-      const response = await handleGetFishEntryInAuction(parseInt(auctionId, 10));
+      const response = await handleGetFishEntryInAuction(
+        parseInt(auctionId, 10)
+      );
       setFishEntryInAuction(response.data.$values || []);
     } catch (error) {
       console.error("Error fetching fish entries in auction:", error);
     }
   };
-
+  useEffect(() => {
+    if (!auctionId) {
+      navigate("/");
+    } else {
+      fetchAuctionDetails();
+      fetchFishEntryInAuction();
+      fetchFishEntryForAuction();
+    }
+  }, [auctionId, fishEntryInAuction]);
+  const handleEndBtn = async (fishEntry) => {
+    try {
+      const response = await handleEndFishAuctioningApi(
+        fishEntry.fishEntryId,
+        sessionStorage.getItem("token")
+      ); if (response && response.status === 200) {
+        showToast("success", "Auction updated successfully!");
+        //refresh
+        await fetchFishEntryInAuction();
+        await fetchFishEntryForAuction();
+      } else {
+        showToast("error", "Failed to update auction. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating auction:", error);
+      showToast("error", "An error occurred while updating. Please try again.");
+    }
+  };
   const handleUpdateBtn = async (fishEntry) => {
     try {
       const updatedStartTime = startTime || fishEntry.startDate;
@@ -120,10 +138,14 @@ const AuctionDetail = () => {
             fishEntry.fishEntryId
           );
           if (response && response.status === 200) {
-            Swal.fire("Deleted!", "The fish entry has been deleted.", "success");
+            Swal.fire(
+              "Deleted!",
+              "The fish entry has been deleted.",
+              "success"
+            );
             // Refresh both tables after deletion
             fetchFishEntryInAuction();
-            fetchFishEntryForAuction()
+            fetchFishEntryForAuction();
           } else {
             Swal.fire("Failed!", "Could not delete the fish entry.", "error");
           }
@@ -143,8 +165,6 @@ const AuctionDetail = () => {
     }
   };
 
-
-
   const handleAddFishEntryToAuction = async (fishEntry) => {
     try {
       const response = await handleAddFishEntryForAuctionApi(
@@ -154,8 +174,7 @@ const AuctionDetail = () => {
       );
       if (response && response.status === 200) {
         showToast("success", "Fish entry added to auction successfully!");
-        await fetchFishEntryInAuction(); // Refresh fish entry in auction
-        await fetchFishEntryForAuction(); // Refresh fish entries for auction
+        await fetchFishEntryInAuction(); // Refresh fish entry in auctionawait fetchFishEntryForAuction(); // Refresh fish entries for auction
       } else {
         showToast("error", "Failed to add fish entry. Please try again.");
       }
@@ -164,7 +183,6 @@ const AuctionDetail = () => {
       showToast("error", "An error occurred. Please try again.");
     }
   };
-
 
   const handlePublicAuctionBtn = async () => {
     Swal.fire({
@@ -182,16 +200,23 @@ const AuctionDetail = () => {
           const response = await handlePublicAuctionApi(auctionId);
           if (response && response.status === 200) {
             setAuction((prev) => ({ ...prev, status: 2 }));
-            Swal.fire("Published!", "The auction has been published.", "success");
+            Swal.fire(
+              "Published!",
+              "The auction has been published.",
+              "success"
+            );
           }
         } catch (error) {
           console.error("Error publishing auction:", error);
-          Swal.fire("Error!", "Could not publish auction. Please try again.", "error");
+          Swal.fire(
+            "Error!",
+            "Could not publish auction. Please try again.",
+            "error"
+          );
         }
       }
     });
   };
-
 
   return (
     <div className="auction-detail-container">
@@ -236,9 +261,7 @@ const AuctionDetail = () => {
                   Public Auction
                 </button>
               )}
-            </div>
-
-            <div className="auction-detail-content-row2">Auction Detail</div>
+            </div><div className="auction-detail-content-row2">Auction Detail</div>
 
             <div className="auction-detail-content-row4">
               <label htmlFor="start-date-input" className="start-date-label">
@@ -310,11 +333,10 @@ const AuctionDetail = () => {
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>Fish Entry</th>
-                    <th>Start Time</th>
+                    <th>Fish Entry</th><th>Start Time</th>
                     <th>Finish Time</th>
                     <th>Status</th>
-                    <th>Update</th>
+                    <th>Action</th>
                     <th>Delete</th>
                   </tr>
                 </thead>
@@ -349,18 +371,35 @@ const AuctionDetail = () => {
                           {fishEntry.status === 4 && "Ended"}
                         </td>
                         <td>
-                          <button
-                            className="update-btn"
-                            onClick={() => handleUpdateBtn(fishEntry)}
-                          >
-                            Update
-                          </button>
+                          {fishEntry.status === 3 ? (
+                            <button
+                              className="update-btn"
+                              onClick={() => handleEndBtn(fishEntry)}
+                            >
+                              End Bidding
+                            </button>
+                          ) : fishEntry.status === 2 ? (
+                            <button
+                              className="update-btn"
+                              onClick={() => handleUpdateBtn(fishEntry)}
+                            >
+                              Update
+                            </button>
+                          ) : fishEntry.status === 4 ? (
+                            <button
+                              className="update-btn"
+                              onClick={() => handleUpdateBtn(fishEntry)}
+                              disabled
+                              style={{ background: "#000" }}
+                            >
+                              Unavailable
+                            </button>
+                          ) : null}
                         </td>
                         <td>
                           <i
                             className="fa-solid fa-trash delete-icon"
-                            onClick={() =>
-                              handleDeleteFishEntryInAuction(fishEntry)
+                            onClick={() => handleDeleteFishEntryInAuction(fishEntry)
                             }
                           ></i>
                         </td>
