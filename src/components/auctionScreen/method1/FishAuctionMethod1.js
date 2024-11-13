@@ -50,7 +50,7 @@ const FishAuctionMethod1 = () => {
   };
   const handleEnrollBtn = async () => {
     const user = jwtDecode(sessionStorage.getItem("token"));
-    if (!sessionStorage.getItem("token") || user.Role != 1) {
+    if (!sessionStorage.getItem("token") || user.Role != 1 || sessionStorage.getItem("token") === null) {
       navigate("/login");
       return;
     }
