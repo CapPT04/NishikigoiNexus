@@ -29,8 +29,8 @@ const FishAuctionMethod3 = () => {
   const location = useLocation();
 
   const entryId =
-    location.state.auctionItem?.fishEntryId ||
-    location.state.fishHomePage?.fishEntryId;
+    location.state?.auctionItem?.fishEntryId ||
+    location.state?.fishHomePage?.fishEntryId;
 
   const [auctionStatus, setAuctionStatus] = useState("");
   const [fishEntry, setFishEntry] = useState("");
@@ -113,6 +113,7 @@ const FishAuctionMethod3 = () => {
       }
     } else {
       navigate("/AuctionDetails");
+      return;
     }
   };
   // const getFishEntryDeposit = async () => {
