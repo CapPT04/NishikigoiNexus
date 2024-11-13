@@ -403,7 +403,7 @@ const FishAuctionMethod1 = () => {
                           {new Date(bid.bidTime).toLocaleString()} &nbsp;{" "}
                         </div>
                         <div className="bidding-name-bidder">
-                          {bid.name} placed a bid &nbsp;
+                          A member placed a bid &nbsp;
                         </div>
                       </div>
                     );

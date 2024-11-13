@@ -587,7 +587,7 @@ const FishAuctionMethod2 = () => {
               <div className="place-bid-status4">
                 <div className="place-bid-content-status4">
                   <div className="place-bid-content-row1-status4">
-                    {winnerData.name}
+                    Anonymous Member
                   </div>
                   <hr />
                   <div className="place-bid-content-row2-status4">
