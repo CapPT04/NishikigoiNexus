@@ -303,7 +303,7 @@ const FishAuctionMethod2 = () => {
         // Lắng nghe sự kiện ReceiveHistoryOfBids
         connection.on("ReceiveBidPlacement", (newBid) => {
           // Cập nhật lịch sử đấu giá với bid mới nhận được
-          console.log("Received new bid: ", newBid);
+          // console.log("Received new bid: ", newBid);
           setHistoryOfSecretBid((prevHistory) => [...prevHistory, newBid]);
           // Cập nhật số lượng người tham gia
           setNumberOfBidders((prevCount) => newBid.numberOfBidders);
@@ -464,7 +464,7 @@ const FishAuctionMethod2 = () => {
           <div className="fish-aucction-method3-content-row3-col2">
             <div className="fish-info">
               <div className="fish-info-row1">
-                <div className="fish-info-name">{fishEntry?.fishName}</div>
+                <div className="fish-info-name">{fishInfor?.fishName}</div>
                 <div className="fish-info-notion">
                   <i className="fa-solid fa-circle-exclamation"></i>
                 </div>
@@ -483,11 +483,11 @@ const FishAuctionMethod2 = () => {
               <div className="fish-info-row3">
                 <div className="fish-info-weight">
                   <i className="fa-solid fa-weight-hanging"></i>
-                  <div className="weight-number">{fishInfor.weight}</div>
+                  <div className="weight-number">{fishInfor.weight} gram</div>
                 </div>
                 <div className="fish-info-length">
                   <i className="fa-solid fa-ruler"></i>
-                  <div className="length-number">{fishInfor.size}</div>
+                  <div className="length-number">{fishInfor.size} mm</div>
                 </div>
               </div>
               <div className="fish-info-row4">
@@ -500,7 +500,7 @@ const FishAuctionMethod2 = () => {
                 </div>
                 <div className="fish-info-age">
                   <i className="fa-solid fa-calendar"></i>
-                  <div className="age-text">{fishInfor.age}</div>
+                  <div className="age-text">{fishInfor.age} months</div>
                 </div>
               </div>
               <div className="fish-info-row5">
@@ -587,7 +587,7 @@ const FishAuctionMethod2 = () => {
               <div className="place-bid-status4">
                 <div className="place-bid-content-status4">
                   <div className="place-bid-content-row1-status4">
-                    {winnerData.name}
+                    Anonymous Member
                   </div>
                   <hr />
                   <div className="place-bid-content-row2-status4">

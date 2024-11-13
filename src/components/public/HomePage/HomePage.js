@@ -18,7 +18,7 @@ const HomePage = () => {
   const startFish = async () => {
     const resFish = await handleFishForHomePage();
     setFishHomePage(resFish.data);
-    console.log(resFish.data);
+    // console.log(resFish.data);
   };
   const formatMoney = (value) => {
     // Convert the value to a string and take only the integer part
@@ -68,7 +68,6 @@ const HomePage = () => {
                 </div>
                 <div className="representative-sample-fish-start-price">
                   Start price: {formatMoney(fishHomePage.startPrice)} VND
-
                 </div>
                 <div
                   className="representative-sample-fish-fish-status"
