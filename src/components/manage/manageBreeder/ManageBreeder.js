@@ -30,7 +30,7 @@ const ManageBreeder = () => {
       <div className="body-content">
         <VerticallyNavbar />
         <div className="body-content-right">
-          <div className="search-and-create">
+          {/* <div className="search-and-create">
             <div className="search">
               <div className="search-text">Search: </div>
               <div className="search-value">
@@ -51,7 +51,7 @@ const ManageBreeder = () => {
               New Breeder
               <i className="fa-solid fa-plus"></i>
             </div>
-          </div>
+          </div> */}
           <table className="table-manage-breeder">
             <thead>
               <tr>

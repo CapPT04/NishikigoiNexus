@@ -79,7 +79,7 @@ const END_POINT = {
   ENROLL: "Enrollment/Enroll",
   GETFISHENTRYDEPOSIT: "FishEntry/GetFishEntryDeposit",
   GETAUCTIONBYID: "Auction/GetAuctionById",
-
+  ENDAUCTIONFISH: "FishEntry/EndFishEntry",
   //user
   GETBALANCEBYUSERID: "User/GetBalanceByUserId",
   RECHARGEPAYMENT: "Payment/RechargePayment",
@@ -434,6 +434,17 @@ export const handleGetFishEntryDepositApi = (fishEntryID) => {
 export const handleGetFeeApi = async () => {
   try {
     return await axiosClient.get(`${END_POINT.GETFEE}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleEndFishAuctioningApi = (fishEntryId, token) => {
+  try {
+    return axiosClient.put(`${END_POINT.ENDAUCTIONFISH}`, {
+      fishEntryId: fishEntryId,
+      token: token,
+    });
   } catch (error) {
     throw error;
   }
