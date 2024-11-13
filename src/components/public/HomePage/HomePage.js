@@ -13,13 +13,12 @@ import { handleFishForHomePage } from "../../../axios/UserService";
 import { useNavigate } from "react-router";
 
 const HomePage = () => {
-
   const [fishHomePage, setFishHomePage] = useState("");
   const navigate = useNavigate();
   const startFish = async () => {
     const resFish = await handleFishForHomePage();
     setFishHomePage(resFish.data);
-    // console.log(resFish);
+    console.log(resFish.data);
   };
   const formatMoney = (value) => {
     // Convert the value to a string and take only the integer part
@@ -34,9 +33,7 @@ const HomePage = () => {
   useEffect(() => {
     startFish();
   }, []);
-  useEffect(() => {
-    startFish();
-  }, []);
+
   return (
     <div className="home-page">
       <div className="header">
@@ -48,12 +45,19 @@ const HomePage = () => {
           <div className="slogan-under">BEAUTY</div>
         </div>
         <div className="content-extra-parent">
-          <div className="content-extra" onClick={() => navigate("/auction")}>
+          <div
+            className="content-extra"
+            onClick={() =>
+              navigate(`/AuctionFishMethod${fishHomePage.auctionMethod}`, {
+                state: { fishHomePage, auctionId: fishHomePage.auctionId },
+              })
+            }
+          >
             <div className="representative-sample-fish">
               <img
                 className="representative-sample-fish-img"
-                src={sample_fish}
-                alt=""
+                src={fishHomePage.fishImage}
+                alt="Fish Random"
               />
               <div className="representative-sample-fish-details">
                 <div className="representative-sample-fish-name">
@@ -63,9 +67,20 @@ const HomePage = () => {
                   Auction #{fishHomePage.auctionId}
                 </div>
                 <div className="representative-sample-fish-start-price">
-
                   Start price: {formatMoney(fishHomePage.startPrice)} VND
-
+                </div>
+                <div
+                  className="representative-sample-fish-fish-status"
+                  style={{
+                    color:
+                      fishHomePage.fishEntryStatus === "Bidding"
+                        ? "#34a853"
+                        : fishHomePage.fishEntryStatus === "Waiting"
+                        ? "yellow"
+                        : "red",
+                  }}
+                >
+                  Status: {fishHomePage.fishEntryStatus}
                 </div>
               </div>
             </div>
