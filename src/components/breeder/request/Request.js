@@ -680,11 +680,11 @@ const Request = () => {
       );
     } else {
       if (
-        startPrice > 0 &&
-        (auctionMethod === "1" ||
-          auctionMethod === "2" ||
-          (auctionMethod === "3" && maxPrice > 0 && stepPrice > 0) ||
-          (auctionMethod === "4" && maxPrice > 0))
+        Number(startPrice) > 0 &&
+        (auctionMethod === 1 ||
+          auctionMethod === 2 ||
+          (auctionMethod === 3 && maxPrice > 0 && stepPrice > 0) ||
+          (auctionMethod === 4 && maxPrice > 0))
       ) {
         try {
           const response = await handleSubmitRequest(fishAuction);
@@ -714,6 +714,10 @@ const Request = () => {
           }
         } catch (error) {}
       } else {
+        console.log(auctionMethod);
+        console.log(startPrice);
+        // console.log(maxPrice);
+        // console.log(stepPrice);
         toast.error("Field about money is wrong", {
           position: "top-right",
           autoClose: 5000,

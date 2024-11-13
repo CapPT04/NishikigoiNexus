@@ -200,7 +200,7 @@ const FishAuctionMethod4 = () => {
 
     // Nhận sự kiện từ server
     connection.on("UpdateNewCostForDutchAuction", (newPrice) => {
-      console.log("Received new price: ", newPrice);
+      // console.log("Received new price: ", newPrice);
       setHighestPrice(newPrice); // Cập nhật giá mới vào state
     });
     connection.on("AuctionEnded", (data) => {

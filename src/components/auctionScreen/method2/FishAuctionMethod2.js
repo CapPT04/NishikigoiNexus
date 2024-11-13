@@ -303,7 +303,7 @@ const FishAuctionMethod2 = () => {
         // Lắng nghe sự kiện ReceiveHistoryOfBids
         connection.on("ReceiveBidPlacement", (newBid) => {
           // Cập nhật lịch sử đấu giá với bid mới nhận được
-          console.log("Received new bid: ", newBid);
+          // console.log("Received new bid: ", newBid);
           setHistoryOfSecretBid((prevHistory) => [...prevHistory, newBid]);
           // Cập nhật số lượng người tham gia
           setNumberOfBidders((prevCount) => newBid.numberOfBidders);
