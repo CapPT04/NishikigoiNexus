@@ -468,7 +468,7 @@ const FishAuctionMethod3 = () => {
                           {/* Assuming you have a time property in bided */}
                         </div>
                         <div className="bidding-name-bidder">
-                          {bided.name} bidded &nbsp;{" "}
+                          A member bidded &nbsp;{" "}
                           {/* Assuming you have a bidderName property */}
                         </div>
                         <div className="bidding-price">
