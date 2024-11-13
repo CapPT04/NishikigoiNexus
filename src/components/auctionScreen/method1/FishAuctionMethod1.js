@@ -26,7 +26,7 @@ const FishAuctionMethod1 = () => {
   const auctionItem =
     location.state?.auctionItem || location.state?.fishHomePage;
 
-  const [auctionStatus, setAuctionStatus] = useState("");
+  const [auction, setAuction] = useState("");
   const [fishEntry, setFishEntry] = useState("");
   const [fishInfo, setFishInfo] = useState("");
   const [fishImgs, setFishImgs] = useState([]);
@@ -149,7 +149,7 @@ const FishAuctionMethod1 = () => {
       const resAuction = await handleGetAuctionByIdApi(
         resFishEntry.data.auctionId
       );
-      setAuctionStatus(resAuction.data.status);
+      setAuction(resAuction.data);
 
       //deposit
       try {
@@ -289,6 +289,11 @@ const FishAuctionMethod1 = () => {
     fetchWinnerData();
   }, [fishEntry.status, fishEntry.fishEntryId]);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString();
+  };
+
   return (
     <div className="auction-screen-container">
       <div className="header">
@@ -300,11 +305,21 @@ const FishAuctionMethod1 = () => {
           Auction#{fishEntry.auctionId}
         </div>
         <div className="fish-aucction-method3-content-row2">
-          {auctionStatus === 3
-            ? "Bidding"
-            : auctionStatus === 2
-            ? "Waiting"
-            : "Ended"}
+          {auction.status === 2 && (
+            <span style={{ color: '#007bff' }}> {/* Màu xanh lam */}
+              Starting: {formatDate(auction.startDate)}
+            </span>
+          )}
+          {auction.status === 3 && (
+            <span style={{ color: '#34a853' }}>
+              Bidding
+            </span>
+          )}
+          {auction.status === 4 && (
+            <span style={{ color: 'red' }}>
+              Ended
+            </span>
+          )}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">

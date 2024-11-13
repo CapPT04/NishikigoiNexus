@@ -32,7 +32,7 @@ const FishAuctionMethod3 = () => {
     location.state?.auctionItem?.fishEntryId ||
     location.state?.fishHomePage?.fishEntryId;
 
-  const [auctionStatus, setAuctionStatus] = useState("");
+  const [auction, setAuction] = useState("");
   const [fishEntry, setFishEntry] = useState("");
   const [fishInfo, setFishInfo] = useState("");
   const [fishImgs, setFishImgs] = useState([]);
@@ -72,7 +72,7 @@ const FishAuctionMethod3 = () => {
       setFishImgs(resImgs.data.$values);
       setMainImage(resImgs.data.$values[0]?.imagePath || "");
       const resAuction = await handleGetAuctionByIdApi(res.data.auctionId);
-      setAuctionStatus(resAuction.data.status);
+      setAuction(resAuction.data);
 
       const his = await handleBidHistory(entryId);
       console.log(his.data.$values);
@@ -135,7 +135,10 @@ const FishAuctionMethod3 = () => {
   useEffect(() => {
     getInfoReady();
   }, []);
-
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString();
+  };
   const handleEnrollBtn = async () => {
     // Show confirmation dialog with deposit amount
     const result = await Swal.fire({
@@ -365,11 +368,21 @@ const FishAuctionMethod3 = () => {
           Auction#{fishEntry.auctionId}
         </div>
         <div className="fish-aucction-method3-content-row2">
-          {auctionStatus === 3
-            ? "Bidding"
-            : auctionStatus === 2
-            ? "Waiting"
-            : "Ended"}
+          {auction.status === 2 && (
+            <span style={{ color: '#007bff' }}> {/* Màu xanh lam */}
+              Starting: {formatDate(auction.startDate)}
+            </span>
+          )}
+          {auction.status === 3 && (
+            <span style={{ color: '#34a853' }}>
+              Bidding
+            </span>
+          )}
+          {auction.status === 4 && (
+            <span style={{ color: 'red' }}>
+              Ended
+            </span>
+          )}
         </div>
         <div className="fish-aucction-method3-content-row3">
           <div className="fish-aucction-method3-content-row3-col1">
