@@ -483,11 +483,11 @@ const FishAuctionMethod2 = () => {
               <div className="fish-info-row3">
                 <div className="fish-info-weight">
                   <i className="fa-solid fa-weight-hanging"></i>
-                  <div className="weight-number">{fishInfor.weight}</div>
+                  <div className="weight-number">{fishInfor.weight} gram</div>
                 </div>
                 <div className="fish-info-length">
                   <i className="fa-solid fa-ruler"></i>
-                  <div className="length-number">{fishInfor.size}</div>
+                  <div className="length-number">{fishInfor.size} mm</div>
                 </div>
               </div>
               <div className="fish-info-row4">
@@ -500,7 +500,7 @@ const FishAuctionMethod2 = () => {
                 </div>
                 <div className="fish-info-age">
                   <i className="fa-solid fa-calendar"></i>
-                  <div className="age-text">{fishInfor.age}</div>
+                  <div className="age-text">{fishInfor.age} months</div>
                 </div>
               </div>
               <div className="fish-info-row5">
