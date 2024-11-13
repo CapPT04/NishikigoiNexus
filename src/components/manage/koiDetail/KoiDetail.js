@@ -3,20 +3,37 @@ import "./KoiDetail.scss";
 import { useLocation, useNavigate } from "react-router";
 import Navbar from "../../common/Navbar/Navbar";
 import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
-import { handleUserById } from "../../../axios/UserService";
+import {
+  handleFishByFishEntryId,
+  handleGetFishDetailById,
+  handleGetFishImgById,
+  handleUserById,
+} from "../../../axios/UserService";
 
 const KoiDetail = () => {
-  const koi = useLocation().state;
+  const koiid = useLocation().state;
+  const [koi, setKoi] = useState("");
   const [breeder, setBreeder] = useState("");
   const [staff, setStaff] = useState("");
+  const [images, setImages] = useState([]);
+
   const getInfo = async () => {
-    const res = await handleUserById(koi.createBy);
+    const id = koiid?.fishId || koiid?.koi?.fishId;
+    const reskoi = await handleGetFishDetailById(id);
+    setKoi(reskoi.data);
+    const res = await handleUserById(reskoi.data.createBy);
     setBreeder(res.data);
-    const resStaff = await handleUserById(koi.updateBy);
-    setStaff(resStaff.data);
+    const resIMG = await handleGetFishImgById(id);
+    for (let i = 0; i < resIMG.data.$values.length; i++) {
+      setImages((prev) => [...prev, resIMG.data.$values[i].imagePath]);
+    }
+    if (reskoi.data.updateBy) {
+      const resStaff = await handleUserById(reskoi.data.updateBy);
+      setStaff(resStaff.data);
+    }
   };
   useEffect(() => {
-    console.log(koi);
+    // console.log(koiid);
     getInfo();
   }, []);
   return (
@@ -59,7 +76,7 @@ const KoiDetail = () => {
                 <input
                   type="text"
                   className="update-by-input"
-                  value={staff.firstName + " " + staff.lastName}
+                  value={staff ? staff.firstName + " " + staff.lastName : ""}
                   disabled={true}
                 />
               </div>
@@ -187,10 +204,33 @@ const KoiDetail = () => {
                 disabled={true}
               />
             </div>
-
-            <div className="fish-detail-content-row10">
-              {/* <button className="update-btn">Update</button>
-              <button className="cancel-btn">Cancel</button> */}
+            {/* chen anh o day */}
+            <div className="fish-detail-content-row11">
+              <label htmlFor="note-input" className="note-label">
+                Fish Images
+              </label>
+              <div className="fish-images">
+                <img
+                  src={images[0] ? images[0] : ""}
+                  alt=""
+                  style={{ display: images[0] ? "" : "none" }}
+                />
+                <img
+                  src={images[1] ? images[1] : ""}
+                  alt=""
+                  style={{ display: images[1] ? "" : "none" }}
+                />
+                <img
+                  src={images[2] ? images[2] : ""}
+                  alt=""
+                  style={{ display: images[2] ? "" : "none" }}
+                />
+                <img
+                  src={images[3] ? images[3] : ""}
+                  alt=""
+                  style={{ display: images[3] ? "" : "none" }}
+                />
+              </div>
             </div>
           </div>
         </div>

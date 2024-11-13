@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./RequestDetail.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   handleFishByFishEntryId,
   handleFishEntryByRequestId,
@@ -17,6 +17,7 @@ import Swal from "sweetalert2";
 
 const RequestDetail = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const requestId = searchParams.get("RequestId");
   const [requestDetail, setRequestDetail] = useState("");
   const [fishEntry, setFishEntry] = useState("");
@@ -277,7 +278,14 @@ const RequestDetail = () => {
             </div>
 
             <div className="request-detail-staff-content-row10">
-              <div className="fish-id">
+              <div
+                className="fish-id"
+                onClick={() =>
+                  navigate("/Manager/KoiDetail", {
+                    state: { koi: fishEntry },
+                  })
+                }
+              >
                 <label for="fish-id-input" className="fish-id-label">
                   Fish ID
                 </label>
