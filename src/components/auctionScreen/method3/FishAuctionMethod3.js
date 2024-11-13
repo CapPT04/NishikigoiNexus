@@ -264,12 +264,12 @@ const FishAuctionMethod3 = () => {
         });
         connection.on("AuctionEnded", (data) => {
           //reload page when auction end
-          setTimeout(() => {
-            window.location.reload();
-          }, 5000);
+          console.log("ReceiveAuctionEnded");
+          window.location.reload();
         });
         connection.on("AuctionStart", (data) => {
           //reload page when auction start
+          console.log("ReceiveAuctionStart");
           window.location.reload();
         });
         setCurrentPrice(bids.slice(-1)[0].currentPrice);
