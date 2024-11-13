@@ -88,7 +88,7 @@ const FishAuctionMethod2 = () => {
       try {
         const idToUse = auctionItem?.fishEntryId || fishEntryId;
         if (!idToUse) {
-          console.log("No fishEntryId available");
+          // console.log("No fishEntryId available");
           return;
         }
 
@@ -186,7 +186,7 @@ const FishAuctionMethod2 = () => {
           sessionStorage.getItem("token"),
           fishEntry.fishEntryId
         );
-        console.log(response);
+        // console.log(response);
 
         if (response && response.status === 200) {
           // Success notification
@@ -312,13 +312,13 @@ const FishAuctionMethod2 = () => {
         .stop()
         .then(() => console.log("Disconnected from SignalR Hub"));
     };
-  }, []);
+  }, [fishEntry]);
 
   const handlePlaceSecretBidBtn = async () => {
-    console.log("adsa");
+    // console.log("adsa");
 
     if (sessionStorage.getItem("token") === null) {
-      console.log(sessionStorage.getItem("token"));
+      // console.log(sessionStorage.getItem("token"));
       navigate("/login");
       return;
     }
@@ -345,7 +345,7 @@ const FishAuctionMethod2 = () => {
             fishEntry.fishEntryId
           );
 
-          console.log(response);
+          // console.log(response);
 
           if (response && response.status === 200) {
             Swal.fire({
@@ -501,17 +501,19 @@ const FishAuctionMethod2 = () => {
             <div className="bidding-history-background">
               <div className="bidding-history-content">
                 {historyOfSecretBid.map((bid, index) => (
-                  <div className="bidding-history-info" key={index}>
-                    <div className="bidding-time">
-                      {formatDate(bid.bidTime)} &nbsp;
+                  bid.bidTime && ( // Remove the extra braces around this condition
+                    <div className="bidding-history-info" key={index}>
+                      <div className="bidding-time">
+                        {formatDate(bid.bidTime)} &nbsp;
+                      </div>
+                      <div className="bidding-name-bidder">
+                        An anonymous person placed a bid
+                      </div>
                     </div>
-                    <div className="bidding-name-bidder">
-                      {" "}
-                      An anonymous person placed a bid
-                    </div>
-                  </div>
+                  )
                 ))}
               </div>
+
             </div>
 
             {(fishEntry.status === 3 || fishEntry.status === 2) && (
@@ -559,6 +561,7 @@ const FishAuctionMethod2 = () => {
                     <button
                       className="enroll-bid"
                       onClick={() => handleEnrollBtn()}
+                      style={{ background: '#4CAF50' }}
                     >
                       Enroll with {fishEntryDeposit} VND deposit
                     </button>
@@ -575,7 +578,7 @@ const FishAuctionMethod2 = () => {
                   </div>
                   <hr />
                   <div className="place-bid-content-row2-status4">
-                    {winnerData.amount} VND
+                    {formatMoney(winnerData.amount)} VND
                   </div>
                   <div className="place-bid-content-row3-status4">
                     {formatDate(winnerData.endDate)}

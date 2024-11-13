@@ -62,7 +62,7 @@ const AuctionScreenDetail = () => {
     fetchAuctionsDetail();
   }, []);
 
-  console.log(auctionDetails);
+  // console.log(auctionDetails);
   return (
     <div className="auction-screen-detail">
       <header className="header">
