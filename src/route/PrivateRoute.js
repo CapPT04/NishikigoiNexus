@@ -193,6 +193,10 @@ const PrivateRoutes = [
         path: path.MANAGESTAFF,
         element: <LoadLazy children={<ManageStaff />} />,
       },
+      {
+        path: path.USERWALLET,
+        element: <LoadLazy children={<UserWallet />} />,
+      },
     ],
   },
 
