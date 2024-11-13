@@ -466,7 +466,7 @@ export const handleSignUpApi = (user) => {
 
 export const handleFeeApi = async () => {
   try {
-    const res = await axiosClient.get(END_POINT.FEE);
+    const res = await axiosClient.get(END_POINT.GETFEE);
     return res;
   } catch (error) {
     throw error;
@@ -715,11 +715,12 @@ export const handleFishByFishEntryId = async (fishEntryId) => {
     throw error;
   }
 };
-export const handleAcceptRequest = async (token, requestId) => {
+export const handleAcceptRequest = async (token, requestId, deliveryCost) => {
   try {
     return await axiosClient.put(`${END_POINT.ACCEPTREQUEST}`, {
       token: token,
       requestId: requestId,
+      deliveryCost: deliveryCost,
     });
   } catch (error) {
     throw error;

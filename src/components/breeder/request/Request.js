@@ -538,7 +538,8 @@ const Request = () => {
           <div
             className="inputBox"
             style={{
-              display: auctionMethod === "4" ? "" : "none",
+              display:
+                auctionMethod === "4" || auctionMethod === "3" ? "" : "none",
             }}
           >
             <h5>Max Price</h5>
