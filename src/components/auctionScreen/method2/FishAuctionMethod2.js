@@ -221,10 +221,13 @@ const FishAuctionMethod2 = () => {
             cancelButtonText: "Cancel",
           }).then((result) => {
             if (result.isConfirmed) {
-              // Redirect to deposit page
-              if (JSON.parse(Cookies.get("user")).Role === "1") {
+              // Redirect to deposit page\
+              const user = Cookies.get("user")
+                ? JSON.parse(Cookies.get("user"))
+                : null;
+              if (user.Role === "1") {
                 navigate("/user/UserWallet");
-              } else if (JSON.parse(Cookies.get("user")).Role === "2") {
+              } else if (user.Role === "2") {
                 navigate("/breeder/UserWallet");
               }
             }

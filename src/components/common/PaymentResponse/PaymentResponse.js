@@ -13,7 +13,7 @@ const PaymentResponse = () => {
   const [searchParams] = useSearchParams();
   const [requestId, setRequestId] = useState("");
   const navigate = useNavigate();
-  const user = JSON.parse(Cookies.get("user"));
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
 
   const vnp_Amount = searchParams.get("vnp_Amount");
   const vnp_OrderInfo = searchParams.get("vnp_OrderInfo");

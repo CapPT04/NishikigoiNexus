@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 
 const History = () => {
   const [requests, setRequests] = useState([]);
-  const user = JSON.parse(Cookies.get("user"));
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
   const navigate = useNavigate();
 
   const statusName = ["Processing", "Paying", "Approved", "Denied"];

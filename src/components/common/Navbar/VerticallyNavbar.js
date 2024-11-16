@@ -12,7 +12,7 @@ const VerticallyNavbar = () => {
   };
 
   // Get user data from sessionStorage
-  const user = JSON.parse(Cookies.get("user"));
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
 
   // Add a check to ensure user is not null or undefined
   if (!user) {

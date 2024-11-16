@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 
 const FishList = () => {
   const [fishs, setFishs] = useState([]);
-  const user = JSON.parse(Cookies.get("user"));
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
   const navigate = useNavigate();
 
   const statusName = ["Available", "Sold"];

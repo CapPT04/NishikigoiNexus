@@ -21,7 +21,7 @@ const CreateStaff = () => {
   const [commission, setCommission] = useState(0);
 
   useEffect(() => {
-    const user = JSON.parse(Cookies.get("user"));
+    const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
     if (user.Role !== "4") {
       navigate("/");
     }

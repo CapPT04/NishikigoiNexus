@@ -2,6 +2,8 @@ import axios from "axios";
 import axiosClient from "./axiosClient";
 import { useNavigate } from "react-router-dom";
 import CreateAuction from "../components/common/CreateAuction/CreateAuction";
+import Cookies from "js-cookie";
+
 const END_POINT = {
   FISHHOMEPAGE: "Fish/GetFishForHomePage",
   LOGIN: "User/Login",
@@ -15,8 +17,6 @@ const END_POINT = {
   //Fee
   GETFEE: "Fee/GetFee",
   UPDATEFEE: "Fee/UpdateFee",
-
-
 
   //breeder
   ENROLLMENTHISTORY: "Enrollment/GetAllEnrollmentsByFishEntryId",
@@ -173,7 +173,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -368,10 +368,7 @@ export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
   }
 };
 
-export const handleWinnerPaymentApi = async (
-  token,
-  fishEntryId
-) => {
+export const handleWinnerPaymentApi = async (token, fishEntryId) => {
   try {
     return await axiosClient.post(`${END_POINT.WINNERPAYMENT}`, {
       token: token,
@@ -499,7 +496,7 @@ export const handleUpdateFeeApi = async (token, fee) => {
 export const handleSubmitRequest = async (request) => {
   try {
     const response = await axiosClient.post(`${END_POINT.CREATEREQUEST}`, {
-      token: sessionStorage.getItem("token"),
+      token: Cookies.get("token"),
       fishName: request.fishName,
       shape: request.shape,
       size: request.size,
@@ -526,7 +523,9 @@ export const handleSubmitRequest = async (request) => {
 
 export const handleGetPaymentPriceApi = async (fishEntryId) => {
   try {
-    return await axiosClient.get(`${END_POINT.GETPAYMENTPRICE}?f=${fishEntryId}`);
+    return await axiosClient.get(
+      `${END_POINT.GETPAYMENTPRICE}?f=${fishEntryId}`
+    );
   } catch (error) {
     throw error;
   }

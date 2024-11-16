@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 const StaffRoute = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    const user = JSON.parse(Cookies.get("user"));
+    const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
     if (!user || (user.Role !== "3" && user.Role !== "4")) {
       navigate("/");
     }

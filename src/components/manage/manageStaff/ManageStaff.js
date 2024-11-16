@@ -11,7 +11,7 @@ import Cookies from "js-cookie";
 const ManageMember = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const user = JSON.parse(Cookies.get("user"));
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
   const statusName = ["Active", "Inactive"];
 
   const handleAllUser = async () => {
@@ -20,7 +20,7 @@ const ManageMember = () => {
     setUsers(res.data.$values);
   };
   useEffect(() => {
-    const user = JSON.parse(Cookies.get("user"));
+    const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
     if (user.Role !== "4") {
       navigate("/");
     }

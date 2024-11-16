@@ -11,7 +11,7 @@ import Cookies from "js-cookie";
 const ManageMember = () => {
   const [users, setUsers] = React.useState([]);
   const navigate = useNavigate();
-  const user = JSON.parse(Cookies.get("user"));
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
   const statusName = ["Active", "Inactive"];
 
   const handleAllUser = async () => {

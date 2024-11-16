@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 import Cookies from "js-cookie";
 
 const UserWallet = () => {
-  const user = JSON.parse(Cookies.get("user"));
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
   const [userBalance, setUserBalance] = useState(0);
   const [userBalanceHistory, setUserBalanceHistory] = useState([]);
   const [amountTopUp, setAmountTopUp] = useState(0);

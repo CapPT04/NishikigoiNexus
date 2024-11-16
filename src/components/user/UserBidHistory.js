@@ -15,7 +15,9 @@ const UserBidHistory = () => {
   useEffect(() => {
     const fetchBiddingHistoryByMemberId = async () => {
       try {
-        const user = JSON.parse(Cookies.get("user"));
+        const user = Cookies.get("user")
+          ? JSON.parse(Cookies.get("user"))
+          : null;
         const response = await handleGetBiddingHistoryByMemberIdApi(
           user.UserID
         );
@@ -31,7 +33,9 @@ const UserBidHistory = () => {
   useEffect(() => {
     const fetchUnpaidBiddingHistoryByMemberId = async () => {
       try {
-        const user = JSON.parse(Cookies.get("user"));
+        const user = Cookies.get("user")
+          ? JSON.parse(Cookies.get("user"))
+          : null;
         const response = await handleGetUnpaidBiddingHistoryByMemberIdApi(
           user.UserID
         );
