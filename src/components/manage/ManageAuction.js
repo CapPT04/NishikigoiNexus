@@ -4,6 +4,7 @@ import logo from "../../assets/images/logo_png.png";
 import searchIcon from "../../assets/images/search.svg";
 import VerticallyNavbar from "../common/Navbar/VerticallyNavbar";
 import Navbar from "../common/Navbar/Navbar";
+import Cookies from "js-cookie";
 
 import { handleManageAuctionApi } from "../../axios/UserService";
 import { useNavigate } from "react-router-dom";

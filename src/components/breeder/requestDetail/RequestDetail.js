@@ -15,6 +15,7 @@ import {
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 
 const RequestDetail = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const RequestDetail = () => {
   const statusName = ["Processing", "Paying", "Approved", "Denied"];
   const method = ["FixedPriceSale", "SecretBid", "PublicBid", "DutchAuction"];
   const reqID = searchParams.get("id");
-  const token = sessionStorage.getItem("token");
+  const token = Cookies.get("token");
 
   //format to display
   const formatMoney = (value) => {

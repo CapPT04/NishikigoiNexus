@@ -9,9 +9,10 @@ import {
 } from "../../../axios/UserService";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import Cookies from "js-cookie";
 
 const UserWallet = () => {
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const user = JSON.parse(Cookies.get("user"));
   const [userBalance, setUserBalance] = useState(0);
   const [userBalanceHistory, setUserBalanceHistory] = useState([]);
   const [amountTopUp, setAmountTopUp] = useState(0);
@@ -23,7 +24,7 @@ const UserWallet = () => {
     const res = await handleBalanceByUserIdApi(user.UserID);
     // console.log(res.data);
     setUserBalance(res.data);
-    const token = sessionStorage.getItem("token");
+    const token = Cookies.get("token");
     const resTransaction = await handleTransactionHistoryApi(token);
     console.log(resTransaction.data.$values);
     setUserBalanceHistory(resTransaction.data.$values);
@@ -56,7 +57,7 @@ const UserWallet = () => {
     // console.log(amountTopUp);
     if (amountTopUp > 0 && amountTopUp < 20000001) {
       // console.log("Nap tien ", amountTopUp);
-      const token = sessionStorage.getItem("token");
+      const token = Cookies.get("token");
       const resLink = await handleRechargePaymentApi(token, amountTopUp);
       sessionStorage.setItem("amount", amountTopUp);
       // console.log(resLink.data);

@@ -5,6 +5,7 @@ import {
   handleRechargePaymentCallBackApi,
 } from "../../../axios/UserService";
 import "./PaymentResponse.scss";
+import Cookies from "js-cookie";
 
 const PaymentResponse = () => {
   const [result, setResult] = useState("");
@@ -12,7 +13,7 @@ const PaymentResponse = () => {
   const [searchParams] = useSearchParams();
   const [requestId, setRequestId] = useState("");
   const navigate = useNavigate();
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const user = JSON.parse(Cookies.get("user"));
 
   const vnp_Amount = searchParams.get("vnp_Amount");
   const vnp_OrderInfo = searchParams.get("vnp_OrderInfo");
@@ -26,7 +27,7 @@ const PaymentResponse = () => {
     setResult(res);
   };
   useEffect(() => {
-    const amount = parseInt(sessionStorage.getItem("amount"));
+    const amount = parseInt(Cookies.get("amount"));
     sessionStorage.removeItem("amount");
     const info = {
       amount,

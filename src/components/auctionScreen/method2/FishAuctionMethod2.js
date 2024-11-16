@@ -26,6 +26,7 @@ import { HubConnectionBuilder } from "@microsoft/signalr";
 import { Navigate } from "react-router";
 import { faArrowUpFromWaterPump } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 const FishAuctionMethod2 = () => {
   const navigate = useNavigate();
@@ -144,7 +145,7 @@ const FishAuctionMethod2 = () => {
       try {
         if (fishEntry && fishEntry.fishId) {
           const response = await handleCheckEnrollApi(
-            sessionStorage.getItem("token"),
+            Cookies.get("token"),
             fishEntry.fishEntryId
           );
           if (response && response.status === 200) {
@@ -164,10 +165,7 @@ const FishAuctionMethod2 = () => {
   const handleEnrollBtn = async () => {
     // Show confirmation dialog with deposit amount
 
-    if (
-      !sessionStorage.getItem("token") ||
-      jwtDecode(sessionStorage.getItem("token")).Role != 1
-    ) {
+    if (!Cookies.get("token") || jwtDecode(Cookies.get("token")).Role != 1) {
       navigate("/login");
       return;
     }
@@ -194,7 +192,7 @@ const FishAuctionMethod2 = () => {
         });
 
         const response = await handleEnrollApi(
-          sessionStorage.getItem("token"),
+          Cookies.get("token"),
           fishEntry.fishEntryId
         );
         // console.log(response);
@@ -224,11 +222,9 @@ const FishAuctionMethod2 = () => {
           }).then((result) => {
             if (result.isConfirmed) {
               // Redirect to deposit page
-              if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
+              if (JSON.parse(Cookies.get("user")).Role === "1") {
                 navigate("/user/UserWallet");
-              } else if (
-                JSON.parse(sessionStorage.getItem("user")).Role === "2"
-              ) {
+              } else if (JSON.parse(Cookies.get("user")).Role === "2") {
                 navigate("/breeder/UserWallet");
               }
             }
@@ -329,8 +325,8 @@ const FishAuctionMethod2 = () => {
   const handlePlaceSecretBidBtn = async () => {
     // console.log("adsa");
 
-    if (sessionStorage.getItem("token") === null) {
-      // console.log(sessionStorage.getItem("token"));
+    if (Cookies.get("token") === null) {
+      // console.log(Cookies.get("token"));
       navigate("/login");
       return;
     }
@@ -349,7 +345,7 @@ const FishAuctionMethod2 = () => {
       if (result.isConfirmed) {
         try {
           const response = await handlePlaceSecretBidApi(
-            sessionStorage.getItem("token"),
+            Cookies.get("token"),
             amount,
             fishEntry.fishEntryId
           );

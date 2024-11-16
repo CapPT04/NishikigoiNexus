@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../common/Navbar/Navbar";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import Cookies from "js-cookie";
 
 const Request = () => {
   const [name, setName] = useState("");
@@ -654,10 +655,10 @@ const Request = () => {
   //----submit----
   // chưa có trả về kết quả
   const handleSubmit = async () => {
-    // console.log(sessionStorage.getItem("token"));
+    // console.log(Cookies.get("token"));
 
     const fishAuction = {
-      token: sessionStorage.getItem("token"),
+      token: Cookies.get("token"),
       fishName: name,
       shape: shape,
       size: size,

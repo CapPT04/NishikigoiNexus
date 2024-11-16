@@ -13,6 +13,7 @@ import {
 import Swal from "sweetalert2";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import Cookies from "js-cookie";
 
 const BreederDetail = () => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const BreederDetail = () => {
       cancelButtonText: "No, cancel!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const token = sessionStorage.getItem("token");
+        const token = Cookies.get("token");
         const res = await handleToggleUserStatus(
           token,
           breeder.userId,
@@ -97,7 +98,7 @@ const BreederDetail = () => {
       cancelButtonText: "No, cancel!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const token = sessionStorage.getItem("token");
+        const token = Cookies.get("token");
         const res = await handleToggleUserStatus(token, breeder.userId, null);
         // console.log(res);
         if (res.status === 200) {
@@ -130,7 +131,7 @@ const BreederDetail = () => {
       cancelButtonText: "No, cancel!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const token = sessionStorage.getItem("token");
+        const token = Cookies.get("token");
         const res = await handleUpdateBreederCommission(
           token,
           breeder.userId,

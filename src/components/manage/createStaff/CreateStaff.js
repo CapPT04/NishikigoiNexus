@@ -7,6 +7,7 @@ import {
 } from "../../../axios/UserService";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import Cookies from "js-cookie";
 
 const CreateStaff = () => {
   const navigate = useNavigate();
@@ -20,14 +21,14 @@ const CreateStaff = () => {
   const [commission, setCommission] = useState(0);
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
+    const user = JSON.parse(Cookies.get("user"));
     if (user.Role !== "4") {
       navigate("/");
     }
   }, []);
 
   const createBreeder = async () => {
-    const token = sessionStorage.getItem("token");
+    const token = Cookies.get("token");
     const staff = {
       firstName,
       lastName,

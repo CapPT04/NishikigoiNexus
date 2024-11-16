@@ -3,10 +3,11 @@ import "../fish/FishList.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import { handleGetAllFish } from "../../../axios/UserService";
+import Cookies from "js-cookie";
 
 const FishList = () => {
   const [fishs, setFishs] = useState([]);
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const user = JSON.parse(Cookies.get("user"));
   const navigate = useNavigate();
 
   const statusName = ["Available", "Sold"];

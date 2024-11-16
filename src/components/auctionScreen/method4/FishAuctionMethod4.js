@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router";
 import Navbar from "../../common/Navbar/Navbar";
 import { Navigate } from "react-router";
 import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 import {
   handleGetFishImgById,
@@ -150,7 +151,7 @@ const FishAuctionMethod4 = () => {
       try {
         if (fishEntry) {
           const response = await handleCheckEnrollApi(
-            sessionStorage.getItem("token"),
+            Cookies.get("token"),
             fishEntry.fishEntryId
           );
 
@@ -265,7 +266,7 @@ const FishAuctionMethod4 = () => {
     if (isConfirmed) {
       try {
         const response = await handlePlaceDutchAuctionBid(
-          sessionStorage.getItem("token"),
+          Cookies.get("token"),
           fishEntry.fishEntryId
         );
         // console.log(response);
@@ -313,10 +314,7 @@ const FishAuctionMethod4 = () => {
   };
 
   const handleEnrollBtn = async () => {
-    if (
-      !sessionStorage.getItem("token") ||
-      jwtDecode(sessionStorage.getItem("token")).Role != 1
-    ) {
+    if (!Cookies.get("token") || jwtDecode(Cookies.get("token")).Role != 1) {
       navigate("/login");
       return;
     }
@@ -344,7 +342,7 @@ const FishAuctionMethod4 = () => {
         });
 
         const response = await handleEnrollApi(
-          sessionStorage.getItem("token"),
+          Cookies.get("token"),
           fishEntry.fishEntryId
         );
         // console.log(response);
@@ -374,11 +372,9 @@ const FishAuctionMethod4 = () => {
           }).then((result) => {
             if (result.isConfirmed) {
               // Redirect to deposit page
-              if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
+              if (JSON.parse(Cookies.get("user")).Role === "1") {
                 navigate("/user/UserWallet");
-              } else if (
-                JSON.parse(sessionStorage.getItem("user")).Role === "2"
-              ) {
+              } else if (JSON.parse(Cookies.get("user")).Role === "2") {
                 navigate("/breeder/UserWallet");
               }
             }

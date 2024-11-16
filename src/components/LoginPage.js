@@ -12,6 +12,7 @@ import { googleLogout } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
 import { hasGrantedAllScopesGoogle } from "@react-oauth/google";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -36,12 +37,12 @@ const LoginPage = () => {
 
       const response = await handleLoginWithGoogleApi(token);
       // console.log(token);
-      sessionStorage.setItem("token", response.data);
+      Cookies.set("token", response.data);
       // console.log("token: ", response.data);
       // console.log(response.status);
       const user = jwtDecode(response.data);
       // console.log(user);
-      sessionStorage.setItem("user", JSON.stringify(user));
+      Cookies.set("user", JSON.stringify(user));
 
       if (response && userInfo.status === 200 && response.status === 200) {
         navigate("/");
@@ -58,12 +59,12 @@ const LoginPage = () => {
       // console.log(response);
       // console.log(response.data);
 
-      sessionStorage.setItem("token", response.data);
+      Cookies.set("token", response.data);
 
       if (response && response.status === 200) {
         const user = jwtDecode(response.data);
         // console.log(JSON.stringify(response.data));
-        sessionStorage.setItem("user", JSON.stringify(user));
+        Cookies.set("user", JSON.stringify(user));
         navigate("/");
       } else {
         if (response && response.status === 400) {
