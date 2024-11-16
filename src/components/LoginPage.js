@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../components/LoginPage.scss";
 import { json, useNavigate } from "react-router-dom";
 import googleIcon from "../assets/images/google.png";
@@ -21,6 +21,13 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const [loadingAPI, setLoadingAPI] = useState(false);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      navigate("/");
+    }
+  }, []);
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {

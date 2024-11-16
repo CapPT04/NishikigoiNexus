@@ -4,12 +4,12 @@ import { getStorage } from "firebase/storage"; //cần để quản lí(upload,d
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBz-UlKQVN25iesS6cJ2QgtzC592jz1UtE",
-  authDomain: "nishikigoinexus-fa24.firebaseapp.com",
-  projectId: "nishikigoinexus-fa24",
-  storageBucket: "nishikigoinexus-fa24.appspot.com",
-  messagingSenderId: "1098087821569",
-  appId: "1:1098087821569:web:10a92111dfd1df3958eb00",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDED_ID,
+  appId: process.env.REACT_APP_APP_STORAGE_ID,
 };
 
 // Initialize Firebase
