@@ -243,11 +243,7 @@ const PrivateRoutes = [
       },
       {
         path: path.DELIVERYDETAIL,
-<<<<<<< Updated upstream
-        element: <LoadLazy children={<DeliveryDetail />} />,
-=======
         element: <LoadLazy children={<DeliveryDetailUser />} />,
->>>>>>> Stashed changes
       },
     ],
   },
