@@ -11,6 +11,7 @@ import {
 import Swal from "sweetalert2";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import Cookies from "js-cookie";
 
 const UserDetail = () => {
   const [searchParams] = useSearchParams();
@@ -57,7 +58,7 @@ const UserDetail = () => {
       cancelButtonText: "No, cancel!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const token = sessionStorage.getItem("token");
+        const token = Cookies.get("token");
         const res = await handleToggleUserStatus(token, user.userId, reasonBan);
         if (res.status === 200) {
           // console.log("Banned");
@@ -89,7 +90,7 @@ const UserDetail = () => {
       cancelButtonText: "No, cancel!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const token = sessionStorage.getItem("token");
+        const token = Cookies.get("token");
         const res = await handleToggleUserStatus(token, user.userId, null);
         if (res.status === 200) {
           toast.success("Unban User Successful", {

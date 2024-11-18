@@ -8,6 +8,7 @@ import {
   handleGetRequestDetail,
   handleUserById,
 } from "../../../axios/UserService";
+import Cookies from "js-cookie";
 
 const FishEntryDetail = () => {
   const navigate = useNavigate();

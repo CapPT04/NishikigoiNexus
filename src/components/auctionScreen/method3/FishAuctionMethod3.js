@@ -23,6 +23,7 @@ import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 import Swal from "sweetalert2";
 import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 const FishAuctionMethod3 = () => {
   const navigate = useNavigate();
@@ -100,7 +101,7 @@ const FishAuctionMethod3 = () => {
       //check enroll status
       try {
         const response = await handleCheckEnrollApi(
-          sessionStorage.getItem("token"),
+          Cookies.get("token"),
           res.data.fishEntryId
         );
         if (response && response.status === 200) {
@@ -141,10 +142,7 @@ const FishAuctionMethod3 = () => {
     return date.toLocaleString();
   };
   const handleEnrollBtn = async () => {
-    if (
-      !sessionStorage.getItem("token") ||
-      jwtDecode(sessionStorage.getItem("token")).Role != 1
-    ) {
+    if (!Cookies.get("token") || jwtDecode(Cookies.get("token")).Role != 1) {
       navigate("/login");
       return;
     }
@@ -167,7 +165,7 @@ const FishAuctionMethod3 = () => {
           },
         });
         const response = await handleEnrollApi(
-          sessionStorage.getItem("token"),
+          Cookies.get("token"),
           fishEntry.fishEntryId
         );
         // console.log(response);
@@ -194,11 +192,12 @@ const FishAuctionMethod3 = () => {
           }).then((result) => {
             if (result.isConfirmed) {
               // Redirect to deposit page
-              if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
+              const user = Cookies.get("user")
+                ? JSON.parse(Cookies.get("user"))
+                : null;
+              if (user.Role === "1") {
                 navigate("/user/UserWallet");
-              } else if (
-                JSON.parse(sessionStorage.getItem("user")).Role === "2"
-              ) {
+              } else if (user.Role === "2") {
                 navigate("/breeder/UserWallet");
               }
             }
@@ -225,11 +224,11 @@ const FishAuctionMethod3 = () => {
   //   const checkEnrollmentStatus = async () => {
   //     try {
   //       const response = await handleCheckEnrollApi(
-  //         sessionStorage.getItem("token"),
+  //         Cookies.get("token"),
   //         fishEntry.fishEntryId
   //       );
   //       console.log(response);
-  //       console.log(sessionStorage.getItem("token"));
+  //       console.log(Cookies.get("token"));
   //       console.log(response.status);
   //       if (response && response.status === 200) {
   //         setCheckEnroll(true);
@@ -292,12 +291,12 @@ const FishAuctionMethod3 = () => {
   const totalBidPrice = stepPrice * increment;
   const newPrice = currentPrice + totalBidPrice;
   const bidding = async () => {
-    if (sessionStorage.getItem("token") === null) {
-      // console.log(sessionStorage.getItem("token"));
+    if (Cookies.get("token") === null) {
+      // console.log(Cookies.get("token"));
       navigate("/login");
       return;
     }
-    const token = sessionStorage.getItem("token");
+    const token = Cookies.get("token");
     const res = await handlePublicBidding(token, entryId, newPrice);
     if (res.status === 400) {
       toast.error(res.data, {
@@ -312,8 +311,8 @@ const FishAuctionMethod3 = () => {
     }
   };
   const buyItNow = async () => {
-    if (sessionStorage.getItem("token") === null) {
-      // console.log(sessionStorage.getItem("token"));
+    if (Cookies.get("token") === null) {
+      // console.log(Cookies.get("token"));
       navigate("/login");
       return;
     }
@@ -328,7 +327,7 @@ const FishAuctionMethod3 = () => {
       cancelButtonText: "No, cancel",
     });
     if (result.isConfirmed) {
-      const token = sessionStorage.getItem("token");
+      const token = Cookies.get("token");
       // console.log(fishEntry.maxPrice);
       const res = await handlePublicBidding(token, entryId, fishEntry.maxPrice);
       if (res.status === 400) {

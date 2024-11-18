@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { handleCreateBreeder } from "../../../axios/UserService";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import Cookies from "js-cookie";
 
 const CreateBreeder = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const CreateBreeder = () => {
   const [commission, setCommission] = useState(0);
 
   const createBreeder = async () => {
-    const token = sessionStorage.getItem("token");
+    const token = Cookies.get("token");
     const breeder = {
       firstName,
       lastName,

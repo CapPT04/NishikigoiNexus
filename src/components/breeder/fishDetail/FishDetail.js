@@ -6,6 +6,7 @@ import {
   handleGetFishImgById,
 } from "../../../axios/UserService";
 import "./FishDetail.scss";
+import Cookies from "js-cookie";
 
 const FishDetail = () => {
   const navigate = useNavigate();

@@ -18,6 +18,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import Navbar from "../common/Navbar/Navbar";
 import { Navigate } from "react-router";
+import Cookies from "js-cookie";
+
 const AuctionDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -96,7 +98,7 @@ const AuctionDetail = () => {
         try {
           const response = await handleEndFishAuctioningApi(
             fishEntry.fishEntryId,
-            sessionStorage.getItem("token")
+            Cookies.get("token")
           );
           if (response && response.status === 200) {
             showToast("success", "Auction updated successfully!");
@@ -187,7 +189,7 @@ const AuctionDetail = () => {
       const response = await handleAddFishEntryForAuctionApi(
         fishEntry.fishEntryId,
         auctionId,
-        sessionStorage.getItem("token")
+        Cookies.get("token")
       );
       if (response && response.status === 200) {
         showToast("success", "Fish entry added to auction successfully!");
