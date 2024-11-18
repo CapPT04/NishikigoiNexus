@@ -337,8 +337,8 @@
             }
             .imgInput {
               display: flex;
-              width: 150px;
-              height: 180px;
+              width: 225px;
+              height: 270px;
               margin-top: 10px;
               // border: 2px solid #000;
               background-color: #e7cdbfa3;
@@ -418,33 +418,6 @@
             }
           }
         }
-        .delivery-content-row11 {
-          display: grid;
-          grid-template-rows: auto;
-          gap: 10px;
-          width: 100%;
-          margin: 0 auto;
-          .note-label {
-            color: #121212;
-            font-family: Inter;
-            font-size: 24px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-          }
-          .fish-images {
-            display: flex;
-            gap: 80px;
-            margin: 0px auto 40px;
-            img {
-              width: 250px;
-              min-height: 300px;
-              max-height: 400px;
-              margin: 0 auto;
-            }
-          }
-        }
-
         .delivery-content-row10 {
           display: flex;
           justify-content: flex-end;
