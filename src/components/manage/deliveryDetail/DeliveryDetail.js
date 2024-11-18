@@ -8,6 +8,7 @@ import {
   handleApproveDelivery,
   handleCancelDelivery,
   handleCompleteDelivery,
+  handleFishEntryById,
   handleGetDeliveryByFishEntry,
   handleUserById,
 } from "../../../axios/UserService";
@@ -26,6 +27,7 @@ const DeliveryDetail = () => {
   const [staff, setStaff] = useState("");
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [reason, setReason] = useState("");
+  const [fishEntry, setFishEntry] = useState("");
 
   const formatMoney = (value) => {
     // Ensure the value is a number or a string
@@ -46,6 +48,11 @@ const DeliveryDetail = () => {
       const resStaff = await handleUserById(resDelivery.data.updateBy);
       setStaff(resStaff.data);
     }
+    const resFishEntry = await handleFishEntryById(
+      resDelivery.data.fishEntryId
+    );
+    console.log("entry:", resFishEntry.data);
+    setFishEntry(resFishEntry.data);
   };
 
   useEffect(() => {
@@ -357,6 +364,47 @@ const DeliveryDetail = () => {
                       ? new Date(delivery.endDate).toLocaleString()
                       : "Not Complete Yet"
                   }
+                  disabled={true}
+                />
+              </div>
+            </div>
+            <div className="delivery-content-row5">
+              <div
+                className="update-by"
+                onClick={() =>
+                  navigate("/Manager/FishEntryDetail", {
+                    state: fishEntry,
+                  })
+                }
+              >
+                <label htmlFor="update-by-input" className="update-by-label">
+                  Fish Entry ID
+                </label>
+                <input
+                  type="text"
+                  className="update-by-input"
+                  value={fishEntry.fishEntryId}
+                  disabled={true}
+                />
+              </div>
+              <div
+                className="last-update"
+                onClick={() =>
+                  navigate("/Manager/KoiDetail", {
+                    state: { koi: fishEntry },
+                  })
+                }
+              >
+                <label
+                  htmlFor="last-update-input"
+                  className="last-update-label"
+                >
+                  Fish ID
+                </label>
+                <input
+                  type="datetime"
+                  className="last-update-input"
+                  value={fishEntry.fishId}
                   disabled={true}
                 />
               </div>
