@@ -10,9 +10,13 @@ import {
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router";
 
 const UserWallet = () => {
-  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
+  const navigate = useNavigate();
+  const user = Cookies.get("user")
+    ? JSON.parse(Cookies.get("user"))
+    : navigate("/");
   const [userBalance, setUserBalance] = useState(0);
   const [userBalanceHistory, setUserBalanceHistory] = useState([]);
   const [amountTopUp, setAmountTopUp] = useState(0);
@@ -21,7 +25,7 @@ const UserWallet = () => {
 
   const getInfo = async () => {
     // console.log(user.UserID);
-    const res = await handleBalanceByUserIdApi(user.UserID);
+    const res = await handleBalanceByUserIdApi(user?.UserID);
     // console.log(res.data);
     setUserBalance(res.data);
     const token = Cookies.get("token");
