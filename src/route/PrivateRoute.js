@@ -91,6 +91,9 @@ const WinnerPaymentCallback = React.lazy(() =>
 const UserWallet = React.lazy(() =>
   import("../components/user/wallet/UserWallet")
 );
+const DeliveryDetailUser = React.lazy(() =>
+  import("../components/user/DeliveryDetail")
+);
 //payment
 const Payment = React.lazy(() => import("../route/PaymentRoute"));
 const PaymentResponse = React.lazy(() =>
@@ -223,6 +226,10 @@ const PrivateRoutes = [
       {
         path: path.USERWALLET,
         element: <LoadLazy children={<UserWallet />} />,
+      },
+      {
+        path: path.DELIVERYDETAIL,
+        element: <LoadLazy children={<DeliveryDetail />} />,
       },
     ],
   },

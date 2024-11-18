@@ -1,0 +1,106 @@
+* {
+    margin     : 0;
+    padding    : 0;
+    border     : 0;
+    font-size  : 100%;
+    font-family: "Saira Condensed";
+    --nude     : #E7CDBF;
+}
+
+
+.delivery-detail-container {
+    display       : grid;
+    padding-bottom: 50px;
+
+    .header {
+        height         : 84px;
+        background     : #121212;
+        display        : flex;
+        justify-content: center;
+        align-items    : center;
+    }
+
+
+    .delivery-detail-background {
+        width        : 80%;
+        border-radius: 4px;
+        position     : relative;
+        background   : rgba(255, 255, 255, 0.70);
+        box-shadow   : 0px 0px 12px 2px rgba(0, 0, 0, 0.25);
+        margin       : auto auto;
+        margin-top   : 150px;
+        display      : grid;
+        gap          : 30px;
+
+        .deliver-detail-title,
+        .deliver-detail-status,
+        .start-date-and-complete-date,
+        .delivery-id-and-delivery-phone,
+        .delivery-city-and-address {
+            width : 90%;
+            margin: 0 auto;
+        }
+
+        .deliver-detail-title {
+            color      : #121212;
+            font-size  : 36px;
+            font-weight: 600;
+        }
+
+        .deliver-detail-status {
+            color      : #121212;
+            font-size  : 24px;
+            font-weight: 500;
+        }
+
+        .start-date-and-complete-date,
+        .delivery-id-and-delivery-phone,
+        .delivery-city-and-address {
+            display        : flex;
+            justify-content: space-between;
+
+            .delivery-detail-start-date,
+            .delivery-detail-complete-date,
+            .delivery-id,
+            .delivery-phone,
+            .delivery-city,
+            .delivery-address {
+                width: 48%;
+
+                .start-date-label,
+                .complete-date-label,
+                .delivery-id-label,
+                .delivery-phone-label,
+                .delivery-city-label,
+                .delivery-address-label {
+                    color      : #121212;
+                    font-size  : 24px;
+                    font-weight: 400;
+                }
+
+                .start-date-content,
+                .complete-date-content,
+                .delivery-id-content,
+                .delivery-phone-content,
+                .delivery-city-content,
+                .delivery-address-content {
+                    border-radius: 12px;
+                    border       : 1px solid #121212;
+                    height       : 56px;
+                    color        : #121212;
+                    font-size    : 24px;
+                    font-weight  : 400;
+                    display      : flex;
+                    align-items  : center;
+                    padding-left : 5px;
+                }
+            }
+        }
+
+        .delivery-city-and-address {
+            margin-bottom: 50px;
+        }
+
+
+    }
+}

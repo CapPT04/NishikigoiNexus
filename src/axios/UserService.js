@@ -86,7 +86,7 @@ const END_POINT = {
   RECHARGEPAYMENTCALLBACK: "Payment/RechargePaymentCallBack",
   TRANSACTIONHISTORY: "Transaction/GetTransactionHistory",
   GETPAYMENTPRICE: "FishEntry/GetPaymentPrice",
-
+  GETPAYMENTANDDELIVERY: "FishEntry/GetPaymentAndDelivery",
   //Payment
   FEEWALLETPAYMENT: "Payment/FeePayment",
 };
@@ -368,14 +368,21 @@ export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
   }
 };
 
+<<<<<<< Updated upstream
 export const handleWinnerPaymentApi = async (
   token,
   fishEntryId
 ) => {
+=======
+export const handleWinnerPaymentApi = async (token, fishEntryId, checkoutData) => {
+>>>>>>> Stashed changes
   try {
     return await axiosClient.post(`${END_POINT.WINNERPAYMENT}`, {
       token: token,
       fishEntryId: fishEntryId,
+      phone: checkoutData.phone,
+      address: checkoutData.address,
+      city: checkoutData.city
     });
   } catch (error) {
     throw error;
@@ -495,6 +502,18 @@ export const handleUpdateFeeApi = async (token, fee) => {
     throw error;
   }
 };
+
+export const handleGetPaymentAndDeliveryApi = async (fishentryId) => {
+  try {
+    const res = await axiosClient.get(
+      `${END_POINT.GETPAYMENTANDDELIVERY}?fishentryId=${fishentryId}`
+    );
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 export const handleSubmitRequest = async (request) => {
   try {

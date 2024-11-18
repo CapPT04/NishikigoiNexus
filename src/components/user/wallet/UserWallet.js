@@ -58,7 +58,7 @@ const UserWallet = () => {
       // console.log("Nap tien ", amountTopUp);
       const token = sessionStorage.getItem("token");
       const resLink = await handleRechargePaymentApi(token, amountTopUp);
-      sessionStorage.setItem("amount", amountTopUp);
+      Cookies.set("amount", amountTopUp);
       // console.log(resLink.data);
       window.location.href = resLink.data;
     } else {
