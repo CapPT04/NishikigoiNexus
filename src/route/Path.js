@@ -55,6 +55,7 @@ export const path = {
   CHECKOUT: "Checkout",
   WINNERPAYMENTCALLBACK: "WinnerPaymentCallback",
   USERWALLET: "UserWallet",
+  DELIVERYDETAIL: "DeliveryDetail",
 
   PAYMENT: "/Payment",
   PAYMENTRESPONSE: "PaymentResponse",

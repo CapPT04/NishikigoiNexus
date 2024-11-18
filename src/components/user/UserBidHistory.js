@@ -92,7 +92,10 @@ const UserBidHistory = () => {
                         className="pay-auction-btn"
                         onClick={() =>
                           navigate("/User/Checkout", {
-                            state: auction.fishEntryId,
+                            state: {
+                              fishEntryId: auction.fishEntryId,
+                              highestPrice: auction.highestPrice
+                            }
                           })
                         }
                       >
@@ -121,6 +124,8 @@ const UserBidHistory = () => {
                 <th>Auction Date</th>
                 <th>Winner</th>
                 <th>Sold Price</th>
+                <th>Tracking Delivery</th>
+
               </tr>
             </thead>
             <tbody>
@@ -143,6 +148,17 @@ const UserBidHistory = () => {
                       )}
                     </td>
                     <td>{formatMoney(bid.highestPrice)}</td>
+                    <td>
+                      {bid.isWinner ? (
+                        <i className="fa-solid fa-arrow-right"
+                          onClick={() => navigate("/user/DeliveryDetail", {
+                            state: bid.fishEntryId
+                          })}>
+                        </i>
+                      ) : ""}
+
+                    </td>
+
                   </tr>
                 ))
               ) : (
@@ -154,7 +170,7 @@ const UserBidHistory = () => {
           </table>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

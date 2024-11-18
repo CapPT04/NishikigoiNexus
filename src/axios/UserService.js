@@ -88,7 +88,7 @@ const END_POINT = {
   RECHARGEPAYMENTCALLBACK: "Payment/RechargePaymentCallBack",
   TRANSACTIONHISTORY: "Transaction/GetTransactionHistory",
   GETPAYMENTPRICE: "FishEntry/GetPaymentPrice",
-
+  GETPAYMENTANDDELIVERY: "FishEntry/GetPaymentAndDelivery",
   //Payment
   FEEWALLETPAYMENT: "Payment/FeePayment",
 
@@ -405,11 +405,15 @@ export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
   }
 };
 
-export const handleWinnerPaymentApi = async (token, fishEntryId) => {
+
+export const handleWinnerPaymentApi = async (token, fishEntryId, checkoutData) => {
   try {
     return await axiosClient.post(`${END_POINT.WINNERPAYMENT}`, {
       token: token,
       fishEntryId: fishEntryId,
+      phone: checkoutData.phone,
+      address: checkoutData.address,
+      city: checkoutData.city
     });
   } catch (error) {
     throw error;
@@ -523,6 +527,17 @@ export const handleUpdateFeeApi = async (token, fee) => {
   try {
     const res = await axiosClient.put(
       `${END_POINT.UPDATEFEE}?token=${token}&fee=${fee}`
+    );
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const handleGetPaymentAndDeliveryApi = async (fishentryId) => {
+  try {
+    const res = await axiosClient.get(
+      `${END_POINT.GETPAYMENTANDDELIVERY}?fishentryId=${fishentryId}`
     );
     return res;
   } catch (error) {
