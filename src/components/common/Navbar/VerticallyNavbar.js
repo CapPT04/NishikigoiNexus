@@ -68,6 +68,12 @@ const VerticallyNavbar = () => {
       >
         Fish Entry
       </a>
+      <a
+        className="delivery"
+        onClick={() => handleSelect("/Manager/ManageDelivery")}
+      >
+        Delivery
+      </a>
     </div>
   );
 };

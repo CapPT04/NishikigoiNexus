@@ -47,6 +47,8 @@ const END_POINT = {
   GETALLFISHENTRY: "FishEntry/GetAllFishEntries",
   PAYFEE: "Payment/FeePayment",
   PAYCALLBACK: "Payment/PaymentCallBack",
+  GETALLDELIVERY: "Delivery/GetAllDelivery",
+  GETDELIVERYBYFISHENTRY: "FishEntry/GetPaymentAndDelivery",
   //auction
   GETFISHENTRYBYID: "FishEntry/GetFishEntryById",
   PUBLICBIDHISTORY: "PublicBid/HistoryByFishEntryId",
@@ -89,6 +91,41 @@ const END_POINT = {
 
   //Payment
   FEEWALLETPAYMENT: "Payment/FeePayment",
+
+  //Delivery
+  APPROVEDELIVERY: "Delivery/ApproveDelivery",
+  CANCELDELIVERY: "Delivery/CancelDelivery",
+  COMPLETEDELIVERY: "Delivery/CompleteDelivery",
+};
+export const handleApproveDelivery = (token, id, cost) => {
+  return axiosClient.put(`${END_POINT.APPROVEDELIVERY}`, {
+    token: token,
+    deliveryId: id,
+    deliveryCost: cost,
+  });
+};
+export const handleCancelDelivery = (token, id, img, reason) => {
+  return axiosClient.put(`${END_POINT.CANCELDELIVERY}`, {
+    token: token,
+    deliveryId: id,
+    imagePath: img,
+    reason: reason,
+  });
+};
+export const handleCompleteDelivery = (token, id, img) => {
+  return axiosClient.put(`${END_POINT.COMPLETEDELIVERY}`, {
+    token: token,
+    deliveryId: id,
+    imagePath: img,
+  });
+};
+export const handleGetAllDelivery = () => {
+  return axiosClient.get(`${END_POINT.GETALLDELIVERY}`);
+};
+export const handleGetDeliveryByFishEntry = (fishEntryID) => {
+  return axiosClient.get(
+    `${END_POINT.GETDELIVERYBYFISHENTRY}?fishEntryId=${fishEntryID}`
+  );
 };
 export const handleResetPasswordApi = (password, token) => {
   return axiosClient.put(`${END_POINT.RESETPASSWORD}`, {
