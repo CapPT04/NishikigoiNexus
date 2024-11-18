@@ -11,63 +11,63 @@ body {
     background: #e7cdbf;
 }
 
-.header {
-    height         : 84px;
-    background     : #121212;
-    display        : flex;
-    justify-content: center;
-    align-items    : center;
+// .header {
+//     height         : 84px;
+//     background     : #121212;
+//     display        : flex;
+//     justify-content: center;
+//     align-items    : center;
 
-    .navigation-bar {
-        width          : 1120px;
-        height         : 64px;
-        display        : flex;
-        justify-content: space-between;
+//     .navigation-bar {
+//         width          : 1120px;
+//         height         : 64px;
+//         display        : flex;
+//         justify-content: space-between;
 
-        .navigation-bar-left-content {
-            display    : inline-flex;
-            align-items: center;
-            gap        : 11px;
+//         .navigation-bar-left-content {
+//             display    : inline-flex;
+//             align-items: center;
+//             gap        : 11px;
 
-            .logo {
-                width : 64px;
-                height: 64px;
-            }
+//             .logo {
+//                 width : 64px;
+//                 height: 64px;
+//             }
 
-            .project-name {
-                font-size  : 32px;
-                font-weight: 700;
-                color      : #fff;
-            }
-        }
+//             .project-name {
+//                 font-size  : 32px;
+//                 font-weight: 700;
+//                 color      : #fff;
+//             }
+//         }
 
-        .navigation-bar-right-content {
-            display        : flex;
-            width          : 600px;
-            justify-content: space-between;
-            align-items    : center;
-            flex-shrink    : 0;
+//         .navigation-bar-right-content {
+//             display        : flex;
+//             width          : 600px;
+//             justify-content: space-between;
+//             align-items    : center;
+//             flex-shrink    : 0;
 
-            a {
-                color      : #fff;
-                font-size  : 20px;
-                font-weight: 700;
-                padding    : 8px 15px;
-                cursor     : pointer;
+//             a {
+//                 color      : #fff;
+//                 font-size  : 20px;
+//                 font-weight: 700;
+//                 padding    : 8px 15px;
+//                 cursor     : pointer;
 
-                &:hover {
-                    opacity: 0.7;
-                }
-            }
+//                 &:hover {
+//                     opacity: 0.7;
+//                 }
+//             }
 
-            .staff {
-                border-radius: 24px;
-                background   : #df0012;
-                padding      : 7px 21px;
-            }
-        }
-    }
-}
+//             .staff {
+//                 border-radius: 24px;
+//                 background   : #df0012;
+//                 padding      : 7px 21px;
+//             }
+//         }
+//     }
+// }
 
 .user-bid-history {
     display: grid;
@@ -128,6 +128,15 @@ body {
                     }
                 }
 
+                td {
+                    i {
+                        &:hover {
+                            cursor : pointer;
+                            opacity: 0.7;
+                        }
+                    }
+                }
+
                 th,
                 td {
                     border     : none;
@@ -145,6 +154,8 @@ body {
                         cursor : pointer;
                         opacity: 0.5;
                     }
+
+
                 }
 
                 th {

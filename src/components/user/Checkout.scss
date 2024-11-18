@@ -26,22 +26,24 @@
 
 .checkout-content {
     display: grid;
-    gap    : 30px;
+    gap    : 20px;
     width  : 80%;
 }
 
-.winning-price,
-.deposit-price,
-.payment-due {
+.phone,
+.city,
+.address,
+.sold-price {
     display: grid;
     gap    : 10px;
     width  : 80%;
     margin : 0 auto;
 }
 
-.winning-price-label,
-.deposit-price-label,
-.payment-due-label {
+.phone-label,
+.city-label,
+.address-label,
+.sold-price-label {
     color      : #121212;
     font-family: Inter, sans-serif;
     font-size  : 24px;
@@ -49,9 +51,10 @@
     line-height: normal;
 }
 
-.winning-price-input,
-.deposit-price-input,
-.payment-due-input {
+.phone-input,
+.city-input,
+.address-input,
+.sold-price-input {
     border-radius: 12px;
     border       : 1px solid #121212;
     height       : 56px;
@@ -60,77 +63,62 @@
     font-family  : Inter, sans-serif;
     font-size    : 20px;
     background   : #E7CDBF;
-    align-items  : center;
-    display      : flex;
 }
 
-.checkout-btn {
-    color          : #FFF;
-    font-family    : "Saira Condensed", sans-serif;
-    font-size      : 24px;
-    font-weight    : 400;
+.btn-for-checkout-page {
+<<<<<<< Updated upstream
     display        : flex;
-    width          : 144px;
-    height         : 55px;
-    padding        : 16px 31px;
     justify-content: center;
-    align-items    : center;
-    border-radius  : 50px;
-    background     : #DF0012;
-    margin         : 0 auto;
-    margin-top     : 20px;
+    gap            : 30px;
+=======
+    display: flex;
+    margin : 0 auto;
+    gap    : 20px;
+>>>>>>> Stashed changes
 
+    .checkout-btn,
+    .checkout-cancel-btn {
+        color          : #FFF;
+        font-family    : "Saira Condensed", sans-serif;
+        font-size      : 24px;
+        font-weight    : 400;
+        display        : flex;
+        width          : 144px;
+        height         : 55px;
+        padding        : 16px 31px;
+        justify-content: center;
+        align-items    : center;
+        border-radius  : 50px;
+        background     : #DF0012;
+
+        &:hover {
+            opacity: 0.7;
+            cursor : pointer;
+        }
+<<<<<<< Updated upstream
+
+        &:disabled {
+            background-color: #d3d3d3;
+            color           : #888;
+            cursor          : not-allowed;
+        }
+    }
+
+    .checkout-cancel-btn {
+        background: #121212;
+    }
+}
+
+.fa-solid {
     &:hover {
-        cursor          : pointer;
-        opadeposit-price: 0.7;
+        cursor : pointer;
+        opacity: 0.7;
+    }
+=======
     }
 
-    &:disabled {
-        background-color: #d3d3d3;
-        /* Gray color when disabled */
-        color           : #888;
-        /* Lighter text color when disabled */
-        cursor          : not-allowed;
+    .checkout-cancel-btn {
+        background: #121212;
     }
-}
-
-.winning-notification {
-    background-color: #f0f8ff;
-    padding         : 1em;
-    border-radius   : 8px;
-    margin-bottom   : 1em;
-    text-align      : center;
-    color           : #333;
-    font-size       : 20px;
-}
-
-.winning-notification {
-    text-align      : center;
-    padding         : 1.5rem;
-    background-color: #e8f8e0;
-    border          : 2px solid #28a745;
-    border-radius   : 10px;
-    margin-bottom   : 1.5rem;
-    color           : #155724;
-    font-family     : Arial, sans-serif;
-}
-
-.winning-notification h2 {
-    font-size    : 2rem;
-    /* Larger title */
-    margin-bottom: 0.5rem;
-    color        : #28a745;
-}
-
-.winning-notification p {
-    font-size: 1.5rem;
-    /* Larger text for main message */
-    margin   : 0.5rem 0;
-}
-
-.winning-notification .payment-amount {
-    font-size  : 1.75rem;
-    /* Even larger for emphasis on amount */
-    font-weight: bold;
-    color      : #218838;
+>>>>>>> Stashed changes
 }
