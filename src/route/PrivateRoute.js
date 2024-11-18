@@ -81,6 +81,12 @@ const CreateStaff = React.lazy(() =>
 const ManageStaff = React.lazy(() =>
   import("../components/manage/manageStaff/ManageStaff")
 );
+const ManageDelivery = React.lazy(() =>
+  import("../components/manage/manageDelivery/ManageDelivery")
+);
+const DeliveryDetail = React.lazy(() =>
+  import("../components/manage/deliveryDetail/DeliveryDetail")
+);
 
 //user
 const User = React.lazy(() => import("../route/UserRoute"));
@@ -138,6 +144,14 @@ const PrivateRoutes = [
     element: <LoadLazy children={<Staff />} />,
     children: [
       { path: path.MANAGE, element: <LoadLazy children={<Manage />} /> },
+      {
+        path: path.MANAGEDELIVERY,
+        element: <LoadLazy children={<ManageDelivery />} />,
+      },
+      {
+        path: path.DELIVERYDETAIL,
+        element: <LoadLazy children={<DeliveryDetail />} />,
+      },
       {
         path: path.MANAGEAUCTION,
         element: <LoadLazy children={<ManageAuction />} />,
