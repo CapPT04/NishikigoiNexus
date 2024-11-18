@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router";
 import Navbar from "../../common/Navbar/Navbar";
 import { Navigate } from "react-router";
 import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 import {
   handleGetFishImgById,
@@ -150,7 +151,7 @@ const FishAuctionMethod4 = () => {
       try {
         if (fishEntry) {
           const response = await handleCheckEnrollApi(
-            sessionStorage.getItem("token"),
+            Cookies.get("token"),
             fishEntry.fishEntryId
           );
 
@@ -200,7 +201,7 @@ const FishAuctionMethod4 = () => {
 
     // Nhận sự kiện từ server
     connection.on("UpdateNewCostForDutchAuction", (newPrice) => {
-      console.log("Received new price: ", newPrice);
+      // console.log("Received new price: ", newPrice);
       setHighestPrice(newPrice); // Cập nhật giá mới vào state
     });
     connection.on("AuctionEnded", (data) => {
@@ -265,7 +266,7 @@ const FishAuctionMethod4 = () => {
     if (isConfirmed) {
       try {
         const response = await handlePlaceDutchAuctionBid(
-          sessionStorage.getItem("token"),
+          Cookies.get("token"),
           fishEntry.fishEntryId
         );
         // console.log(response);
@@ -313,10 +314,7 @@ const FishAuctionMethod4 = () => {
   };
 
   const handleEnrollBtn = async () => {
-    if (
-      !sessionStorage.getItem("token") ||
-      jwtDecode(sessionStorage.getItem("token")).Role != 1
-    ) {
+    if (!Cookies.get("token") || jwtDecode(Cookies.get("token")).Role != 1) {
       navigate("/login");
       return;
     }
@@ -344,7 +342,7 @@ const FishAuctionMethod4 = () => {
         });
 
         const response = await handleEnrollApi(
-          sessionStorage.getItem("token"),
+          Cookies.get("token"),
           fishEntry.fishEntryId
         );
         // console.log(response);
@@ -374,11 +372,12 @@ const FishAuctionMethod4 = () => {
           }).then((result) => {
             if (result.isConfirmed) {
               // Redirect to deposit page
-              if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
+              const user = Cookies.get("user")
+                ? JSON.parse(Cookies.get("user"))
+                : null;
+              if (user.Role === "1") {
                 navigate("/user/UserWallet");
-              } else if (
-                JSON.parse(sessionStorage.getItem("user")).Role === "2"
-              ) {
+              } else if (user.Role === "2") {
                 navigate("/breeder/UserWallet");
               }
             }
@@ -469,11 +468,11 @@ const FishAuctionMethod4 = () => {
               <div className="fish-info-row3">
                 <div className="fish-info-weight">
                   <i className="fa-solid fa-weight-hanging"></i>
-                  <div className="weight-number">{fishInfor?.weight}</div>
+                  <div className="weight-number">{fishInfor?.weight} gram</div>
                 </div>
                 <div className="fish-info-length">
                   <i className="fa-solid fa-ruler"></i>
-                  <div className="length-number">{fishInfor?.size}</div>
+                  <div className="length-number">{fishInfor?.size} mm</div>
                 </div>
               </div>
               <div className="fish-info-row4">
@@ -486,7 +485,7 @@ const FishAuctionMethod4 = () => {
                 </div>
                 <div className="fish-info-age">
                   <i className="fa-solid fa-calendar"></i>
-                  <div className="age-text">{fishInfor?.age}</div>
+                  <div className="age-text">{fishInfor?.age} months</div>
                 </div>
               </div>
               <div className="fish-info-row5">

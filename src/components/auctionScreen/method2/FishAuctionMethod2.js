@@ -26,6 +26,7 @@ import { HubConnectionBuilder } from "@microsoft/signalr";
 import { Navigate } from "react-router";
 import { faArrowUpFromWaterPump } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 const FishAuctionMethod2 = () => {
   const navigate = useNavigate();
@@ -144,7 +145,7 @@ const FishAuctionMethod2 = () => {
       try {
         if (fishEntry && fishEntry.fishId) {
           const response = await handleCheckEnrollApi(
-            sessionStorage.getItem("token"),
+            Cookies.get("token"),
             fishEntry.fishEntryId
           );
           if (response && response.status === 200) {
@@ -164,10 +165,7 @@ const FishAuctionMethod2 = () => {
   const handleEnrollBtn = async () => {
     // Show confirmation dialog with deposit amount
 
-    if (
-      !sessionStorage.getItem("token") ||
-      jwtDecode(sessionStorage.getItem("token")).Role != 1
-    ) {
+    if (!Cookies.get("token") || jwtDecode(Cookies.get("token")).Role != 1) {
       navigate("/login");
       return;
     }
@@ -194,7 +192,7 @@ const FishAuctionMethod2 = () => {
         });
 
         const response = await handleEnrollApi(
-          sessionStorage.getItem("token"),
+          Cookies.get("token"),
           fishEntry.fishEntryId
         );
         // console.log(response);
@@ -223,12 +221,13 @@ const FishAuctionMethod2 = () => {
             cancelButtonText: "Cancel",
           }).then((result) => {
             if (result.isConfirmed) {
-              // Redirect to deposit page
-              if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
+              // Redirect to deposit page\
+              const user = Cookies.get("user")
+                ? JSON.parse(Cookies.get("user"))
+                : null;
+              if (user.Role === "1") {
                 navigate("/user/UserWallet");
-              } else if (
-                JSON.parse(sessionStorage.getItem("user")).Role === "2"
-              ) {
+              } else if (user.Role === "2") {
                 navigate("/breeder/UserWallet");
               }
             }
@@ -303,7 +302,7 @@ const FishAuctionMethod2 = () => {
         // Lắng nghe sự kiện ReceiveHistoryOfBids
         connection.on("ReceiveBidPlacement", (newBid) => {
           // Cập nhật lịch sử đấu giá với bid mới nhận được
-          console.log("Received new bid: ", newBid);
+          // console.log("Received new bid: ", newBid);
           setHistoryOfSecretBid((prevHistory) => [...prevHistory, newBid]);
           // Cập nhật số lượng người tham gia
           setNumberOfBidders((prevCount) => newBid.numberOfBidders);
@@ -329,8 +328,8 @@ const FishAuctionMethod2 = () => {
   const handlePlaceSecretBidBtn = async () => {
     // console.log("adsa");
 
-    if (sessionStorage.getItem("token") === null) {
-      // console.log(sessionStorage.getItem("token"));
+    if (Cookies.get("token") === null) {
+      // console.log(Cookies.get("token"));
       navigate("/login");
       return;
     }
@@ -349,7 +348,7 @@ const FishAuctionMethod2 = () => {
       if (result.isConfirmed) {
         try {
           const response = await handlePlaceSecretBidApi(
-            sessionStorage.getItem("token"),
+            Cookies.get("token"),
             amount,
             fishEntry.fishEntryId
           );
@@ -464,7 +463,7 @@ const FishAuctionMethod2 = () => {
           <div className="fish-aucction-method3-content-row3-col2">
             <div className="fish-info">
               <div className="fish-info-row1">
-                <div className="fish-info-name">{fishEntry?.fishName}</div>
+                <div className="fish-info-name">{fishInfor?.fishName}</div>
                 <div className="fish-info-notion">
                   <i className="fa-solid fa-circle-exclamation"></i>
                 </div>
@@ -483,11 +482,11 @@ const FishAuctionMethod2 = () => {
               <div className="fish-info-row3">
                 <div className="fish-info-weight">
                   <i className="fa-solid fa-weight-hanging"></i>
-                  <div className="weight-number">{fishInfor.weight}</div>
+                  <div className="weight-number">{fishInfor.weight} gram</div>
                 </div>
                 <div className="fish-info-length">
                   <i className="fa-solid fa-ruler"></i>
-                  <div className="length-number">{fishInfor.size}</div>
+                  <div className="length-number">{fishInfor.size} mm</div>
                 </div>
               </div>
               <div className="fish-info-row4">
@@ -500,7 +499,7 @@ const FishAuctionMethod2 = () => {
                 </div>
                 <div className="fish-info-age">
                   <i className="fa-solid fa-calendar"></i>
-                  <div className="age-text">{fishInfor.age}</div>
+                  <div className="age-text">{fishInfor.age} months</div>
                 </div>
               </div>
               <div className="fish-info-row5">
@@ -587,7 +586,7 @@ const FishAuctionMethod2 = () => {
               <div className="place-bid-status4">
                 <div className="place-bid-content-status4">
                   <div className="place-bid-content-row1-status4">
-                    {winnerData.name}
+                    Anonymous Member
                   </div>
                   <hr />
                   <div className="place-bid-content-row2-status4">

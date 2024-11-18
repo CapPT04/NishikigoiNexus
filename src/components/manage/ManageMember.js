@@ -6,11 +6,12 @@ import Navbar from "../common/Navbar/Navbar";
 import VerticallyNavbar from "../common/Navbar/VerticallyNavbar";
 import { handleGetAllMember, handleGetAllUser } from "../../axios/UserService";
 import { useNavigate } from "react-router";
+import Cookies from "js-cookie";
 
 const ManageMember = () => {
   const [users, setUsers] = React.useState([]);
   const navigate = useNavigate();
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
   const statusName = ["Active", "Inactive"];
 
   const handleAllUser = async () => {

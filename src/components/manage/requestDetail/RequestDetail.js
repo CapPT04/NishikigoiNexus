@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./RequestDetail.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   handleFishByFishEntryId,
   handleFishEntryByRequestId,
@@ -14,9 +14,11 @@ import {
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 
 const RequestDetail = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const requestId = searchParams.get("RequestId");
   const [requestDetail, setRequestDetail] = useState("");
   const [fishEntry, setFishEntry] = useState("");
@@ -69,7 +71,7 @@ const RequestDetail = () => {
       cancelButtonText: "No, cancel!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const token = sessionStorage.getItem("token");
+        const token = Cookies.get("token");
         const res = await handleAcceptRequest(token, requestId);
         if (res.status === 200) {
           toast.success("Accept Request Sucessfully", {
@@ -111,7 +113,7 @@ const RequestDetail = () => {
       cancelButtonText: "No, cancel!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const token = sessionStorage.getItem("token");
+        const token = Cookies.get("token");
         const res = await handleCancelRequest(token, requestId, denyReason);
         if (res.status === 200) {
           toast.success("Cancel Request Sucessfully", {
@@ -277,7 +279,14 @@ const RequestDetail = () => {
             </div>
 
             <div className="request-detail-staff-content-row10">
-              <div className="fish-id">
+              <div
+                className="fish-id"
+                onClick={() =>
+                  navigate("/Manager/KoiDetail", {
+                    state: { koi: fishEntry },
+                  })
+                }
+              >
                 <label for="fish-id-input" className="fish-id-label">
                   Fish ID
                 </label>

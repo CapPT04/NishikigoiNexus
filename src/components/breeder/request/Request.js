@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../common/Navbar/Navbar";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import Cookies from "js-cookie";
 
 const Request = () => {
   const [name, setName] = useState("");
@@ -138,7 +139,7 @@ const Request = () => {
               />
             </div>
             <div className="col-md-6 inputBox">
-              <h5>Fish Shape</h5>
+              <h5>Fish Type</h5>
               <input
                 type="text"
                 name="FishShape"
@@ -199,7 +200,7 @@ const Request = () => {
           {/* PondAddress+City */}
           <div className="fieldInput">
             <div className="col-md-6 inputBox">
-              <h5>Fond Address</h5>
+              <h5>Pond Address</h5>
               <input
                 type="text"
                 name="FondArrdess"
@@ -417,7 +418,7 @@ const Request = () => {
               <input type="text" name="fishName" value={name} disabled={true} />
             </div>
             <div className="col-md-6 inputBox">
-              <h5>Fish Shape</h5>
+              <h5>Fish Type</h5>
               <input
                 type="text"
                 name="FishShape"
@@ -439,6 +440,31 @@ const Request = () => {
                 name="FishWeight"
                 disabled={true}
                 value={weight}
+              />
+            </div>
+          </div>
+          {/* size+origin */}
+          <div className="fieldInput">
+            <div className="col-md-6 inputBox">
+              <h5>Fish Size</h5>
+              <div className="input-note">
+                <input
+                  type="number"
+                  min={0}
+                  name="FishSize (mm)"
+                  value={size}
+                  disabled={true}
+                />
+                <span className="note">mm</span>
+              </div>
+            </div>
+            <div className="col-md-6 inputBox">
+              <h5>Fish Origin</h5>
+              <input
+                type="text"
+                name="FishOrigin"
+                value={origin}
+                disabled={true}
               />
             </div>
           </div>
@@ -629,10 +655,10 @@ const Request = () => {
   //----submit----
   // chưa có trả về kết quả
   const handleSubmit = async () => {
-    // console.log(sessionStorage.getItem("token"));
+    // console.log(Cookies.get("token"));
 
     const fishAuction = {
-      token: sessionStorage.getItem("token"),
+      token: Cookies.get("token"),
       fishName: name,
       shape: shape,
       size: size,
@@ -680,11 +706,13 @@ const Request = () => {
       );
     } else {
       if (
-        startPrice > 0 &&
-        (auctionMethod === "1" ||
-          auctionMethod === "2" ||
-          (auctionMethod === "3" && maxPrice > 0 && stepPrice > 0) ||
-          (auctionMethod === "4" && maxPrice > 0))
+        Number(startPrice) > 0 &&
+        (Number(auctionMethod) === 1 ||
+          Number(auctionMethod) === 2 ||
+          (Number(auctionMethod) === 3 &&
+            Number(maxPrice) > 0 &&
+            Number(stepPrice) > 0) ||
+          (Number(auctionMethod) === 4 && Number(maxPrice) > 0))
       ) {
         try {
           const response = await handleSubmitRequest(fishAuction);
@@ -714,6 +742,10 @@ const Request = () => {
           }
         } catch (error) {}
       } else {
+        console.log(auctionMethod);
+        console.log(startPrice);
+        console.log(maxPrice);
+        console.log(stepPrice);
         toast.error("Field about money is wrong", {
           position: "top-right",
           autoClose: 5000,

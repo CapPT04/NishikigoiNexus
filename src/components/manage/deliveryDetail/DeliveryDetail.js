@@ -6,6 +6,9 @@ import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
 import Navbar from "../../common/Navbar/Navbar";
 import {
   handleApproveDelivery,
+  handleCancelDelivery,
+  handleCompleteDelivery,
+  handleFishEntryById,
   handleGetDeliveryByFishEntry,
   handleUserById,
 } from "../../../axios/UserService";
@@ -24,6 +27,7 @@ const DeliveryDetail = () => {
   const [staff, setStaff] = useState("");
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [reason, setReason] = useState("");
+  const [fishEntry, setFishEntry] = useState("");
 
   const formatMoney = (value) => {
     // Ensure the value is a number or a string
@@ -44,6 +48,11 @@ const DeliveryDetail = () => {
       const resStaff = await handleUserById(resDelivery.data.updateBy);
       setStaff(resStaff.data);
     }
+    const resFishEntry = await handleFishEntryById(
+      resDelivery.data.fishEntryId
+    );
+    console.log("entry:", resFishEntry.data);
+    setFishEntry(resFishEntry.data);
   };
 
   useEffect(() => {
@@ -112,8 +121,123 @@ const DeliveryDetail = () => {
       });
     }
   };
-  const cancelDelivery = () => { };
-  const completeDelivery = () => { };
+  const cancelDelivery = () => {
+    if (reason.length > 0 && img) {
+      Swal.fire({
+        title: "Are you sure to cancel the delivery?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Cancel Delivery",
+        cancelButtonText: "No",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const token = Cookies.get("token");
+          const res = await handleCancelDelivery(
+            token,
+            delivery.deliveryId,
+            img,
+            reason
+          );
+          if (res.status === 200) {
+            toast.success("Cancel the Delivery Sucessfully", {
+              position: "top-right",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          } else {
+            toast.error(res.data, {
+              position: "top-right",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            // window.location.reload();
+          }
+        }
+      });
+    } else {
+      toast.error("Reason and Image is required", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+  const completeDelivery = () => {
+    if (img) {
+      Swal.fire({
+        title: "Are you sure to complete the delivery?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Complete Delivery!",
+        cancelButtonText: "No, Cancel!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const token = Cookies.get("token");
+          const res = await handleCompleteDelivery(
+            token,
+            delivery.deliveryId,
+            img
+          );
+          if (res.status === 200) {
+            toast.success("Cancel the Delivery Sucessfully", {
+              position: "top-right",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          } else {
+            toast.error(res.data, {
+              position: "top-right",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            // window.location.reload();
+          }
+        }
+      });
+    } else {
+      toast.error("Image is required", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
   //----------- upload anh----------
   const [img, setImg] = useState("");
   const fileInputRef = useRef(null);
@@ -142,6 +266,7 @@ const DeliveryDetail = () => {
     }
   };
   const handleButtonClick = () => {
+    delivery.deliveryImage = null;
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -197,8 +322,9 @@ const DeliveryDetail = () => {
             </div>
             <div className="approve-delivery-row">
               <button
-                className={`approve-delivery-btn ${deliveryCost > 0 ? "" : "btn-off"
-                  }`}
+                className={`approve-delivery-btn ${
+                  deliveryCost > 0 ? "" : "btn-off"
+                }`}
                 onClick={approveDelivery}
                 style={{ display: delivery.deliveryStatus === 1 ? "" : "none" }}
               >
@@ -238,6 +364,47 @@ const DeliveryDetail = () => {
                       ? new Date(delivery.endDate).toLocaleString()
                       : "Not Complete Yet"
                   }
+                  disabled={true}
+                />
+              </div>
+            </div>
+            <div className="delivery-content-row5">
+              <div
+                className="update-by"
+                onClick={() =>
+                  navigate("/Manager/FishEntryDetail", {
+                    state: fishEntry,
+                  })
+                }
+              >
+                <label htmlFor="update-by-input" className="update-by-label">
+                  Fish Entry ID
+                </label>
+                <input
+                  type="text"
+                  className="update-by-input"
+                  value={fishEntry.fishEntryId}
+                  disabled={true}
+                />
+              </div>
+              <div
+                className="last-update"
+                onClick={() =>
+                  navigate("/Manager/KoiDetail", {
+                    state: { koi: fishEntry },
+                  })
+                }
+              >
+                <label
+                  htmlFor="last-update-input"
+                  className="last-update-label"
+                >
+                  Fish ID
+                </label>
+                <input
+                  type="datetime"
+                  className="last-update-input"
+                  value={fishEntry.fishId}
                   disabled={true}
                 />
               </div>
@@ -294,7 +461,12 @@ const DeliveryDetail = () => {
             <div className="delivery-content-row2">Delivery Result</div>
             <div className="delivery-content-row8">
               {/* input */}
-              <div className="reason">
+              <div
+                className="reason"
+                style={{
+                  display: delivery.deliveryStatus !== 3 ? "" : "none",
+                }}
+              >
                 <label htmlFor="reason-input" className="reason-label">
                   Reason (If Cancel)
                 </label>
@@ -320,12 +492,26 @@ const DeliveryDetail = () => {
                   ref={fileInputRef}
                   style={{ display: "none" }}
                 />
-                <div className="imgInput" onClick={handleButtonClick}>
-                  {img ? (
+                <div
+                  className="imgInput"
+                  onClick={
+                    delivery.deliveryStatus === 1 ||
+                    delivery.deliveryStatus === 2
+                      ? handleButtonClick
+                      : undefined
+                  }
+                >
+                  {delivery.deliveryImage ? (
+                    <img
+                      src={img || delivery.deliveryImage}
+                      className="imgKoi"
+                    />
+                  ) : img ? (
                     <img src={img} className="imgKoi" />
                   ) : (
                     <div className="plus-icon"></div>
                   )}
+                  {}
                 </div>
               </div>
             </div>

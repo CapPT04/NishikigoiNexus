@@ -40,7 +40,7 @@ const ManageDelivery = () => {
               </tr>
             </thead>
             <tbody>
-              {listDelivery?.length > 0 ? (
+              {listDelivery.length > 0 ? (
                 listDelivery.map((delivery, index) => {
                   return (
                     <tr key={index}>

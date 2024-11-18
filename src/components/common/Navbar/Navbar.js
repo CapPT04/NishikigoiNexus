@@ -4,17 +4,18 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { handleLogout } from "../../../axios/UserService";
 import logo from "../../../assets/images/logo_png.png";
 import "./Navbar.scss";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const userStorage = sessionStorage.getItem("user");
-  const user = JSON.parse(userStorage);
+  const userStorage = Cookies.get("user");
+  const user = userStorage ? JSON.parse(userStorage) : null;
 
   useEffect(() => {});
 
   const handleLogout = () => {
-    sessionStorage.removeItem("user");
-    sessionStorage.removeItem("token");
+    Cookies.remove("user");
+    Cookies.remove("token");
     navigate("/");
   };
 

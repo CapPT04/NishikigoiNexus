@@ -3,10 +3,11 @@ import "../history/History.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import { handleGetAllRequest } from "../../../axios/UserService";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const History = () => {
   const [requests, setRequests] = useState([]);
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
   const navigate = useNavigate();
 
   const statusName = ["Processing", "Paying", "Approved", "Denied"];

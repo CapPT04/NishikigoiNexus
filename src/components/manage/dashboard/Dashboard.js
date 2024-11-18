@@ -26,6 +26,7 @@ import {
 } from "recharts";
 import "./DashBoard.scss";
 import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 
 const DashBoard = () => {
   const navigate = useNavigate();
@@ -73,11 +74,8 @@ const DashBoard = () => {
 
     if (confirmResult.isConfirmed) {
       try {
-        const response = await handleUpdateFeeApi(
-          sessionStorage.getItem("token"),
-          fee
-        );
-        // console.log(sessionStorage.getItem("token"));
+        const response = await handleUpdateFeeApi(Cookies.get("token"), fee);
+        // console.log(Cookies.get("token"));
 
         // console.log(response);
 
@@ -108,7 +106,7 @@ const DashBoard = () => {
   };
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
+    const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
     if (user.Role !== "4") {
       navigate("/");
     }
@@ -305,8 +303,6 @@ const DashBoard = () => {
                 <option value="year">This year</option>
                 <option value="all">Overall</option>
               </select>
-
-
 
               {/* Bar Chart */}
 

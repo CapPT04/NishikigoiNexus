@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "./VerticallyNavbar.scss";
+import Cookies from "js-cookie";
 
 const VerticallyNavbar = () => {
   const navigate = useNavigate(); // Initialize navigate function
@@ -11,7 +12,7 @@ const VerticallyNavbar = () => {
   };
 
   // Get user data from sessionStorage
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
 
   // Add a check to ensure user is not null or undefined
   if (!user) {
@@ -66,6 +67,12 @@ const VerticallyNavbar = () => {
         onClick={() => handleSelect("/Manager/ManageFishEntry")}
       >
         Fish Entry
+      </a>
+      <a
+        className="delivery"
+        onClick={() => handleSelect("/Manager/ManageDelivery")}
+      >
+        Delivery
       </a>
     </div>
   );
