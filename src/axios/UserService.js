@@ -369,10 +369,14 @@ export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
 };
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 export const handleWinnerPaymentApi = async (
   token,
   fishEntryId
 ) => {
+=======
+export const handleWinnerPaymentApi = async (token, fishEntryId, checkoutData) => {
+>>>>>>> Stashed changes
 =======
 export const handleWinnerPaymentApi = async (token, fishEntryId, checkoutData) => {
 >>>>>>> Stashed changes
@@ -514,7 +518,10 @@ export const handleGetPaymentAndDeliveryApi = async (fishentryId) => {
   }
 };
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 export const handleSubmitRequest = async (request) => {
   try {
     const response = await axiosClient.post(`${END_POINT.CREATEREQUEST}`, {

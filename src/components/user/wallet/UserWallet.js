@@ -9,6 +9,11 @@ import {
 } from "../../../axios/UserService";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+<<<<<<< Updated upstream
+=======
+import Cookies from "js-cookie";
+import { Navigate, useNavigate } from "react-router";
+>>>>>>> Stashed changes
 
 const UserWallet = () => {
   const user = JSON.parse(sessionStorage.getItem("user"));

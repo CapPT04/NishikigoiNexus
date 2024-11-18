@@ -66,9 +66,15 @@
 }
 
 .btn-for-checkout-page {
+<<<<<<< Updated upstream
     display        : flex;
     justify-content: center;
     gap            : 30px;
+=======
+    display: flex;
+    margin : 0 auto;
+    gap    : 20px;
+>>>>>>> Stashed changes
 
     .checkout-btn,
     .checkout-cancel-btn {
@@ -89,6 +95,7 @@
             opacity: 0.7;
             cursor : pointer;
         }
+<<<<<<< Updated upstream
 
         &:disabled {
             background-color: #d3d3d3;
@@ -107,4 +114,11 @@
         cursor : pointer;
         opacity: 0.7;
     }
+=======
+    }
+
+    .checkout-cancel-btn {
+        background: #121212;
+    }
+>>>>>>> Stashed changes
 }

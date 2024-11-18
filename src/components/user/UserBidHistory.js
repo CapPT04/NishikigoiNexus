@@ -235,6 +235,10 @@ const UserBidHistory = () => {
                 <th>Winner</th>
                 <th>Sold Price</th>
                 <th>Tracking Delivery</th>
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
               </tr>
             </thead>
             <tbody>
@@ -267,6 +271,10 @@ const UserBidHistory = () => {
                       ) : ""}
 
                     </td>
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
                   </tr>
                 ))
               ) : (
@@ -278,7 +286,7 @@ const UserBidHistory = () => {
           </table>
         </div>
       </div>
-    </div>
+    </div >
   );
 >>>>>>> Stashed changes
 };

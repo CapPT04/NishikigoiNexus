@@ -1,4 +1,5 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import React, { useEffect, useState } from 'react';
 import './Checkout.scss';
 import { handleGetPaymentPriceApi, handleWinnerPaymentApi } from "../../axios/UserService";
@@ -172,6 +173,27 @@ const Checkout = () => {
 
 
 
+=======
+import React, { useState } from 'react';
+import './Checkout.scss';
+import { useLocation, useNavigate } from 'react-router-dom'; // Ensure useNavigate is from 'react-router-dom'
+import { handleWinnerPaymentApi } from "../../axios/UserService";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+
+const Checkout = () => {
+  const [phone, setPhone] = useState('');
+  const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
+  const isCheckoutDisabled = !phone || !city || !address;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const fishEntryId = location.state?.fishEntryId || null;
+  const soldPrice = location.state?.highestPrice || null;
+
+
+
+>>>>>>> Stashed changes
   const formatMoney = (value) => {
     // Convert the value to a string and take only the integer part
     let integerPart = String(Math.floor(Number(value)));
@@ -310,6 +332,53 @@ const Checkout = () => {
               value={phone} // Bind state to input
               onChange={(e) => setPhone(e.target.value)} // Handle input change
             />
+<<<<<<< Updated upstream
+          </div>
+          <div className="city">
+            <label htmlFor="city-input" className="city-label">City</label>
+            <input
+              type="text"
+              className="city-input"
+              id="city-input"
+              value={city} // Bind state to input
+              onChange={(e) => setCity(e.target.value)} // Handle input change
+            />
+          </div>
+          <div className="address">
+            <label htmlFor="address-input" className="address-label">Address</label>
+            <input
+              type="text"
+              className="address-input"
+              id="address-input"
+              value={address} // Bind state to input
+              onChange={(e) => setAddress(e.target.value)} // Handle input change
+            />
+          </div>
+          <div className="sold-price">
+            <label htmlFor="sold-price-input" className="sold-price-label">Due Payment</label>
+            <input
+              type="text"
+              className="sold-price-input"
+              value={formatMoney(soldPrice) + " VND"}
+            />
+          </div>
+          <div className='btn-for-checkout-page'>
+            <button
+              className="checkout-btn"
+              onClick={handleCheckoutBtn}
+              disabled={isCheckoutDisabled}
+            >
+              Checkout
+            </button>
+            <button
+              className="checkout-cancel-btn"
+              onClick={handleCancelBtn}
+            >
+              Cancel
+            </button>
+          </div>
+>>>>>>> Stashed changes
+=======
           </div>
           <div className="city">
             <label htmlFor="city-input" className="city-label">City</label>
