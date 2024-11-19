@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./UserBidHistory.scss";
 import Navbar from "../common/Navbar/Navbar";
 import {
-  handleGetBiddingHistoryByMemberIdApi,
+  handleGetOtherBiddingHistoryByMemberIdApi,
   handleGetUnpaidBiddingHistoryByMemberIdApi,
 } from "../../axios/UserService";
 import { Navigate, useNavigate } from "react-router";
@@ -18,10 +18,9 @@ const UserBidHistory = () => {
         const user = Cookies.get("user")
           ? JSON.parse(Cookies.get("user"))
           : null;
-        const response = await handleGetBiddingHistoryByMemberIdApi(
+        const response = await handleGetOtherBiddingHistoryByMemberIdApi(
           user.UserID
         );
-
         setBiddingHistory(response.data.$values || []);
       } catch (error) {
         console.error("Error fetching bidding history:", error);
@@ -86,7 +85,7 @@ const UserBidHistory = () => {
                     <td>{auction.auctionId}</td>
                     <td>{auction.fishEntryId}</td>
                     <td>{new Date(auction.startDate).toLocaleString()}</td>
-                    <td>{formatMoney(auction.highestPrice)}</td>
+                    <td>{formatMoney(auction.highestPrice)} VND</td>
                     <td>
                       <button
                         className="pay-auction-btn"
@@ -147,7 +146,7 @@ const UserBidHistory = () => {
                         </span>
                       )}
                     </td>
-                    <td>{formatMoney(bid.highestPrice)}</td>
+                    <td>{formatMoney(bid.highestPrice)} VND</td>
                     <td>
                       {bid.isWinner ? (
                         <i className="fa-solid fa-arrow-right"

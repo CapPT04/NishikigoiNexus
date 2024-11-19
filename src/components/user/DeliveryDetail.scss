@@ -36,7 +36,8 @@
         .deliver-detail-status,
         .start-date-and-complete-date,
         .delivery-id-and-delivery-phone,
-        .delivery-city-and-address {
+        .delivery-city-and-address,
+        .delivery-name-and-due-payment {
             width : 90%;
             margin: 0 auto;
         }
@@ -55,7 +56,8 @@
 
         .start-date-and-complete-date,
         .delivery-id-and-delivery-phone,
-        .delivery-city-and-address {
+        .delivery-city-and-address,
+        .delivery-name-and-due-payment {
             display        : flex;
             justify-content: space-between;
 
@@ -64,7 +66,9 @@
             .delivery-id,
             .delivery-phone,
             .delivery-city,
-            .delivery-address {
+            .delivery-address,
+            .delivery-detail-name,
+            .delivery-detail-due-payment {
                 width: 48%;
 
                 .start-date-label,
@@ -72,7 +76,9 @@
                 .delivery-id-label,
                 .delivery-phone-label,
                 .delivery-city-label,
-                .delivery-address-label {
+                .delivery-address-label,
+                .name-label,
+                .due-payment-label {
                     color      : #121212;
                     font-size  : 24px;
                     font-weight: 400;
@@ -83,7 +89,9 @@
                 .delivery-id-content,
                 .delivery-phone-content,
                 .delivery-city-content,
-                .delivery-address-content {
+                .delivery-address-content,
+                .name-content,
+                .due-payment-content {
                     border-radius: 12px;
                     border       : 1px solid #121212;
                     height       : 56px;

@@ -72,10 +72,6 @@ const END_POINT = {
   REVENUEBYTIMEFRAME: "Payment/RevenueByTimeFrame",
   MONTHLYREVENUE: "Payment/MonthlyRevenueCurrentYear",
   GETWINNER: "FishEntry/GetWinner",
-  GETOTHERBIDDINGHISTORYBYMEMBERID: "User/GetOtherBiddingHistoryByMemberId",
-  GETBIDDINGHISTORYBYMEMBERID: "User/GetBiddingHistoryByMemberId",
-  GETUNPAIDBIDDINGHISTORYBYMEMBERID:
-    "Enrollment/GetUnpaidBiddingHistoryByMemberId",
   WINNERPAYMENT: "Payment/WinnerPayment",
   WINNERPAYMENTCALLBACK: "Payment/WinnerPaymentCallBack",
   CHECKENROLL: "Enrollment/CheckEnrollment",
@@ -90,6 +86,10 @@ const END_POINT = {
   TRANSACTIONHISTORY: "Transaction/GetTransactionHistory",
   GETPAYMENTPRICE: "FishEntry/GetPaymentPrice",
   GETPAYMENTANDDELIVERY: "FishEntry/GetPaymentAndDelivery",
+  // GETOTHERBIDDINGHISTORYBYMEMBERID: "User/GetOtherBiddingHistoryByMemberId",
+  GETUNPAIDBIDDINGHISTORYBYMEMBERID: "Enrollment/GetUnpaidBiddingHistoryByMemberId",
+  GETBIDDINGHISTORYBYMEMBERID: "Enrollment/GetBiddingHistoryByMemberId",
+  GETOTHERBIDDINGHISTORYBYMEMBERID: "Enrollment/GetOtherBiddingHistoryByMemberId",
   //Payment
   FEEWALLETPAYMENT: "Payment/FeePayment",
 
@@ -214,7 +214,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -409,11 +409,19 @@ export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
   }
 };
 
-export const handleWinnerPaymentApi = async (
-  token,
-  fishEntryId,
-  checkoutData
-) => {
+export const handleGetOtherBiddingHistoryByMemberIdApi = async (id) => {
+  try {
+    return axiosClient.get(`${END_POINT.GETOTHERBIDDINGHISTORYBYMEMBERID}`, {
+      params: { id },
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+
+export const handleWinnerPaymentApi = async (token, fishEntryId, checkoutData) => {
   try {
     return await axiosClient.post(`${END_POINT.WINNERPAYMENT}`, {
       token: token,
