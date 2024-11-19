@@ -10,6 +10,7 @@ import {
   handleCompleteDelivery,
   handleFishEntryById,
   handleGetDeliveryByFishEntry,
+  handleGetRequestDetail,
   handleUserById,
 } from "../../../axios/UserService";
 import Swal from "sweetalert2";
@@ -25,6 +26,7 @@ const DeliveryDetail = () => {
   const statusName = ["Waiting", "Delivering", "Completed", "Canceled"];
   const [delivery, setDelivery] = useState("");
   const [staff, setStaff] = useState("");
+  const [breeder, setBreeder] = useState("");
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [reason, setReason] = useState("");
   const [fishEntry, setFishEntry] = useState("");
@@ -42,7 +44,7 @@ const DeliveryDetail = () => {
 
   const getAllInfo = async () => {
     const resDelivery = await handleGetDeliveryByFishEntry(fishEntryId);
-    console.log(resDelivery.data);
+    // console.log(resDelivery.data);
     setDelivery(resDelivery.data);
     if (resDelivery.data.updateBy) {
       const resStaff = await handleUserById(resDelivery.data.updateBy);
@@ -51,8 +53,14 @@ const DeliveryDetail = () => {
     const resFishEntry = await handleFishEntryById(
       resDelivery.data.fishEntryId
     );
-    console.log("entry:", resFishEntry.data);
+    // console.log("entry:", resFishEntry.data);
     setFishEntry(resFishEntry.data);
+    const resRequest = await handleGetRequestDetail(
+      resFishEntry.data.requestId
+    );
+    const resBreeder = await handleUserById(resRequest.data.createBy);
+    // console.log(resBreeder.data);
+    setBreeder(resBreeder.data);
   };
 
   useEffect(() => {
@@ -412,7 +420,7 @@ const DeliveryDetail = () => {
             <div className="delivery-content-row6">
               <div className="update-by">
                 <label htmlFor="update-by-input" className="update-by-label">
-                  Winner Price
+                  Highest Price
                 </label>
                 <input
                   type="text"
@@ -465,7 +473,9 @@ const DeliveryDetail = () => {
                   value={
                     delivery.deliveryCost
                       ? formatMoney(
-                          fishEntry.highestPrice - delivery.deliveryCost
+                          fishEntry.highestPrice -
+                            fishEntry.highestPrice * 0.01 * breeder.commission -
+                            delivery.deliveryCost
                         ) + " VND"
                       : ""
                   }
