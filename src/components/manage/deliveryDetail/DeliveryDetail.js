@@ -402,9 +402,71 @@ const DeliveryDetail = () => {
                   Fish ID
                 </label>
                 <input
-                  type="datetime"
+                  type="text"
                   className="last-update-input"
                   value={fishEntry.fishId}
+                  disabled={true}
+                />
+              </div>
+            </div>
+            <div className="delivery-content-row6">
+              <div className="update-by">
+                <label htmlFor="update-by-input" className="update-by-label">
+                  Winner Price
+                </label>
+                <input
+                  type="text"
+                  className="update-by-input"
+                  value={formatMoney(fishEntry.highestPrice) + " VND"}
+                  disabled={true}
+                />
+              </div>
+              <div className="last-update">
+                <label
+                  htmlFor="last-update-input"
+                  className="last-update-label"
+                >
+                  Auction End Date
+                </label>
+                <input
+                  type="datetime"
+                  className="last-update-input"
+                  value={
+                    fishEntry.endDate
+                      ? new Date(fishEntry.endDate).toLocaleString()
+                      : ""
+                  }
+                  disabled={true}
+                />
+              </div>
+            </div>
+            <div className="delivery-content-row6">
+              <div className="update-by">
+                <label htmlFor="update-by-input" className="update-by-label">
+                  Winner Payment Amount
+                </label>
+                <input
+                  type="text"
+                  className="update-by-input"
+                  value={formatMoney(delivery.amount) + " VND"}
+                  disabled={true}
+                />
+              </div>
+              <div className="last-update">
+                <label
+                  htmlFor="last-update-input"
+                  className="last-update-label"
+                >
+                  Breeder Receive
+                </label>
+                <input
+                  type="text"
+                  className="last-update-input"
+                  value={
+                    formatMoney(
+                      fishEntry.highestPrice - delivery.deliveryCost
+                    ) + " VND"
+                  }
                   disabled={true}
                 />
               </div>
@@ -433,6 +495,7 @@ const DeliveryDetail = () => {
                 />
               </div>
             </div>
+
             <div className="delivery-content-row7">
               <div className="shape">
                 <label htmlFor="shape-input" className="shape-label">
