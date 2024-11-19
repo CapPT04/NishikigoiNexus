@@ -29,6 +29,7 @@ const END_POINT = {
   GETREQUESTBYID: "Request/GetRequestById",
   GETFISHDETAIL: "Fish/GetFishById",
   GETALLBREEDERS: "Breeder/GetAllBreeders",
+  GETALLDELIVERYBYTOKEN: "Delivery/GetDeliveryByBreeder",
   //manager
   CREATEBREEDER: "Breeder/CreateBreeder",
   CREATESTAFF: "Staff/CreateStaff",
@@ -96,6 +97,9 @@ const END_POINT = {
   APPROVEDELIVERY: "Delivery/ApproveDelivery",
   CANCELDELIVERY: "Delivery/CancelDelivery",
   COMPLETEDELIVERY: "Delivery/CompleteDelivery",
+};
+export const handleGetDeliveryByToken = (token) => {
+  return axiosClient.get(`${END_POINT.GETALLDELIVERYBYTOKEN}?token=${token}`);
 };
 export const handleApproveDelivery = (token, id, cost) => {
   return axiosClient.put(`${END_POINT.APPROVEDELIVERY}`, {
@@ -405,15 +409,18 @@ export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
   }
 };
 
-
-export const handleWinnerPaymentApi = async (token, fishEntryId, checkoutData) => {
+export const handleWinnerPaymentApi = async (
+  token,
+  fishEntryId,
+  checkoutData
+) => {
   try {
     return await axiosClient.post(`${END_POINT.WINNERPAYMENT}`, {
       token: token,
       fishEntryId: fishEntryId,
       phone: checkoutData.phone,
       address: checkoutData.address,
-      city: checkoutData.city
+      city: checkoutData.city,
     });
   } catch (error) {
     throw error;

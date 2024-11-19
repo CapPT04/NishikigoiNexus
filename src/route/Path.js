@@ -19,6 +19,8 @@ export const path = {
   PAYMENTRESPONSE: "PaymentResponse",
   FISHLIST: "FishList",
   DETAILFISH: "DetailFish",
+  HISTORYDELIVERY: "HistoryDelivery",
+  DETAILDELIVERY: "Delivery",
   //manage
   MANAGER: "/Manager",
   MANAGE: "Manage",
