@@ -35,6 +35,12 @@ const ManageKoi = React.lazy(() =>
 const KoiDetail = React.lazy(() =>
   import("../components/manage/koiDetail/KoiDetail")
 );
+const DeliveryHistory = React.lazy(() =>
+  import("../components/breeder/deliveryList/DeliveryLsit")
+);
+const Delivery = React.lazy(() =>
+  import("../components/breeder/delivery/Delivery")
+);
 
 //staff
 const Staff = React.lazy(() => import("../route/StaffRoute"));
@@ -113,6 +119,14 @@ const PrivateRoutes = [
     path: path.BREEDER,
     element: <LoadLazy children={<Breeder />} />,
     children: [
+      {
+        path: path.HISTORYDELIVERY,
+        element: <LoadLazy children={<DeliveryHistory />} />,
+      },
+      {
+        path: path.DETAILDELIVERY,
+        element: <LoadLazy children={<Delivery />} />,
+      },
       {
         path: path.CREATEREQUEST,
         element: <LoadLazy children={<CreateRequest />} />,
