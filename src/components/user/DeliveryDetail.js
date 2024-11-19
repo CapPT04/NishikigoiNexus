@@ -23,6 +23,16 @@ const DeliveryDetail = () => {
         fetchGetPaymentAndDelivery();
     }, [])
 
+    const formatMoney = (value) => {
+        // Convert the value to a string and take only the integer part
+        let integerPart = String(Math.floor(Number(value)));
+        // Remove non-digit characters from the integer part
+        integerPart = integerPart.replace(/\D/g, "");
+        // Format the integer part with commas as thousand separators
+        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        // Return the formatted integer part
+        return integerPart;
+    };
 
     return (
         <div className="delivery-detail-container">
@@ -38,6 +48,24 @@ const DeliveryDetail = () => {
                     {delivery?.deliveryStatus === 2 ? (<span>Delivering</span>) : ""}
                     {delivery?.deliveryStatus === 3 ? (<span>Complete</span>) : ""}
                     {delivery?.deliveryStatus === 4 ? (<span>Cancel</span>) : ""}
+                </div>
+                <div className="delivery-name-and-due-payment">
+                    <div className="delivery-detail-name">
+                        <label for="name-content" className="name-label" >
+                            Name
+                        </label>
+
+                        <div className="name-content">
+                            {delivery?.winnerName}
+
+                        </div>
+                    </div>
+                    <div className="delivery-detail-due-payment">
+                        <label for="due-payment-content" className="due-payment-label">Due Payment</label>
+                        <div className="due-payment-content">
+                            {formatMoney(delivery?.amount)} VND
+                        </div>
+                    </div>
                 </div>
                 <div className="start-date-and-complete-date">
                     <div className="delivery-detail-start-date">
