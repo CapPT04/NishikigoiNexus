@@ -463,9 +463,11 @@ const DeliveryDetail = () => {
                   type="text"
                   className="last-update-input"
                   value={
-                    formatMoney(
-                      fishEntry.highestPrice - delivery.deliveryCost
-                    ) + " VND"
+                    delivery.deliveryCost
+                      ? formatMoney(
+                          fishEntry.highestPrice - delivery.deliveryCost
+                        ) + " VND"
+                      : ""
                   }
                   disabled={true}
                 />
