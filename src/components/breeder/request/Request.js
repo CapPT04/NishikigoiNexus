@@ -731,7 +731,7 @@ const Request = () => {
               navigate("/Breeder/HistoryRequest");
             }, 2000);
           } else {
-            toast.error("Some field error, please check again", {
+            toast.error(response.data.message || "Some field is wrong", {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -743,10 +743,6 @@ const Request = () => {
           }
         } catch (error) {}
       } else {
-        console.log(auctionMethod);
-        console.log(startPrice);
-        console.log(maxPrice);
-        console.log(stepPrice);
         toast.error("Field about money is wrong", {
           position: "top-right",
           autoClose: 5000,
