@@ -4,10 +4,10 @@ import Navbar from "../../common/Navbar/Navbar";
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
-import { logo } from "../../../assets/images/logo_png.png";
-import { insta } from "../../../assets/images/Instagram.svg";
-import { face } from "../../../assets/images/facebook.svg";
-import { gg } from "../../../assets/images/google.png";
+import logo from "../../../assets/images/logo_png.png";
+import insta from "../../../assets/images/Instagram.svg";
+import face from "../../../assets/images/facebook.svg";
+import gg from "../../../assets/images/google.png";
 
 import {
   handleFishEntryById,
