@@ -619,7 +619,8 @@ const Request = () => {
           </div>
           <div className="feeNotice">
             * When the fish auction is successful, we will take a commission
-            from the successful auction amount.{" "}
+            from the successful auction amount. You will bear the delivery cost
+            which will be sent to you after the auction is successful{" "}
           </div>
           {/* confirm */}
           <div className="confirmBox">

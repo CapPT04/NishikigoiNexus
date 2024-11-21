@@ -397,20 +397,21 @@ const FishAuctionMethod1 = () => {
             </div>
             <div className="bidding-history-background">
               <div className="bidding-history-content">
-                {bidHistory.slice(-5).map((bid, index) => {
-                  if (bid.name) {
-                    return (
-                      <div key={index} className="bidding-history-info">
-                        <div className="bidding-time">
-                          {new Date(bid.bidTime).toLocaleString()} &nbsp;{" "}
+                {bidHistory &&
+                  bidHistory.slice(-5).map((bid, index) => {
+                    if (bid.name) {
+                      return (
+                        <div key={index} className="bidding-history-info">
+                          <div className="bidding-time">
+                            {new Date(bid.bidTime).toLocaleString()} &nbsp;{" "}
+                          </div>
+                          <div className="bidding-name-bidder">
+                            A member placed a bid &nbsp;
+                          </div>
                         </div>
-                        <div className="bidding-name-bidder">
-                          A member placed a bid &nbsp;
-                        </div>
-                      </div>
-                    );
-                  }
-                })}
+                      );
+                    }
+                  })}
               </div>
             </div>
             {(fishEntry.status === 3 || fishEntry.status === 2) && (

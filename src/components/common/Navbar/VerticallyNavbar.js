@@ -74,6 +74,12 @@ const VerticallyNavbar = () => {
       >
         Delivery
       </a>
+      <a
+        className="unpaid"
+        onClick={() => handleSelect("/Manager/ManageUnpaid")}
+      >
+        Unpaid
+      </a>
     </div>
   );
 };

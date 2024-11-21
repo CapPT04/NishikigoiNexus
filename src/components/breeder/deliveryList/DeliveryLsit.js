@@ -72,8 +72,15 @@ const DeliveryLsit = () => {
             </thead>
             <tbody>
               {listDelivery?.length > 0 ? (
-                listDelivery.map((delivery, index) => {
-                  if (delivery) {
+                listDelivery
+                  .filter(
+                    (delivery) => delivery !== null && delivery !== undefined
+                  )
+                  .sort((a, b) => b.deliveryId - a.deliveryId)
+                  .map((delivery, index) => {
+                    {
+                      /* if (delivery) { */
+                    }
                     return (
                       <tr key={index}>
                         <td>{index + 1}</td>
@@ -99,8 +106,10 @@ const DeliveryLsit = () => {
                         </td>
                       </tr>
                     );
-                  }
-                })
+                    {
+                      /* } */
+                    }
+                  })
               ) : (
                 <tr>
                   <td className="spanCol" colSpan="6">
