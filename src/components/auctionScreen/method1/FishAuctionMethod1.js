@@ -4,6 +4,10 @@ import Navbar from "../../common/Navbar/Navbar";
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
+import { logo } from "../../../assets/images/logo_png.png";
+import { insta } from "../../../assets/images/Instagram.svg";
+import { face } from "../../../assets/images/facebook.svg";
+import { gg } from "../../../assets/images/google.png";
 
 import {
   handleFishEntryById,
@@ -484,22 +488,18 @@ const FishAuctionMethod1 = () => {
       </div>
       <footer className="footer">
         <div className="logo-footer">
-          <img
-            className="logo-img-footer"
-            src="../../assets/images/logo_png.png"
-            alt=""
-          />
+          <img className="logo-img-footer" src={logo} alt="" />
           <div className="name-project-footer">Nishikigoi Nexus</div>
         </div>
         <div className="social-contact">
           <div className="instagram">
-            <img src="../../assets/images/Instagram.svg" alt="" />
+            <img src={insta} alt="" />
           </div>
           <div className="facebook">
-            <img src="../../assets/images/Social Icons (1).svg" alt="" />
+            <img src={face} alt="" />
           </div>
           <div className="google">
-            <img src="../../assets/images/Vector.svg" alt="" />
+            <img src={gg} alt="" />
           </div>
         </div>
         <div className="nav-bar-footer">
