@@ -208,7 +208,7 @@ const DeliveryDetail = () => {
             img
           );
           if (res.status === 200) {
-            toast.success("Cancel the Delivery Sucessfully", {
+            toast.success("Complete the Delivery", {
               position: "top-right",
               autoClose: 1500,
               hideProgressBar: false,

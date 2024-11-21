@@ -50,6 +50,7 @@ const END_POINT = {
   PAYCALLBACK: "Payment/PaymentCallBack",
   GETALLDELIVERY: "Delivery/GetAllDelivery",
   GETDELIVERYBYFISHENTRY: "FishEntry/GetPaymentAndDelivery",
+  MANAGEUNPAID: "User/GetAllUnpaidBiddingHistory",
   //auction
   GETFISHENTRYBYID: "FishEntry/GetFishEntryById",
   PUBLICBIDHISTORY: "PublicBid/HistoryByFishEntryId",
@@ -99,6 +100,9 @@ const END_POINT = {
   APPROVEDELIVERY: "Delivery/ApproveDelivery",
   CANCELDELIVERY: "Delivery/CancelDelivery",
   COMPLETEDELIVERY: "Delivery/CompleteDelivery",
+};
+export const handleManageUnpaid = () => {
+  return axiosClient.get(`${END_POINT.MANAGEUNPAID}`);
 };
 export const handleGetDeliveryByToken = (token) => {
   return axiosClient.get(`${END_POINT.GETALLDELIVERYBYTOKEN}?token=${token}`);

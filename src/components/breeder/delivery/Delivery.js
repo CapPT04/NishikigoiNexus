@@ -261,7 +261,7 @@ const Delivery = () => {
                   }}
                 >
                   <label htmlFor="reason-input" className="reason-label">
-                    Reason (If Cancel)
+                    Reason for Cancellation
                   </label>
                   <input
                     type="text"
