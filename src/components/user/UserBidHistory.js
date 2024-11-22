@@ -117,8 +117,7 @@ const UserBidHistory = () => {
                         onClick={() =>
                           navigate("/User/Checkout", {
                             state: {
-                              fishEntryId: auction.fishEntryId,
-                              highestPrice: auction.highestPrice,
+                              fishEntryId: auction.fishEntryId
                             },
                           })
                         }

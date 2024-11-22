@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Checkout.scss';
 import { useLocation } from 'react-router';
-import { handleWinnerPaymentApi } from "../../axios/UserService";
+import { handleGetPaymentPriceApi, handleWinnerPaymentApi } from "../../axios/UserService";
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
@@ -13,7 +13,7 @@ const Checkout = () => {
   const [address, setAddress] = useState('');
   const location = useLocation();
   const fishEntryId = location.state?.fishEntryId || null;
-  const highestPrice = location.state?.highestPrice || null;
+  const [duePayment, setDuePayment] = useState(0);
   const navigate = useNavigate();
   const isDisableCheckoutBtn = !name || !phone || !city || !address;
 
@@ -22,6 +22,25 @@ const Checkout = () => {
     integerPart = integerPart.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return integerPart;
   };
+
+
+  useEffect(() => {
+    const fetchDuePayment = async () => {
+      try {
+
+        const response = await handleGetPaymentPriceApi(fishEntryId);
+        console.log(response);
+
+        if (response && response.status === 200) {
+          setDuePayment(response.data.finalPrice || 0);
+        }
+      }
+      catch (error) {
+        console.log("Error in fetchDuePayment in Checkout");
+      }
+    }
+    fetchDuePayment();
+  }, [])
 
   const handleCheckoutBtn = async () => {
     const checkoutData = { name, phone, city, address };
@@ -90,8 +109,8 @@ const Checkout = () => {
           <div className="congratulatory-message">
             <h2 className="congratulatory-text">🎉 Congratulations! 🎉</h2>
             <p className="payment-info">
-              You have won the auction. The amount to be paid is:
-              <strong> {formatMoney(highestPrice)} VND</strong>.
+              You have won the auction. The amount to be paid after deducting the deposit is:
+              <strong> {formatMoney(duePayment)} VND</strong>.
               Please provide your delivery details below to complete the checkout.
             </p>
           </div>
