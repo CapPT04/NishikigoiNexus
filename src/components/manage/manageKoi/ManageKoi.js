@@ -2,27 +2,35 @@ import React, { useEffect, useState } from "react";
 import "./ManageKoi.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
-import { handleGetAllFish, handleUserById } from "../../../axios/UserService";
+import { handleGetAllFish } from "../../../axios/UserService";
 import { useNavigate } from "react-router";
+import ReactPaginate from "react-paginate"; // Import ReactPaginate để thực hiện phân trang
 
 const ManageKoi = () => {
-  const [listKois, setListKois] = useState([]);
-  // const [nameBreeder, setNameBreeder] = useState("");
+  const [listKois, setListKois] = useState([]);  // State lưu danh sách các Koi
+  const [currentPage, setCurrentPage] = useState(0); // State lưu trang hiện tại
+  const [itemsPerPage] = useState(10); // Số lượng mục hiển thị trên mỗi trang (có thể thay đổi giá trị này)
   const navigate = useNavigate();
 
+  // Hàm lấy danh sách các Koi từ API
   const getListKois = async () => {
     const res = await handleGetAllFish();
-    // console.log(res.data.$values);
-    setListKois(res.data.$values);
+    setListKois(res.data.$values);  // Lưu kết quả vào state listKois
   };
-  // const getNameBreeder = async (breederId) => {
-  //   const res = await handleUserById(breederId);
-  //   return res.data.firstName + " " + res.data.lastName;
-  // };
 
   useEffect(() => {
-    getListKois();
+    getListKois();  // Gọi hàm lấy danh sách Koi khi component được render
   }, []);
+
+  // Logic phân trang
+  const offset = currentPage * itemsPerPage;  // Tính toán chỉ số bắt đầu của trang hiện tại
+  const currentItems = listKois.slice(offset, offset + itemsPerPage); // Lấy danh sách các mục sẽ hiển thị trên trang hiện tại
+  const pageCount = Math.ceil(listKois.length / itemsPerPage); // Tính toán tổng số trang
+
+  // Hàm xử lý khi người dùng chọn trang mới
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected); // Cập nhật trang hiện tại khi người dùng chọn trang
+  };
 
   return (
     <div className="manage-koi-container">
@@ -35,7 +43,6 @@ const ManageKoi = () => {
           {/* <div className="search">
             <div className="search-text">Search: </div>
             <div className="search-value">
-              {" "}
               <input
                 className="search-input"
                 placeholder="Search by Email and Phone number"
@@ -59,14 +66,14 @@ const ManageKoi = () => {
               </tr>
             </thead>
             <tbody>
-              {listKois.length > 0 ? (
-                listKois.map((koi, index) => {
+              {currentItems.length > 0 ? (
+                currentItems.map((koi, index) => {
                   return (
                     <tr key={index}>
-                      <td>{index + 1}</td>
+                      <td>{offset + index + 1}</td> {/* Hiển thị số thứ tự với offset */}
                       <td>{koi.fishId}</td>
                       <td>{koi.fishName}</td>
-                      <td>{new Date(koi.createDate).toLocaleString()}</td>
+                      <td>{new Date(koi.createDate).toLocaleString()}</td> {/* Định dạng ngày tháng */}
                       <td>{koi.createBy}</td>
                       <td>{koi.status === 1 ? "Available" : "Sold"}</td>
                       <td>
@@ -77,7 +84,7 @@ const ManageKoi = () => {
                             })
                           }
                         >
-                          <i className="fa-solid fa-arrow-right"></i>
+                          <i className="fa-solid fa-arrow-right"></i> {/* Chuyển hướng đến trang chi tiết */}
                         </a>
                       </td>
                     </tr>
@@ -85,11 +92,24 @@ const ManageKoi = () => {
                 })
               ) : (
                 <tr>
-                  <td colSpan="7">No Data</td>
+                  <td colSpan="7">No Data</td> {/* Hiển thị nếu không có dữ liệu */}
                 </tr>
               )}
             </tbody>
           </table>
+
+          {/* Phần phân trang */}
+          <ReactPaginate
+            previousLabel={"Previous"} // Nhãn cho nút "Trước"
+            nextLabel={"Next"} // Nhãn cho nút "Tiếp theo"
+            breakLabel={"..."} // Nhãn cho dấu ba chấm
+            pageCount={pageCount} // Tổng số trang
+            marginPagesDisplayed={2} // Hiển thị 2 trang đầu và cuối
+            pageRangeDisplayed={3} // Hiển thị 3 trang xung quanh trang hiện tại
+            onPageChange={handlePageClick} // Hàm xử lý khi người dùng chọn trang mới
+            containerClassName={"pagination"} // Class CSS cho container phân trang
+            activeClassName={"active"} // Class CSS cho trang hiện tại
+          />
         </div>
       </div>
     </div>
