@@ -50,6 +50,7 @@ const END_POINT = {
   PAYCALLBACK: "Payment/PaymentCallBack",
   GETALLDELIVERY: "Delivery/GetAllDelivery",
   GETDELIVERYBYFISHENTRY: "FishEntry/GetPaymentAndDelivery",
+  MANAGEUNPAID: "User/GetAllUnpaidBiddingHistory",
   //auction
   GETFISHENTRYBYID: "FishEntry/GetFishEntryById",
   PUBLICBIDHISTORY: "PublicBid/HistoryByFishEntryId",
@@ -87,9 +88,11 @@ const END_POINT = {
   GETPAYMENTPRICE: "FishEntry/GetPaymentPrice",
   GETPAYMENTANDDELIVERY: "FishEntry/GetPaymentAndDelivery",
   // GETOTHERBIDDINGHISTORYBYMEMBERID: "User/GetOtherBiddingHistoryByMemberId",
-  GETUNPAIDBIDDINGHISTORYBYMEMBERID: "Enrollment/GetUnpaidBiddingHistoryByMemberId",
+  GETUNPAIDBIDDINGHISTORYBYMEMBERID:
+    "Enrollment/GetUnpaidBiddingHistoryByMemberId",
   GETBIDDINGHISTORYBYMEMBERID: "Enrollment/GetBiddingHistoryByMemberId",
-  GETOTHERBIDDINGHISTORYBYMEMBERID: "Enrollment/GetOtherBiddingHistoryByMemberId",
+  GETOTHERBIDDINGHISTORYBYMEMBERID:
+    "Enrollment/GetOtherBiddingHistoryByMemberId",
   //Payment
   FEEWALLETPAYMENT: "Payment/FeePayment",
 
@@ -97,6 +100,9 @@ const END_POINT = {
   APPROVEDELIVERY: "Delivery/ApproveDelivery",
   CANCELDELIVERY: "Delivery/CancelDelivery",
   COMPLETEDELIVERY: "Delivery/CompleteDelivery",
+};
+export const handleManageUnpaid = () => {
+  return axiosClient.get(`${END_POINT.MANAGEUNPAID}`);
 };
 export const handleGetDeliveryByToken = (token) => {
   return axiosClient.get(`${END_POINT.GETALLDELIVERYBYTOKEN}?token=${token}`);
@@ -214,7 +220,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -420,8 +426,11 @@ export const handleGetOtherBiddingHistoryByMemberIdApi = async (id) => {
   }
 };
 
-
-export const handleWinnerPaymentApi = async (token, fishEntryId, checkoutData) => {
+export const handleWinnerPaymentApi = async (
+  token,
+  fishEntryId,
+  checkoutData
+) => {
   try {
     return await axiosClient.post(`${END_POINT.WINNERPAYMENT}`, {
       token: token,
@@ -429,6 +438,7 @@ export const handleWinnerPaymentApi = async (token, fishEntryId, checkoutData) =
       phone: checkoutData.phone,
       address: checkoutData.address,
       city: checkoutData.city,
+      name: checkoutData.name,
     });
   } catch (error) {
     throw error;

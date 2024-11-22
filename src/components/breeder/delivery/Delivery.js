@@ -190,15 +190,12 @@ const Delivery = () => {
             </div>
             <div className="update-by">
               <label htmlFor="update-by-input" className="update-by-label">
-                Amount Received
+                Highest Price
               </label>
               <input
                 type="text"
                 className="update-by-input"
-                value={
-                  formatMoney(fishEntry.highestPrice - delivery.deliveryCost) +
-                  " VND"
-                }
+                value={formatMoney(fishEntry.highestPrice) + " VND"}
                 disabled={true}
               />
             </div>
@@ -264,7 +261,7 @@ const Delivery = () => {
                   }}
                 >
                   <label htmlFor="reason-input" className="reason-label">
-                    Reason (If Cancel)
+                    Reason for Cancellation
                   </label>
                   <input
                     type="text"

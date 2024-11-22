@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { handleManageUnpaid } from "../../../axios/UserService";
 import ReactPaginate from "react-paginate"; // Thêm thư viện phân trang
 
+
 const ManageUnpaid = () => {
   const navigate = useNavigate();
   const [listUnpaid, setListUnpaid] = useState([]);
@@ -41,6 +42,21 @@ const ManageUnpaid = () => {
       </div>
       <div className="body-content">
         <VerticallyNavbar />
+  const getAllInfo = async () => {
+    const res = await handleManageUnpaid();
+    console.log(res.data);
+    setListUnpaid(res.data.$values);
+  };
+  useEffect(() => {
+    getAllInfo();
+  }, []);
+  return (
+    <div className="manage-unpaid-container">
+      <div className="header">
+        <Navbar></Navbar>
+      </div>
+      <div className="body-content">
+        <VerticallyNavbar></VerticallyNavbar>
         <div className="body-content-right">
           <table className="table-manage-unpaid">
             <thead>

@@ -42,6 +42,7 @@ export const path = {
   MANAGESTAFF: "ManageStaff",
   MANAGEDELIVERY: "ManageDelivery",
   DELIVERYDETAIL: "DeliveryDetail",
+  MANAGEUNPAIDMEMBER: "ManageUnpaid", //manage unpaid by staff
   //
   AUCTIONMETHOD3: "/AuctionFishMethod3",
   AUCTIONMETHOD2: "/AuctionFishMethod2",

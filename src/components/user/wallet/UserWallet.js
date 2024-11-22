@@ -119,7 +119,7 @@ const UserWallet = () => {
             <div className="total-balance">
               <div className="total-balance-text">Total Balance VND</div>
               <div className="total-balance-number">
-                {userBalance ? formatMoney(userBalance) : "0"} vnd
+                {userBalance ? formatMoney(userBalance) : "0"} VND
               </div>
             </div>
             <div className="total-balance-input-parent">
