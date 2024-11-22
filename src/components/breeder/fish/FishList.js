@@ -3,10 +3,11 @@ import "../fish/FishList.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import { handleGetAllFish } from "../../../axios/UserService";
+import Cookies from "js-cookie";
 
 const FishList = () => {
   const [fishs, setFishs] = useState([]);
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
   const navigate = useNavigate();
 
   const statusName = ["Available", "Sold"];
@@ -44,9 +45,15 @@ const FishList = () => {
           <a class="koi" onClick={() => navigate("/Breeder/FishList")}>
             KOI
           </a>
+          <a
+            className="koi"
+            onClick={() => navigate("/Breeder/HistoryDelivery")}
+          >
+            Delivery
+          </a>
         </div>
         <div className="body-content-right">
-          <div className="search">
+          {/* <div className="search">
             <div className="search-text">Search: </div>
             <div className="search-value">
               {" "}
@@ -59,7 +66,7 @@ const FishList = () => {
                 <img src="../assets/images/search.svg" alt="" />
               </div>
             </div>
-          </div>
+          </div> */}
           <table className="table-manage-koi">
             <thead>
               <tr>

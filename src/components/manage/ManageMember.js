@@ -1,27 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./ManageMember.scss";
-// import logo from '../../assets/images/logo_png.png';
-import search from "../../assets/images/search.svg";
 import Navbar from "../common/Navbar/Navbar";
 import VerticallyNavbar from "../common/Navbar/VerticallyNavbar";
-import { handleGetAllMember, handleGetAllUser } from "../../axios/UserService";
+import { handleGetAllMember } from "../../axios/UserService";
 import { useNavigate } from "react-router";
+import ReactPaginate from "react-paginate";
 
 const ManageMember = () => {
-  const [users, setUsers] = React.useState([]);
+  const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+  const [itemsPerPage] = useState(10); // Số lượng item trên mỗi trang
   const navigate = useNavigate();
-  const user = JSON.parse(sessionStorage.getItem("user"));
   const statusName = ["Active", "Inactive"];
 
   const handleAllUser = async () => {
-    const res = await handleGetAllMember();
-    console.log(res.data.$values);
-    setUsers(res.data.$values);
+    try {
+      const res = await handleGetAllMember();
+      setUsers(res.data.$values);
+    } catch (error) {
+      console.error("Error fetching members:", error);
+    }
   };
-  //asdasdas
+
   useEffect(() => {
     handleAllUser();
   }, []);
+
+  // Tính toán các item hiện tại trong trang
+  const offset = currentPage * itemsPerPage; // Xác định điểm bắt đầu của trang
+  const currentItems = users.slice(offset, offset + itemsPerPage); // Lấy item từ mảng dựa vào offset
+  const pageCount = Math.ceil(users.length / itemsPerPage); // Tổng số trang
+
+  // Hàm xử lý sự kiện đổi trang
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected); // Cập nhật trang hiện tại
+  };
 
   return (
     <div className="manager-member">
@@ -31,35 +44,6 @@ const ManageMember = () => {
       <div className="body-content">
         <VerticallyNavbar></VerticallyNavbar>
         <div className="body-content-right">
-          {/* <div className="search">
-            <div className="search-text">Search: </div>
-            <div className="search-value">
-              <input
-                className="search-input"
-                placeholder="Search by Email and Phone number"
-                type="text"
-              />
-              <div className="search-icon">
-                <img src={search} alt="Search Icon" />
-              </div>
-            </div>
-          </div> */}
-          {/* <div className="search-and-create">
-            <div className="search">
-              <div className="search-text">Search: </div>
-              <div className="search-value">
-                <input
-                  className="search-input"
-                  placeholder="Search by Email and Phone number"
-                  type="text"
-                />
-                <div className="search-icon">
-                  <img src={search} alt="search-icon" />
-                </div>
-              </div>
-            </div>
-          </div> */}
-
           <table className="table-manage-member">
             <thead>
               <tr>
@@ -74,32 +58,46 @@ const ManageMember = () => {
               </tr>
             </thead>
             <tbody>
-              {users &&
-                users.map((user, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1} </td>
-                      <td>{user.userId}</td>
-                      <td>{user.firstName}</td>
-                      <td>{user.lastName}</td>
-                      <td>{user.email}</td>
-                      <td>{user.phone}</td>
-                      <td>{statusName[user.status - 1]}</td>
-                      <td>
-                        <i
-                          className="fa-solid fa-arrow-right"
-                          onClick={() =>
-                            navigate(
-                              `/Manager/UserDetail?userId=${user.userId}`
-                            )
-                          }
-                        ></i>
-                      </td>
-                    </tr>
-                  );
-                })}
+              {currentItems.length > 0 ? (
+                currentItems.map((user, index) => (
+                  <tr key={index}>
+                    <td>{offset + index + 1}</td>
+                    <td>{user.userId}</td>
+                    <td>{user.firstName}</td>
+                    <td>{user.lastName}</td>
+                    <td>{user.email}</td>
+                    <td>{user.phone}</td>
+                    <td>{statusName[user.status - 1]}</td>
+                    <td>
+                      <i
+                        className="fa-solid fa-arrow-right"
+                        onClick={() =>
+                          navigate(`/Manager/UserDetail?userId=${user.userId}`)
+                        }
+                      ></i>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="8">No members available</td>
+                </tr>
+              )}
             </tbody>
           </table>
+
+          {/* Phân trang */}
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            pageCount={pageCount} // Tổng số trang
+            marginPagesDisplayed={2} // Hiển thị số trang ở đầu/cuối
+            pageRangeDisplayed={3} // Hiển thị số trang xung quanh trang hiện tại
+            onPageChange={handlePageClick} // Hàm xử lý khi đổi trang
+            containerClassName={"pagination"} // Lớp CSS của container phân trang
+            activeClassName={"active"} // Lớp CSS cho trang đang được chọn
+          />
         </div>
       </div>
     </div>

@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { handleCreateAuctionApi } from "../../../axios/UserService";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import Cookies from "js-cookie";
 
 const CreateAuction = () => {
   const navigate = useNavigate();
   const [auctionDate, setAuctionDate] = useState("");
 
   const handleSaveButton = async () => {
-    const token = sessionStorage.getItem("token");
+    const token = Cookies.get("token");
     try {
       const response = await handleCreateAuctionApi(token, auctionDate);
 
@@ -39,7 +40,7 @@ const CreateAuction = () => {
           progress: undefined,
         });
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (

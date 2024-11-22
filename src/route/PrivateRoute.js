@@ -2,7 +2,7 @@ import { path } from "./Path";
 import React from "react";
 import LoadLazy from "./LoadLazy";
 import NotFound from "../components/common/NotFound";
-
+import Cookies from "js-cookie";
 //breeder
 const Breeder = React.lazy(() => import("../route/BreederRoute"));
 const CreateRequest = React.lazy(() =>
@@ -34,6 +34,12 @@ const ManageKoi = React.lazy(() =>
 );
 const KoiDetail = React.lazy(() =>
   import("../components/manage/koiDetail/KoiDetail")
+);
+const DeliveryHistory = React.lazy(() =>
+  import("../components/breeder/deliveryList/DeliveryLsit")
+);
+const Delivery = React.lazy(() =>
+  import("../components/breeder/delivery/Delivery")
 );
 
 //staff
@@ -81,6 +87,15 @@ const CreateStaff = React.lazy(() =>
 const ManageStaff = React.lazy(() =>
   import("../components/manage/manageStaff/ManageStaff")
 );
+const ManageDelivery = React.lazy(() =>
+  import("../components/manage/manageDelivery/ManageDelivery")
+);
+const DeliveryDetail = React.lazy(() =>
+  import("../components/manage/deliveryDetail/DeliveryDetail")
+);
+const Unpaid = React.lazy(() =>
+  import("../components/manage/manageUnpaid/ManageUnpaid")
+);
 
 //user
 const User = React.lazy(() => import("../route/UserRoute"));
@@ -90,6 +105,9 @@ const WinnerPaymentCallback = React.lazy(() =>
 );
 const UserWallet = React.lazy(() =>
   import("../components/user/wallet/UserWallet")
+);
+const DeliveryDetailUser = React.lazy(() =>
+  import("../components/user/DeliveryDetail")
 );
 //payment
 const Payment = React.lazy(() => import("../route/PaymentRoute"));
@@ -104,6 +122,14 @@ const PrivateRoutes = [
     path: path.BREEDER,
     element: <LoadLazy children={<Breeder />} />,
     children: [
+      {
+        path: path.HISTORYDELIVERY,
+        element: <LoadLazy children={<DeliveryHistory />} />,
+      },
+      {
+        path: path.DETAILDELIVERY,
+        element: <LoadLazy children={<Delivery />} />,
+      },
       {
         path: path.CREATEREQUEST,
         element: <LoadLazy children={<CreateRequest />} />,
@@ -138,6 +164,18 @@ const PrivateRoutes = [
     element: <LoadLazy children={<Staff />} />,
     children: [
       { path: path.MANAGE, element: <LoadLazy children={<Manage />} /> },
+      {
+        path: path.MANAGEUNPAIDMEMBER,
+        element: <LoadLazy children={<Unpaid />} />,
+      },
+      {
+        path: path.MANAGEDELIVERY,
+        element: <LoadLazy children={<ManageDelivery />} />,
+      },
+      {
+        path: path.DELIVERYDETAIL,
+        element: <LoadLazy children={<DeliveryDetail />} />,
+      },
       {
         path: path.MANAGEAUCTION,
         element: <LoadLazy children={<ManageAuction />} />,
@@ -223,6 +261,10 @@ const PrivateRoutes = [
       {
         path: path.USERWALLET,
         element: <LoadLazy children={<UserWallet />} />,
+      },
+      {
+        path: path.DELIVERYDETAIL,
+        element: <LoadLazy children={<DeliveryDetailUser />} />,
       },
     ],
   },

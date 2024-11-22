@@ -3,6 +3,11 @@ import "./FishAuctionMethod1.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import Cookies from "js-cookie";
+import logo from "../../../assets/images/logo_png.png";
+import insta from "../../../assets/images/Instagram.svg";
+import face from "../../../assets/images/facebook.svg";
+import gg from "../../../assets/images/google.png";
 
 import {
   handleFishEntryById,
@@ -50,9 +55,9 @@ const FishAuctionMethod1 = () => {
   };
   const handleEnrollBtn = async () => {
     if (
-      !sessionStorage.getItem("token") ||
-      jwtDecode(sessionStorage.getItem("token")).Role != 1 ||
-      sessionStorage.getItem("token") === null
+      !Cookies.get("token") ||
+      jwtDecode(Cookies.get("token")).Role != 1 ||
+      Cookies.get("token") === null
     ) {
       navigate("/login");
       return;
@@ -79,7 +84,7 @@ const FishAuctionMethod1 = () => {
         });
 
         const response = await handleEnrollApi(
-          sessionStorage.getItem("token"),
+          Cookies.get("token"),
           fishEntry.fishEntryId
         );
         // console.log(response);
@@ -107,11 +112,12 @@ const FishAuctionMethod1 = () => {
           }).then((result) => {
             if (result.isConfirmed) {
               // Redirect to deposit page
-              if (JSON.parse(sessionStorage.getItem("user")).Role === "1") {
+              const user = Cookies.get("user")
+                ? JSON.parse(Cookies.get("user"))
+                : null;
+              if (user.Role === "1") {
                 navigate("/user/UserWallet");
-              } else if (
-                JSON.parse(sessionStorage.getItem("user")).Role === "2"
-              ) {
+              } else if (user.Role === "2") {
                 navigate("/breeder/UserWallet");
               }
             }
@@ -177,11 +183,11 @@ const FishAuctionMethod1 = () => {
       //enroll status
       try {
         const response = await handleCheckEnrollApi(
-          sessionStorage.getItem("token"),
+          Cookies.get("token"),
           resFishEntry.data.fishEntryId
         );
         // console.log(response);
-        // console.log(sessionStorage.getItem("token"));
+        // console.log(Cookies.get("token"));
         // console.log(response.status);
         if (response && response.status === 200) {
           setCheckEnroll(true);
@@ -245,12 +251,12 @@ const FishAuctionMethod1 = () => {
   }, [bidHistory, currentPlaced]);
 
   const placeABid = async () => {
-    if (sessionStorage.getItem("token") === null) {
-      // console.log(sessionStorage.getItem("token"));
+    if (Cookies.get("token") === null) {
+      // console.log(Cookies.get("token"));
       navigate("/login");
       return;
     }
-    const token = sessionStorage.getItem("token");
+    const token = Cookies.get("token");
     const response = await handlePlaceFixedPrice(token, fishEntry.fishEntryId);
     if (response.status === 200) {
       toast.success("Placed a bid", {
@@ -395,20 +401,21 @@ const FishAuctionMethod1 = () => {
             </div>
             <div className="bidding-history-background">
               <div className="bidding-history-content">
-                {bidHistory.slice(-5).map((bid, index) => {
-                  if (bid.name) {
-                    return (
-                      <div key={index} className="bidding-history-info">
-                        <div className="bidding-time">
-                          {new Date(bid.bidTime).toLocaleString()} &nbsp;{" "}
+                {bidHistory &&
+                  bidHistory.slice(-5).map((bid, index) => {
+                    if (bid.name) {
+                      return (
+                        <div key={index} className="bidding-history-info">
+                          <div className="bidding-time">
+                            {new Date(bid.bidTime).toLocaleString()} &nbsp;{" "}
+                          </div>
+                          <div className="bidding-name-bidder">
+                            A member placed a bid &nbsp;
+                          </div>
                         </div>
-                        <div className="bidding-name-bidder">
-                          A member placed a bid &nbsp;
-                        </div>
-                      </div>
-                    );
-                  }
-                })}
+                      );
+                    }
+                  })}
               </div>
             </div>
             {(fishEntry.status === 3 || fishEntry.status === 2) && (
@@ -481,22 +488,18 @@ const FishAuctionMethod1 = () => {
       </div>
       <footer className="footer">
         <div className="logo-footer">
-          <img
-            className="logo-img-footer"
-            src="../../assets/images/logo_png.png"
-            alt=""
-          />
+          <img className="logo-img-footer" src={logo} alt="" />
           <div className="name-project-footer">Nishikigoi Nexus</div>
         </div>
         <div className="social-contact">
           <div className="instagram">
-            <img src="../../assets/images/Instagram.svg" alt="" />
+            <img src={insta} alt="" />
           </div>
           <div className="facebook">
-            <img src="../../assets/images/Social Icons (1).svg" alt="" />
+            <img src={face} alt="" />
           </div>
           <div className="google">
-            <img src="../../assets/images/Vector.svg" alt="" />
+            <img src={gg} alt="" />
           </div>
         </div>
         <div className="nav-bar-footer">

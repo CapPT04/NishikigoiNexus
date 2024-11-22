@@ -14,6 +14,7 @@ import {
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 
 const RequestDetail = () => {
   const [searchParams] = useSearchParams();
@@ -70,7 +71,7 @@ const RequestDetail = () => {
       cancelButtonText: "No, cancel!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const token = sessionStorage.getItem("token");
+        const token = Cookies.get("token");
         const res = await handleAcceptRequest(token, requestId);
         if (res.status === 200) {
           toast.success("Accept Request Sucessfully", {
@@ -112,7 +113,7 @@ const RequestDetail = () => {
       cancelButtonText: "No, cancel!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const token = sessionStorage.getItem("token");
+        const token = Cookies.get("token");
         const res = await handleCancelRequest(token, requestId, denyReason);
         if (res.status === 200) {
           toast.success("Cancel Request Sucessfully", {

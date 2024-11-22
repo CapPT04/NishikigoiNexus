@@ -19,6 +19,8 @@ export const path = {
   PAYMENTRESPONSE: "PaymentResponse",
   FISHLIST: "FishList",
   DETAILFISH: "DetailFish",
+  HISTORYDELIVERY: "HistoryDelivery",
+  DETAILDELIVERY: "Delivery",
   //manage
   MANAGER: "/Manager",
   MANAGE: "Manage",
@@ -38,6 +40,9 @@ export const path = {
   FISHENTRYDETAIL: "FishEntryDetail",
   DASHBOARD: "DashBoard",
   MANAGESTAFF: "ManageStaff",
+  MANAGEDELIVERY: "ManageDelivery",
+  DELIVERYDETAIL: "DeliveryDetail",
+  MANAGEUNPAIDMEMBER: "ManageUnpaid", //manage unpaid by staff
   //
   AUCTIONMETHOD3: "/AuctionFishMethod3",
   AUCTIONMETHOD2: "/AuctionFishMethod2",
@@ -53,6 +58,7 @@ export const path = {
   CHECKOUT: "Checkout",
   WINNERPAYMENTCALLBACK: "WinnerPaymentCallback",
   USERWALLET: "UserWallet",
+  DELIVERYDETAIL: "DeliveryDetail",
 
   PAYMENT: "/Payment",
   PAYMENTRESPONSE: "PaymentResponse",

@@ -18,6 +18,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import Navbar from "../common/Navbar/Navbar";
 import { Navigate } from "react-router";
+import Cookies from "js-cookie";
+
 const AuctionDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -96,7 +98,7 @@ const AuctionDetail = () => {
         try {
           const response = await handleEndFishAuctioningApi(
             fishEntry.fishEntryId,
-            sessionStorage.getItem("token")
+            Cookies.get("token")
           );
           if (response && response.status === 200) {
             showToast("success", "Auction updated successfully!");
@@ -187,7 +189,7 @@ const AuctionDetail = () => {
       const response = await handleAddFishEntryForAuctionApi(
         fishEntry.fishEntryId,
         auctionId,
-        sessionStorage.getItem("token")
+        Cookies.get("token")
       );
       if (response && response.status === 200) {
         showToast("success", "Fish entry added to auction successfully!");
@@ -293,15 +295,17 @@ const AuctionDetail = () => {
               />
             </div>
 
-            <div className="auction-detail-content-row5">
-              <div className="add-fish">
-                <i
-                  className="fa-solid fa-plus"
-                  onClick={() => handleAddFishEntryBtn()}
-                ></i>
+            {auction?.status != 4 && (
+              <div className="auction-detail-content-row5">
+                <div className="add-fish">
+                  <i
+                    className="fa-solid fa-plus"
+                    onClick={() => handleAddFishEntryBtn()}
+                  ></i>
+                </div>
               </div>
-            </div>
-            {showFishEntryTable && (
+            )}
+            {(showFishEntryTable && auction.status != 4) && (
               <div className="auction-detail-content-row7">
                 <table className="table-added-fish-entry">
                   <thead>
@@ -407,7 +411,6 @@ const AuctionDetail = () => {
                           ) : fishEntry.status === 4 ? (
                             <button
                               className="update-btn"
-                              onClick={() => handleUpdateBtn(fishEntry)}
                               disabled
                               style={{ background: "#000" }}
                             >
@@ -416,12 +419,23 @@ const AuctionDetail = () => {
                           ) : null}
                         </td>
                         <td>
-                          <i
-                            className="fa-solid fa-trash delete-icon"
-                            onClick={() =>
-                              handleDeleteFishEntryInAuction(fishEntry)
-                            }
-                          ></i>
+                          {fishEntry.status === 2 ? (
+                            <i
+                              className="fa-solid fa-trash delete-icon"
+                              onClick={() =>
+                                handleDeleteFishEntryInAuction(fishEntry)
+                              }
+                            ></i>
+                          ) : (
+                            <button
+                              className="update-btn"
+                              disabled
+                              style={{ background: "#000", width: "50px" }}
+                            >
+                              de
+                            </button>
+                          )}
+
                         </td>
                       </tr>
                     ))

@@ -68,97 +68,12 @@
 .body-content {
   display: flex;
 
-  // .navigation-bar-vertically {
-  //   padding-top   : 56px;
-  //   display       : flex;
-  //   flex-direction: column;
-  //   gap           : 56px;
-  //   flex-shrink   : 0;
-  //   background    : #1c1c1c;
-  //   width         : 160px;
-  //   // height: 841px;
-  //   color         : #fff;
-  //   font-size     : 26px;
-  //   font-weight   : 400;
-  //   line-height   : normal;
-  //   align-items   : center !important;
-  //   height        : 100vh !important;
-
-  //   a {
-  //     color: #fff;
-
-  //     &:hover {
-  //       opacity: 0.7;
-  //     }
-  //   }
-
-  //   // .koi {
-  //   //   margin-left: 30px;
-  //   //   display: flex;
-  //   //   height: 67px;
-  //   //   padding: 10px 21px;
-  //   //   justify-content: center;
-  //   //   align-items: center;
-  //   //   gap: 10px;
-  //   //   align-self: stretch;
-  //   //   background: #df0012;
-  //   // }
-  // }
-
   .body-content-right {
     background: var(--nude);
     width     : 100%;
 
-    .search {
-      display    : flex;
-      width      : 560px;
-      height     : 44px;
-      margin-top : 140px;
-      margin-left: 135px;
-      align-items: center;
-
-      .search-text {
-        font-size   : 24px;
-        font-weight : 300;
-        margin-right: 20px;
-      }
-
-      .search-value {
-        width          : 80%;
-        height         : 100%;
-        position       : relative;
-        display        : flex;
-        align-items    : center;
-        justify-content: center;
-
-        .search-input {
-          height       : 100%;
-          width        : 100%;
-          border-radius: 8px;
-          border       : 1px solid #3d3d3d;
-          outline      : none;
-          text-indent  : 5px;
-          font-size    : 24px;
-
-          &::placeholder {
-            font-size  : 24px;
-            font-weight: 250;
-            opacity    : 0.4;
-          }
-        }
-
-        .search-icon {
-          position       : absolute;
-          right          : 10px;
-          display        : flex;
-          justify-content: center;
-          align-items    : center;
-
-          &:hover {
-            opacity: 0.5;
-          }
-        }
-      }
+    .table-manage-delivery {
+      margin-top: 150px !important;
     }
 
     table {
@@ -192,6 +107,10 @@
         background: #1c1b1f;
       }
 
+      .spanCol {
+        text-align: center;
+      }
+
       tr:nth-child(even) {
         background: #d5bdb0;
 
@@ -201,10 +120,6 @@
       }
     }
   }
-}
-
-.table-manage-koi {
-  margin-top: 150px !important;
 }
 
 .pagination {

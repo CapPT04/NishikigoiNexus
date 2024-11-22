@@ -3,42 +3,45 @@ import Navbar from "../../common/Navbar/Navbar";
 import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
 import { handleAllFishEntry } from "../../../axios/UserService";
 import { useNavigate } from "react-router";
+import ReactPaginate from "react-paginate"; // Thư viện phân trang
 
 const ManageFishEntry = () => {
   const navigate = useNavigate();
   const [fishEntries, setFishEntries] = useState([]);
-  const statusName = ["Unknown", "Preparing", "Waitting", "Bidding", "Ended"];
+  const [currentPage, setCurrentPage] = useState(0); // State lưu trang hiện tại
+  const itemsPerPage = 10; // Số lượng items mỗi trang
+  const statusName = ["Unknown", "Preparing", "Waiting", "Bidding", "Ended"];
 
   const getFishEntries = async () => {
     const res = await handleAllFishEntry();
     console.log(res.data.$values);
     setFishEntries(res.data.$values);
   };
+
   useEffect(() => {
     getFishEntries();
   }, []);
+
+  // Tính toán các items sẽ hiển thị trong trang hiện tại
+  const offset = currentPage * itemsPerPage; // Tính vị trí bắt đầu của items trên trang hiện tại
+  const currentItems = fishEntries.slice(offset, offset + itemsPerPage); // Cắt dữ liệu để chỉ lấy các items trong trang hiện tại
+
+  // Tính tổng số trang dựa trên tổng số items và số items mỗi trang
+  const pageCount = Math.ceil(fishEntries.length / itemsPerPage); // Tính tổng số trang
+
+  // Hàm xử lý khi người dùng chuyển trang
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected); // Cập nhật trang hiện tại khi người dùng chuyển trang
+  };
+
   return (
     <div className="manage-koi-container">
       <div className="header">
         <Navbar></Navbar>
       </div>
       <div className="body-content">
-        <VerticallyNavbar></VerticallyNavbar>
+        <VerticallyNavbar />
         <div className="body-content-right">
-          {/* <div className="search">
-            <div className="search-text">Search: </div>
-            <div className="search-value">
-              {" "}
-              <input
-                className="search-input"
-                placeholder="Search by Email and Phone number"
-                type="text"
-              />
-              <div className="search-icon">
-                <img src="../assets/images/search.svg" alt="" />
-              </div>
-            </div>
-          </div> */}
           <table className="table-manage-koi">
             <thead>
               <tr>
@@ -52,11 +55,11 @@ const ManageFishEntry = () => {
               </tr>
             </thead>
             <tbody>
-              {fishEntries.length > 0 ? (
-                fishEntries.map((koi, index) => {
+              {currentItems.length > 0 ? (
+                currentItems.map((koi, index) => {
                   return (
                     <tr key={index}>
-                      <td>{index + 1}</td>
+                      <td>{offset + index + 1}</td>
                       <td>{koi.fishEntryId}</td>
                       <td>{koi.fishId}</td>
                       <td>{koi.requestId}</td>
@@ -83,6 +86,16 @@ const ManageFishEntry = () => {
               )}
             </tbody>
           </table>
+
+          {/* Phân trang */}
+          <ReactPaginate
+            previousLabel={"Previous"} // Nhãn cho nút "Trước"
+            nextLabel={"Next"} // Nhãn cho nút "Tiếp"
+            pageCount={pageCount} // Số lượng trang
+            onPageChange={handlePageClick} // Hàm xử lý khi người dùng chuyển trang
+            containerClassName={"pagination"} // Lớp CSS cho phân trang
+            activeClassName={"active"} // Lớp CSS cho trang hiện tại
+          />
         </div>
       </div>
     </div>
