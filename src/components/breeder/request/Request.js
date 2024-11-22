@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../common/Navbar/Navbar";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import Cookies from "js-cookie";
 
 const Request = () => {
   const [name, setName] = useState("");
@@ -618,7 +619,8 @@ const Request = () => {
           </div>
           <div className="feeNotice">
             * When the fish auction is successful, we will take a commission
-            from the successful auction amount.{" "}
+            from the successful auction amount. You will bear the delivery cost
+            which will be sent to you after the auction is successful{" "}
           </div>
           {/* confirm */}
           <div className="confirmBox">
@@ -654,10 +656,10 @@ const Request = () => {
   //----submit----
   // chưa có trả về kết quả
   const handleSubmit = async () => {
-    // console.log(sessionStorage.getItem("token"));
+    // console.log(Cookies.get("token"));
 
     const fishAuction = {
-      token: sessionStorage.getItem("token"),
+      token: Cookies.get("token"),
       fishName: name,
       shape: shape,
       size: size,
@@ -729,7 +731,7 @@ const Request = () => {
               navigate("/Breeder/HistoryRequest");
             }, 2000);
           } else {
-            toast.error("Some field error, please check again", {
+            toast.error(response.data.message || "Some field is wrong", {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -741,10 +743,6 @@ const Request = () => {
           }
         } catch (error) {}
       } else {
-        console.log(auctionMethod);
-        console.log(startPrice);
-        console.log(maxPrice);
-        console.log(stepPrice);
         toast.error("Field about money is wrong", {
           position: "top-right",
           autoClose: 5000,

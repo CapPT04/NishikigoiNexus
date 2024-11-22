@@ -2,6 +2,8 @@ import axios from "axios";
 import axiosClient from "./axiosClient";
 import { useNavigate } from "react-router-dom";
 import CreateAuction from "../components/common/CreateAuction/CreateAuction";
+import Cookies from "js-cookie";
+
 const END_POINT = {
   FISHHOMEPAGE: "Fish/GetFishForHomePage",
   LOGIN: "User/Login",
@@ -16,8 +18,6 @@ const END_POINT = {
   GETFEE: "Fee/GetFee",
   UPDATEFEE: "Fee/UpdateFee",
 
-
-
   //breeder
   ENROLLMENTHISTORY: "Enrollment/GetAllEnrollmentsByFishEntryId",
   CREATEREQUEST: "Request/CreateRequest",
@@ -29,6 +29,7 @@ const END_POINT = {
   GETREQUESTBYID: "Request/GetRequestById",
   GETFISHDETAIL: "Fish/GetFishById",
   GETALLBREEDERS: "Breeder/GetAllBreeders",
+  GETALLDELIVERYBYTOKEN: "Delivery/GetDeliveryByBreeder",
   //manager
   CREATEBREEDER: "Breeder/CreateBreeder",
   CREATESTAFF: "Staff/CreateStaff",
@@ -47,6 +48,9 @@ const END_POINT = {
   GETALLFISHENTRY: "FishEntry/GetAllFishEntries",
   PAYFEE: "Payment/FeePayment",
   PAYCALLBACK: "Payment/PaymentCallBack",
+  GETALLDELIVERY: "Delivery/GetAllDelivery",
+  GETDELIVERYBYFISHENTRY: "FishEntry/GetPaymentAndDelivery",
+  MANAGEUNPAID: "User/GetAllUnpaidBiddingHistory",
   //auction
   GETFISHENTRYBYID: "FishEntry/GetFishEntryById",
   PUBLICBIDHISTORY: "PublicBid/HistoryByFishEntryId",
@@ -69,10 +73,6 @@ const END_POINT = {
   REVENUEBYTIMEFRAME: "Payment/RevenueByTimeFrame",
   MONTHLYREVENUE: "Payment/MonthlyRevenueCurrentYear",
   GETWINNER: "FishEntry/GetWinner",
-  GETOTHERBIDDINGHISTORYBYMEMBERID: "User/GetOtherBiddingHistoryByMemberId",
-  GETBIDDINGHISTORYBYMEMBERID: "User/GetBiddingHistoryByMemberId",
-  GETUNPAIDBIDDINGHISTORYBYMEMBERID:
-    "Enrollment/GetUnpaidBiddingHistoryByMemberId",
   WINNERPAYMENT: "Payment/WinnerPayment",
   WINNERPAYMENTCALLBACK: "Payment/WinnerPaymentCallBack",
   CHECKENROLL: "Enrollment/CheckEnrollment",
@@ -86,9 +86,56 @@ const END_POINT = {
   RECHARGEPAYMENTCALLBACK: "Payment/RechargePaymentCallBack",
   TRANSACTIONHISTORY: "Transaction/GetTransactionHistory",
   GETPAYMENTPRICE: "FishEntry/GetPaymentPrice",
-
+  GETPAYMENTANDDELIVERY: "FishEntry/GetPaymentAndDelivery",
+  // GETOTHERBIDDINGHISTORYBYMEMBERID: "User/GetOtherBiddingHistoryByMemberId",
+  GETUNPAIDBIDDINGHISTORYBYMEMBERID:
+    "Enrollment/GetUnpaidBiddingHistoryByMemberId",
+  GETBIDDINGHISTORYBYMEMBERID: "Enrollment/GetBiddingHistoryByMemberId",
+  GETOTHERBIDDINGHISTORYBYMEMBERID:
+    "Enrollment/GetOtherBiddingHistoryByMemberId",
   //Payment
   FEEWALLETPAYMENT: "Payment/FeePayment",
+
+  //Delivery
+  APPROVEDELIVERY: "Delivery/ApproveDelivery",
+  CANCELDELIVERY: "Delivery/CancelDelivery",
+  COMPLETEDELIVERY: "Delivery/CompleteDelivery",
+};
+export const handleManageUnpaid = () => {
+  return axiosClient.get(`${END_POINT.MANAGEUNPAID}`);
+};
+export const handleGetDeliveryByToken = (token) => {
+  return axiosClient.get(`${END_POINT.GETALLDELIVERYBYTOKEN}?token=${token}`);
+};
+export const handleApproveDelivery = (token, id, cost) => {
+  return axiosClient.put(`${END_POINT.APPROVEDELIVERY}`, {
+    token: token,
+    deliveryId: id,
+    deliveryCost: cost,
+  });
+};
+export const handleCancelDelivery = (token, id, img, reason) => {
+  return axiosClient.put(`${END_POINT.CANCELDELIVERY}`, {
+    token: token,
+    deliveryId: id,
+    imagePath: img,
+    reason: reason,
+  });
+};
+export const handleCompleteDelivery = (token, id, img) => {
+  return axiosClient.put(`${END_POINT.COMPLETEDELIVERY}`, {
+    token: token,
+    deliveryId: id,
+    imagePath: img,
+  });
+};
+export const handleGetAllDelivery = () => {
+  return axiosClient.get(`${END_POINT.GETALLDELIVERY}`);
+};
+export const handleGetDeliveryByFishEntry = (fishEntryID) => {
+  return axiosClient.get(
+    `${END_POINT.GETDELIVERYBYFISHENTRY}?fishEntryId=${fishEntryID}`
+  );
 };
 export const handleResetPasswordApi = (password, token) => {
   return axiosClient.put(`${END_POINT.RESETPASSWORD}`, {
@@ -173,7 +220,7 @@ export const handleManageAuctionApi = () => {
 export const handleGetFishEntryInAuction = (auctionId) => {
   try {
     return axiosClient.get(`${END_POINT.GETFISHENTRYINAUCTION}/${auctionId}`);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const handleCreateAuctionApi = (token, auctionDate) => {
@@ -368,14 +415,30 @@ export const handleGetUnpaidBiddingHistoryByMemberIdApi = async (id) => {
   }
 };
 
+export const handleGetOtherBiddingHistoryByMemberIdApi = async (id) => {
+  try {
+    return axiosClient.get(`${END_POINT.GETOTHERBIDDINGHISTORYBYMEMBERID}`, {
+      params: { id },
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 export const handleWinnerPaymentApi = async (
   token,
-  fishEntryId
+  fishEntryId,
+  checkoutData
 ) => {
   try {
     return await axiosClient.post(`${END_POINT.WINNERPAYMENT}`, {
       token: token,
       fishEntryId: fishEntryId,
+      phone: checkoutData.phone,
+      address: checkoutData.address,
+      city: checkoutData.city,
+      name: checkoutData.name,
     });
   } catch (error) {
     throw error;
@@ -496,10 +559,21 @@ export const handleUpdateFeeApi = async (token, fee) => {
   }
 };
 
+export const handleGetPaymentAndDeliveryApi = async (fishentryId) => {
+  try {
+    const res = await axiosClient.get(
+      `${END_POINT.GETPAYMENTANDDELIVERY}?fishentryId=${fishentryId}`
+    );
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const handleSubmitRequest = async (request) => {
   try {
     const response = await axiosClient.post(`${END_POINT.CREATEREQUEST}`, {
-      token: sessionStorage.getItem("token"),
+      token: Cookies.get("token"),
       fishName: request.fishName,
       shape: request.shape,
       size: request.size,
@@ -526,7 +600,9 @@ export const handleSubmitRequest = async (request) => {
 
 export const handleGetPaymentPriceApi = async (fishEntryId) => {
   try {
-    return await axiosClient.get(`${END_POINT.GETPAYMENTPRICE}?f=${fishEntryId}`);
+    return await axiosClient.get(
+      `${END_POINT.GETPAYMENTPRICE}?f=${fishEntryId}`
+    );
   } catch (error) {
     throw error;
   }

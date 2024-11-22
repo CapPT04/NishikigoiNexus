@@ -4,13 +4,17 @@ import VerticallyNavbar from "../../common/Navbar/VerticallyNavbar";
 import Navbar from "../../common/Navbar/Navbar";
 import { useNavigate } from "react-router";
 import { handleGetAllRequest } from "../../../axios/UserService";
+import ReactPaginate from "react-paginate"; // Import thư viện ReactPaginate
 
 const ManageRequest = () => {
   const navigate = useNavigate();
   const [requests, setRequests] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+  const [itemsPerPage] = useState(10); // Số lượng request trên mỗi trang
 
   const statusName = ["Processing", "Paying", "Approved", "Denied"];
 
+  // Hàm lấy tất cả requests từ API
   const getAllRequests = async () => {
     const res = await handleGetAllRequest();
     setRequests(res.data.$values);
@@ -19,6 +23,17 @@ const ManageRequest = () => {
   useEffect(() => {
     getAllRequests();
   }, []);
+
+  // Tính toán dữ liệu cần hiển thị cho trang hiện tại
+  const offset = currentPage * itemsPerPage;
+  const currentItems = requests.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(requests.length / itemsPerPage);
+
+  // Xử lý sự kiện chuyển trang
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected);
+  };
+
   return (
     <div className="manage-request-container">
       <div className="header">
@@ -53,11 +68,11 @@ const ManageRequest = () => {
               </tr>
             </thead>
             <tbody>
-              {requests.length > 0 ? (
-                requests.map((request, index) => {
+              {currentItems.length > 0 ? (
+                currentItems.map((request, index) => {
                   return (
                     <tr key={index}>
-                      <td>{index + 1}</td>
+                      <td>{offset + index + 1}</td>
                       <td>{request.requestId}</td>
                       <td>{request.createBy}</td>
                       <td>{request.fishId}</td>
@@ -84,6 +99,19 @@ const ManageRequest = () => {
               )}
             </tbody>
           </table>
+
+          {/* Phân trang */}
+          <ReactPaginate
+            previousLabel={"Previous"} // Nút "Trang trước"
+            nextLabel={"Next"} // Nút "Trang sau"
+            breakLabel={"..."} // Ký tự ngắt trang
+            pageCount={pageCount} // Tổng số trang
+            marginPagesDisplayed={2} // Số trang hiển thị bên ngoài
+            pageRangeDisplayed={3} // Số trang hiển thị ở giữa
+            onPageChange={handlePageClick} // Hàm xử lý khi người dùng đổi trang
+            containerClassName={"pagination"} // Class CSS cho container của phân trang
+            activeClassName={"active"} // Class CSS cho trang đang được chọn
+          />
         </div>
       </div>
     </div>

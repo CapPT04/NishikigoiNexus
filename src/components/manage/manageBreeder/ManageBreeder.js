@@ -5,23 +5,38 @@ import Navbar from "../../common/Navbar/Navbar";
 import searchIcon from "../../../assets/images/search.svg";
 import { handleGetAllBreeders } from "../../../axios/UserService";
 import { useNavigate } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 const ManageBreeder = () => {
   const [breeders, setBreeders] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+  const [itemsPerPage] = useState(10); // Số lượng breeder trên mỗi trang
   const navigate = useNavigate();
   const statusName = ["Active", "Inactive"];
 
   const getAllBreeders = async () => {
-    const resBreeder = await handleGetAllBreeders();
-    for (let i = 0; i < resBreeder.data.$values.length; i++) {
-      setBreeders((prev) => [...prev, resBreeder.data.$values[i]]);
+    try {
+      const resBreeder = await handleGetAllBreeders();
+      setBreeders(resBreeder.data.$values);
+    } catch (error) {
+      console.error("Error fetching breeders:", error);
     }
-    // setBreeders(resBreeder.data.$values);
   };
 
   useEffect(() => {
     getAllBreeders();
   }, []);
+
+  // Tính toán dữ liệu cần hiển thị cho trang hiện tại
+  const offset = currentPage * itemsPerPage;
+  const currentItems = breeders.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(breeders.length / itemsPerPage);
+
+  // Xử lý sự kiện chuyển trang
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected);
+  };
+
   return (
     <div className="manage-breeder-container">
       <div className="header">
@@ -31,19 +46,6 @@ const ManageBreeder = () => {
         <VerticallyNavbar />
         <div className="body-content-right">
           <div className="search-and-create">
-            {/* <div className="search">
-              <div className="search-text">Search: </div>
-              <div className="search-value">
-                <input
-                  className="search-input"
-                  placeholder="Search by Email and Phone number"
-                  type="text"
-                />
-                <div className="search-icon">
-                  <img src={searchIcon} alt="search-icon" />
-                </div>
-              </div>
-            </div> */}
             <div
               className="create-btn"
               onClick={() => navigate("/Manager/CreateBreeder")}
@@ -66,46 +68,46 @@ const ManageBreeder = () => {
               </tr>
             </thead>
             <tbody>
-              {/* {console.log(breeders)} */}
-              {breeders.length > 0 ? (
-                breeders.map((breeder, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{breeder.userId}</td>
-                      <td>{breeder.firstName}</td>
-                      <td>{breeder.lastName}</td>
-                      <td>{breeder.email}</td>
-                      <td>{breeder.phone}</td>
-                      <td>{statusName[breeder.status - 1]}</td>
-                      <td>
-                        {/* <a href="#"> */}
-                        <i
-                          className="fa-solid fa-arrow-right"
-                          onClick={() =>
-                            navigate(
-                              `/Manager/BreederDetail?id=${breeder.userId}`
-                            )
-                          }
-                        ></i>
-                        {/* </a> */}
-                      </td>
-                    </tr>
-                  );
-                })
+              {currentItems.length > 0 ? (
+                currentItems.map((breeder, index) => (
+                  <tr key={index}>
+                    <td>{offset + index + 1}</td>
+                    <td>{breeder.userId}</td>
+                    <td>{breeder.firstName}</td>
+                    <td>{breeder.lastName}</td>
+                    <td>{breeder.email}</td>
+                    <td>{breeder.phone}</td>
+                    <td>{statusName[breeder.status - 1]}</td>
+                    <td>
+                      <i
+                        className="fa-solid fa-arrow-right"
+                        onClick={() =>
+                          navigate(`/Manager/BreederDetail?id=${breeder.userId}`)
+                        }
+                      ></i>
+                    </td>
+                  </tr>
+                ))
               ) : (
                 <tr>
                   <td colSpan="8">No breeder available</td>
                 </tr>
               )}
-
-              {/* {breeders.length > 0
-                ? breeders.map((breeder, index) => {
-                    console.log("@", breeder.userId);
-                  })
-                : console.log("b")} */}
             </tbody>
           </table>
+
+          {/* Phân trang */}
+          <ReactPaginate
+            previousLabel={"Previous"} // Nút "Trang trước"
+            nextLabel={"Next"} // Nút "Trang sau"
+            breakLabel={"..."} // Ký tự ngắt trang
+            pageCount={pageCount} // Tổng số trang
+            marginPagesDisplayed={2} // Số trang hiển thị bên ngoài
+            pageRangeDisplayed={3} // Số trang hiển thị ở giữa
+            onPageChange={handlePageClick} // Hàm xử lý khi người dùng đổi trang
+            containerClassName={"pagination"} // Class CSS cho container của phân trang
+            activeClassName={"active"} // Class CSS cho trang đang được chọn
+          />
         </div>
       </div>
     </div>

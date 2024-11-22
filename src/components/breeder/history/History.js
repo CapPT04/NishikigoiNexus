@@ -3,10 +3,11 @@ import "../history/History.scss";
 import Navbar from "../../common/Navbar/Navbar";
 import { handleGetAllRequest } from "../../../axios/UserService";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const History = () => {
   const [requests, setRequests] = useState([]);
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
   const navigate = useNavigate();
 
   const statusName = ["Processing", "Paying", "Approved", "Denied"];
@@ -52,9 +53,15 @@ const History = () => {
           <a className="koi" onClick={() => navigate("/Breeder/FishList")}>
             KOI
           </a>
+          <a
+            className="koi"
+            onClick={() => navigate("/Breeder/HistoryDelivery")}
+          >
+            Delivery
+          </a>
         </div>
         <div className="right-content">
-          <div className="search">
+          {/* <div className="search">
             <div className="search-text">Search:</div>
             <div className="search-value">
               <input
@@ -66,7 +73,7 @@ const History = () => {
                 <img src="../assets/images/search.svg" alt="" />
               </div>
             </div>
-          </div>
+          </div> */}
           <table className="table-manage-request">
             <thead>
               <tr>
