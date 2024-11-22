@@ -13,12 +13,6 @@ const ManageUnpaid = () => {
   const [currentPage, setCurrentPage] = useState(0); // State lưu trang hiện tại
   const [itemsPerPage] = useState(10); // Số lượng item mỗi trang
 
-  // Hàm lấy dữ liệu từ API
-  const getAllInfo = async () => {
-    const res = await handleManageUnpaid();
-    setListUnpaid(res.data.$values || []);
-  };
-
   useEffect(() => {
     getAllInfo();
   }, []);
@@ -35,13 +29,7 @@ const ManageUnpaid = () => {
     setCurrentPage(event.selected);
   };
 
-  return (
-    <div className="manage-unpaid-container">
-      <div className="header">
-        <Navbar />
-      </div>
-      <div className="body-content">
-        <VerticallyNavbar />
+
   const getAllInfo = async () => {
     const res = await handleManageUnpaid();
     console.log(res.data);
