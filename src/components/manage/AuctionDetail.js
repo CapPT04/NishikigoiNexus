@@ -295,15 +295,17 @@ const AuctionDetail = () => {
               />
             </div>
 
-            <div className="auction-detail-content-row5">
-              <div className="add-fish">
-                <i
-                  className="fa-solid fa-plus"
-                  onClick={() => handleAddFishEntryBtn()}
-                ></i>
+            {auction?.status != 4 && (
+              <div className="auction-detail-content-row5">
+                <div className="add-fish">
+                  <i
+                    className="fa-solid fa-plus"
+                    onClick={() => handleAddFishEntryBtn()}
+                  ></i>
+                </div>
               </div>
-            </div>
-            {showFishEntryTable && (
+            )}
+            {(showFishEntryTable && auction.status != 4) && (
               <div className="auction-detail-content-row7">
                 <table className="table-added-fish-entry">
                   <thead>
@@ -409,7 +411,6 @@ const AuctionDetail = () => {
                           ) : fishEntry.status === 4 ? (
                             <button
                               className="update-btn"
-                              onClick={() => handleUpdateBtn(fishEntry)}
                               disabled
                               style={{ background: "#000" }}
                             >
@@ -418,12 +419,23 @@ const AuctionDetail = () => {
                           ) : null}
                         </td>
                         <td>
-                          <i
-                            className="fa-solid fa-trash delete-icon"
-                            onClick={() =>
-                              handleDeleteFishEntryInAuction(fishEntry)
-                            }
-                          ></i>
+                          {fishEntry.status === 2 ? (
+                            <i
+                              className="fa-solid fa-trash delete-icon"
+                              onClick={() =>
+                                handleDeleteFishEntryInAuction(fishEntry)
+                              }
+                            ></i>
+                          ) : (
+                            <button
+                              className="update-btn"
+                              disabled
+                              style={{ background: "#000", width: "50px" }}
+                            >
+                              de
+                            </button>
+                          )}
+
                         </td>
                       </tr>
                     ))
