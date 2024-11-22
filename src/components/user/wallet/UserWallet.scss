@@ -1,8 +1,8 @@
 * {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
+  margin     : 0;
+  padding    : 0;
+  border     : 0;
+  font-size  : 100%;
   font-family: "Saira Condensed";
 }
 
@@ -11,53 +11,53 @@ body {
 }
 
 .header {
-  width: 100%;
+  width     : 100%;
   background: #000;
 
-  display: flex;
+  display        : flex;
   justify-content: center;
-  align-items: center;
-  align-self: stretch;
+  align-items    : center;
+  align-self     : stretch;
 }
 
 .navigation-bar {
-  gap: 30px;
-  width: 80%;
-  display: flex;
-  align-items: center;
-  color: #fff;
+  gap            : 30px;
+  width          : 80%;
+  display        : flex;
+  align-items    : center;
+  color          : #fff;
   justify-content: center;
-  align-items: center;
+  align-items    : center;
   justify-content: space-between;
 }
 
 .logo {
-  width: 64px;
+  width : 64px;
   height: 64px;
 }
 
 .navigation-bar-left-content {
-  display: flex;
+  display    : flex;
   align-items: center;
-  gap: 11px;
+  gap        : 11px;
 }
 
 .project-name {
   color: #fff;
 
   font-family: "Saira Condensed";
-  font-size: 32px;
-  font-style: normal;
+  font-size  : 32px;
+  font-style : normal;
   font-weight: 700;
   line-height: normal;
 }
 
 .navigation-bar-right-content {
-  display: flex;
+  display        : flex;
   justify-content: space-between;
-  align-items: center;
-  flex-shrink: 0;
-  gap: 50px;
+  align-items    : center;
+  flex-shrink    : 0;
+  gap            : 50px;
 }
 
 .home,
@@ -65,14 +65,14 @@ body {
 .blog,
 .about,
 .account {
-  color: #fff;
+  color      : #fff;
   font-family: "Saira Condensed";
-  font-size: 20px;
-  font-style: normal;
+  font-size  : 20px;
+  font-style : normal;
   font-weight: 700;
   line-height: normal;
-  padding: 8px 15px;
-  cursor: pointer;
+  padding    : 8px 15px;
+  cursor     : pointer;
 }
 
 .home:hover,
@@ -85,64 +85,64 @@ body {
 
 .account {
   border-radius: 40px;
-  background: #3d3d3d;
+  background   : #3d3d3d;
 }
 
 .slogan {
-  width: 80%;
+  width   : 80%;
   position: absolute;
 }
 
 .slogan-above,
 .slogan-under {
-  color: #fff;
+  color      : #fff;
   font-family: "Saira Condensed";
-  font-size: 100px;
-  font-style: normal;
+  font-size  : 100px;
+  font-style : normal;
   font-weight: 700;
   line-height: 100px;
 }
 
 .footer {
-  background: url("../../../assets/images/Form.png");
+  background     : url("../../../assets/images/Form.png");
   background-size: cover;
-  width: 100vw;
-  height: 300px;
-  display: flex;
+  width          : 100vw;
+  height         : 300px;
+  display        : flex;
   justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  align-items    : center;
+  flex-direction : column;
 }
 
 .logo-footer {
-  display: inline-flex;
+  display    : inline-flex;
   align-items: center;
-  gap: 11px;
-  width: 80%;
-  margin: 0 auto;
+  gap        : 11px;
+  width      : 80%;
+  margin     : 0 auto;
 }
 
 .logo-img-footer {
-  width: 108px;
+  width : 108px;
   height: 108px;
 }
 
 .name-project-footer {
-  color: #fff;
+  color      : #fff;
   font-family: "Saira Condensed";
-  font-size: 64px;
-  font-style: normal;
+  font-size  : 64px;
+  font-style : normal;
   font-weight: 700;
   line-height: normal;
 }
 
 .social-contact {
-  width: 80%;
-  display: flex;
-  gap: 20px;
+  width          : 80%;
+  display        : flex;
+  gap            : 20px;
   justify-content: flex-end;
-  border-bottom: 0.75px solid #fff;
-  opacity: 0.7;
+  border-bottom  : 0.75px solid #fff;
+  opacity        : 0.7;
 }
 
 .nav-bar-footer a:hover,
@@ -150,82 +150,84 @@ body {
 .facebook:hover,
 .google:hover {
   opacity: 0.5;
-  cursor: pointer;
+  cursor : pointer;
 }
 
 .nav-bar-footer {
-  display: flex;
-  gap: 50px;
+  display   : flex;
+  gap       : 50px;
   margin-top: 20px;
 }
 
 .nav-bar-footer a {
-  color: #fff;
+  color          : #fff;
   text-decoration: none;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 250;
-  line-height: normal;
+  font-size      : 20px;
+  font-style     : normal;
+  font-weight    : 250;
+  line-height    : normal;
 }
 
 .wallet-cont {
   display: grid;
+
   .user-wallet-content {
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 80px;
-    margin-bottom: 80px;
-    display: grid;
+    width             : 80%;
+    margin            : 0 auto;
+    margin-top        : 80px;
+    margin-bottom     : 80px;
+    display           : grid;
     grid-template-rows: auto;
-    margin-top: 150px;
+    margin-top        : 150px;
 
     .user-wallet-content-row1 {
-      display: grid;
+      display              : grid;
       grid-template-columns: auto auto;
-      gap: 100px;
+      gap                  : 100px;
 
       .user-wallet-content-row1-col1 {
         border-radius: 12px;
-        background: #e3a689;
-        box-shadow: 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
-        height: 330px;
+        background   : #e3a689;
+        box-shadow   : 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
+        height       : 330px;
 
         .total-balance {
-          border-bottom: 1px solid black;
-          display: flex;
+          border-bottom  : 1px solid black;
+          display        : flex;
           justify-content: space-between;
-          margin-top: 25px;
+          margin-top     : 25px;
 
           .total-balance-text {
-            color: #000;
+            color      : #000;
             font-family: "Saira Condensed";
-            font-size: 24px;
-            font-style: normal;
+            font-size  : 24px;
+            font-style : normal;
             font-weight: 400;
             line-height: normal;
             margin-left: 15px;
           }
 
           .total-balance-number {
-            color: #000;
-            text-align: center;
-            font-family: "Saira Condensed";
-            font-size: 24px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: normal;
+            color       : #000;
+            text-align  : center;
+            font-family : "Saira Condensed";
+            font-size   : 24px;
+            font-style  : normal;
+            font-weight : 500;
+            line-height : normal;
             margin-right: 15px;
           }
         }
 
         .notice-input {
-          display: flex;
+          display        : flex;
           justify-content: center;
+
           .notice-input-text {
-            color: #000;
+            color      : #000;
             font-family: "Saira Condensed";
-            font-size: 24px;
-            font-style: normal;
+            font-size  : 24px;
+            font-style : normal;
             font-weight: 400;
             line-height: normal;
             margin-left: 15px;
@@ -233,130 +235,131 @@ body {
         }
 
         .total-balance-input-parent {
-          display: flex;
-          width: 75%;
-          margin: 0 auto;
-          margin-top: 60px;
+          display    : flex;
+          width      : 75%;
+          margin     : 0 auto;
+          margin-top : 60px;
           align-items: center;
-          position: relative;
+          position   : relative;
 
           .total-balance-input-parent-icon {
             font-size: 35px;
           }
 
           .total-balance-input {
-            margin-left: 20px;
-            width: 100%;
-            height: 40px;
+            margin-left  : 20px;
+            width        : 100%;
+            height       : 40px;
             border-radius: 12px;
-            border: 1px solid #121212;
-            background: #fff;
-            font-size: 24px;
-            text-indent: 5px;
+            border       : 1px solid #121212;
+            background   : #fff;
+            font-size    : 24px;
+            text-indent  : 5px;
           }
 
           .vnd {
-            color: #000;
-            text-align: center;
+            color      : #000;
+            text-align : center;
             font-family: "Saira Condensed";
-            font-size: 22px;
-            font-style: normal;
+            font-size  : 22px;
+            font-style : normal;
             font-weight: 600;
             line-height: normal;
-            position: absolute;
-            right: 25px;
+            position   : absolute;
+            right      : 25px;
           }
         }
 
         .top-up-btn {
-          margin: 0 auto;
-          margin-top: 40px;
-          display: flex;
-          width: 75%;
-          height: 64px;
+          margin         : 0 auto;
+          margin-top     : 40px;
+          display        : flex;
+          width          : 75%;
+          height         : 64px;
           justify-content: center;
-          align-items: center;
-          border-radius: 12px;
-          background: var(--Do, #df0012);
-          color: #fff;
-          font-family: "Saira Condensed";
-          font-size: 22px;
-          font-style: normal;
-          font-weight: 600;
-          line-height: normal;
-          letter-spacing: 4.4px;
+          align-items    : center;
+          border-radius  : 12px;
+          background     : var(--Do, #df0012);
+          color          : #fff;
+          font-family    : "Saira Condensed";
+          font-size      : 22px;
+          font-style     : normal;
+          font-weight    : 600;
+          line-height    : normal;
+          letter-spacing : 4.4px;
 
           &:hover {
             opacity: 0.7;
-            cursor: pointer;
+            cursor : pointer;
           }
         }
+
         .top-up-btn-off {
-          margin: 0 auto;
-          margin-top: 40px;
-          display: flex;
-          width: 75%;
-          height: 64px;
+          margin         : 0 auto;
+          margin-top     : 40px;
+          display        : flex;
+          width          : 75%;
+          height         : 64px;
           justify-content: center;
-          align-items: center;
-          border-radius: 12px;
-          background: gray;
-          color: #fff;
-          font-family: "Saira Condensed";
-          font-size: 22px;
-          font-style: normal;
-          font-weight: 600;
-          line-height: normal;
-          letter-spacing: 4.4px;
+          align-items    : center;
+          border-radius  : 12px;
+          background     : gray;
+          color          : #fff;
+          font-family    : "Saira Condensed";
+          font-size      : 22px;
+          font-style     : normal;
+          font-weight    : 600;
+          line-height    : normal;
+          letter-spacing : 4.4px;
 
           &:hover {
             opacity: 0.7;
-            cursor: pointer;
+            cursor : pointer;
           }
         }
       }
 
       .user-wallet-content-row1-col2 {
-        border-radius: 12px;
-        background: #e3a689;
-        box-shadow: 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
-        display: grid;
+        border-radius     : 12px;
+        background        : #e3a689;
+        box-shadow        : 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
+        display           : grid;
         grid-template-rows: 63.956px 63.956px;
-        gap: 30px;
-        height: 200px;
-        align-items: center;
-        margin: auto 0;
-        width: 530px;
+        gap               : 30px;
+        height            : 200px;
+        align-items       : center;
+        margin            : auto 0;
+        width             : 530px;
 
         .recharge-package {
-          display: flex;
+          display        : flex;
           justify-content: space-between;
-          width: 90%;
-          margin: 0 auto;
-          margin-top: 38px;
+          width          : 90%;
+          margin         : 0 auto;
+          margin-top     : 38px;
 
           .package1,
           .package2,
           .package3,
           .package4 {
-            color: #000;
-            text-align: center;
-            font-family: "Saira Condensed";
-            font-size: 22px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
-            background: #e7cdbf;
-            width: 205.053px;
-            height: 63.956px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
+            color          : #000;
+            text-align     : center;
+            font-family    : "Saira Condensed";
+            font-size      : 22px;
+            font-style     : normal;
+            font-weight    : 600;
+            line-height    : normal;
+            background     : #e7cdbf;
+            width          : 205.053px;
+            height         : 63.956px;
+            border-radius  : 10px;
+            display        : flex;
+            align-items    : center;
             justify-content: center;
 
             &:hover {
               opacity: 0.7;
-              cursor: pointer;
+              cursor : pointer;
             }
           }
         }
@@ -365,26 +368,26 @@ body {
 
     .user-wallet-content-row2 {
       table {
-        width: 100%;
-        margin-top: 50px;
+        width          : 100%;
+        margin-top     : 50px;
         border-collapse: collapse;
-        border: 1px solid #121212;
+        border         : 1px solid #121212;
 
         th {
-          border: none;
-          color: #fff;
-          height: 60px;
-          font-size: 24px;
+          border     : none;
+          color      : #fff;
+          height     : 60px;
+          font-size  : 24px;
           font-weight: 400;
-          text-align: left;
-          padding: 0 10px;
+          text-align : left;
+          padding    : 0 10px;
 
           a {
             color: black;
           }
 
           a:hover {
-            cursor: pointer;
+            cursor : pointer;
             opacity: 0.5;
           }
         }
@@ -394,13 +397,13 @@ body {
         }
 
         td {
-          border: none;
-          color: black;
-          height: 60px;
-          font-size: 24px;
+          border     : none;
+          color      : black;
+          height     : 60px;
+          font-size  : 24px;
           font-weight: 400;
-          text-align: left;
-          padding: 0 10px;
+          text-align : left;
+          padding    : 0 10px;
         }
 
         tr:nth-child(even) {
@@ -412,5 +415,36 @@ body {
         }
       }
     }
+  }
+}
+
+.pagination-user-wallet {
+  display        : flex;
+  justify-content: right;
+  list-style     : none;
+  padding        : 0;
+  margin-top     : 30px;
+
+  li {
+    margin       : 0 5px;
+    cursor       : pointer;
+    padding      : 8px 15px;
+    border-radius: 8px;
+    background   : #D5BDB0;
+    color        : black;
+    font-size    : 20px;
+    font-weight  : 400;
+    transition   : all 0.3s ease;
+
+    &:hover {
+      background: #1C1B1F;
+      color     : #FFF;
+    }
+  }
+
+  .active {
+    background-color: #1C1B1F;
+    color           : #FFF;
+    font-weight     : 700;
   }
 }

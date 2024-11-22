@@ -11,6 +11,7 @@ import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
+import ReactPaginate from "react-paginate"; // Import thư viện React Paginate để tạo phân trang
 
 const UserWallet = () => {
   const navigate = useNavigate();
@@ -19,6 +20,10 @@ const UserWallet = () => {
     : navigate("/");
   const [userBalance, setUserBalance] = useState(0);
   const [userBalanceHistory, setUserBalanceHistory] = useState([]);
+  // State lưu trang hiện tại (bắt đầu từ trang 0)
+  const [currentPage, setCurrentPage] = useState(0);
+  // Số lượng items hiển thị trên mỗi trang
+  const [itemsPerPage] = useState(10);
   const [amountTopUp, setAmountTopUp] = useState(0);
   const [topUpReady, setTopUpReady] = useState(false);
   const inputRef = useRef(null);
@@ -90,6 +95,18 @@ const UserWallet = () => {
   useEffect(() => {
     getInfo();
   }, []);
+
+  // Tính toán các items sẽ hiển thị trong trang hiện tại
+  const offset = currentPage * itemsPerPage; // Tính vị trí bắt đầu của items trên trang hiện tại
+  const currentItems = userBalanceHistory.slice(offset, offset + itemsPerPage); // Cắt dữ liệu để chỉ lấy các items trong trang hiện tại
+
+  // Tính tổng số trang dựa trên tổng số items và số items mỗi trang
+  const pageCount = Math.ceil(userBalanceHistory.length / itemsPerPage);
+
+  // Hàm xử lý khi người dùng chuyển trang
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected); // Cập nhật trang hiện tại dựa trên sự kiện (React Paginate cung cấp)
+  };
   return (
     <div className="wallet-cont">
       <div className="header">
@@ -176,11 +193,11 @@ const UserWallet = () => {
               </tr>
             </thead>
             <tbody>
-              {userBalanceHistory && userBalanceHistory.length > 0 ? (
-                userBalanceHistory.map((transaction, index) => {
+              {currentItems.length > 0 ? (
+                currentItems.map((transaction, index) => {
                   return (
                     <tr key={transaction.transactionId}>
-                      <td>{index + 1}</td>
+                      <td>{offset + index + 1}</td> {/* Adjust index for pagination */}
                       <td>{transaction.transactionId}</td>
                       <td>
                         {transaction.amount < 0
@@ -200,7 +217,20 @@ const UserWallet = () => {
                 </tr>
               )}
             </tbody>
+
           </table>
+          {/* Phân trang với React Paginate */}
+          <ReactPaginate
+            previousLabel={"Previous"} // Nút "Trang trước"
+            nextLabel={"Next"} // Nút "Trang sau"
+            breakLabel={"..."} // Ký tự ngắt trang
+            pageCount={pageCount} // Tổng số trang
+            marginPagesDisplayed={2} // Số trang hiển thị bên ngoài
+            pageRangeDisplayed={3} // Số trang hiển thị ở giữa
+            onPageChange={handlePageClick} // Hàm xử lý khi người dùng đổi trang
+            containerClassName={"pagination-user-wallet"} // Class CSS cho container của phân trang
+            activeClassName={"active"} // Class CSS cho trang đang được chọn
+          />
         </div>
       </div>
       <footer className="footer">
